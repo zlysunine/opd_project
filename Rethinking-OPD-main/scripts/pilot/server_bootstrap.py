@@ -286,6 +286,12 @@ def select_python(a, runner, state):
 
 
 def bootstrap(a):
+    if a.summarize_only:
+        if a.dry_run:
+            print(f"Would regenerate dynamic-metric reports in {a.summarize_only}")
+        else:
+            pilot.summarize_existing(a.summarize_only)
+        return 0
     if a.worker or a.prepare_only:
         raise ValueError("For this entry use --setup-only; --prepare-only belongs to the offline launcher")
     c = pilot.make_config(a)

@@ -11,7 +11,7 @@
 - 固定抽取 512 条 DAPO prompt；batch=8、rollout=2、最多 30 step，每组实际最多用前 240 个 prompt；回答上限 3072。
 - 固定抽取 AMC23 的 64 题，每题 2 次采样，初始学生和两组结果使用相同生成与评分设置。
 - 两组单独限时。只比较两组**都完整保存的最大共同步数**，不根据分数选 checkpoint；若某组没有完成 10 step，则不会输出不公平的效果比较。
-- 记录第一次更新前的 overlap、后续 overlap 曲线、准确率、截断比例和估算计算费。两组后期轨迹不同，后期 overlap 不能解读为固定状态上的直接比较。
+- 每步记录更新前的 overlap ratio、交集内重新归一化的 overlap-token advantage、学生/教师全词表熵及逐位置绝对熵差；同时记录准确率、截断比例和估算计算费。两组后期轨迹不同，曲线不能解读为固定状态上的直接比较。
 
 这是**单 seed 的缩减实验**。不保证 30 元能看到准确率差距；没有明显差距不能否定论文结论。较多截断、评分超时、OOM、无共同 checkpoint 均标记为结果不足。报告中的 20% 截断阈值只是保守的诊断提示，并非论文标准或统计定理。
 
@@ -78,10 +78,21 @@ CUDA_VISIBLE_DEVICES=0,1 bash pilot_thinking_consistency.sh \
 
 - `summary.md` / `summary.json`：共同步数、准确率、截断率、按题配对 bootstrap 区间、估算费用、结论。
 - `overlap.svg`：可直接用浏览器打开的 overlap 曲线；`overlap_*.json` 是原始曲线点。
+- `dynamic_metrics.svg` / `dynamic_metrics.png`：上述五项指标的五联曲线；`dynamic_metrics.csv`、`dynamic_metrics.json` 和 `dynamic_metrics_*.json` 保存逐 step 数值。无 Matplotlib 的精简 CPU 环境只输出 SVG。
 - `eval_*.jsonl`：逐条生成结果；`eval_*.json`：完整评估汇总。
 - `train_nonthinking.log` / `train_grpo.log`：训练指标与故障信息。
 - `config.json`、`data_manifest.json`、`model_metadata.json`、`stages.json`：配置、数据抽样和阶段耗时。
 
 初步支持预期的联合信号是：GRPO 组初始 overlap 更高，随后在相同训练步数的独立题目上也更好。报告采取保守判定；即使置信区间跨零，仍保留原始数据供分析。置信区间不包含训练 seed 不确定性。不要只凭 overlap 更高就宣称推理能力改善。
+
+新增指标默认开启，不增加模型前向；新增的统计时间仍计入原费用上限。advantage 使用交集内分别归一化后的分布，不能拿旧 `val-topk/adv_intersection` 替代；entropy gap 是逐位置 `abs(H_teacher-H_student)` 的平均，不能用两个平均熵相减。padding 不参与统计，空交集从 advantage 均值中排除并记录其比例。详细公式和边界处理见交接文档 §7。
+
+对已有实验，可仅在 CPU 上重建图表：
+
+```bash
+bash pilot_thinking_consistency.sh --summarize-only pilot_runs/实际实验目录
+```
+
+旧日志中未记录的指标保留为缺失，不能仅靠重新画图补出。服务器需同步新版 `scripts/pilot/` 及定制 `verl/` 的改动，继续使用原一键命令即可采集新指标。
 
 当前仓库环境没有本实验的模型与完整 vLLM 训练依赖，脚本只进行 CPU 可执行的逻辑检查；实际 GPU 显存占用、吞吐、得分及 30 元内能否完整跑完尚未测量。

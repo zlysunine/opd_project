@@ -5,6 +5,7 @@ workers so --dry-run and the comparison report also work on a CPU machine.
 """
 
 import argparse
+import csv
 import hashlib
 import importlib.util
 import json
@@ -22,6 +23,17 @@ import time
 ROOT = Path(__file__).resolve().parents[2]
 SELF = Path(__file__).resolve()
 GROUPS = ("nonthinking", "grpo")
+DYNAMIC_METRICS = {
+    "overlap_ratio": ("opd/overlap_ratio", "Overlap ratio"),
+    "overlap_token_advantage": ("opd/overlap_token_advantage", "Overlap-token advantage (nats)"),
+    "student_entropy": ("opd/student_entropy", "Student entropy (nats)"),
+    "teacher_entropy": ("opd/teacher_entropy", "Teacher entropy (nats)"),
+    "entropy_gap": ("opd/entropy_gap", "Mean absolute entropy gap (nats)"),
+    "overlap_nonempty_fraction": ("opd/overlap_nonempty_fraction", "Nonempty-overlap fraction"),
+    "valid_response_tokens": ("opd/valid_response_tokens", "Valid response tokens"),
+}
+DYNAMIC_START = "<!-- opd-dynamic-metrics:start -->"
+DYNAMIC_END = "<!-- opd-dynamic-metrics:end -->"
 
 
 def write_json(path, obj):
@@ -40,6 +52,7 @@ def parser():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--dry-run", action="store_true", help="Print plan/commands; no imports, GPU work or writes")
     p.add_argument("--prepare-only", action="store_true", help="CPU: validate local models and prepare data before rental")
+    p.add_argument("--summarize-only", type=Path, help="CPU: regenerate dynamic-metric reports from an existing run's logs")
     p.add_argument("--output", type=Path)
     p.add_argument("--student", type=Path, default=ROOT / "model/Qwen3-1.7B-Base")
     p.add_argument("--teacher-nonthinking", type=Path, default=ROOT / "model/Qwen3-4B")
@@ -160,6 +173,7 @@ def train_args(c, group):
         "trainer.total_epochs": 1, "trainer.total_training_steps": c["steps"],
         "trainer.save_freq": c["save_every"], "trainer.test_freq": -1,
         "trainer.val_before_train": False, "trainer.is_plot": False, "trainer.resume_mode": "disable",
+        "+trainer.log_opd_dynamic_metrics": True,
         "trainer.default_local_dir": str(out / group),
         "+ray_kwargs.ray_init.address": "local",
         # Ray UNIX socket paths must remain short even if the output path is long.
@@ -401,17 +415,109 @@ def checkpoints(directory, world_size):
     return complete
 
 
-def overlap_points(path):
-    # Console logger prints one line per step; ignore Hydra config/pprint lines.
-    points = []
+def dynamic_points(path):
+    """Parse paper diagnostics; missing historical metrics remain None."""
+    points = {}
     for line in Path(path).read_text(errors="replace").splitlines() if Path(path).exists() else []:
         if "training/global_step:" not in line:
             continue
         step = re.search(r"training/global_step:\s*(\d+)", line)
-        overlap = re.search(r"val-topk/overlap_ratio:\s*([-+\d.eE]+)", line)
-        if step and overlap:
-            points.append({"step": int(step[1]), "overlap": float(overlap[1])})
-    return points
+        if not step:
+            continue
+        row = {"step": int(step[1])}
+        for name, (key, _) in DYNAMIC_METRICS.items():
+            match = re.search(re.escape(key) + r":\s*([-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?)", line)
+            value = float(match[1]) if match else None
+            row[name] = value if value is not None and math.isfinite(value) else None
+        # Legacy overlap is the same quantity. Legacy adv_intersection uses a
+        # different normalization, so it must NOT be substituted for paper Adv.
+        if row["overlap_ratio"] is None:
+            match = re.search(r"val-topk/overlap_ratio:\s*([-+\d.eE]+)", line)
+            if match:
+                value = float(match[1])
+                if math.isfinite(value):
+                    row["overlap_ratio"] = value
+        if any(row[name] is not None for name in DYNAMIC_METRICS):
+            points[row["step"]] = row
+    return [points[step] for step in sorted(points)]
+
+
+def overlap_points(path):
+    return [{"step": row["step"], "overlap": row["overlap_ratio"]} for row in dynamic_points(path)
+            if row["overlap_ratio"] is not None]
+
+
+def export_dynamic_metrics(out, matched_step):
+    out = Path(out)
+    curves = {group: dynamic_points(out / f"train_{group}.log") for group in GROUPS}
+    snapshots = {}
+    for group, rows in curves.items():
+        write_json(out / f"dynamic_metrics_{group}.json", rows)
+        snapshots[group] = {
+            "step1": next((row for row in rows if row["step"] == 1), None),
+            "matched": next((row for row in rows if row["step"] == matched_step), None),
+            "last_logged": rows[-1] if rows else None,
+        }
+    write_json(out / "dynamic_metrics.json", {
+        "matched_step": matched_step, "log_base": "e", "entropy_support": "full vocabulary",
+        "aggregation": "valid response position mean; advantage excludes empty intersections",
+        "measurement_time": "before the update at training/global_step",
+        "curves": curves, "snapshots": snapshots,
+    })
+    with (out / "dynamic_metrics.csv").open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["teacher_group", "step", *DYNAMIC_METRICS])
+        writer.writeheader()
+        for group, rows in curves.items():
+            writer.writerows({"teacher_group": group, **row} for row in rows)
+    lines = [DYNAMIC_START, "论文 §2.3 动态指标（均在更新前、各组自己的学生轨迹上统计）：", "",
+             f"| 指标 | Non-thinking step 1 | Non-thinking step {matched_step or '—'} | GRPO step 1 | GRPO step {matched_step or '—'} |",
+             "|---|---:|---:|---:|---:|"]
+    for name, (_, label) in DYNAMIC_METRICS.items():
+        if name == "valid_response_tokens":
+            continue
+        values = []
+        for group in GROUPS:
+            for phase in ("step1", "matched"):
+                row = snapshots[group][phase]
+                value = row.get(name) if row else None
+                values.append("缺失" if value is None else f"{value:.6g}")
+        lines.append("| " + " | ".join([label, *values]) + " |")
+    lines += ["", "Overlap-token advantage 在交集内分别归一化学生/教师概率，并先按每个位置的交集大小取平均。",
+              "Entropy 是全词表熵；gap 是逐位置绝对差的平均 E[|Hq−Hp|]，单位为 nats。",
+              "空交集不参与 advantage 的平均，Nonempty-overlap fraction 用于报告其覆盖率；缺失值不补零。",
+              "完整曲线与原始数值见 dynamic_metrics.svg、dynamic_metrics.csv 和 dynamic_metrics.json。"]
+    if any(row[name] is None for rows in curves.values() for row in rows
+           for name in list(DYNAMIC_METRICS)[:5]):
+        lines.append("部分指标缺失：旧日志不能反推出交集归一化 advantage 或逐位置熵差；需使用新版采集重新训练。")
+    lines.append(DYNAMIC_END)
+    draw_dynamic_metrics(out, curves, matched_step)
+    return snapshots, "\n".join(lines)
+
+
+def summarize_existing(directory):
+    """Rebuild diagnostics on a CPU, without changing billing or verdicts."""
+    out = Path(directory).resolve()
+    if not out.is_dir():
+        raise ValueError("Run directory does not exist: " + str(out))
+    path = out / "summary.json"
+    result = read_json(path) if path.exists() else {}
+    selected = out / "selected_checkpoint.json"
+    matched = result.get("matched_step")
+    if matched is None and selected.exists():
+        matched = read_json(selected)["step"]
+    snapshots, section = export_dynamic_metrics(out, matched)
+    draw_overlap(out, matched)
+    if path.exists():
+        result["dynamic_metrics"] = snapshots
+        write_json(path, result)
+    markdown = out / "summary.md"
+    text = markdown.read_text() if markdown.exists() else "# 小批量实验动态指标\n"
+    if DYNAMIC_START in text:
+        text = re.sub(re.escape(DYNAMIC_START) + r".*?" + re.escape(DYNAMIC_END), lambda _: section, text, flags=re.S)
+    else:
+        text = text.rstrip() + "\n\n" + section + "\n"
+    markdown.write_text(text)
+    print(f"Dynamic metrics refreshed: {out / 'dynamic_metrics.svg'}", flush=True)
 
 
 def report(c, runner, matched_step, error=None):
@@ -430,15 +536,15 @@ def report(c, runner, matched_step, error=None):
              f"| 模型 | AMC23 avg@{c['eval_samples']} | 截断比例 | 平均回答 token |", "|---|---:|---:|---:|"]
     for label, value in result["evaluations"].items():
         lines.append(f"| {label} | {value['avg_accuracy']:.2%} | {value['truncation_rate']:.1%} | {value['mean_tokens']:.0f} |")
-    lines += ["", "| 教师 | step 1 overlap | 共同训练 step 的 overlap（更新前） |", "|---|---:|---:|"]
     for group in GROUPS:
         points = overlap_points(out / f"train_{group}.log")
         write_json(out / f"overlap_{group}.json", points)
         initial = next((p["overlap"] for p in points if p["step"] == 1), None)
         matched = next((p["overlap"] for p in points if p["step"] == matched_step), None)
         result["overlap"][group] = {"step1": initial, "matched": matched}
-        fmt = lambda x: "缺失" if x is None else f"{x:.2%}"
-        lines.append(f"| {group} | {fmt(initial)} | {fmt(matched)} |")
+    snapshots, section = export_dynamic_metrics(out, matched_step)
+    result["dynamic_metrics"] = snapshots
+    lines += ["", section]
     evals = result["evaluations"]
     if matched_step and all(label in evals for label in ("initial", *GROUPS)):
         a, b = evals["nonthinking"]["per_question"], evals["grpo"]["per_question"]
@@ -490,6 +596,117 @@ def draw_overlap(out, matched_step):
                 f'<text x="70" y="{label_y}" fill="{color}">{group}</text>']
     svg += [f'<text x="600" y="385">Training step: 0 to {end}</text>', '</g></svg>']
     (out / "overlap.svg").write_text("\n".join(svg) + "\n")
+
+
+def draw_dynamic_metrics(out, curves, matched_step):
+    """Prefer Matplotlib for research plots; keep a dependency-free SVG fallback."""
+    if draw_dynamic_metrics_matplotlib(out, curves, matched_step):
+        return
+    (out / "dynamic_metrics.png").unlink(missing_ok=True)
+    end = matched_step or max([p["step"] for rows in curves.values() for p in rows] or [1])
+    svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="940" viewBox="0 0 1120 940">',
+           '<rect width="1120" height="940" fill="white"/>',
+           '<g font-family="sans-serif" font-size="13" fill="#222">',
+           '<text x="50" y="25" font-size="18">OPD dynamic metrics (before each update)</text>',
+           '<text x="50" y="47" fill="#d55e00">Non-thinking teacher</text>',
+           '<text x="270" y="47" fill="#0072b2">GRPO teacher</text>']
+    for panel, (name, (_, label)) in enumerate(list(DYNAMIC_METRICS.items())[:5]):
+        x0, y0 = 75 + (panel % 2) * 550, 95 + (panel // 2) * 280
+        width, height = 440, 190
+        values = [row[name] for rows in curves.values() for row in rows
+                  if row["step"] <= end and row[name] is not None]
+        if name == "overlap_ratio":
+            low, high = 0.0, 1.0
+        elif name == "overlap_token_advantage":
+            low, high = min([0.0, *values]), max([0.0, *values])
+            span = high - low or 0.01
+            low, high = low - span * 0.1, high + span * 0.1
+        else:
+            low, high = 0.0, max([0.0, *values]) * 1.1 or 1.0
+        svg.append(f'<text x="{x0}" y="{y0 - 17}">{label}</text>')
+        for tick in range(5):
+            y = y0 + height - height * tick / 4
+            value = low + (high - low) * tick / 4
+            x = x0 + width * tick / 4
+            svg += [f'<path d="M{x0} {y:.2f}h{width}" stroke="#ddd"/>',
+                    f'<text x="{x0-58}" y="{y+4:.2f}">{value:.3g}</text>',
+                    f'<text x="{x:.2f}" y="{y0+height+20}">{end*tick/4:.3g}</text>']
+        for group, color in [("nonthinking", "#d55e00"), ("grpo", "#0072b2")]:
+            segments, segment = [], []
+            for row in curves[group]:
+                if row["step"] > end:
+                    continue
+                value = row[name]
+                if value is None:
+                    if segment:
+                        segments.append(segment)
+                        segment = []
+                    continue
+                x = x0 + width * row["step"] / end
+                y = y0 + height * (high - value) / (high - low)
+                segment.append(f"{x:.2f},{y:.2f}")
+                svg.append(f'<circle cx="{x:.2f}" cy="{y:.2f}" r="2" fill="{color}"/>')
+            if segment:
+                segments.append(segment)
+            for segment in segments:
+                svg.append(f'<polyline points="{" ".join(segment)}" fill="none" stroke="{color}" stroke-width="2"/>')
+        if not values:
+            svg.append(f'<text x="{x0+70}" y="{y0+100}" fill="#777">Not logged; do not interpret as zero</text>')
+        svg.append(f'<text x="{x0+width-90}" y="{y0+height+40}">Training step</text>')
+    svg += ['<text x="625" y="720">Entropies use the full vocabulary.</text>',
+            '<text x="625" y="745">Gap = mean of per-position absolute gaps.</text>',
+            '<text x="625" y="770">Advantage uses renormalized overlap distributions.</text>',
+            '<text x="625" y="795">See JSON/CSV for all logged steps and coverage.</text>', '</g></svg>']
+    (out / "dynamic_metrics.svg").write_text("\n".join(svg) + "\n")
+
+
+def draw_dynamic_metrics_matplotlib(out, curves, matched_step):
+    try:
+        import matplotlib
+    except ImportError:
+        return False
+    matplotlib.use("Agg")
+    from matplotlib import pyplot as plt
+    from matplotlib.ticker import MaxNLocator
+
+    end = matched_step or max([p["step"] for rows in curves.values() for p in rows] or [1])
+    fig, axes = plt.subplots(3, 2, figsize=(12, 9))
+    try:
+        for ax, (name, (_, label)) in zip(axes.flat, list(DYNAMIC_METRICS.items())[:5]):
+            any_values = False
+            for group, color, legend in [("nonthinking", "#d55e00", "Non-thinking teacher"),
+                                          ("grpo", "#0072b2", "GRPO teacher")]:
+                rows = [row for row in curves[group] if row["step"] <= end]
+                x = [row["step"] for row in rows]
+                y = [row[name] if row[name] is not None else math.nan for row in rows]
+                any_values |= any(math.isfinite(value) for value in y)
+                ax.plot(x, y, color=color, marker="o", markersize=3, linewidth=1.5, label=legend)
+            ax.set(title=label, xlabel="Training step (before update)", xlim=(0, end))
+            ax.xaxis.set_major_locator(MaxNLocator(integer=True))
+            ax.grid(alpha=0.25)
+            if name == "overlap_ratio":
+                ax.set_ylim(0, 1)
+            elif name == "overlap_token_advantage":
+                ax.axhline(0, color="#777", linewidth=0.7)
+            elif name in ("student_entropy", "teacher_entropy", "entropy_gap"):
+                ax.set_ylim(bottom=0)
+            if not any_values:
+                ax.text(0.5, 0.5, "Not logged; do not interpret as zero", ha="center", transform=ax.transAxes)
+        axes.flat[5].axis("off")
+        axes.flat[5].text(0, 1, "Full-vocabulary entropy, natural logarithms.\n\n"
+                         "Gap: mean of per-position absolute gaps.\n\n"
+                         "Advantage: overlap-normalized distributions;\nempty intersections excluded.\n\n"
+                         "Missing samples are left blank.\nFull recorded history is in JSON/CSV.",
+                         va="top", transform=axes.flat[5].transAxes)
+        handles, labels = axes.flat[0].get_legend_handles_labels()
+        fig.legend(handles, labels, loc="upper right", ncol=2)
+        fig.suptitle("OPD dynamic metrics on each group's student rollouts", x=0.04, ha="left", fontsize=14)
+        fig.tight_layout(rect=(0, 0, 1, 0.94))
+        fig.savefig(out / "dynamic_metrics.svg")
+        fig.savefig(out / "dynamic_metrics.png", dpi=160)
+    finally:
+        plt.close(fig)
+    return True
 
 
 def supervise(c):
@@ -558,6 +775,12 @@ def main():
             train(c, a.group)
         else:
             evaluate(c, a.model, a.group)
+        return 0
+    if a.summarize_only:
+        if a.dry_run:
+            print(f"Would regenerate dynamic-metric reports in {a.summarize_only}")
+        else:
+            summarize_existing(a.summarize_only)
         return 0
     c = make_config(a)
     print(f"Budget ¥{c['budget_rmb']:.2f}, reserve ¥{c['reserve_rmb']:.2f}, already spent ¥{c['already_spent_rmb']:.2f}; "

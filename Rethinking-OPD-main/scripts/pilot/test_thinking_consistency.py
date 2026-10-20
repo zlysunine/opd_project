@@ -5,6 +5,7 @@ Run with a Python environment containing psutil:
 """
 
 import contextlib
+import csv
 import importlib.util
 import io
 import json
@@ -14,6 +15,7 @@ import sys
 import tempfile
 import time
 import unittest
+import xml.etree.ElementTree as ET
 
 import psutil
 
@@ -96,6 +98,52 @@ class PilotChecks(unittest.TestCase):
             self.assertIn("未得到清晰", summary["verdict"])
             self.assertEqual(summary["grpo_minus_nonthinking"]["gap"], 0)
             self.assertTrue((root / "overlap.svg").exists())
+
+    def test_paper_metrics_are_exported_without_substituting_legacy_advantage(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for group in pilot.GROUPS:
+                (root / f"train_{group}.log").write_text(
+                    "step:1 - training/global_step:1 - opd/overlap_ratio:0.625 - "
+                    "opd/overlap_token_advantage:-1.25e-3 - opd/student_entropy:2.0 - "
+                    "opd/teacher_entropy:2.0 - opd/entropy_gap:0.75 - "
+                    "opd/overlap_nonempty_fraction:1.0 - opd/valid_response_tokens:128 - "
+                    "val-topk/adv_intersection:999\n"
+                )
+            snapshots, _ = pilot.export_dynamic_metrics(root, 1)
+            point = snapshots["grpo"]["matched"]
+            self.assertEqual(point["overlap_token_advantage"], -0.00125)
+            self.assertEqual(point["entropy_gap"], 0.75)
+            with (root / "dynamic_metrics.csv").open() as f:
+                rows = list(csv.DictReader(f))
+            self.assertEqual(len(rows), 2)
+            self.assertEqual(rows[0]["teacher_group"], "nonthinking")
+            self.assertEqual(rows[0]["student_entropy"], "2.0")
+            ET.parse(root / "dynamic_metrics.svg")
+
+    def test_old_logs_keep_unrecoverable_metrics_missing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "train_nonthinking.log"
+            path.write_text("step:1 - training/global_step:1 - val-topk/overlap_ratio:0.5 - "
+                            "val-topk/adv_intersection:-0.2 - actor/entropy:2 - teacher/entropy:3\n")
+            point = pilot.dynamic_points(path)[0]
+            self.assertEqual(point["overlap_ratio"], 0.5)
+            self.assertIsNone(point["overlap_token_advantage"])
+            self.assertIsNone(point["entropy_gap"])
+
+    def test_cpu_refresh_preserves_cost_and_verdict_and_is_idempotent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pilot.write_json(root / "summary.json", {"matched_step": 10, "estimated_compute_rmb": 12.5, "verdict": "unchanged"})
+            (root / "summary.md").write_text("# Existing report\nCost: 12.5\n")
+            (root / "train_grpo.log").write_text("step:10 - training/global_step:10 - opd/entropy_gap:0.1\n")
+            with contextlib.redirect_stdout(io.StringIO()):
+                pilot.summarize_existing(root)
+                pilot.summarize_existing(root)
+            result = pilot.read_json(root / "summary.json")
+            self.assertEqual(result["estimated_compute_rmb"], 12.5)
+            self.assertEqual(result["verdict"], "unchanged")
+            self.assertEqual((root / "summary.md").read_text().count(pilot.DYNAMIC_START), 1)
 
 
 if __name__ == "__main__":

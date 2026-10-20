@@ -1142,6 +1142,21 @@ class RayPPOTrainer:
                                 with marked_timer("compute_distillation_reward", timing_raw, color="orange"):
                                     distillation_output = self.actor_rollout_wg.compute_distillation_reward(batch)
                                     batch = batch.union(distillation_output)
+
+                        if self.config.trainer.get("log_opd_dynamic_metrics", False):
+                            from verl.utils.opd_metrics import compute_opd_dynamic_metrics
+
+                            with marked_timer("opd_dynamic_metrics", timing_raw):
+                                metrics.update(
+                                    compute_opd_dynamic_metrics(
+                                        student_log_probs=batch.batch["student_top_k_log_probs"],
+                                        teacher_log_probs=batch.batch["teacher_on_student_log_probs"],
+                                        overlap_mask=batch.batch["overlap_mask"],
+                                        response_mask=batch.batch["response_mask"],
+                                        student_entropy=batch.batch["entropys"],
+                                        teacher_entropy=batch.batch["teacher_entropy"],
+                                    )
+                                )
                         
                         # Plot overlapping tokens for Reverse KL
                         if (self.global_steps == 1 or self.global_steps % 10 == 0) and "student_valid_counts" in batch.batch.keys():

@@ -1,6 +1,6 @@
 # §3.1 Thinking-Pattern Consistency 小批量验证：服务器交接文档
 
-交接日期：2026-10-19。目标：用总预算上限 30 元寻找早期信号，建立可复查的小实验流程。它不是原论文完整复现，也不保证在该预算内出现准确率差距。
+交接日期：2026-10-19；动态指标更新：2026-10-20。目标：用总预算上限 30 元寻找早期信号，建立可复查的小实验流程。它不是原论文完整复现，也不保证在该预算内出现准确率差距。
 
 ## 1. 接手后运行哪一个入口
 
@@ -167,6 +167,9 @@ CUDA_VISIBLE_DEVICES=0,1 bash run_pilot_server.sh \
 |---|---|
 | `summary.md` | 优先阅读：共同步数、准确率、截断率、配对区间、判定 |
 | `overlap.svg` | 浏览器打开，查看两组随训练的 top-16 overlap |
+| `dynamic_metrics.svg` / `dynamic_metrics.png` | 五联曲线：overlap、overlap-token advantage、学生熵、教师熵、绝对熵差 |
+| `dynamic_metrics.csv` / `dynamic_metrics.json` | 两组逐 step 数值、定义、共同步数和初始/共同步数快照 |
+| `dynamic_metrics_nonthinking.json` / `dynamic_metrics_grpo.json` | 分组逐 step 动态指标 |
 | `eval_*.jsonl` | 原始回答、正确性、token 数、结束原因 |
 | `train_nonthinking.log` / `train_grpo.log` | 训练 loss、overlap、响应长度、各阶段耗时 |
 | `bootstrap_result.json` / `bootstrap_stages.json` | 从准备开始的估算费用、各阶段状态与耗时 |
@@ -176,6 +179,46 @@ CUDA_VISIBLE_DEVICES=0,1 bash run_pilot_server.sh \
 **初步有效的联合信号**：在相同初始学生轨迹上，GRPO 教师具有更高初始 overlap；在相同更新步数的独立题目上，GRPO 教师组也更好。只有 overlap 更高，不能单独证明任务能力改善。
 
 `summary.md` 的配对 bootstrap 区间按题计算；它不包含训练 seed 的不确定性。样本少、训练短、响应截断时，只能判断是否值得继续投入。
+
+### §2.3 动态指标的计算口径
+
+新版小实验默认启用 `+trainer.log_opd_dynamic_metrics=True`，每步在学生参数更新前采集。使用该步学生轨迹上的有效 response token，排除 prompt 和 padding；包括 EOS 在内的有效位置遵从 verl 的 response mask。各有效位置等权汇总，不先给每条回答等权平均。对数为自然对数，entropy/advantage 的单位为 nats。
+
+记当前位置的学生/教师分布为 p、q，I=Top16(p)∩Top16(q)：
+
+| 报告字段 / 日志键 | 定义 |
+|---|---|
+| `overlap_ratio` / `opd/overlap_ratio` | 对有效位置求 mean(|I|/16) |
+| `overlap_token_advantage` / `opd/overlap_token_advantage` | 对交集内分别归一化得到 p̄、q̄；先计算 Σ p̄(v)[log q̄(v)−log p̄(v)]/|I|，再对位置取平均 |
+| `student_entropy` / `opd/student_entropy` | 全词表 H(p) 的有效位置均值 |
+| `teacher_entropy` / `opd/teacher_entropy` | 同一学生前缀上的全词表 H(q) 的有效位置均值 |
+| `entropy_gap` / `opd/entropy_gap` | mean(|H(q)−H(p)|)，先逐位置取绝对值，再平均 |
+| `overlap_nonempty_fraction` | 有效位置中 I 非空的比例，用于说明 advantage 的覆盖率 |
+| `valid_response_tokens` | 该步参与统计的有效 response token 数 |
+
+这遵从本地论文 §2.3、式 (6)–(8) 的定义；熵由已有工作器的全词表计算提供，再以 FP32 汇总，没有把 top-16 重新归一化后的熵冒充全词表熵。
+
+**不能直接复用旧 `val-topk/adv_intersection` 作为论文 advantage。** 旧字段统计训练中的 advantage，交集归一化和平均口径不同。新版 `opd/*` 独立计算，保留原日志，不改变训练 reward 或 loss。
+
+空交集时式 (7) 未定义：只从 advantage 均值中排除这些位置，同时报告非空比例；若整步全空，不记录 advantage，报表显示缺失，不能补成 0。其他指标仍覆盖所有有效位置。由于逐位置 gap 存在正负方向抵消问题，也不能从已有的两个平均熵倒推得到它。
+
+指标复用已有 top-k log-prob、overlap mask 和全词表 entropy 张量，不增加师生模型前向、不额外生成轨迹。新增少量归一化、聚合和日志开销；原 30 元计时约束保持不变。GPU 端开销尚未实测。
+
+图表展示到最大共同训练步数，完整 JSON/CSV 保留所有已记录步数。step 1 是第一次更新前的初始学生轨迹；step N 的指标也是第 N 次更新前，而 `global_step_N` checkpoint 保存的是更新后的权重。后期两组学生访问的前缀不同，因此曲线并非固定状态上的直接配对比较。
+
+正常训练环境使用 Matplotlib 输出 SVG 和 PNG；无 Matplotlib 的精简 CPU 环境仍可重建 JSON/CSV，并回退输出 SVG，不生成 PNG。
+
+### 已有日志重新生成图表
+
+不租 GPU、不重新训练即可执行：
+
+```bash
+bash pilot_thinking_consistency.sh --summarize-only pilot_runs/你的实验目录
+```
+
+也可对从服务器下载到本机的结果目录使用该命令。它重建动态指标表格与曲线，保留已有费用和结论。若旧实验没有记录新版 `opd/*`，只能恢复已有的 overlap；无法从聚合日志补算交集归一化 advantage 和逐位置 gap，报表会明确显示缺失，需要新版训练采集。
+
+数值解读：overlap-token advantage 理论上等于交集内的负 KL 再除以交集大小，通常≤0，趋近 0 表示交集内分布更接近；交集只有一个 token 时该值也会为 0，因此应结合 overlap 和覆盖率看。entropy gap 接近 0 只说明不确定性接近，不代表两模型把概率放在相同 token 上。最终仍需看独立题目表现。
 
 以下均应记为**结果不足**：训练 OOM、未完成共同 checkpoint、评估超时、准确率都接近零、或较多回答到达长度上限。不要在这些情况下把失败写成“论文论点不成立”。
 
@@ -205,11 +248,12 @@ CUDA_VISIBLE_DEVICES=0,1 bash run_pilot_server.sh \
 2. 三个模型均记录来源 commit，`prepare.log` 通过；
 3. 两组至少保存一个共同 checkpoint；
 4. 初始学生和两组 checkpoint 均完成评估；
-5. `summary.md`、`overlap.svg` 与原始回答完整；
+5. `summary.md`、`overlap.svg`、`dynamic_metrics.svg`、动态指标数值与原始回答完整；
 6. 查看平台账单，保存需要的产物后立即关机。
 
 本地 CPU 测试命令：
 
 ```bash
 python -m unittest discover -s scripts/pilot -p 'test_*.py' -v
+python verl/tests/utils/test_opd_dynamic_metrics_on_cpu.py -v
 ```
