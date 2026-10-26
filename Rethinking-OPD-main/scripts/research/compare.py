@@ -1,0 +1,219 @@
+"""OPSD training and checkpoint monitoring by default; explicit GRPO comparison remains available."""
+import argparse
+import copy
+import json
+from pathlib import Path
+
+from .common import ROOT, file_hash, write_json
+from .launch import plan, resolve, validate_experiment
+
+
+def configure(args):
+    root = Path(args.workdir).resolve()
+    c = json.loads(Path(args.config).read_text())
+    model = Path(args.model_dir).resolve()
+    native = Path(args.input).resolve()
+    if not (model/'config.json').is_file() or not native.is_file():
+        raise FileNotFoundError('Supply an existing local Base model directory and native DeepMath JSONL/Parquet file')
+    for revision in (args.model_revision,args.dataset_revision):
+        if not revision or revision in ('main','master') or revision.startswith(('FILL_','YOUR_')):
+            raise ValueError('Explicit immutable model and dataset revisions required')
+    model_config = json.loads((model/'config.json').read_text())
+    if model_config.get('model_type')!='qwen3':
+        raise ValueError('Production comparison requires an actual Qwen3 model config; tiny fixtures have a separate smoke CLI')
+    declared = str(model_config.get('_name_or_path') or '')
+    if 'Qwen3-1.7B' in declared and 'Base' not in declared:
+        raise ValueError('Model config identifies the posttrained Qwen3-1.7B; supply Qwen3-1.7B-Base')
+    c['model'].update(path=str(model),revision=args.model_revision)
+    c['dataset'].update(input=str(native),revision=args.dataset_revision)
+    for name in ('steps','gpus','seed'):
+        if getattr(args,name,None) is not None:
+            c['training'][name] = getattr(args,name)
+    for flag,section,field in [('train_n','dataset','train_n'),('dev_n','dataset','dev_n'),
+                                ('probe_n','monitor','heldout_probe_n'),('train_probe_n','monitor','train_probe_n')]:
+        if getattr(args,flag,None) is not None:
+            c[section][field] = getattr(args,flag)
+    if args.monitor_steps:
+        c['monitor']['optimizer_steps'] = sorted({int(s) for s in args.monitor_steps.split(',')})
+    steps = c['monitor']['optimizer_steps']
+    if not steps or steps[0]!=0 or min(steps)<0 or max(steps)>c['training']['steps']:
+        raise ValueError('Monitor steps must include 0 and remain within the configured training steps')
+    if c['monitor'].get('heavy_metrics'):
+        raise ValueError('Gride/ADP/ARI are not implemented in this P0/P1 delivery; leave heavy_metrics empty')
+    c.update(workdir=str(root),output_root=str(root/'shared'),run_id=root.name)
+    from analysis.common import load_config
+    from tempfile import TemporaryDirectory
+    with TemporaryDirectory() as tmp:
+        write_json(Path(tmp)/'config.json',c)
+        load_config(Path(tmp)/'config.json')
+    if (root/'config.json').exists():
+        if json.loads((root/'config.json').read_text())!=c:
+            raise ValueError('Comparison configuration differs; use a new --workdir')
+        return c
+    write_json(root/'models.json',{'qwen3_1p7b_base':dict(model_id='Qwen/Qwen3-1.7B-Base',path=str(model),
+               revision=args.model_revision,initialization='base',size='1.7B')})
+    write_json(root/'config.json',c)
+    return c
+
+
+def load(workdir):
+    return json.loads((Path(workdir).resolve()/'config.json').read_text())
+
+
+def prepare(c):
+    from analysis.prepare_probe import freeze
+    available = (c['dataset']['train_n']//c['training']['batch'])*c['training']['epochs']
+    if available < c['training']['steps']:
+        raise ValueError(f'Not enough train questions: {available} complete updates available')
+    probe = freeze(c)
+    root = Path(c['workdir'])
+    manifest = probe/'probe_manifest.jsonl'
+    configs = {}
+    for method in ('opsd','grpo'):
+        current = resolve(ROOT/c['training']['profile'])
+        current.update(c['training'])
+        current.pop('profile',None)
+        current.update(group='exp_base_geometry',student='qwen3_1p7b_base',initialization='base',
+                       prompt_mode='plain_completion',method='rl' if method=='grpo' else 'opsd',
+                       registry=str(root/'models.json'),dataset_revision=c['dataset']['revision'],
+                       reference_field=c['dataset']['reference_field'],train_data=str(probe/'train.jsonl'),
+                       validation_data=str(probe/'validation.jsonl'),pipeline_workdir=str(root/method),
+                       reference_source='deepmath_dataset' if method=='opsd' else None,
+                       teacher_update_policy='current_batch_stop_gradient' if method=='opsd' else 'none',
+                       loss_type='forward_kl' if method=='opsd' else 'grpo',
+                       privilege_type='solution' if method=='opsd' else 'empty')
+        analysis = copy.deepcopy(c)
+        analysis.update(run_id=f'{root.name}__{method}',method=method,probe_root=str(probe),
+                        output_root=str(root/method/'analysis'),training=copy.deepcopy(current))
+        analysis['training'].pop('monitor',None)
+        path = root/method/'analysis_config.json'
+        current['monitor'] = dict(optimizer_steps=c['monitor']['optimizer_steps'],probe_manifest=str(manifest),
+                                 probe_manifest_hash=file_hash(manifest),analysis_config=str(path),method=method,
+                                 job_dir=str(root/method/'jobs'))
+        validate_experiment(current)
+        write_json(root/method/'training_config.json',current)
+        write_json(path,analysis)
+        configs[method] = current
+    write_json(root/'design_manifest.json',dict(model=c['model'],dataset=c['dataset'],
+               shared_probe_manifest_hash=file_hash(manifest),shared_train_hash=file_hash(probe/'train.jsonl'),
+               shared_validation_hash=file_hash(probe/'validation.jsonl'),
+               methods={key:dict(loss=value['loss_type'],mode=value['training_mode'],teacher=value['teacher_update_policy'])
+                        for key,value in configs.items()},
+               budget_note='Same prompts, initialization, sampling counts and update caps; supervision and compute differ. Compare token and wall-time budgets too.'))
+    return probe
+
+
+def train(c,method,execute):
+    root=Path(c['workdir'])
+    current=json.loads((root/method/'training_config.json').read_text())
+    tracker=root/method/'train/checkpoints/latest_checkpointed_iteration.txt'
+    if execute and tracker.is_file() and int(tracker.read_text().strip())>=current['steps']:
+        from .pipeline import checkpoint_actor
+        from .common import load_verl_utility
+        step,actor=checkpoint_actor(current,'solution',current['steps'])
+        # A previous process can exit between final checkpoint and job publication.
+        # Reconstruct that job without performing update steps+1.
+        if current.get('monitor') and step in current['monitor']['optimizer_steps']:
+            load_verl_utility('research_monitor').write_analysis_job(current['monitor'],actor.parent,step)
+        print(f'{method}: training already reached optimizer step {step}; reusing checkpoint')
+        return str(root/method/'train'),None
+    return plan(current,root/method/'train',execute)
+
+
+def analyze(c,method,steps=None):
+    from analysis.extract import extract
+    from analysis.checkpoints import export_checkpoint, verify_initial_adapter
+    from analysis.common import load_config
+    root=Path(c['workdir'])
+    path=root/method/'analysis_config.json'
+    analysis=load_config(path)
+    current=json.loads((root/method/'training_config.json').read_text())
+    jobs=sorted((root/method/'jobs').glob('step_*.json'))
+    if not jobs:
+        raise FileNotFoundError('No checkpoint jobs; run training first')
+    selected=[p for p in jobs if steps is None or json.loads(p.read_text())['optimizer_step'] in steps]
+    for job_path in selected:
+        job=json.loads(job_path.read_text())
+        if job['probe_manifest_hash']!=file_hash(Path(analysis['probe_root'])/'probe_manifest.jsonl'):
+            raise ValueError('Queued job points to a different probe manifest')
+        step=job['optimizer_step']
+        try:
+            if step==0:
+                initial=verify_initial_adapter(job['checkpoint_path'],current)
+                other=root/('grpo' if method=='opsd' else 'opsd')/'initial_adapter.json'
+                if other.is_file() and json.loads(other.read_text())!=initial:
+                    raise ValueError('OPSD/GRPO initial LoRA tensors differ; comparison is not paired')
+                write_json(root/method/'initial_adapter.json',initial)
+            # Verified zero-B LoRA gives exactly the archived Base function at step0.
+            checkpoint=c['model']['path'] if step==0 else str(export_checkpoint(current,step))
+            revision=c['model']['revision'] if step==0 else f"{c['model']['revision']}:{method}:optimizer_step_{step}"
+            result=extract(analysis,checkpoint,revision,step)
+            write_json(root/method/'job_status'/job_path.name,dict(status='complete',analysis_path=str(result)))
+        except Exception as error:
+            write_json(root/method/'job_status'/job_path.name,dict(status='failed',error=f'{type(error).__name__}: {error}'))
+            raise
+
+
+def parser():
+    p=argparse.ArgumentParser(description=__doc__)
+    sub=p.add_subparsers(dest='stage',required=True)
+    for stage in ('configure','prepare','train','analyze','report','run'):
+        s=sub.add_parser(stage)
+        s.add_argument('--workdir',default='research_runs/base_geometry_200')
+        if stage in ('configure','run'):
+            s.add_argument('--config',default=str(ROOT/'configs/analysis_deepmath.json'))
+            s.add_argument('--model-dir',required=True)
+            s.add_argument('--model-revision',required=True)
+            s.add_argument('--input',required=True)
+            s.add_argument('--dataset-revision',required=True)
+            for name in ('steps','gpus','seed','train-n','dev-n','probe-n','train-probe-n'):
+                s.add_argument('--'+name,type=int)
+            s.add_argument('--monitor-steps')
+        if stage in ('train','analyze','run'):
+            s.add_argument('--method',choices=['opsd','grpo','both'],default='opsd',
+                           help='Default: opsd. Choose grpo or both explicitly to run the retained RL comparison.')
+        if stage in ('train','run'):
+            s.add_argument('--execute',action='store_true')
+        if stage=='analyze':
+            s.add_argument('--steps',help='Comma-separated optimizer steps; step0 must be analyzed first')
+    return p
+
+
+def main(argv=None):
+    args=parser().parse_args(argv)
+    method=getattr(args,'method','opsd')
+    methods=('opsd','grpo') if method=='both' else (method,)
+    c=configure(args) if args.stage in ('configure','run') else load(args.workdir)
+    if args.stage=='configure':
+        print('Configured:',Path(c['workdir'])/'config.json')
+    elif args.stage=='prepare':
+        print('Frozen probe:',prepare(c))
+    elif args.stage=='report':
+        from analysis.report import report
+        print(report(c['workdir']))
+    elif args.stage=='run' and not args.execute:
+        print(json.dumps(dict(status='plan_only',model=c['model'],training=c['training'],
+                   methods=list(methods),
+                   stages=['prepare shared probes']+[f'train {method.upper()} -> analyze checkpoints' for method in methods]+['report'],
+                   monitor_steps=c['monitor']['optimizer_steps']),indent=2))
+    else:
+        if args.stage=='run':
+            from .preflight import check_environment
+            status=check_environment(c['training']['gpus'])
+            write_json(Path(c['workdir'])/'environment.json',status)
+            if not status['ok']:
+                raise RuntimeError('Environment check failed: '+'; '.join(status['errors']))
+            prepare(c)
+        for method in methods:
+            if args.stage in ('train','run'):
+                train(c,method,args.execute)
+            if args.stage in ('analyze','run'):
+                selected=None if args.stage=='run' or not args.steps else {int(v) for v in args.steps.split(',')}
+                analyze(c,method,selected)
+        if args.stage=='run':
+            from analysis.report import report
+            print(report(c['workdir']))
+
+
+if __name__=='__main__':
+    main()

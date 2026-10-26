@@ -84,7 +84,8 @@ class DataParallelPPOActor(BasePPOActor):
         self.device_name = get_device_name()
 
     def _forward_micro_batch(
-        self, micro_batch, temperature, calculate_entropy=False, top_k=0, student_top_k_ids=None
+        self, micro_batch, temperature, calculate_entropy=False, top_k=0, student_top_k_ids=None,
+        return_response_logits=False,
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Returns:
@@ -92,7 +93,12 @@ class DataParallelPPOActor(BasePPOActor):
             log_probs: # (bs, response_len)
             topk_ids: # (bs, response_len, k)
             topk_log_probs: # (bs, response_len, k)
+
+        With return_response_logits=True, return (None, None, None, raw_response_logits)
+        for the full-vocabulary forward-KL path. No temperature is applied in that mode.
         """
+        if return_response_logits and (self.use_ulysses_sp or self.use_fused_kernels):
+            raise ValueError("Full-vocabulary OPSD KL requires SP=1 and non-fused HF logits")
         response_length = micro_batch["responses"].size(-1)
         multi_modal_inputs = {}
         if "multi_modal_inputs" in micro_batch.keys():
@@ -181,7 +187,7 @@ class DataParallelPPOActor(BasePPOActor):
                     **extra_args,
                 )  # prevent model thinks we are generating
                 
-                need_logits = top_k > 0
+                need_logits = top_k > 0 or return_response_logits
 
                 if self.use_fused_kernels and not need_logits:
                     log_probs = output.log_probs.squeeze(0)  # (total_nnz,)
@@ -189,6 +195,12 @@ class DataParallelPPOActor(BasePPOActor):
 
                 else:
                     logits_rmpad = output.logits.squeeze(0)  # (total_nnz, vocab_size)
+                    if return_response_logits:
+                        # Map padded prediction positions to unpadded logits. P-1+t predicts y_t.
+                        inverse = torch.full((batch_size * seqlen,), -1, device=indices.device, dtype=torch.long)
+                        inverse[indices] = torch.arange(indices.numel(), device=indices.device)
+                        response_indices = inverse.view(batch_size, seqlen)[:, -response_length - 1:-1]
+                        return None, None, None, logits_rmpad[response_indices.clamp_min(0)]
                     logits_rmpad.div_(temperature)
 
                     # if use_sp: ((total_nnz / sp) + pad) ; if not use_sp: (batch, seqlen)
@@ -352,13 +364,15 @@ class DataParallelPPOActor(BasePPOActor):
                     **extra_args,
                 )  # prevent model thinks we are generating
                 
-                need_logits = top_k > 0
+                need_logits = top_k > 0 or return_response_logits
                 if self.use_fused_kernels and not need_logits:
                     log_probs = output.log_probs[:, -response_length - 1 : -1]
                     entropy = output.entropy[:, -response_length - 1 : -1]  # (bsz, response_length)
 
                 else:
                     logits = output.logits
+                    if return_response_logits:
+                        return None, None, None, logits[:, -response_length - 1:-1, :].clone()
 
                     logits.div_(temperature)
                     logits = logits[:, -response_length - 1 : -1, :]  # (bsz, response_length, vocab_size)
@@ -558,10 +572,15 @@ class DataParallelPPOActor(BasePPOActor):
         res_tensors = {}
         
         if strategy == "only_stu":
-            kl_val = S_logp - T_on_S
-            valid_mask = torch.ones_like(S_logp, dtype=torch.bool)
-            norm_weights = compute_reward_weights(S_logp, T_on_S, valid_mask, reward_weight_mode)
-            rm_scores = -kl_val * norm_weights
+            if reward_weight_mode == "student_p":
+                from verl.utils.opsd import student_topk_reward
+
+                rm_scores = student_topk_reward(S_logp, T_on_S)
+            else:
+                kl_val = S_logp - T_on_S
+                valid_mask = torch.ones_like(S_logp, dtype=torch.bool)
+                norm_weights = compute_reward_weights(S_logp, T_on_S, valid_mask, reward_weight_mode)
+                rm_scores = -kl_val * norm_weights
             
         elif strategy == "only_tch":
             kl_val = S_on_T - T_logp
@@ -729,7 +748,79 @@ class DataParallelPPOActor(BasePPOActor):
         return log_probs, entropys, topk_ids_tensor, topk_log_probs_tensor
 
     @GPUMemoryLogger(role="dp actor", logger=logger)
+    def _update_opsd_forward_kl(self, data: DataProto):
+        """One optimizer update per rollout batch; q uses the current active LoRA.
+
+        No optimizer step occurs until ALL microbatches finish, so the shared
+        teacher parameters remain the pre-update batch version throughout.
+        FSDP averages gradients: world_size/global_tokens yields a global token mean.
+        """
+        from verl.utils.opsd import forward_kl_sum
+
+        cfg = data.meta_info["opsd"]
+        if cfg["teacher_update_policy"] != "current_batch_stop_gradient":
+            raise ValueError("Forward KL requires current_batch_stop_gradient")
+        if self.config.ppo_epochs != 1 or len(data) != self.config.ppo_mini_batch_size:
+            raise ValueError("Forward KL requires exactly one optimizer update per rollout batch")
+        if self.config.use_kl_loss or self.config.entropy_coeff != 0:
+            raise ValueError("Forward KL objective must not add reference KL or entropy regularization")
+        keys = ["input_ids", "attention_mask", "position_ids", "responses", "response_mask",
+                "opsd_input_ids", "opsd_attention_mask", "opsd_position_ids"]
+        selected = data.select(batch_keys=keys)
+        device = get_device_id()
+        tokens = data.batch["response_mask"].sum().to(device=device, dtype=torch.float32)
+        distributed = torch.distributed.is_available() and torch.distributed.is_initialized()
+        world_size = torch.distributed.get_world_size() if distributed else 1
+        if distributed:
+            torch.distributed.all_reduce(tokens)
+        if tokens.item() <= 0:
+            raise ValueError("Forward KL batch has no valid response tokens")
+        numerator = torch.zeros((), device=device)
+        teacher_tokens = torch.zeros((), device=device)
+        self.actor_optimizer.zero_grad()
+        try:
+            for micro in selected.split(self.config.ppo_micro_batch_size_per_gpu):
+                inputs = micro.to(device).batch
+                teacher_inputs = {key: inputs["opsd_" + key]
+                                  for key in ("input_ids", "attention_mask", "position_ids")}
+                teacher_inputs["responses"] = inputs["responses"]
+                self.actor_module.eval()
+                with torch.no_grad():
+                    *_, teacher_logits = self._forward_micro_batch(
+                        teacher_inputs, temperature=1.0, return_response_logits=True
+                    )
+                # Restore training mode so HF gradient checkpointing remains active.
+                self.actor_module.train()
+                *_, student_logits = self._forward_micro_batch(
+                    inputs, temperature=1.0, return_response_logits=True
+                )
+                loss_sum = forward_kl_sum(
+                    student_logits, teacher_logits, inputs["response_mask"],
+                    student_temperature=data.meta_info["temperature"],
+                    teacher_temperature=data.meta_info["teacher_temperature"],
+                    chunk_size=cfg.get("forward_kl_chunk_size", 16),
+                )
+                if not torch.isfinite(loss_sum):
+                    raise ValueError("Nonfinite full-vocabulary forward KL")
+                (loss_sum * (world_size / tokens)).backward()
+                numerator += loss_sum.detach()
+                teacher_tokens += teacher_inputs["attention_mask"].sum()
+                del teacher_logits, student_logits, loss_sum
+            grad_norm = self._optimizer_step()
+            self.actor_optimizer.zero_grad()
+        finally:
+            self.actor_module.train()
+        if distributed:
+            torch.distributed.all_reduce(numerator)
+            torch.distributed.all_reduce(teacher_tokens)
+        loss_value = (numerator / tokens).item()
+        return {"actor/forward_kl": loss_value, "actor/loss": loss_value,
+                "actor/grad_norm": grad_norm.detach().item(),
+                "actor/forward_kl_teacher_tokens": teacher_tokens.item()}
+
     def update_policy(self, data: DataProto):
+        if data.meta_info.get("opsd", {}).get("loss_type") == "forward_kl":
+            return self._update_opsd_forward_kl(data)
         # make sure we are in training mode
         self.actor_module.train()
 

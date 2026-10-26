@@ -1,0 +1,19 @@
+{
+  "extends": "configs/research/pilot_1p7b.json",
+  "student": "qwen3_4b_nonthinking",
+  "size": "4B",
+  "batch": 2,
+  "rollouts": 2,
+  "max_response_length": 256,
+  "max_teacher_prompt_length": 1536,
+  "steps": 10,
+  "save_every": 5,
+  "group": "exp2",
+  "initialization": "nonthinking",
+  "reference_source": "qwen3_4b_nonthinking",
+  "train_data": "research_data/references/qwen3_4b_nonthinking_train.jsonl",
+  "validation_data": "research_data/references/qwen3_4b_nonthinking_validation.jsonl",
+  "training_mode": "full",
+  "lora_rank": 0,
+  "loss_type": "reverse_kl"
+}

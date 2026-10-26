@@ -287,6 +287,11 @@ class TaskRunner:
         tokenizer = hf_tokenizer(local_path, trust_remote_code=trust_remote_code)
         # Used for multimodal LLM, could be None
         processor = hf_processor(local_path, trust_remote_code=trust_remote_code, use_fast=True)
+        # Keep driver-side dataset formatting consistent with actor-side formatting.
+        if config.actor_rollout_ref.model.get("custom_chat_template") is not None:
+            tokenizer.chat_template = config.actor_rollout_ref.model.custom_chat_template
+            if processor is not None:
+                processor.chat_template = config.actor_rollout_ref.model.custom_chat_template
 
         # Load the reward manager for training and validation.
         reward_fn = load_reward_manager(

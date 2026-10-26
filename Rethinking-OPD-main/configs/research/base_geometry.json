@@ -1,0 +1,10 @@
+{
+  "extends": "configs/research/pilot_1p7b.json",
+  "group": "exp_base_geometry",
+  "student": "qwen3_1p7b_base",
+  "initialization": "base",
+  "prompt_mode": "plain_completion",
+  "chat_template_path": "configs/research/plain_completion.jinja",
+  "steps": 200,
+  "notes": "Base OPSD/GRPO comparison. LoRA r16/alpha32, lr1e-6, batch8*n8, 200 optimizer updates; share data and fixed probes. OPSD only by default. Not a paper reproduction."
+}

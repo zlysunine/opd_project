@@ -67,11 +67,28 @@ pip install -r requirements/metrics.txt
 
 #### OPD
 
-Use the following command to start on-policy distillation:
+The original external-teacher OPD entry point is preserved at the project root.
+Configure its original model/data/device settings, then run:
 
 ```bash
 bash on_policy_distillation.sh
 ```
+
+For the current **Qwen3-1.7B-Base OPSD versus GRPO geometry comparison**, use
+`run_base_comparison.sh`. It shares DeepMath splits and frozen probes, retains
+the OPSD token diagnostics, and independently monitors RSA, trajectory curvature,
+neighborhood overlap, participation ratio and behavior at checkpoints.
+See [the Base geometry guide (中文)](docs/research/BASE_GEOMETRY_zh.md).
+For a copyable task brief for server-side Codex, environment checks, acceptance
+and one-command execution, use the [server handoff (中文)](PILOT_HANDOFF_zh.md).
+The default workflow runs OPSD and its metrics/representation analysis only.
+GRPO remains available explicitly via `--method grpo` or `--method both`.
+
+For the retained Qwen3-1.7B non-thinking / DeepMath level 5–7 OPSD experiment, use the separate
+`run_opsd_experiment.sh` one-command workflow. Its required inputs and commands
+are documented in the [legacy stage-by-stage guide](docs/research/PIPELINE_zh.md). This workflow checks the
+environment, prepares paired splits, trains, merges and evaluates checkpoints;
+it prints a plan unless `--execute` is supplied.
 
 <details>
 <summary><b>Key Parameters</b></summary>
@@ -206,3 +223,20 @@ If you find this work helpful, please cite us:
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=thunlp/OPD&type=date&legend=top-left&sealed_token=mTGTcEjxygedobSMyq3KnRKb5tao99m0LAxwW4Z4sBN-PIuz-J8RrPAFIrv5Qu0Exc9KAs8DYqu0J3TTzYOxNWKgrkXODEntpRFphgRNLgvigS8snqzKFg" />
  </picture>
 </a>
+
+## OPSD and representation research pipeline
+
+See [the reproducible experiment guide](docs/research/README_zh.md),
+[repository/paper audit](docs/research/AUDIT_zh.md), and
+[validation record](docs/research/VALIDATION_zh.md).
+The current comparison starts both methods from Qwen3-1.7B-Base with matched LoRA initialization (rank 16, alpha 32), learning rate 1e-6, 8 prompts × 8 rollouts and 200 updates. OPSD preserves full-vocabulary forward KL (teacher || student); GRPO uses verifier outcome rewards. The earlier non-thinking recipe remains available separately.
+
+The pipeline extends the existing verl OPD/GRPO and LLaMA-Factory SFT entry points,
+adds privileged-context self-teaching, and supports offline checkpoint evaluation
+and representation diagnostics. Start without model downloads or GPUs:
+
+```bash
+python -m unittest discover -s tests/research -v
+python -m scripts.research.run smoke --output research_runs/new_smoke
+python -m analysis.smoke --out research_runs/new_geometry_smoke --report
+```

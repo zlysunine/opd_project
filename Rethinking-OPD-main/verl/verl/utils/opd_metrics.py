@@ -66,9 +66,29 @@ def compute_opd_dynamic_metrics(
             "opd/teacher_entropy": ht.mean().item(),
             # E[|Hq - Hp|], rather than |E[Hq] - E[Hp]|.
             "opd/entropy_gap": (ht - hs).abs().mean().item(),
+            "opd/entropy_gap_signed": (ht - hs).mean().item(),
             "opd/overlap_nonempty_fraction": nonempty.float().mean().item(),
+            "opd/empty_intersection_rate": (~nonempty).float().mean().item(),
+            "opd/shared_mass_student": (
+                student_log_probs[valid].float().exp() * intersection
+            ).sum(-1).mean().item(),
+            "opd/shared_mass_teacher": (
+                teacher_log_probs[valid].float().exp() * intersection
+            ).sum(-1).mean().item(),
         }
     )
+    # These use the queried student support, not the intersection-only advantage.
+    s_all = student_log_probs[valid].float()
+    t_all = teacher_log_probs[valid].float()
+    if torch.isfinite(s_all).all() and torch.isfinite(t_all).all():
+        p_subset = s_all.log_softmax(-1)
+        q_subset = t_all.log_softmax(-1)
+        metrics["opd/repo_raw_log_ratio_student_topk"] = (
+            p_subset.exp() * (s_all - t_all)
+        ).sum(-1).mean().item()
+        metrics["opd/kl_renormalized_student_topk_p_to_q"] = (
+            p_subset.exp() * (p_subset - q_subset)
+        ).sum(-1).mean().item()
     if nonempty.any():
         shared = intersection[nonempty]
         s = student_log_probs[valid][nonempty].float()

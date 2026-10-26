@@ -1,0 +1,19 @@
+{
+  "extends": "configs/research/pilot_1p7b.json",
+  "tier": "paper",
+  "gpus": 8,
+  "microbatch": 1,
+  "epochs": 1,
+  "save_every": 50,
+  "max_prompt_length": 1024,
+  "max_response_length": 7168,
+  "max_teacher_prompt_length": 8192,
+  "optimizer_offload": false,
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "evaluation_samples": 16,
+  "notes": "Long-context multi-GPU profile of the current LoRA/full-vocabulary forward-KL OPSD experiment; inherits batch8/n8/500 steps. Not an original-paper reproduction."
+}

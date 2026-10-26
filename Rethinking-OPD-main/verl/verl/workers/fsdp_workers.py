@@ -438,7 +438,24 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
                     "exclude_modules": convert_to_regular_types(self.config.model.exclude_modules),
                     "bias": "none",
                 }
-                actor_module = get_peft_model(actor_module, LoraConfig(**lora_config))
+                init_seed = self.config.model.get("lora_init_seed", None)
+                if init_seed is None:
+                    actor_module = get_peft_model(actor_module, LoraConfig(**lora_config))
+                else:
+                    # Identical trainable initialization across OPSD/GRPO and DP ranks.
+                    # Preserve the surrounding worker RNG stream.
+                    with torch.random.fork_rng():
+                        torch.manual_seed(init_seed)
+                        actor_module = get_peft_model(actor_module, LoraConfig(**lora_config))
+
+            if role == "actor":
+                unexpected = [name for name, value in actor_module.named_parameters()
+                              if value.requires_grad and "lora_" not in name]
+                if unexpected:
+                    raise ValueError(f"LoRA actor has trainable base parameters: {unexpected[:5]}")
+                if not any(value.requires_grad for value in actor_module.parameters()):
+                    raise ValueError("LoRA actor has no trainable adapter parameters")
+                actor_module.print_trainable_parameters()
 
         self.use_orig_params = fsdp_config.get("use_orig_params", False)
         if self.config.actor.get("freeze_vision_tower", False):
@@ -866,6 +883,15 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
     @DistProfiler.annotate(color="red", role="actor_update")
     def update_actor(self, data: DataProto):
         assert self._is_actor
+        if data.meta_info.get("opsd", {}).get("loss_type") == "forward_kl":
+            from verl.utils.opsd import privileged_batch
+
+            teacher_inputs = privileged_batch(
+                data.non_tensor_batch["extra_info"], self.tokenizer,
+                data.batch["responses"], data.batch["response_mask"], data.meta_info["opsd"],
+            )
+            for key in ("input_ids", "attention_mask", "position_ids"):
+                data.batch["opsd_" + key] = teacher_inputs[key]
         if self._is_offload_param:
             load_fsdp_model_to_gpu(self.actor_module_fsdp)
         if self._is_offload_optimizer:
@@ -886,6 +912,14 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
             )
             metrics["perf/max_memory_allocated_gb"] = get_torch_device().max_memory_allocated() / (1024**3)
             metrics["perf/max_memory_reserved_gb"] = get_torch_device().max_memory_reserved() / (1024**3)
+            if data.meta_info.get("research_accounting", False):
+                peak = torch.tensor(
+                    metrics["perf/max_memory_allocated_gb"],
+                    device=next(self.actor_module_fsdp.parameters()).device,
+                )
+                if torch.distributed.is_initialized():
+                    torch.distributed.all_reduce(peak, op=torch.distributed.ReduceOp.MAX)
+                metrics["research/peak_memory_max_rank_gb"] = peak.item()
             metrics["perf/cpu_memory_used_gb"] = psutil.virtual_memory().used / (1024**3)
 
             lr = self.actor_lr_scheduler.get_last_lr()[0]
@@ -1009,6 +1043,73 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
             log_gpu_memory_usage("After offload actor model during compute_log_prob", logger=logger)
 
         return output
+
+    @register(dispatch_mode=make_nd_compute_dataproto_dispatch_fn(mesh_name="actor"))
+    @torch.no_grad()
+    def compute_opsd_teacher(self, data: DataProto):
+        """Score unchanged student responses with current actor + offline reference.
+
+        Called once per rollout batch, before any optimizer update. No separate
+        teacher weights exist. All DP ranks use the normal actor forward path.
+        """
+        from verl.utils.opsd import pack_responses, privileged_messages
+
+        assert self._is_actor
+        cfg = data.meta_info["opsd"]
+        if cfg["teacher_update_policy"] != "current_batch_stop_gradient":
+            raise ValueError("Only current_batch_stop_gradient is implemented; no stale teacher fallback")
+        if self.processor is not None:
+            raise ValueError("OPSD currently supports text-only models")
+        if self._is_offload_param:
+            load_fsdp_model_to_gpu(self.actor_module_fsdp)
+        try:
+            prompts = []
+            kwargs = cfg.get("chat_template_kwargs", {"enable_thinking": False})
+            for info in data.non_tensor_batch["extra_info"]:
+                if "messages" not in info or "privilege_text" not in info:
+                    raise ValueError("OPSD data requires extra_info.messages and privilege_text; use research export")
+                messages = privileged_messages(info["messages"], info["privilege_text"], cfg.get("prompt_mode", "chat"))
+                prompts.append(self.tokenizer.apply_chat_template(
+                    messages, tokenize=True, add_generation_prompt=True, **kwargs
+                ))
+            tensors = pack_responses(
+                prompts, data.batch["responses"], data.batch["response_mask"], self.tokenizer.pad_token_id,
+                cfg["max_teacher_prompt_length"],
+            )
+            meta = {
+                "micro_batch_size": self.config.rollout.log_prob_micro_batch_size_per_gpu,
+                "max_token_len": cfg["max_teacher_prompt_length"] + data.batch["responses"].shape[1],
+                "use_dynamic_bsz": self.config.rollout.log_prob_use_dynamic_bsz,
+                "temperature": data.meta_info["teacher_temperature"],
+                "top_k": data.meta_info["log_prob_top_k"],
+            }
+            teacher = DataProto.from_dict(tensors=tensors, meta_info=meta)
+            with self.ulysses_sharding_manager:
+                logp, entropy, ids, top_logp = self.actor.compute_log_prob(teacher, calculate_entropy=True)
+                result = {"teacher_entropy": entropy}
+                if ids is None:
+                    result["rm_scores"] = logp - data.batch["old_log_probs"].to(logp.device)
+                else:
+                    teacher.batch["target_ids"] = data.batch["student_top_k_ids"].to(ids.device)
+                    on_student = self.actor.compute_log_probs_for_ids(teacher)
+                    student_ids = teacher.batch["target_ids"]
+                    result.update({
+                        "teacher_top_k_ids": ids, "teacher_top_k_log_probs": top_logp,
+                        "teacher_on_student_log_probs": on_student,
+                        "overlap_mask": (student_ids.unsqueeze(-1) == ids.unsqueeze(-2)).any(-1),
+                        "teacher_in_student_mask": (ids.unsqueeze(-1) == student_ids.unsqueeze(-2)).any(-1),
+                    })
+                result["opsd_teacher_forward_tokens"] = tensors["attention_mask"].sum(-1, keepdim=True)
+                result["opsd_teacher_version"] = torch.full_like(
+                    result["opsd_teacher_forward_tokens"], data.meta_info["global_steps"] - 1
+                )
+                output = DataProto.from_dict(tensors={key: value.detach() for key, value in result.items()})
+            if self.world_size > 1 and fsdp_version(self.actor.actor_module) == 1:
+                self.actor.actor_module._handle.reshard(True)
+            return output
+        finally:
+            if self._is_offload_param:
+                offload_fsdp_model_to_cpu(self.actor_module_fsdp)
 
     @register(dispatch_mode=make_nd_compute_dataproto_dispatch_fn(mesh_name="actor"))
     @DistProfiler.annotate(color="blue", role="actor_compute_log_probs_for_ids")

@@ -1,0 +1,8 @@
+{
+  "qwen3_1p7b_base": {"model_id": "Qwen/Qwen3-1.7B-Base", "path": null, "revision": null, "initialization": "base", "size": "1.7B"},
+  "qwen3_4b_base": {"model_id": "Qwen/Qwen3-4B-Base", "path": null, "revision": null, "initialization": "base", "size": "4B"},
+  "qwen3_1p7b_nonthinking": {"model_id": "Qwen/Qwen3-1.7B", "path": null, "revision": null, "initialization": "posttrained_nonthinking", "size": "1.7B"},
+  "qwen3_4b_nonthinking": {"model_id": "Qwen/Qwen3-4B", "path": null, "revision": null, "initialization": "posttrained_nonthinking", "size": "4B"},
+  "qwen3_4b_base_grpo": {"model_id": "Thinking-Space/Qwen3-4B-Base-GRPO", "path": null, "revision": null, "initialization": "base_grpo", "size": "4B"},
+  "qwen3_4b_rl_math": {"model_id": null, "path": null, "revision": null, "initialization": "posttrained_nonthinking_then_rl_math", "size": "4B", "unavailable_reason": "Exact paper checkpoint and revision not established. Supply verified source; do not substitute Base-GRPO or a proxy Step500/1200."}
+}

@@ -1,0 +1,2 @@
+{"tier":"smoke", "seed":7, "problems_per_split":4, "steps":2, "response_tokens":8,
+ "notes":"CPU local random tiny GPT-2; exercises shared OPD surrogate, not distributed verl/vLLM."}

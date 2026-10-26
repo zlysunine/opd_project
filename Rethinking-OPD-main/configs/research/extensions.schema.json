@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reserved diagnostic extension record (not enabled in training)",
+  "type": "object",
+  "required": ["kind", "model_checkpoint_hash", "problem_id", "prefix_hash", "layer", "hook_point", "control", "seed"],
+  "properties": {
+    "kind": {"enum": ["activation_patching", "component_ablation", "gride_intrinsic_dimension", "parameter_lora_subspace"]},
+    "model_checkpoint_hash": {"type": "string"},
+    "problem_id": {"type": "string"},
+    "prefix_hash": {"type": "string"},
+    "layer": {"type": "integer"},
+    "hook_point": {"enum": ["attention_output", "block_output", "post_mlp"]},
+    "control": {"enum": ["matched_sample", "equal_norm_random", "unrelated_task"]},
+    "seed": {"type": "integer"},
+    "coordinate_space": {"enum": ["same_model_activation", "lora_parameter"]},
+    "provider": {"type": "string"},
+    "provider_version": {"type": "string"},
+    "provider_parameters": {"type": "object"},
+    "result": {"type": ["object", "null"]}
+  },
+  "description": "Interface reserved only: intervention, Gride, ADP and LoRA parameter analyses are not claimed implemented. Effective rank is separately implemented and never called intrinsic dimension."
+}

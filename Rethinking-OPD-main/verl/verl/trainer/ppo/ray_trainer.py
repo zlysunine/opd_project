@@ -986,6 +986,31 @@ class RayPPOTrainer:
 
         # load checkpoint before doing anything
         self._load_checkpoint()
+        monitor = self.config.trainer.get("research_monitor", None)
+        if monitor:
+            from verl.utils.research_monitor import analysis_due, write_analysis_job
+
+            if analysis_due(monitor, self.global_steps):
+                # All FSDP ranks save through the existing worker-group RPC.
+                # Geometry extraction is performed later by an independent process.
+                job_path = os.path.join(monitor["job_dir"], f"step_{self.global_steps:06d}.json")
+                if not os.path.exists(job_path):
+                    self._save_checkpoint()
+                write_analysis_job(
+                    monitor,
+                    os.path.join(self.config.trainer.default_local_dir, f"global_step_{self.global_steps}"),
+                    self.global_steps,
+                )
+        research_budget = None
+        if self.config.trainer.get("research_metrics_path"):
+            from verl.utils.research_budget import ResearchBudget
+
+            research_budget = ResearchBudget(self.config.trainer.research_metrics_path, self.global_steps)
+            from pathlib import Path
+
+            resolved_path = Path(self.config.trainer.research_metrics_path).parent / "verl_resolved_config.json"
+            resolved_path.parent.mkdir(parents=True, exist_ok=True)
+            resolved_path.write_text(json.dumps(OmegaConf.to_container(self.config, resolve=True), indent=2))
 
         # perform validation before training
         # currently, we only support validation using the reward_function.
@@ -1104,7 +1129,14 @@ class RayPPOTrainer:
 
                     with marked_timer("reward", timing_raw, color="yellow"):
                         # compute reward model score
-                        if self.use_rm and "rm_scores" not in batch.batch.keys():
+                        opsd_config = self.config.get("opsd", {})
+                        use_opsd = opsd_config.get("enable", False)
+                        use_forward_kl = use_opsd and opsd_config.get("loss_type") == "forward_kl"
+                        if use_opsd:
+                            if self.use_rm or self.config.algorithm.adv_estimator != "token_reward_direct":
+                                raise ValueError("OPSD requires reward_model.enable=False and token_reward_direct")
+                            batch.meta_info["opsd"] = OmegaConf.to_container(opsd_config, resolve=True)
+                        if (self.use_rm or use_opsd) and "rm_scores" not in batch.batch.keys():
                             with marked_timer("compute_log_prob", timing_raw, color="blue"):
                                 # First forward, get student top k ids and log probs
                                 print("First forward, get student top k ids and log probs")
@@ -1130,12 +1162,31 @@ class RayPPOTrainer:
                             batch.meta_info["kl_estimator"] = kl_estimator
                             batch.meta_info["reward_weight_mode"] = reward_weight_mode
                             batch.meta_info["teacher_temperature"] = teacher_temperature
+                            metrics["opd/student_probability_temperature"] = self.config.actor_rollout_ref.rollout.temperature
+                            metrics["opd/teacher_probability_temperature"] = teacher_temperature
                             
                             with marked_timer("compute_rm_score", timing_raw, color="magenta"):
-                                teacher_data = self.rm_wg.compute_rm_score(batch)
+                                if use_opsd:
+                                    teacher_data = self.actor_rollout_wg.compute_opsd_teacher(batch)
+                                else:
+                                    teacher_data = self.rm_wg.compute_rm_score(batch)
                                 batch = batch.union(teacher_data)
+                                if use_opsd:
+                                    versions = batch.batch["opsd_teacher_version"]
+                                    if not torch.all(versions == self.global_steps - 1):
+                                        raise RuntimeError("Incorrect OPSD teacher parameter version")
+                                    metrics["opsd/teacher_parameter_version"] = float(versions.flatten()[0])
+                                    metrics["opsd/teacher_forward_tokens"] = float(
+                                        batch.batch["opsd_teacher_forward_tokens"].sum()
+                                    )
 
-                            if top_k > 0:
+                            if use_forward_kl:
+                                # Compatibility field for reward-manager bookkeeping only.
+                                # The actor directly minimizes full-vocabulary KL(q || p).
+                                batch.batch["rm_scores"] = torch.zeros_like(
+                                    batch.batch["response_mask"], dtype=torch.float32
+                                )
+                            elif top_k > 0:
                                 # All distillation reward calculation is now moved to GPU worker (actor_rollout_wg)
                                 # for efficiency and to reduce CPU tensor ops.
                                 # compute_distillation_reward computes S_on_T and then rm_scores.
@@ -1158,6 +1209,14 @@ class RayPPOTrainer:
                                     )
                                 )
                         
+                        if self.config.trainer.get("log_opd_dynamic_metrics", False):
+                            # An empty intersection has undefined advantage, preserved as JSON null.
+                            metrics.setdefault("opd/overlap_token_advantage", float("nan"))
+                            required = self.config.trainer.get("research_required_metrics", [])
+                            missing = [key for key in required if key not in metrics]
+                            if missing:
+                                raise RuntimeError(f"Required OPSD diagnostics missing: {missing}")
+
                         # Plot overlapping tokens for Reverse KL
                         if (self.global_steps == 1 or self.global_steps % 10 == 0) and "student_valid_counts" in batch.batch.keys():
                             try:
@@ -1404,7 +1463,8 @@ class RayPPOTrainer:
  
 
                         # --- Top-K Metrics Analysis (Chunked) ---
-                        if "overlap_mask" in batch.batch.keys() and "advantages" in batch.batch.keys():
+                        if (not use_forward_kl and "overlap_mask" in batch.batch.keys()
+                                and "advantages" in batch.batch.keys()):
                             try:
                                 overlap_mask = batch.batch["overlap_mask"].float() # (BS, SeqLen, K)
                                 advantages = batch.batch["advantages"] # (BS, SeqLen, K) or (BS, SeqLen, 2K) for union
@@ -2271,9 +2331,35 @@ class RayPPOTrainer:
                         # update actor
                         with marked_timer("update_actor", timing_raw, color="red"):
                             batch.meta_info["multi_turn"] = self.config.actor_rollout_ref.rollout.multi_turn.enable
+                            batch.meta_info["research_accounting"] = research_budget is not None
                             actor_output = self.actor_rollout_wg.update_actor(batch)
                         actor_output_metrics = reduce_metrics(actor_output.meta_info["metrics"])
+                        if use_forward_kl and "actor/forward_kl" not in actor_output_metrics:
+                            raise RuntimeError("OPSD forward-KL update did not report its training loss")
                         metrics.update(actor_output_metrics)
+
+                    if research_budget is not None:
+                        if self.config.actor_rollout_ref.actor.ppo_epochs != 1:
+                            raise ValueError("Research token accounting currently requires ppo_epochs=1")
+                        response_tokens = int(batch.batch["response_mask"].sum())
+                        if use_opsd:
+                            teacher_tokens = metrics["opsd/teacher_forward_tokens"]
+                            # top-k OPSD scores teacher top-k and then student IDs: two forwards.
+                            teacher_tokens *= 2 if top_k > 0 else 1
+                            teacher_tokens += metrics.get("actor/forward_kl_teacher_tokens", 0)
+                        elif self.use_rm:
+                            teacher_tokens = int(batch.batch["attention_mask"].sum())
+                        else:
+                            teacher_tokens = 0
+                        metrics.update(research_budget.update(
+                            questions=len(set(batch.non_tensor_batch["uid"])),
+                            rollout_tokens=response_tokens,
+                            optimized_tokens=response_tokens,
+                            teacher_tokens=teacher_tokens,
+                        ))
+                        is_last_step = is_last_step or research_budget.exceeded(
+                            self.config.trainer.get("research_budget", {})
+                        )
 
                     # Log rollout generations if enabled
                     rollout_data_dir = self.config.trainer.get("rollout_data_dir", None)
@@ -2304,9 +2390,10 @@ class RayPPOTrainer:
                 # 2. It's the last training step.
                 # 3. The current step number is a multiple of the save frequency.
                 # 4. The ESI(Elastic Server Instance)/training plan is close to expiration.
-                if self.config.trainer.save_freq > 0 and (
+                monitor_due = bool(monitor) and analysis_due(monitor, self.global_steps)
+                if monitor_due or (self.config.trainer.save_freq > 0 and (
                     is_last_step or self.global_steps % self.config.trainer.save_freq == 0 or esi_close_to_expiration
-                ):
+                )):
                     if esi_close_to_expiration:
                         print("Force saving checkpoint: ESI instance expiration approaching.")
                     with marked_timer("save_checkpoint", timing_raw, color="green"):
@@ -2350,6 +2437,15 @@ class RayPPOTrainer:
 
                 # TODO: make a canonical logger that supports various backend
                 logger.log(data=metrics, step=self.global_steps)
+                if research_budget is not None:
+                    research_budget.log(self.global_steps, metrics)
+                if monitor_due:
+                    # Publish only after both checkpoint and scalars are durable.
+                    write_analysis_job(
+                        monitor,
+                        os.path.join(self.config.trainer.default_local_dir, f"global_step_{self.global_steps}"),
+                        self.global_steps,
+                    )
 
                 progress_bar.update(1)
                 self.global_steps += 1

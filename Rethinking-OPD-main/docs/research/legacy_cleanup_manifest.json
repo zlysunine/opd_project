@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-21",
+  "approval_status": "approved",
+  "deleted": true,
+  "baseline_git_commit": "71a30bab96b998515d54e5de0654bc4a17c1a17a",
+  "candidates": [
+    {
+      "path": "run_pilot_server.sh",
+      "sha256": "dea9ab34beb6e126f734aa4d2bf627cf048c697e90970212a2d1e14b561ac969",
+      "bytes": 312,
+      "tracked": true,
+      "reason": "旧双 4B 外部教师实验的在线安装/下载入口"
+    },
+    {
+      "path": "pilot_thinking_consistency.sh",
+      "sha256": "29f741a66d3432b50b4cb16d6ce8ecf213cf6a84df658d11b6bf743baf89fe80",
+      "bytes": 593,
+      "tracked": true,
+      "reason": "旧双 4B 外部教师实验的离线入口"
+    },
+    {
+      "path": "scripts/pilot/server_bootstrap.py",
+      "sha256": "c9b4332e4cdf8de945f32dd5e286d660914fe7329cac0e6bab231f682edbcc99",
+      "bytes": 20157,
+      "tracked": true,
+      "reason": "旧实验专用在线安装、三模型下载和费用调度"
+    },
+    {
+      "path": "scripts/pilot/thinking_consistency.py",
+      "sha256": "16e68ec29510b226d733babc71eacad42aa0ff3f9db60fe0a228bc87fec9f0e8",
+      "bytes": 43767,
+      "tracked": true,
+      "reason": "旧 DAPO/AMC23 双外部教师训练、评测和报表"
+    },
+    {
+      "path": "scripts/pilot/requirements-server.txt",
+      "sha256": "9d5e844ec8e6b4c62001cee3d3c9f66a53acf522602412dcf01bfa1ca0a177f9",
+      "bytes": 688,
+      "tracked": true,
+      "reason": "旧在线 bootstrap 专用环境依赖"
+    },
+    {
+      "path": "scripts/pilot/test_server_bootstrap.py",
+      "sha256": "0e549f8a7c311149081a8e9cf727aae3f9dd9d0f965a6cbbb1df07d151aed1b0",
+      "bytes": 9135,
+      "tracked": true,
+      "reason": "仅测试旧 bootstrap 的测试"
+    },
+    {
+      "path": "scripts/pilot/test_thinking_consistency.py",
+      "sha256": "9f651ebb1bb212ac6d1597855ef05166424ee2d6629b077beacb63b588a5c21a",
+      "bytes": 7531,
+      "tracked": true,
+      "reason": "仅测试旧双教师 pilot 的测试"
+    },
+    {
+      "path": "scripts/pilot/README.md",
+      "sha256": "bf678b468d38a077eedbe797c2a346a584cf84a79785c850138b472803ebe033",
+      "bytes": 7494,
+      "tracked": true,
+      "reason": "旧 DAPO/AMC23 双教师 pilot 说明"
+    },
+    {
+      "path": "scripts/legacy/on_policy_distillation.sh",
+      "sha256": "8377cb1b7bec6ebf380f8274623ce0188591ce90c95216ccd85b6d7aa36974a1",
+      "bytes": 12944,
+      "tracked": false,
+      "reason": "原 OPD 的重复副本；原版现已恢复在根目录"
+    }
+  ],
+  "preserve": [
+    "grpo.sh",
+    "on_policy_distillation.sh",
+    "run_opsd_experiment.sh",
+    "opsd_pipeline.sh",
+    "scripts/research/",
+    "configs/research/",
+    "tests/research/",
+    "verl/",
+    "LlamaFactory/",
+    "datasets/",
+    "model/",
+    "pilot_runs/",
+    "research_runs/"
+  ],
+  "scope": "Only the named files; no dataset/model/checkpoint/result deletion. Remove empty parent directories only after approval.",
+  "approval": {
+    "date": "2026-10-21",
+    "user_message": "清理"
+  },
+  "execution_status": "completed",
+  "deleted_paths": [
+    "run_pilot_server.sh",
+    "pilot_thinking_consistency.sh",
+    "scripts/pilot/server_bootstrap.py",
+    "scripts/pilot/thinking_consistency.py",
+    "scripts/pilot/requirements-server.txt",
+    "scripts/pilot/test_server_bootstrap.py",
+    "scripts/pilot/test_thinking_consistency.py",
+    "scripts/pilot/README.md",
+    "scripts/legacy/on_policy_distillation.sh"
+  ],
+  "executed_date": "2026-10-21",
+  "removed_empty_directories": [
+    "scripts/legacy"
+  ],
+  "retained_nonempty_directories": [
+    "scripts/pilot"
+  ],
+  "protected_entrypoint_hashes": {
+    "grpo.sh": "a79466f8c426916439514a3747dbcbd28677727e01e13db3d7105f17b594dd10",
+    "on_policy_distillation.sh": "8377cb1b7bec6ebf380f8274623ce0188591ce90c95216ccd85b6d7aa36974a1",
+    "run_opsd_experiment.sh": "36ffb6ba1c4d943791c0c9abb1c72f515788ceaa70a06a109e6ea394b942104c",
+    "opsd_pipeline.sh": "e3693fbac32f31f95902de791c823ef782767c59c2a2e377fda44571a2c9b0ad"
+  },
+  "verification": {
+    "research_tests": {
+      "passed": 39,
+      "failed": 0
+    },
+    "dynamic_metric_tests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "shell_syntax": "passed",
+    "one_click_help": "passed",
+    "original_opd_grpo_match_head": true,
+    "four_entrypoint_hashes_unchanged": true,
+    "all_nine_approved_files_absent": true,
+    "git_diff_check": "passed"
+  }
+}
