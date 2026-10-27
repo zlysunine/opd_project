@@ -8,6 +8,7 @@ from .common import ROOT, checkpoint_identity, digest, file_hash, read_jsonl, wr
 
 
 FILES = ('eligible.jsonl', 'eligible.jsonl.manifest.json', 'eligibility.jsonl', 'duplicates.jsonl',
+         'answer_encoding_quarantine.jsonl',
          'heldout_probe.jsonl', 'validation.jsonl', 'train.jsonl', 'train_probe.jsonl')
 
 
@@ -44,7 +45,8 @@ def selection_sources(root=ROOT):
     evaluate = ast.parse((root/'analysis/evaluate.py').read_text())
     checked = next(n for n in evaluate.body if isinstance(n, ast.FunctionDef) and n.name == 'answer_status')
     selected['answer_status'] = digest(ast.dump(checked))
-    for name in ('scripts/research/data.py', 'verl/verl/utils/opsd.py', 'scripts/val/eval/utils.py'):
+    for name in ('scripts/research/data.py', 'verl/verl/utils/opsd.py', 'scripts/val/eval/utils.py',
+                 'scripts/research/answer_protocol.py'):
         selected[name] = file_hash(root/name)
     return selected
 

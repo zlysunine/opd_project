@@ -1,5 +1,41 @@
 # 交付文件与验证记录
 
+## 2026-10-27：2026-10-28服务器重跑交接
+
+重写根`PILOT_HANDOFF_zh.md`，统一当前50步/LoRA/8×8/2048与16384长度/答案协议v2/全回答分布/两组表征比较与离线HTML；旧交接移至带历史标记的archive。补充源码同步校验、真实环境与CUDA/HTML后端检查、独立2步验收、正式50步命令、后台状态/日志、latest保留限制、质量门槛、故障恢复与完成标准。`SERVER_HANDOFF_MANIFEST.json`记录交接文件SHA256；生成时工作树尚未提交/推送，不将Git HEAD冒充本轮全部源码身份。
+
+检查主文档8个Bash代码块语法、4个内嵌Python代码块编译及本地链接；实际执行文档中的小样本配置生成逻辑和真实shell入口的两次无GPU预览。验收计划为2步、监测0/1/2、划分16/8/8/4；正式计划为50步、监测0/1/5/10/20/50、划分10000/512/512/64。两者均保留8×8、lr1e-6、2048/16384长度与质量/新指标开关，并确认没有启动训练或创建train目录。未在本地执行GPU kernel检查、真实模型prepare或服务器训练。
+
+## 2026-10-27：指标分组清单与单文件HTML
+
+新增 `analysis/html_report.py` 与 `analysis/report_template.html`，接入现有报告流程，自动生成 `report/OPSD_report.html`。按“当前学生与初始学生 / 当前学生与当前特权教师”列出13类指标及字段、代码支持情况和当前结果可用性。全回答token均值、历史选点及逐题摘要保持独立；曲率明确区分已有学生/初始配对差与尚无独立字段的学生/教师配对差。
+
+HTML内嵌Plotly.js、数据和全部引用图片，支持指标检索、上下文/层选择、逐层曲线、层×step热图、逐题直方图、CSV/PNG/SVG和来源JSON导出。仅重绘无需GPU或模型。已从真实step20历史导出生成 `research_runs/step20_local_analysis/OPSD_metrics_complete.html`，保留173个指标入口及120张RSM图；未采集的新指标不伪造。旧结果与原HTML保留。
+
+新增7项测试覆盖token加权主值与题目等权摘要分离、初始/当前教师角色与字段映射、旧选点不能冒充新测量、源hash校验、单文件资源闭合、JSON脚本转义、无服务器原始文件时读取归档，以及Node中的DOM/Plotly替身控件测试。研究全套 **142项通过**，原OPD指标 **11项通过**，共153项。Node控件测试不等于真实浏览器渲染验收；没有执行真实1.7B新实验。
+
+## 2026-10-27：同一步学生—特权教师直接表征比较
+
+新增 `analysis/metrics/paired.py`，按固定回答、相同层/anchor及problem_id配对当前学生与当前特权自教师。默认 `compare_student_teacher=true`，在0/1/5/10/20/50步采集，独立role为 `student_vs_privileged_teacher`。指标含RSA rho/RSM RMSE、线性CKA及Euclidean kNN overlap(k=8/16/32)，保留原学生/教师分别对step0的比较。联合过滤无效向量；常量RSM、空anchor及N≤k不补零；保存共同有效题ID、邻居索引/距离与文件hash。报告自动导出CSV、逐层曲线及层×step热图。
+
+新增8项测试覆盖独立RSA/CKA/近邻公式、相同/旋转表征、ID重排及错配拒绝、共同无效样本、常量/空anchor、固定seed采样、真实tiny checkpoint提取和缓存、实际报告PNG/CSV。全套研究测试 **135项通过**，原在线OPD指标 **11项通过**，共146项；`git diff --check`通过。真实提取验证step0的同权重学生/教师可因输入不同产生不同RSA；使用CPU tiny GPT-2及既有tiny Qwen3测试环境，不代表真实1.7B GPU训练已完成。
+
+默认新目录为 `research_runs/base_geometry_50_answer_v2_full_tokens_paired`。实现及科学解释见[学生—教师几何指标](ST_GEOMETRY_zh.md)。
+
+## 2026-10-27：全有效回答token的分布监测
+
+离线fixed/live由1/32/128选点改为全回答有效预测位置，全词表T=1熵和双向KL按response mask做token平均；默认top-16 overlap/OTA与在线函数一致。空交集只从OTA分母排除。跨题保留分子分母，按有效token加权，不混合fixed/live或train/heldout。初始权重重新评分同一条当前轨迹，消除live文本不相同导致的错误比较；不再保存整条全词表分布。保留几何anchor及256窗口，live分布统计不受该窗口裁剪。
+
+新增6项数值测试使用真实tiny GPT-2、tiny Qwen3及完整causal forward作为对照，覆盖KV分块/错一位、head块上限、几何窗口不裁剪分布、当前/初始模型同前缀、在线函数一致性、EOS/padding、空交集、空mask及跨题token加权。配置测试额外拒绝旧选点、错误scope及非法块大小。研究全套 **127项通过**，原在线OPD指标 **11项通过**，共138项。执行环境仍为前述CPU临时依赖，未运行真实1.7B GPU训练或测量显存/耗时。
+
+默认运行目录更新为 `research_runs/base_geometry_50_answer_v2_full_tokens`；新源码/统计身份拒绝旧probe/cache，旧三点指标不能冒充全回答指标。运行及内存说明见[全回答指标](ALL_TOKEN_METRICS_zh.md)。
+
+## 2026-10-27：答案协议v2对齐
+
+新增共享`answer_protocol.py`，将Base模板、参考标签核验、研究reward和独立评测对齐。解析显式Final answer区域与兼容boxed，不从最后数字或ground truth猜答案；最终候选直接进入数学等价比较。真假题缺少A/B语义映射等样本先隔离。行为评测16384tokens、几何前缀256tokens；基座及监测checkpoint的heldout抽取失败率超过1%时持久化诊断并中止。原始OPD/GRPO脚本、旧step20结果与既有科学目标保留；用户设置的训练长度2048/16384未被覆盖。
+
+新增14项回归覆盖格式/嵌套/空白/未闭合/冲突/占位符、抽取成功但数学错误、候选直接判分、True/A映射、真实prepare隔离及基座门槛、serial生成缓存与独立长度。研究全套121项、原OPD指标11项通过；CPU临时依赖目录`/tmp/opd-answer-v2-deps`使用Transformers4.56.1、PEFT0.15.2、Hydra1.3.2/OmegaConf2.3.0与pylatexenc2.10，包括仓库原有tiny Qwen3/PEFT导出测试。没有更改原Python环境，没有下载Qwen权重或启动真实训练。真实Qwen自由生成能否达到1%门槛仍待服务器校准，不能由这些CPU测试宣称已降低实际失败率。
+
 ## 2026-10-27：服务器环境交接与发布前检查
 
 `PILOT_HANDOFF_zh.md` 补充Linux/GPU/CPU/内存/磁盘的环境参考、Torch2.8.0与vLLM0.11.0的版本对应、Transformers/PEFT/NumPy/PyArrow限制、本地verl安装、FlashAttention ABI核对、缓存目录和Ray/容器注意事项。安装命令是服务器配置参考，不是本机已通过GPU训练的锁定环境；仍须完成独立新目录2-step验收。

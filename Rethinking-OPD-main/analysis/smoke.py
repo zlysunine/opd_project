@@ -12,7 +12,7 @@ from .evaluate import rollout
 from .extract import extract
 
 
-def smoke(out, make_report=False):
+def smoke(out, make_report=False, compare_teacher=False):
     torch.set_num_threads(1)
     root=Path(out).resolve()
     if root.exists() and any(root.iterdir()):
@@ -21,14 +21,17 @@ def smoke(out, make_report=False):
     create_tiny(base,41)
     model=Model(base,'tiny_fixture_initial',device='cpu',dtype='float32',prompt_mode='plain_completion')
     c=json.loads((Path(__file__).resolve().parents[1]/'configs/analysis_deepmath.json').read_text())
-    c.update(run_id='tiny_cpu_fixture',method='fixture',table_format='jsonl',output_root=str(root/'analysis'))
+    c.update(run_id='tiny_cpu_fixture',method='opsd' if compare_teacher else 'fixture',
+             table_format='jsonl',output_root=str(root/'analysis'))
     c['model'].update(name_or_path='TINY_GPT2_CPU_FIXTURE_NOT_QWEN',path=str(base),revision='tiny_fixture_initial',
                       dtype='float32',device='cpu')
     c['dataset'].update(reference_field='synthetic_oracle',revision='synthetic_fixture')
     c['training']={'status':'NOT_RUN', 'note':'Step1 is a deterministic weight perturbation, not OPSD or GRPO training'}
     c['monitor'].update(optimizer_steps=[0,1],anchors=['prompt_last','response_3'],knn_k=[2,3],
-                         max_probe_response_tokens=8,distribution_positions=[1,3],token_top_ks=[10,50,100],
-                         teacher_geometry_steps=[],plot_full_rsm_steps=[0,1],plot_relative_depths=[0.,1.])
+                         behavior_max_response_tokens=8,quality_gate={'enabled':False},
+                         max_probe_response_tokens=8,token_top_ks=[10,16,50,100],
+                         teacher_geometry_steps=[],compare_student_teacher=compare_teacher,
+                         plot_full_rsm_steps=[0,1],plot_relative_depths=[0.,1.])
     probe=root/'analysis/probe'
     rows=[]
     for index in range(12):
@@ -61,7 +64,7 @@ def smoke(out, make_report=False):
     extract(c,changed,'tiny_fixture_perturbed',1,changed_model)
     initial=read_jsonl(Path(c['output_root'])/'steps/step_000000/metrics.jsonl')
     current=read_jsonl(Path(c['output_root'])/'steps/step_000001/metrics.jsonl')
-    assert all(abs(r['value']-1)<1e-10 for r in initial if r['metric'].startswith('neighbor_overlap') and r['value'] is not None)
+    assert all(abs(r['value']-1)<1e-10 for r in initial if r['metric'].startswith('neighbor_overlap_k') and r['value'] is not None)
     assert all(abs(r['value'])<1e-10 for r in initial if r['metric']=='rsa_rmse_to_initial' and r['value'] is not None)
     assert any(r['value'] is not None and r['value']>0 for r in current if r['metric']=='rsa_rmse_to_initial')
     result=dict(status='passed',initial_metric_rows=len(initial),perturbed_metric_rows=len(current),

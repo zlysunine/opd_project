@@ -70,7 +70,7 @@ def generate_references(a):
                            'solution':' Provide a worked solution and final answer in \\boxed{}.'}[a.type]
             request['messages'][-1]['content'] += instruction
             ids,text,truncated = model.generate(request,a.max_tokens,a.temperature,a.top_p)
-            correct = None if a.type=='hint' else verify(text,row['ground_truth'],row['benchmark'])
+            correct = None if a.type=='hint' else verify(text,row['ground_truth'],row['benchmark'],extra_info=row)
         length = len((model.tokenizer if model else __import__('scripts.research.models',fromlist=['ByteTokenizer']).ByteTokenizer()).encode(text))
         item = {**row,'privilege_text':text,'privilege_type':a.type,
                 'generator_model':generator.get('model_id',generator['path']),
@@ -97,7 +97,7 @@ def evaluate(a):
             seed_all(seed)
             ids,text,truncated = model.generate(row,a.max_tokens,a.temperature,a.top_p,a.privileged)
             output.append({**row,'sample_index':sample,'response_ids':ids,'response_length':len(ids),'response':text,
-                           'correct':verify(text,row['ground_truth'],row['benchmark']), 'truncated':truncated,
+                           'correct':not truncated and verify(text,row['ground_truth'],row['benchmark'],extra_info=row), 'truncated':truncated,
                            'seed':seed, 'tokenizer_hash':model.identity['tokenizer_hash'], 'checkpoint':model.identity,
                            'trajectory_source':'fixed_diagnostic' if a.fixed else 'on_policy_evaluation',
                            'privileged':a.privileged,'sampling_temperature':a.temperature,'top_p':a.top_p,
@@ -302,7 +302,7 @@ def main(argv=None):
                 source,target = group[i],group[j]
                 output.append({**source,'privilege_text':target['privilege_text'],'privilege_type':a.type,
                                'reference_problem_id':target['problem_id'],'reference_token_length':target['reference_token_length'],
-                               'reference_correctness':verify(target['privilege_text'],source['ground_truth'],source['benchmark']),
+                               'reference_correctness':verify(target['privilege_text'],source['ground_truth'],source['benchmark'],extra_info=source),
                                'shuffle_seed':a.seed})
         write_jsonl(a.output,output)
     elif a.command=='intersect': reference_intersection(a.inputs,a.output,a.correct_only)

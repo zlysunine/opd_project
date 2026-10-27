@@ -3,4 +3,4 @@ from scripts.research.data import verify
 
 
 def compute_score(data_source, solution_str, ground_truth, extra_info=None, **kwargs):
-    return float(verify(solution_str, ground_truth, data_source))
+    return float(verify(solution_str, ground_truth, data_source, extra_info=extra_info))

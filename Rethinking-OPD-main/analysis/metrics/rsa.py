@@ -40,8 +40,9 @@ def rsm_summary(r, topics, bins=40):
     return stats, hist, edges
 
 
-def rsa_to_initial(r, r0, max_pairs=None, seed=0):
-    if r.shape != r0.shape:
+def compare_rsms(r, r0, max_pairs=None, seed=0):
+    """Compare aligned RSMs without assuming a temporal or model-role baseline."""
+    if r.shape != r0.shape or r.ndim!=2 or r.shape[0]!=r.shape[1]:
         raise ValueError('RSM shapes/sample sets must match')
     ii = np.triu_indices(len(r), 1)
     if max_pairs and len(ii[0]) > max_pairs:
@@ -53,6 +54,12 @@ def rsa_to_initial(r, r0, max_pairs=None, seed=0):
     rho = np.nan
     if len(a) >= 2 and np.ptp(a) > 0 and np.ptp(b) > 0:
         rho = float(spearmanr(a, b).statistic)
-    return {'rsa_rho_to_initial': rho,
-            'rsa_rmse_to_initial': float(np.sqrt(np.mean((a-b)**2))) if len(a) else np.nan,
+    return {'rho': rho,
+            'rmse': float(np.sqrt(np.mean((a-b)**2))) if len(a) else np.nan,
             'n_pairs': len(a)}
+
+
+def rsa_to_initial(r, r0, max_pairs=None, seed=0):
+    result=compare_rsms(r,r0,max_pairs,seed)
+    return {'rsa_rho_to_initial':result['rho'], 'rsa_rmse_to_initial':result['rmse'],
+            'n_pairs':result['n_pairs']}

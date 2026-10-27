@@ -38,6 +38,10 @@ class MetricReportTests(unittest.TestCase):
 
     def test_new_numeric_measurement_cannot_be_silently_omitted(self):
         check_measurement_fields({'layer':28,'mean_deg':12.},['mean_deg'])
+        check_measurement_fields(dict(response_position='all_valid_tokens',n_valid_tokens=16384,
+                                      response_length=16384,student_entropy_nats=1.,
+                                      metric_sums={'student_entropy_nats':16384.},
+                                      metric_token_counts={'student_entropy_nats':16384}),['student_entropy_nats'])
         with self.assertRaisesRegex(ValueError,'new_metric'):
             check_measurement_fields({'mean_deg':12.,'new_metric':.4},['mean_deg'])
 

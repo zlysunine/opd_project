@@ -11,7 +11,7 @@ from scripts.research.common import checkpoint_identity, digest, file_hash, opsd
 from scripts.research.data import load_questions, prepare_deepmath
 from scripts.research.models import Model
 from .common import config_argument, load_config, source_hashes
-from .evaluate import answer_status, rollout_many
+from .evaluate import answer_status, rollout_many, enforce_quality
 
 
 def normalized_question(text):
@@ -107,9 +107,18 @@ def freeze(c, model=None):
             rows = prepare_deepmath(native, out/'eligible.jsonl', c['dataset']['revision'],
                                     c['dataset']['difficulty_min'], c['dataset']['difficulty_max'],
                                     solution_field=c['dataset']['reference_field'], tokenizer=model.tokenizer)
-            accepted, checks = [], []
+            from scripts.research.answer_protocol import answer_metadata
+            accepted, checks, quarantined = [], [], []
             for row in rows:
-                reference = answer_status(row['privilege_text'], row['ground_truth'], row['benchmark'])
+                metadata = answer_metadata(row)
+                row = {**row, **metadata}
+                if metadata['answer_encoding_status'] != 'ok':
+                    quarantined.append(row)
+                    checks.append(dict(problem_id=row['problem_id'],reference_verified=False,
+                                       student_tokens=None,teacher_tokens=None,
+                                       exclusion_reason=metadata['answer_encoding_status']))
+                    continue
+                reference = answer_status(row['privilege_text'], row['ground_truth'], row['benchmark'], row=row)
                 row = {**row, 'reference_correctness':reference['correct'], 'messages':opsd.plain_messages(row['question'])}
                 p, q = model.prompt(row), model.prompt(row, True)
                 reason = None
@@ -123,12 +132,21 @@ def freeze(c, model=None):
                                    student_tokens=len(p), teacher_tokens=len(q), exclusion_reason=reason))
                 if reason is None:
                     accepted.append(row)
-            splits, duplicates = split_rows(accepted, c)
             write_jsonl(out/'eligibility.jsonl', checks)
+            write_jsonl(out/'answer_encoding_quarantine.jsonl', quarantined)
+            # Keep selection diagnostics even when too few valid rows remain.
+            write_jsonl(root.parent/'preparation_audit/answer_encoding_quarantine.jsonl',quarantined)
+            write_jsonl(root.parent/'preparation_audit/eligibility.jsonl',checks)
+            splits, duplicates = split_rows(accepted, c)
             write_jsonl(out/'duplicates.jsonl', duplicates)
             for name, values in splits.items():
                 write_jsonl(out/f'{name}.jsonl', values)
         probes = splits['heldout_probe']+splits['train_probe']
+        if c['monitor'].get('quality_gate',{}).get('enabled',False):
+            baseline = rollout_many(model, probes, c['monitor'], 'live_rollout', 0,
+                                    root.parent/'generation_cache/baseline_live', root.parent/'generation_progress.json')
+            enforce_quality(baseline,c['monitor'],root.parent/'quality/baseline')
+            write_jsonl(out/'baseline_live_rollouts.jsonl',baseline)
         fixed = rollout_many(model, probes, c['monitor'], 'fixed_base_rollout', 0,
                              root.parent/'generation_cache/fixed_base_rollout', root.parent/'generation_progress.json')
         for result in fixed:

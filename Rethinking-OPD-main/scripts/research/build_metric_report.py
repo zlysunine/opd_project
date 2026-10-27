@@ -23,11 +23,12 @@ ROOT = Path(__file__).resolve().parents[2]
 POINT_COLUMNS = ['step', 'layer', 'value', 'n', 'total', 'q05', 'q25', 'median', 'q75', 'q95',
                  'min', 'max', 'std', 'histogram', 'status']
 CURVATURE_FIELDS = ['mean_deg', 'valid_angles', 'invalid_fraction', 'mean_step_norm', 'surprisal_bits', 'response_length']
-BEHAVIOR_FIELDS = ['correct', 'extraction_failed', 'response_length', 'eos', 'truncated', 'repeated_4gram_rate']
+BEHAVIOR_FIELDS = ['correct', 'extraction_failed', 'format_compliant', 'response_length', 'eos', 'truncated', 'repeated_4gram_rate']
 NUMERIC_METADATA = {'optimizer_step','training_optimized_tokens','training_rollout_tokens','training_wall_seconds',
                     'training_teacher_forward_tokens','response_position','temperature','student_prediction_index',
                     'teacher_prediction_index','layer','difficulty','topic_label_level','reference_correctness',
-                    'reference_token_length','reference_character_length','generation_seed','source_optimizer_step','seed'}
+                    'reference_token_length','reference_character_length','generation_seed','source_optimizer_step','seed',
+                    'geometry_window_clipped','n_valid_tokens','n_questions','response_length'}
 TITLES = {
     'actor/forward_kl':'训练前向 KL', 'actor/loss':'训练损失', 'actor/grad_norm':'梯度范数',
     'opd/overlap_ratio':'在线 top-16 词表重叠率', 'opd/overlap_token_advantage':'重叠 token 优势',
@@ -40,11 +41,18 @@ TITLES = {
     'curvature_relative_first_deg':'相对第一层曲率变化', 'curvature_training_delta_deg':'相对初始模型曲率变化',
     'curvature_d_min_deg':'最小相对曲率', 'curvature_layer_star':'最小曲率所在层',
     'rsa_rho_to_initial':'与初始表示的 RSA 相关', 'rsa_rmse_to_initial':'与初始 RSM 的均方根差',
+    'rsa_rho_student_teacher':'同一步学生与特权教师的 RSA',
+    'rsa_rmse_student_teacher':'同一步学生与特权教师的 RSM 均方根差',
+    'linear_cka_student_teacher':'同一步学生与特权教师的线性 CKA',
     'linear_cka_to_initial':'与初始表示的线性 CKA', 'participation_ratio':'表示参与率',
     'activation_norm':'表示向量范数', 'top_eigenvalue_fraction':'首特征值占比',
     'rsm_mean':'RSM 平均余弦', 'rsm_std':'RSM 余弦标准差', 'rsm_topic_within':'同主题余弦相似度',
     'rsm_topic_between':'跨主题余弦相似度', 'rsm_topic_gap':'同主题与跨主题相似度差',
-    'student_entropy_nats':'固定状态学生熵', 'teacher_entropy_nats':'固定状态教师熵',
+    'student_entropy_nats':'学生全词表熵', 'teacher_entropy_nats':'教师全词表熵',
+    'initial_student_entropy_nats':'初始学生全词表熵（当前轨迹）',
+    'kl_teacher_student_nats':'诊断 KL（教师 || 学生）',
+    'overlap_token_advantage_nats':'top-16交集内 token 优势',
+    'overlap_token_advantage_to_initial_nats':'相对初始学生的交集内 token 优势',
     'kl_student_teacher_nats':'诊断 KL（学生 || 教师）', 'kl_to_initial_nats':'诊断 KL（当前学生 || 初始学生）',
     'entropy_gap_signed_nats':'教师熵减学生熵', 'entropy_gap_abs_nats':'教师学生绝对熵差',
     'surprisal_bits':'固定文本每 token 惊异度', 'mean_deg':'逐题轨迹平均转角',
@@ -96,10 +104,12 @@ def info(name, kind):
     title = TITLES.get(name, name)
     if name.startswith('neighbor_overlap_k'):
         title = '题目近邻保持率 k='+name.rsplit('k',1)[1]
+    if name.startswith('neighbor_overlap_student_teacher_k'):
+        title = '同一步学生与特权教师的近邻重叠率 k='+name.rsplit('_k',1)[1]
     if name.startswith('token_top'):
         title = name.replace('token_top','词表 top-').replace('_shared_mass_student',' 学生共享概率质量').replace(
             '_shared_mass_teacher',' 教师共享概率质量').replace('_overlap',' 重叠率')
-    if name.endswith('_nats') or 'entropy' in name or name in ('actor/forward_kl','actor/loss'):
+    if '_nats' in name or 'entropy' in name or name in ('actor/forward_kl','actor/loss'):
         unit = 'nats'
     elif name.startswith('timing_s/') or name in ('perf/time_per_step','budget/wall_seconds'):
         unit = '秒'
@@ -129,7 +139,11 @@ def info(name, kind):
     if name == 'participation_ratio':
         notes.append('方差谱参与率，属于表示统计；不是 Gride 内在维度。')
     if kind == 'analysis':
-        notes.append('只在已完成的监测点 0/1/5/10/20 记录；教师几何仅在 0/20 采集。缺失处不插值。')
+        notes.append('仅使用已完成的配置监测点；教师几何有单独采集计划。缺失处不插值。')
+    if name.endswith('_student_teacher') or name.startswith('neighbor_overlap_student_teacher_k'):
+        notes.append('相同checkpoint、固定题目/回答、相同层/相对anchor，联合剔除无效向量；这是直接条件比较。')
+    if kind=='distribution':
+        notes.append('逐题分布描述题间差异；主token加权曲线请查看监测汇总。fixed/live按pool分开。')
     if kind in ('distribution','curvature','behavior'):
         notes.append('图中分位数描述逐题差异，不是置信区间。无有效值时保留空值，不补零。')
     if name in ('curvature_training_delta_deg','curvature_surprisal_initial_pearson'):
@@ -160,7 +174,9 @@ def metric_entry(name, kind, variants):
 def variant_label(dims):
     labels = {'fixed_base_rollout':'固定初始轨迹','live_rollout':'当前自主生成','heldout_probe':'独立监测集',
               'train_probe':'训练内监测集','student':'学生','privileged_teacher':'特权教师',
-              'all_question_mean':'全部位置先按题平均'}
+              'student_vs_privileged_teacher':'当前学生与当前特权教师',
+              'all_question_mean':'题目等权均值（非主曲线 token 均值）',
+              'all_valid_tokens':'全部有效回答 token（逐题值）'}
     return ' / '.join(labels.get(str(v), str(v)) for v in dims.values() if v is not None)
 
 
@@ -268,7 +284,8 @@ def build(run, output, max_step=20, static=True):
     source_counts, distribution_fields = defaultdict(int), set()
     exports = {}
     export_fields = {
-        'distributions':['step','split','response_position','problem_id'],
+        'distributions':['step','pool','split','distribution_scope','aggregation','n_valid_tokens',
+                         'response_position','problem_id'],
         'curvature':['step','split','pool','role','layer','problem_id',*CURVATURE_FIELDS],
         'behavior':['step','split','problem_id',*BEHAVIOR_FIELDS],
     }
@@ -311,9 +328,10 @@ def build(run, output, max_step=20, static=True):
                     for key in fields:
                         value=row.get(key)
                         if source_name=='distributions':
-                            context=tuple(dict(split=row['split'],position=row['response_position']).items())
+                            context=tuple(dict(pool=row.get('pool','fixed_base_rollout'),split=row['split'],
+                                               position=row['response_position']).items())
                             target[key][context][(step,None)].append(value)
-                            pooled[(key,row['split'])][row['problem_id']].append(value)
+                            pooled[(key,row.get('pool','fixed_base_rollout'),row['split'])][row['problem_id']].append(value)
                         elif source_name=='curvature':
                             context=tuple((k,row[k]) for k in ('pool','split','role'))
                             target[key][context][(step,row['layer'])].append(value)
@@ -321,8 +339,8 @@ def build(run, output, max_step=20, static=True):
                             context=(('split',row['split']),)
                             target[key][context][(step,None)].append(float(value) if isinstance(value,bool) else value)
                 if source_name=='distributions':
-                    for (key,split), problems in pooled.items():
-                        context=(('split',split),('position','all_question_mean'))
+                    for (key,pool,split), problems in pooled.items():
+                        context=(('pool',pool),('split',split),('position','all_question_mean'))
                         for values in problems.values():
                             valid=[v for v in values if finite(v)]
                             target[key][context][(step,None)].append(float(np.mean(valid)) if valid else None)
@@ -369,16 +387,16 @@ def build(run, output, max_step=20, static=True):
                  metrics=entries,gallery=gallery)
     encoded=json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)
     (output/'data/report_data.json').write_text(encoded)
-    template=(ROOT/'scripts/research/metric_report.html').read_text()
-    document=template.replace('/*__PLOTLY__*/',get_plotlyjs()).replace('/*__REPORT_DATA__*/',
-                 'window.REPORT_DATA='+encoded.replace('</','<\\/')+';')
-    (output/'index.html').write_text(document)
     manifest=dict(schema=1,selected_step=max_step,monitor_steps=completed,counts=counts,total_metrics=len(entries),
                   coverage_complete=True,source_rows=dict(source_counts),sources=sources,
                   raw_fields=expected,all_pngs=static,rsm_gallery_images=len(gallery),
                   metadata_exclusions='step/layer/position are selectors; n_valid/status are support fields; input text/IDs are not metrics')
     manifest['raw_fields']={kind:sorted(keys) for kind,keys in expected.items()}
     (output/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+    from analysis.html_report import write_html
+    payload['meta']['mode']='archived_export'
+    payload['meta']['notices']=['此报告按实际归档结果展示；未采集的新指标保持缺失。']
+    write_html(payload,output/'index.html',output,manifest)
     (output/'README.md').write_text(f'''# 第 {max_step} 步全指标报告
 
 在浏览器中打开 `index.html`。主要交互图与数据已内嵌，可单独下载该 HTML 离线查看；

@@ -1,563 +1,375 @@
-# 服务器 Codex 交接：Qwen3-1.7B-Base 的 OPSD 过程监测
+# 服务器Codex交接：2026-10-28重跑OPSD
 
-> 2026-10-27 更新：用户已将当前实验总预算缩短为 **50 步**。默认新运行目录为 `research_runs/base_geometry_50`；正在运行的实验保留原目录及冻结分析配置，通过 `run_limits.json` 和显式续跑配置在第 50 步正常结束。下文 200 步预算为历史设计记录。
+整理日期：2026-10-27；发布复核：2026-10-28，Asia/Shanghai。执行目录：`Rethinking-OPD-main/`。
 
-更新：2026-10-27，Asia/Shanghai。**本阶段只执行 OPSD，记录训练中的分布指标与 checkpoint 表征变化。GRPO 对照的设计和代码保留，当前不运行。**
+**本轮只运行Qwen3-1.7B-Base的OPSD，正式预算50步。记录“当前学生与初始学生”“当前学生与当前特权教师”的分布与表征指标，最终生成单文件离线HTML。保留GRPO设计，本次不训练GRPO。**
 
-本文件是服务器操作主说明；指标细节见 [BASE_GEOMETRY_zh.md](docs/research/BASE_GEOMETRY_zh.md)。唯一的一键入口是 `run_base_comparison.sh`，默认且下文显式指定 `--method opsd`。
+本文件替代旧版200/500步、512回答长度及分布选点说明。[旧交接原文](docs/research/archive/PILOT_HANDOFF_before_20261028_zh.md)仅作归档，不从中复制运行命令。`grpo.sh`、`on_policy_distillation.sh`保留原用途，本轮入口是`run_base_comparison.sh`。
 
-## 1. 可直接复制给服务器 Codex 的任务说明
-
-将下面整段发给服务器上的 Codex，并提供第 4 节所需的真实路径和版本：
+## 1. 可直接交给服务器Codex的任务
 
 ```text
-请在当前 Rethinking-OPD-main 仓库执行已实现的 OPSD 实验，不重新设计实验。
-
-先阅读 PILOT_HANDOFF_zh.md、docs/research/BASE_GEOMETRY_zh.md、
-configs/analysis_deepmath.json、run_base_comparison.sh、scripts/research/compare.py，
-以及修改文件所在目录适用的 AGENTS.md。
-
-研究问题：观察 Qwen3-1.7B-Base 经 OPSD 训练时，学生与特权自教师的输出分布，
-以及固定问题、固定文本上的内部表征结构和 token 轨迹曲率如何变化；
-另用同题目的 live rollout 观察解题表现与访问轨迹变化。
-
-本阶段只运行 OPSD，显式使用 --method opsd。GRPO 的设计、配置、数据对齐和
-后续执行接口保留；不要启动 GRPO、--method both、SFT 或旧的 non-thinking 实验。
-
-模型必须是同一份 Qwen/Qwen3-1.7B-Base，锁定真实来源 revision、tokenizer 和内容 hash；
-不得替换为 Qwen/Qwen3-1.7B。使用仓库的 Base 纯文本续写模板。
-数据是原生 zwhe99/DeepMath-103K，5 <= difficulty <= 7，
-默认离线参考来自 r1_solution_1，按现有规则核验最终答案、去重、检查长度并冻结划分。
-学生 rollout 不读 reference。自教师是当前 actor（含当前 LoRA）加离线参考，
-在相同学生 response prefix 上给 logits，停止梯度；每个 batch 更新前重算。
-不要改成冻结初始 teacher、EMA teacher 或外部独立 teacher。
-
-保持现有训练目标：全词表 KL(teacher || student)，仅训练 LoRA，r16/alpha32/all-linear，
-lr=1e-6，8题 x 每题8条回答，microbatch=1，200 optimizer updates，seed=42，默认1张GPU。
-采样和教师温度均为1。学生 prompt/response 上限512/512，教师 prompt上限2048。
-几何指标仅用于监测，不加入训练 loss。
-
-每个 batch 保存 overlap ratio、Overlap-Token Advantage、student/teacher entropy、
-entropy gap、forward-KL loss 和预算。在线词表 overlap 的 k=16。
-指定 checkpoint 用独立程序计算 RSA、曲率及其层间/训练变化、Euclidean kNN overlap、
-PR、CKA、surprisal、固定状态分布指标，以及 live 行为；保存原始表和可重画图。
-固定文本与 live 文本分开，不将更平直或更相似直接解释成数学能力提升。
-
-执行：核对本地输入、CUDA和依赖 -> 新目录2-step GPU验收 -> 检查第7节产物 ->
-验收通过后新目录200-step正式运行。使用一键脚本，不另写替代训练循环。
-用当前激活环境的 python，安装本仓库定制 verl，不能用另一份 pip verl 替代。
-先定位已有环境、模型和数据；缺少真实路径/revision时再询问，不编造版本。
-普通依赖和兼容性错误可定位修复并记录；不要静默减少样本/长度、改变目标或换模型来绕过错误。
-如确需改变科学配置，明确说明并另建配置和运行目录，保留原始失败记录。
-
-最终交付：真实执行命令、环境版本、模型/数据身份、训练与分析完成状态、checkpoint、
-metrics/CSV/Parquet/图的路径、实际训练/分析耗时及可用显存测量。
-未运行或失败的部分明确标注，不能把本地 tiny GPT-2 CPU smoke 当作 Qwen GPU 实验结果。
+阅读当前PILOT_HANDOFF_zh.md，以configs/analysis_deepmath.json为正式配置。
+先核对SERVER_HANDOFF_MANIFEST.json中的文件，确认收到本轮未提交/新增源码。
+检查现有成功环境、GPU分配、真实Base模型及原生DeepMath文件和不可变来源revision。
+仅执行OPSD：LoRA r16/alpha32/all-linear，lr=1e-6，8题×8轨迹，正式50步。
+训练prompt/response上限2048/16384，teacher prompt上限2048。
+统一opsd_answer_v2，初始及监测点heldout抽取失败率门槛1%。
+监测0/1/5/10/20/50，保留S0基准，计算Ss/S0与Ss/Ts指标并生成离线HTML。
+先在独立目录完成2步工程验收，再以正式配置和新目录运行50步。
+不得复用旧step20的probe、generation_cache、analysis_config或complete标记。
+不得为过门槛删除失败题、猜A=True、缩短长度、减少正式样本或改变模型/损失。
+例行依赖和实现错误可修复并记录；科学配置变化须说明影响并另建配置/目录。
+失败保留现场，报告阶段、异常、日志与恢复办法，不宣称训练成功。
+交付真实命令、环境/源码身份、数据划分、完成状态、各阶段耗时、峰值显存、
+最终完整checkpoint、HTML与指标实测覆盖情况。CPU tiny测试不代表1.7B GPU结果。
 ```
 
-## 2. 实验设计与不可混淆的概念
+## 2. 当前正式配置
 
-### 2.1 模型、教师与损失
-
-学生输入：
-
-```text
-Problem:
-{question}
-
-Solution:
-```
-
-教师输入：在相同问题前增加 `Reference information:\n{r1_solution_1}\n\n`，保留同一问题/续写后缀，评分时复用学生的真实 response token IDs。教师有自己的真实 prompt 长度和 position IDs。
-
-令学生分布为 p，特权教师分布为 q，训练直接最小化全词表 `sum_v q(v) * (log q(v) - log p(v))`，按有效 response token 平均。教师 no-grad，同一 rollout batch 的全部 microbatch 反传结束后才做一次 optimizer update；下一批重算教师。
-
-**没有独立 teacher 权重，也没有动态生成 reference。** 基座冻结，当前 LoRA 同时参与学生与自教师前向。`current_batch_stop_gradient` 是当前实现支持的策略。
-
-### 2.2 数据划分与固定输入池
-
-| 集合 | 正式默认数量 | 用途 |
-|---|---:|---|
-| train | 10,000 | 训练候选题集合 |
-| validation | 512 | 独立验证划分 |
-| heldout_probe | 512 | 不参与训练的固定监测题 |
-| train_probe | 64 | train 的固定子集，独立统计 |
-
-train / validation / heldout_probe 不重叠；train_probe 是 train 子集，不另加训练样本。200 step 正常执行时是 1,600 次训练问题呈现、12,800 条训练回答，并不遍历全部 10,000 题。train_probe 表示属于训练划分，不保证其中每题都在这 200 step 内被访问。
-
-按归一化题干 hash 去重，再按 topic 和 difficulty 分层冻结 ID；topic 默认采用层级中的第 2 级。默认要求 reference 最终答案通过同一数学 verifier，**不等同于中间推理经人工验证**。超长 prompt 和未核验参考整题排除，不截断 reference，也不自动减少请求数量。筛选后数量不足会报错。
-
-| 输入池 | 建立方式 | 解释 |
-|---|---|---|
-| fixed_base_rollout | step0 的初始 Base 在固定题上生成一次；T=1、top_p=1、每题固定 seed，最多256 tokens | 跨 checkpoint 固定真实 prompt/response IDs，主要观察权重变化 |
-| live_rollout | 每个监测 checkpoint 在同题上重新生成，默认 greedy，最多256 tokens | 观察准确率、格式、长度、截断和访问轨迹；与固定池分开 |
-| fixed_reference | 可选，默认关闭 | 已核验参考的 teacher-forced 分析，不是自主解题能力 |
-
-### 2.3 指标、时间点与三个不同的 k
-
-| 指标 | 默认支持集/定义 | 写入频率 |
-|---|---|---|
-| overlap ratio / Overlap-Token Advantage | 学生和教师词表 top-16 的交集；不改变 full-vocab loss | 每个 rollout batch |
-| student / teacher entropy、entropy gap | 全词表，gap 为逐位置绝对差再平均 | 每个 rollout batch |
-| RSA / RSM、rho与RMSE、PR、CKA | 相同 pool / 题ID / block / anchor | 每个监测 checkpoint |
-| token轨迹曲率、首层相对量、训练变化 | 完整 block 输出，float32作差，单位degrees；不跨prompt、EOS、padding | 每个监测 checkpoint |
-| 题目表示 kNN overlap | 原始向量的 Euclidean kNN，k=8/16/32，排除自身 | 每个监测 checkpoint |
-| 固定状态 entropy、KL、词表 overlap/shared mass | T=1、完整词表；词表k=10/50/100 | 每个监测 checkpoint |
-| live accuracy、长度、EOS、截断、抽取失败 | 截断/抽取失败保留并计错 | 每个监测 checkpoint |
-
-训练前向 KL 是 `KL(teacher || student)`；固定状态诊断另算 `KL(student || teacher)` 和 `KL(student || initial)`，不能混为同一 loss。
-
-线上指标使用 step_s **更新前**参数，日志的 `opsd/teacher_parameter_version` 为 s-1；离线 step_s 分析读取 **更新后**checkpoint。几何在完整 decoder block 输出上提取，层号从1起；anchor 为 prompt_last / response_32 / response_128。短文本、空交集、零位移、N<=k 等未定义量保留 null / undefined 和 N，不补零。
-
-监测步数默认 `[0,1,5,10,20,50,100,200]`；教师几何默认只在 `[0,20,100,200]`。常规 checkpoint 还每50 step保存一次。**默认 `training.checkpoint_retention=latest`：保存完整 checkpoint 和标量后暂停训练，由独立进程完成当前监测点分析，保留表格/图/manifest，再清理旧 checkpoint 并继续训练。** 分析不进入训练反传图；分析期间训练 worker 的显存可能仍驻留，单卡峰值须由2-step验收实测。
-
-## 3. 上传和选择正确入口
-
-服务器应拉取本项目的 GitHub 仓库，进入其中的 `Rethinking-OPD-main/`，不能只下载原论文仓库或只上传 shell。本地 `research_runs/` 被 gitignore，已有 CPU 产物可选上传，不能当正式结果。
-
-```bash
-git clone git@github.com:zlysunine/opd_project.git
-cd opd_project/Rethinking-OPD-main
-git rev-parse HEAD
-```
-
-已有 clone 时，先确认并保留服务器自己的修改，再更新到交接提交；不要直接覆盖工作树。以下命令中的“仓库根目录”指包含 `run_base_comparison.sh` 的目录，不是外层 `opd_project/`。
-
-```text
-Rethinking-OPD-main/
-  PILOT_HANDOFF_zh.md
-  run_base_comparison.sh
-  analysis/
-  configs/analysis_deepmath.json
-  configs/research/                  # 含Base profile、继承配置、plain Jinja
-  scripts/__init__.py
-  scripts/research/
-  tests/research/
-  docs/research/
-  verl/                              # 本仓库修改的源码、模型配置和merger
-  grpo.sh, on_policy_distillation.sh  # 原入口保留
-  run_opsd_experiment.sh, opsd_pipeline.sh
-```
-
-| 入口 | 用途 |
+| 项目 | 当前值 |
 |---|---|
-| `run_base_comparison.sh` | **本阶段唯一一键入口，默认OPSD** |
-| `python -m scripts.research.compare` | 同一 Base 实验的 configure / prepare / train / analyze / report |
-| `run_opsd_experiment.sh`、`opsd_pipeline.sh` | 旧版 Qwen3-1.7B non-thinking 实验，不能替代本阶段 |
-| `on_policy_distillation.sh` | 原仓库外部教师 OPD，保留原行为 |
-| `grpo.sh` | 原仓库 GRPO，保留但当前不执行 |
+| 学生 | `Qwen/Qwen3-1.7B-Base`，本地完整权重/tokenizer及真实revision |
+| 自教师 | 当前actor含当前LoRA，加离线`r1_solution_1`；无独立旧教师权重 |
+| 更新策略 | `current_batch_stop_gradient`，同批更新前参数，下一批重算 |
+| 损失 | 全词表`KL(stopgrad(T_s) || S_s)`，有效回答token平均 |
+| 参数更新 | LoRA rank16/alpha32/all-linear，基座冻结 |
+| 学习率/seed | 1e-6；训练seed42，probe seed20261026 |
+| batch/轨迹 | 8个问题，每题8条，共64条轨迹/更新；microbatch配置1，动态分批 |
+| 正式预算/GPU | 50个optimizer更新，epochs=1，默认1张GPU |
+| 训练采样 | temperature=1、top_p=1；教师分布温度1 |
+| 长度 | 学生prompt≤2048、回答≤16384；教师整个prompt≤2048 |
+| 在线诊断 | top-16 overlap/OTA，全词表entropy/gap，更新前参数 |
+| checkpoint监测 | 更新后0/1/5/10/20/50 |
+| 保留策略 | latest；分析成功后轮换旧权重，保留分析产物 |
+| live评测 | 同一题集重新生成，默认greedy，最多16384新token |
+| 几何窗口/anchor | 最多256回答token；prompt_last、response_32、response_128 |
+| 离线分布 | 全部有效回答位置、全词表T=1；live不被几何256窗口裁剪 |
+| 输出 | JSONL/CSV/Parquet、PNG、RSM/anchor/邻居缓存及离线HTML |
 
-旧版 non-thinking 的完整操作记录在 [PIPELINE_zh.md](docs/research/PIPELINE_zh.md)。不要把其中的 `--profile`、`--overlength`、`--max-problems`、`--with-empty` 等参数套到本阶段入口。
+配置流：`configs/analysis_deepmath.json` → 工作目录`config.json` → `opsd/training_config.json`、`opsd/analysis_config.json` → 训练resolved配置/Hydra日志。底层profile继承旧pilot，必须由新入口覆盖；不能直接运行旧`pilot_1p7b.json`并认为是本轮配置。
 
-## 4. 服务器环境与输入：只配置一次
+离线模型配置dtype为bfloat16；当前`launch.py`显式设置actor FSDP `model_dtype=fp32`，实际混合精度以Hydra/worker日志为准。不能按“所有权重均BF16”估算训练显存。
 
-### 4.1 硬件、系统与软件版本参考
+学生读取`(x,y_<t)`，自教师读取`(x,r,y_<t)`，共享当前参数。教师分支no-grad，学生分支更新后下一批重算教师；固定的是reference文本。T_s会随学生更新，不是冻结的外部OPD教师。
 
-下表是服务器配环境的起点，**不是经过真实 Qwen GPU 训练验收的锁定环境**。优先复用已有兼容环境；新环境按下文安装，再做第5节的2-step验收。
+step0核验LoRA初始B为零后使用原始Base函数，保存anchors与RSM作为S0基准。后续表征比较对齐题目ID、固定回答、层和anchor。当前/初始输出分布比较会加载初始权重，重新评分**同一条当前回答前缀**，不拿另一条初始live回答作对照。
 
-| 项目 | 当前实验的环境参考 | 核对点 |
+## 3. 数据、提示与判分
+
+输入是单个原生DeepMath Parquet/JSONL（或JSON列表）文件，不是目录；包含`question、final_answer、difficulty、topic、r1_solution_1`。缺少难度/R1参考的旧deduped文件不能替代。
+
+准备顺序：读原始数据 → 难度5–7 → 答案编码检查/参考最终答案核验 → 两种prompt精确长度检查 → NFKC/空白归一化去重 → `(topic, floor(difficulty))`分层固定seed抽样。
+
+| 划分 | 正式数量 | 用途 |
+|---|---:|---|
+| train | 10000 | 训练候选池 |
+| validation | 512 | 独立验证 |
+| heldout_probe | 512 | 不参与训练的固定监测题 |
+| train_probe | 64 | train的固定子集 |
+
+至少需11024道合格唯一题，64题从train内部选。不是先取一万再筛难度；不足时报错，不自动缩减。50×8=400次题目暴露，64道train_probe不保证被抽到；当前未按实际曝光次数分组，不能全部称作“已训练题”。
+
+固定池回答由step0采样并冻结token IDs；live池每个checkpoint重新生成。学生提示含题目和统一格式指令，末行要求`Final answer: \boxed{YOUR_ANSWER}`。教师仅在前面增加`Reference information:\n{r1_solution_1}\n\n`。学生rollout不读reference。
+
+`opsd_answer_v2`统一提示、抽取、reward和独立判分。没有可靠映射的A/B标签不能猜True/False，先隔离。抽取失败与数学答错分开记录；截断回答在主准确率中计错。教师reference+问题+指令超过2048时排除整题，不静默截断参考。
+
+prepare先做初始Base live校准，heldout抽取失败率须≤1%；512题最多5题失败。后续监测点同样检查。超标保存完整回答/原因并中止，不保证Base首次就达标。256固定回答用于几何，不承担完整解题评测；live最多16384。详见[答案协议](docs/research/ANSWER_PROTOCOL_zh.md)。
+
+## 4. 要记录的两组metric
+
+| metric | 当前学生S_s与初始学生S_0 | 当前学生S_s与当前老师T_s |
 |---|---|---|
-| 系统 | Linux x86_64；例如 Ubuntu 22.04 | 下文 CUDA wheel 路径面向 Linux/NVIDIA；不要直接套到 macOS、Windows 或 ARM |
-| GPU | 默认1张 A800 80GB，支持 BF16 | `CUDA_VISIBLE_DEVICES` 只暴露分配到的卡；单卡容量是否足够由2-step实际峰值决定 |
-| CPU / 内存 | 规划16个CPU核、128GB主存 | 是为 offload、checkpoint 导出和分析预留的资源建议，不是已测最低配置；注意容器/作业的实际内存限额 |
-| 磁盘 | 模型、数据、缓存和产物放可写的本地 SSD；按pilot实测峰值预留余量 | 默认只留最新完整checkpoint；保存/分析期间短暂存在新旧两份checkpoint及一份临时HF导出。分析表仍会累积；不能只按LoRA文件估算 |
-| Python | 推荐独立 Conda/venv 环境，Python 3.12 | 仓库自带 FlashAttention wheel 名含 `cp312`；不要混用系统pip和环境python |
-| Torch / vLLM | 参考 `torch==2.8.0`、`vllm==0.11.0` | vLLM 0.11.0 的CUDA依赖指定Torch2.8.0，不能单独升级Torch |
-| CUDA / 驱动 | 与选用的Torch/vLLM二进制匹配；vLLM 0.11.0标准预编译包为CUDA12.8 | 不能只看 `nvidia-smi` 中的CUDA字样；还要检查 `torch.version.cuda` 和真实kernel |
-| Transformers | 参考 `4.56.1`；研究依赖要求 `>=4.51.0,<5` | 低于4.51不识别Qwen3；不要自动升级到5.x |
-| PEFT / FlashAttention | 参考 `peft==0.17.1`、`flash-attn==2.8.1` | LoRA和attention扩展均要实际导入；FlashAttention须匹配Python、Torch、CUDA及C++ ABI |
-| NumPy / PyArrow | 参考 `numpy==1.26.4`；`pyarrow>=19` | 本仓库verl要求NumPy<2；正式分析默认写Parquet，不能缺PyArrow |
-| Ray / 训练数据流 | `ray[default]>=2.41`，采用vLLM0.11时还须满足其`ray[cgraph]>=2.48`；TorchData；`tensordict>=0.8,<=0.10,!=0.9` | 用pip统一解析依赖，检查 `torchdata.stateful_dataloader` 可导入 |
-| 配置 / 数学 / 分析 | Hydra、OmegaConf、pandas、pylatexenc、SymPy、SciPy、scikit-learn、Matplotlib等 | 完整分析依赖见 `scripts/research/requirements-analysis.txt`；训练依赖见 `verl/setup.py` |
-| 本地verl | 本工作树 `verl/` 的 editable安装 | 不用另一份PyPI verl替代；训练与分析进程都应导入本仓库源码 |
+| top-16 overlap ratio | 两者Top16交集比例 | 两者Top16交集比例 |
+| Overlap-Token Advantage | S_s/S_0交集内优势 | S_s/T_s交集内优势 |
+| Entropy | H(S_s)、H(S_0) | H(S_s)、H(T_s) |
+| Entropy Gap绝对/有符号 | 对照熵减学生熵，逐位置绝对值/保留符号后平均 | 同左，对照为T_s |
+| KL | KL(S_s∥S_0) | KL(S_s∥T_s)、KL(T_s∥S_s) |
+| 共享概率质量/空交集率 | S_s/S_0，主k=16 | S_s/T_s，主k=16 |
+| RSA、RSM RMSE、Linear CKA | 固定题集上的S_s/S_0 | 固定题集上的直接S_s/T_s |
+| 表征kNN overlap | k=8/16/32，题目近邻重叠 | k=8/16/32，题目近邻重叠 |
+| 轨迹曲率 | 已记录配对变化C(S_s)−C(S_0) | 分别记录双方曲率，尚无独立配对差值字段 |
 
-版本依据：[vLLM 0.11.0 CUDA依赖](https://github.com/vllm-project/vllm/blob/v0.11.0/requirements/cuda.txt)、[vLLM 0.11.0 GPU安装说明](https://docs.vllm.ai/en/v0.11.0/getting_started/installation/gpu.html)、[FlashAttention 2.8.1安装说明](https://github.com/Dao-AILab/flash-attention/tree/v2.8.1#installation-and-features)、[Qwen3-1.7B-Base模型说明](https://huggingface.co/Qwen/Qwen3-1.7B-Base#requirements)。这些上游说明不能替代本仓库的GPU集成验收。
+分布主值对所有有效回答预测位置计算全词表熵/KL，跨题按有效token加权。首个EOS计入，之后padding排除。OTA空交集单独排除，有自己的分母；另存词表k=10/50/100。几何是固定文本/anchor统计，与词表top-k不同。heldout与train_probe分开。
 
-`nvidia-smi` 显示驱动及其CUDA兼容能力，`torch.version.cuda` 表示Torch构建使用的CUDA版本，`nvcc --version` 则表示当前CUDA Toolkit编译器。运行预编译包通常不需本地nvcc；源码编译FlashAttention时需要匹配的Toolkit、C++编译器和ninja。驱动太旧时选择匹配的整套二进制或由服务器管理员处理驱动，不通过随意替换单个CUDA包解决。
+直接RSA/CKA/kNN使用`role=student_vs_privileged_teacher`及`student_teacher`字段。`role=privileged_teacher`下`rsa_rho_to_initial`是T_s对T_0，不能替代S_s对T_s；T_s/T_0辅助曲线保留。
 
-本阶段采用FSDP和vLLM，不需要Megatron、SGLang或LLaMA-Factory；没有外部teacher模型下载任务。默认logger为console，不需要W&B登录。已有模型和原生DeepMath文件时，实验可从本地路径读取；安装依赖或下载原始资产所需网络应在开跑前解决。
+另记PR、首特征值占比、激活范数；学生正确率、抽取失败/格式合规/截断/EOS/长度/重复；训练loss、梯度、学习率、tokens、耗时及显存。Entropy/PR是单模型统计。S0权重固定，但live前缀变化时条件熵可变。
 
-### 4.2 选择Python环境与安装依赖
+字段映射见[指标清单](docs/research/METRIC_RECORDING_zh.md)、[全回答分布](docs/research/ALL_TOKEN_METRICS_zh.md)、[直接学生—教师几何](docs/research/ST_GEOMETRY_zh.md)。
 
-已有兼容环境直接激活，并在仓库根目录执行：
+## 5. 同步并核对源码
+
+本轮代码、新增模块与交接文件一起提交发布。服务器应拉取包含本文件及清单的最新提交，再做下述内容校验；不能只凭清单中的`base_git_commit`判断已收到本轮更新。该字段是开发起点，`worktree_dirty_at_generation`记录清单生成时的状态。保留服务器原有改动和旧结果，不强制reset。
+
+在仓库执行下列校验。`SERVER_HANDOFF_MANIFEST.json`覆盖配置、关键训练/分析源码与本交接文档，不含模型、数据、旧结果及清单自身。
 
 ```bash
+python - <<'PY'
+import hashlib
+import json
+from pathlib import Path
+m=json.loads(Path('SERVER_HANDOFF_MANIFEST.json').read_text())
+bad=[]
+for name,expected in m['files'].items():
+    p=Path(name)
+    if not p.is_file() or hashlib.sha256(p.read_bytes()).hexdigest()!=expected:
+        bad.append(name)
+if bad:
+    raise SystemExit('交接文件缺失或不同：\n'+'\n'.join(bad))
+print('交接源码校验通过：',len(m['files']),'个文件')
+PY
+```
+
+服务器主动改清单内文件时记录diff与原因，保留原清单；不能静默重算清单掩盖不同。模型/数据身份另由运行manifest记录。
+
+## 6. 环境与真实路径
+
+优先复用服务器step20成功环境，先记录版本再处理具体错误，不盲目升级Torch/vLLM。旧环境安装参考在归档第4节，不是本轮GPU锁定环境。
+
+代码要求Linux/NVIDIA CUDA、Torch、vLLM、FlashAttention、PEFT、Ray、Hydra/OmegaConf、TorchData stateful dataloader、TensorDict、PyArrow、数学判分和分析库。依据`verl/setup.py`和`scripts/research/requirements-analysis.txt`：NumPy<2、Transformers≥4.51且<5、PyArrow≥19，本地verl的vLLM extra范围≥0.8.5且≤0.11.0。Torch/vLLM/FlashAttention应配套，以实际CUDA kernel为准。
+
+先激活服务器已有环境。修改下面真实路径和revision；新入口使用当前PATH的python，不读取旧OPSD_PYTHON。
+
+```bash
+set -euo pipefail
 cd /your/path/Rethinking-OPD-main
-conda activate opsd
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 export PYTHONPATH="$PWD:$PWD/verl${PYTHONPATH:+:$PYTHONPATH}"
 export OMP_NUM_THREADS=4
 export MPLCONFIGDIR="$PWD/research_runs/.matplotlib"
+export OPSD_MODEL_DIR="/actual/path/Qwen3-1.7B-Base"
+export OPSD_MODEL_REV="ACTUAL_IMMUTABLE_MODEL_REVISION"
+export OPSD_DATA_FILE="/actual/path/DeepMath-103K/train.parquet"
+export OPSD_DATA_REV="ACTUAL_IMMUTABLE_DATASET_REVISION"
+export OPSD_RUN_DIR="$PWD/research_runs/base_opsd_20261028_full_tokens_paired"
+export OPSD_PILOT_DIR="$PWD/research_runs/base_opsd_20261028_acceptance_2step"
+export OPSD_LOG_DIR="$PWD/research_runs/server_handoff_20261028"
+mkdir -p "$OPSD_LOG_DIR" "$MPLCONFIGDIR"
 command -v python
 nvidia-smi
+python -m pip freeze > "$OPSD_LOG_DIR/pip-freeze.txt"
+python -m pip check > "$OPSD_LOG_DIR/pip-check.txt"
+git rev-parse HEAD > "$OPSD_LOG_DIR/git-head.txt"
+git status --short > "$OPSD_LOG_DIR/git-status.txt"
 ```
 
-新入口直接调用 PATH 中的 `python`，**不读取旧脚本的 OPSD_PYTHON / OPSD_WORKDIR**；用激活环境选择解释器，用 `--workdir` 选择产物目录。
+保留调度器已有GPU分配。revision须真实，不填main/master或编造字符串；不能把Instruct改目录名当Base。默认单卡不表示已验证A800 80GB够用，必须验收16384回答及额外初始模型的开销。
 
-下面是供服务器Codex参考的新环境安装顺序，只在新建的实验环境中执行。版本组合尚未在本机GPU验证；如果pip报冲突，先定位并记录，不能跳过依赖检查。这里用Conda管理Python、用 `python -m pip` 安装Torch/vLLM，避免混装另一套Conda Torch。
-
-```bash
-conda create -n opsd python=3.12 -y
-conda activate opsd
-python -m pip install --upgrade pip setuptools wheel
-
-# 在包含run_base_comparison.sh的目录执行，先装匹配的Torch/vLLM。
-python -m pip install "torch==2.8.0" "vllm==0.11.0"
-
-# 一次解析本地verl和分析依赖，显式保持核心版本。
-python -m pip install -e ./verl \
-  -r scripts/research/requirements-analysis.txt \
-  "torch==2.8.0" "vllm==0.11.0" "transformers==4.56.1" \
-  "peft==0.17.1" "numpy==1.26.4" packaging ninja psutil
-```
-
-FlashAttention单独安装，安装前先记录实际ABI：
+仅缺本仓库editable绑定且依赖已齐时，可`python -m pip install -e ./verl --no-deps`；不能把跳过安装依赖当作依赖通过。缺包按已记录的兼容环境补齐，新环境参照依赖文件配套安装。
 
 ```bash
-python - <<'PY'
-import sys
-import torch
-print('Python:', sys.version)
-print('Torch:', torch.__version__, 'CUDA build:', torch.version.cuda)
-print('C++11 ABI:', torch._C._GLIBCXX_USE_CXX11_ABI)
-PY
-
-# 优先使用与上述信息完全匹配的官方wheel；以下命令也可能触发源码编译。
-# 若触发编译，先确认nvcc/GCC可用，CUDA Toolkit与Torch构建匹配。
-MAX_JOBS=4 python -m pip install "flash-attn==2.8.1" --no-build-isolation
-python -m pip check
-```
-
-仓库原有 `verl/scripts/install_vllm_sglang_mcore.sh` 可作为版本线索，但不直接替代以上检查：它硬编码的FlashAttention wheel是 `cp312/cu12/torch2.8/cxx11abiFALSE`，**ABI为True时不能使用该wheel**；默认还装本实验不用的后端，而且没有严格的失败即停保护。即使它最后打印Successfully，也必须检查真实import、CUDA kernel和训练。使用该脚本时至少先审阅内容、显式禁用Megatron/SGLang，并按实际ABI处理FlashAttention。
-
-以后单独补装/升级依赖时仍应保持上述核心版本；安装结束的 `pip freeze` 才记录实际解析出的完整环境。不要把分析依赖文件当作已验证的全套训练锁文件。
-
-### 4.3 填写真实路径、缓存和版本
-
-```bash
-export OPSD_MODEL_DIR="/models/Qwen3-1.7B-Base"
-export OPSD_MODEL_REV="ACTUAL_MODEL_COMMIT"
-export OPSD_DATA_FILE="/data/DeepMath-103K/train.parquet"
-export OPSD_DATA_REV="ACTUAL_DATA_COMMIT"
-export OPSD_CONFIG="$PWD/configs/analysis_deepmath.json"
-export OPSD_PILOT_DIR="$PWD/research_runs/base_opsd_acceptance_2step"
-export OPSD_RUN_DIR="$PWD/research_runs/base_opsd_200"
-export OPSD_LOG_DIR="$PWD/research_runs/server_handoff_logs"
-mkdir -p "$OPSD_LOG_DIR"
-```
-
-可按服务器磁盘布局配置缓存，以下目录需有足够空间且可写。作业调度器已设置的变量优先保留；不要覆盖分配到的GPU编号。
-
-```bash
-export OPSD_CACHE_ROOT="${OPSD_CACHE_ROOT:-$PWD/research_runs/.cache}"
-export HF_HOME="${HF_HOME:-$OPSD_CACHE_ROOT/huggingface}"
-export TORCH_EXTENSIONS_DIR="${TORCH_EXTENSIONS_DIR:-$OPSD_CACHE_ROOT/torch_extensions}"
-export TRITON_CACHE_DIR="${TRITON_CACHE_DIR:-$OPSD_CACHE_ROOT/triton}"
-export RAY_TMPDIR="${RAY_TMPDIR:-$OPSD_CACHE_ROOT/ray}"
-mkdir -p "$HF_HOME" "$TORCH_EXTENSIONS_DIR" "$TRITON_CACHE_DIR" "$RAY_TMPDIR" "$MPLCONFIGDIR"
-df -h "$OPSD_CACHE_ROOT" "$OPSD_LOG_DIR"
-free -h
-```
-
-Ray临时目录宜选本地SSD上的短路径；路径过长时改用例如 `/tmp/opsd_ray`。容器运行需要GPU设备透传和足够的 `/dev/shm`，可用 `df -h /dev/shm` 检查。单机默认不需要手动 `ray start`；不要为此停止共享服务器上其他人的Ray进程。`--execute`默认建立独立后台会话，SSH断开不终止任务；无需tmux/nohup。加`--foreground`才在前台执行。状态、日志、停止与恢复见[训练控制说明](docs/research/TRAINING_CONTROL_zh.md)。
-
-替换所有示例路径和 `ACTUAL_*` 为真实来源版本，不填写 main/master，不编造版本。模型目录需含完整权重、config、tokenizer；不要拿 Instruct 权重改目录名冒充 Base。manifest 记录本地文件hash，但来源声明仍须真实。
-
-**本阶段 Base CLI 的 `--input` 需要单个原生 Parquet / JSONL（也支持JSON列表）文件，不能直接给目录。** 多分片先在输入准备阶段整理为单文件，保留字段和转换来源；不要使用旧版目录参数。必需字段为 `question`、`final_answer`、`difficulty`、`topic`、`r1_solution_1`。仓库自带 `datasets/DeepMath_deduped.parquet` 缺少难度和R1参考，不符合要求。
-
-### 4.4 检查真实源码、CUDA kernel并记录环境
-
-先检查实际Python和本地verl路径，再测试BF16和FlashAttention前向/反向。以下会在GPU上分配少量测试张量，不加载Qwen权重、不启动训练：
-
-```bash
-set -o pipefail
-python - <<'PY' 2>&1 | tee "$OPSD_LOG_DIR/cuda_kernel_check.log"
-import importlib
+python - <<'PY' 2>&1 | tee "$OPSD_LOG_DIR/environment-check.log"
+import json
 from pathlib import Path
 import sys
 import torch
 import verl
-from flash_attn import flash_attn_func
-from transformers import Qwen3ForCausalLM
-from vllm.lora.request import LoRARequest
-
-expected = (Path.cwd() / 'verl/verl').resolve()
-actual = Path(verl.__file__).resolve().parent
-print('Python:', sys.executable)
-print('verl:', actual)
-assert actual == expected, f'verl不是当前仓库源码：{actual}'
-assert torch.cuda.is_available(), 'CUDA不可用'
-assert torch.cuda.device_count() == 1, '默认实验需要恰好1张可见GPU；核对CUDA_VISIBLE_DEVICES'
-assert torch.cuda.is_bf16_supported(), '当前GPU不支持BF16'
-print('Torch/CUDA/ABI:', torch.__version__, torch.version.cuda, torch._C._GLIBCXX_USE_CXX11_ABI)
-print('GPU:', torch.cuda.get_device_name(0), 'capability:', torch.cuda.get_device_capability(0))
-importlib.import_module('vllm._C')
-q = torch.randn(1, 32, 2, 64, device='cuda', dtype=torch.bfloat16, requires_grad=True)
-out = flash_attn_func(q, q, q, dropout_p=0.0, causal=True)
-out.float().square().mean().backward()
-torch.cuda.synchronize()
-assert torch.isfinite(out).all() and torch.isfinite(q.grad).all(), 'attention输出或梯度非有限'
-print('Qwen3/LoRA imports and BF16 FlashAttention forward/backward: PASS')
-PY
-```
-
-然后调用仓库统一preflight，缺任一必需模块时先处理具体错误。它不加载模型权重；通过仍不等于FSDP/vLLM/LoRA集成已跑通：
-
-```bash
-python - <<'PY' 2>&1 | tee "$OPSD_LOG_DIR/environment_preflight.log"
-import json
 from scripts.research.preflight import check_environment
-report = check_environment(gpus=1)
-print(json.dumps(report, indent=2, ensure_ascii=False))
-if not report['ok']:
-    raise SystemExit('环境检查未通过，请先处理上面的具体错误')
+print('Python:',sys.executable)
+print('verl:',verl.__file__)
+assert Path(verl.__file__).resolve().is_relative_to(Path('verl').resolve())
+print('Torch/CUDA:',torch.__version__,torch.version.cuda)
+print('C++11 ABI:',torch._C._GLIBCXX_USE_CXX11_ABI)
+result=check_environment(gpus=1)
+print(json.dumps(result,ensure_ascii=False,indent=2))
+if not result['ok']:
+    raise SystemExit('环境未通过，先修复以上具体错误')
+from transformers import Qwen3ForCausalLM
+from peft import LoraConfig, get_peft_model
+from vllm.lora.request import LoRARequest
+print('Qwen3/PEFT/vLLM LoRA imports passed')
+from analysis.html_report import plotly_bundle
+print('Offline HTML JS bundle available:',len(plotly_bundle()),'characters')
 PY
-python -m pip check 2>&1 | tee "$OPSD_LOG_DIR/pip_check.log"
-python -m pip freeze > "$OPSD_LOG_DIR/environment.freeze.txt"
-python -m pip list --format=json > "$OPSD_LOG_DIR/environment.packages.json"
-nvidia-smi > "$OPSD_LOG_DIR/nvidia-smi.txt"
-git rev-parse HEAD > "$OPSD_LOG_DIR/code_commit.txt"
-git status --short > "$OPSD_LOG_DIR/code_worktree.txt"
-python - <<'PY' > "$OPSD_LOG_DIR/system.json"
-import json
-import os
-import platform
-import shutil
-import sys
+
+python - <<'PY' 2>&1 | tee "$OPSD_LOG_DIR/cuda-kernel-check.log"
 import torch
-print(json.dumps({
-    'python': sys.version, 'executable': sys.executable,
-    'platform': platform.platform(), 'machine': platform.machine(),
-    'torch': torch.__version__, 'torch_cuda': torch.version.cuda,
-    'cxx11_abi': torch._C._GLIBCXX_USE_CXX11_ABI,
-    'nvcc': shutil.which('nvcc'),
-    'cuda_visible_devices': os.environ.get('CUDA_VISIBLE_DEVICES'),
-    'gpus': [{'name': torch.cuda.get_device_name(i),
-              'total_bytes': torch.cuda.get_device_properties(i).total_memory}
-             for i in range(torch.cuda.device_count())],
-}, indent=2))
+from flash_attn import flash_attn_func
+q=torch.randn(1,32,4,64,device='cuda',dtype=torch.bfloat16,requires_grad=True)
+k=torch.randn_like(q,requires_grad=True)
+v=torch.randn_like(q,requires_grad=True)
+y=flash_attn_func(q,k,v,dropout_p=0.0,causal=True)
+y.float().square().mean().backward()
+torch.cuda.synchronize()
+assert torch.isfinite(y).all() and all(t.grad is not None and torch.isfinite(t.grad).all() for t in (q,k,v))
+print('BF16 FlashAttention forward/backward passed')
 PY
 ```
 
-环境freeze用于复现，也应记录安装命令和任何兼容性修复；不同CUDA/ABI机器不能仅凭同一份freeze保证二进制可用。若pip使用了带凭据的私有下载地址，分享freeze前需去除其中凭据。完整一键流程还会检查精确长度、实际Hydra配置和rollout schema，最终以2-step训练、checkpoint导出和分析产物验收为准。
+HTML构建需可导入Plotly，或保留仓库旧报告中的内嵌JS作为备用；上面在开跑前核验可用性。检查`df -h`、`free -h`、`df -h /dev/shm`及容器/作业内存上限；offload、导出和分析需要主存/磁盘。必要时为本任务设置短的RAY_TMPDIR，不停止共享服务器上其他任务的Ray进程。
 
-| 常见环境问题 | 定位与处理 |
-|---|---|
-| `KeyError: qwen3` | 检查实际解释器与Transformers版本，按兼容版本安装，不换成Instruct |
-| `undefined symbol` / `flash_attn_2_cuda`加载失败 | 对照Torch/CUDA/Python/ABI重新选wheel或编译；不能只重复安装相同的FALSE ABI wheel |
-| `No module named torchdata.stateful_dataloader` | 核对TorchData安装和Torch兼容性，避免项目内同名模块遮蔽 |
-| NumPy ABI / PyArrow错误 | 满足NumPy<2和PyArrow>=19，再确认pandas等二进制扩展兼容并运行pip check |
-| Ray启动失败 / object store空间不足 | 查Ray日志、作业内存限制、临时路径、`/dev/shm`、本机端口；不停止他人的服务 |
-| CUDA不可用 / vLLM kernel报错 | 查GPU分配、驱动、容器透传、Torch与vLLM构建版本，不能以CPU smoke通过替代 |
+## 7. 独立2步工程验收
 
-### 4.5 固定命令参数
-
-首次提交时在同一Bash会话中定义共用参数；后台进程继承该环境。重新连接后激活环境，按实际workdir查看状态即可；若要重新提交，仍需恢复原参数数组：
+只减题数和步数，保留正式batch8×8、LoRA、学习率、损失及2048/16384长度。8题heldout在1%门槛下必须零抽取失败；通过不代表正式512题通过，不混入正式曲线。
 
 ```bash
-set -o pipefail
-BASE_ARGS=(
-  --config "$OPSD_CONFIG"
-  --model-dir "$OPSD_MODEL_DIR"
-  --model-revision "$OPSD_MODEL_REV"
-  --input "$OPSD_DATA_FILE"
-  --dataset-revision "$OPSD_DATA_REV"
-  --method opsd
-)
-```
+python - <<'PY'
+import json
+from pathlib import Path
+c=json.loads(Path('configs/analysis_deepmath.json').read_text())
+c['run_id']='acceptance_20261028_2step'
+c['dataset'].update(train_n=16,dev_n=8)
+c['training'].update(steps=2,save_every=1)
+c['monitor'].update(optimizer_steps=[0,1,2],teacher_geometry_steps=[0,1,2],
+                    plot_full_rsm_steps=[0,2],heldout_probe_n=8,train_probe_n=4)
+p=Path('research_runs/server_handoff_20261028/acceptance_config.json')
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_text(json.dumps(c,ensure_ascii=False,indent=2)+'\n')
+print(p.resolve())
+PY
 
-## 5. 先做2-step GPU验收
-
-使用独立新目录，不把测试目录接着改成200步：
-
-```bash
 PILOT_ARGS=(
-  "${BASE_ARGS[@]}"
-  --workdir "$OPSD_PILOT_DIR"
-  --steps 2
-  --monitor-steps 0,1,2
-  --train-n 16
-  --dev-n 8
-  --probe-n 64
-  --train-probe-n 8
+  --config "$OPSD_LOG_DIR/acceptance_config.json"
+  --model-dir "$OPSD_MODEL_DIR" --model-revision "$OPSD_MODEL_REV"
+  --input "$OPSD_DATA_FILE" --dataset-revision "$OPSD_DATA_REV"
+  --workdir "$OPSD_PILOT_DIR" --method opsd
 )
-
-# 只写配置并打印计划；不会生成probe或训练，但会创建workdir/config.json等。
-bash run_base_comparison.sh "${PILOT_ARGS[@]}" \
-  > "$OPSD_LOG_DIR/pilot_plan.json"
-
-# 确认计划methods只有opsd后，提交后台验收任务；返回不代表验收完成。
+bash run_base_comparison.sh "${PILOT_ARGS[@]}" > "$OPSD_LOG_DIR/pilot-plan.json"
 bash run_base_comparison.sh "${PILOT_ARGS[@]}" --execute
 bash run_base_comparison.sh status --workdir "$OPSD_PILOT_DIR" --watch
 ```
 
-验收至少需要88个满足难度、参考核验、长度和去重要求的独立题，固定probe共72题。train_probe=8时其kNN的k>=8按规范undefined；heldout_probe=64可正常计算8/16/32邻域。Base短回答导致某些response anchor无有效题也应明确记录，不用伪造长文本。
+计划必须为methods=[opsd]、steps=2、监测[0,1,2]。验收覆盖：prepare/初始门槛、真实LoRA更新、checkpoint保存/导出、全回答分布、直接RSA/CKA和HTML。测量训练及分析完整阶段显存；训练进程allocated/reserved不等于所有并存进程的显存总量。
 
-## 6. 正式200-step一键执行
+保留step0/1/2分析及最终step2 checkpoint。8/4题下k≥N的近邻undefined属预期，不能补0；正式512/64题另验收。失败先查第11节，不直接启动正式50步。
 
-第7节验收通过后，在默认配置和另一个新目录执行：
+## 8. 正式50步一键运行
+
+使用正式配置及新目录，不传上节小样本配置：
 
 ```bash
 RUN_ARGS=(
-  "${BASE_ARGS[@]}"
-  --workdir "$OPSD_RUN_DIR"
-)
-
-# 正式运行的计划：200step、method只有opsd。
-bash run_base_comparison.sh "${RUN_ARGS[@]}" \
-  > "$OPSD_LOG_DIR/formal_plan.json"
-
-# 默认后台运行；SSH断开不停止。验收成功后才提交正式任务。
-bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute
-bash run_base_comparison.sh status --workdir "$OPSD_RUN_DIR" --watch
-```
-
-实际流程为：
-
-```text
-configure（本地路径 / revision / 私有注册表）
-  -> 环境检查
-  -> prepare（筛选 / 去重 / 划分 / 初始固定rollout / 两组配置）
-  -> train OPSD（训练 / 在线指标 / 保存后暂停、逐监测点独立分析、清理旧权重）
-  -> analyze OPSD（校验已完成的分析缓存；失败时重试当前尚保留的checkpoint）
-  -> report（读缓存汇总表格和图）
-```
-
-prepare会保存GRPO的配置文件，这是保留对照设计，**不会执行GRPO训练**。预览与实际调度均只选OPSD；本阶段命令不含 `--method both`。
-
-### 正式默认参数在哪里调整
-
-统一入口为 `configs/analysis_deepmath.json`：
-
-| 区域/参数 | 默认值 | 修改方式 |
-|---|---|---|
-| training：mode / LoRA | lora / r16 / alpha32 / all-linear | 修改JSON，新建实验目录 |
-| learning_rate | 1e-6 | 修改JSON；没有 `--learning-rate` CLI |
-| batch / rollouts / microbatch | 8 / 8 / 1 | 修改JSON |
-| steps / gpus / seed | 200 / 1 / 42 | JSON或同名CLI；gpus需匹配CUDA_VISIBLE_DEVICES |
-| epochs / save_every | 1 / 50 | 修改JSON |
-| checkpoint_retention | latest | 先分析再清理，保留各监测点结果；all恢复先训练后分析并保留全部权重 |
-| prompt / response / teacher prompt上限 | 512 / 512 / 2048 | 修改JSON；Base入口无对应长度CLI |
-| sampling_temperature / teacher_temperature | 1 / 1 | 修改JSON |
-| dataset：train_n / dev_n | 10000 / 512 | JSON或 `--train-n` / `--dev-n` |
-| monitor：heldout_probe_n / train_probe_n | 512 / 64 | JSON或 `--probe-n` / `--train-probe-n` |
-| monitor：seed / response窗口 | 20261026 / 256 | 修改JSON，与训练seed独立 |
-| optimizer_steps | 0,1,5,10,20,50,100,200 | JSON或 `--monitor-steps` |
-| 其他几何/分布指标设置 | 见JSON | 修改JSON，新建实验目录 |
-
-Base入口目前没有 `--batch`、`--rollouts`、`--lora-rank`、`--profile`、长度或学习率CLI；这些参数用JSON修改。在线top-16来自 `base_geometry.json -> pilot_1p7b.json` 的继承；需要改变时在Base profile中明确覆盖并记录。
-
-`configure` 后实际读取 `<workdir>/config.json`。修改模板不会更新已有运行；配置不一致会拒绝复用目录。改变科学配置应复制为新的配置文件，传 `--config` 并选择新 `--workdir`，不手工篡改被冻结的probe或已训练目录。
-
-## 7. 服务器Codex如何验收、看哪些文件
-
-所有路径相对于本次 `<workdir>`；正式目录用 `$OPSD_RUN_DIR`，2-step目录用 `$OPSD_PILOT_DIR`。
-
-| 文件 | 必须核对的内容 |
-|---|---|
-| `config.json`、`models.json` | Base路径/revision、LoRA、前向KL、batch/n/steps和seed |
-| `environment.json`、外部 `environment.freeze.txt` | 实际依赖与CUDA检查，保存实际GPU/驱动信息 |
-| `shared/probe/manifest.json`、`complete.json` | 划分数量、版本/内容身份、固定排序和题ID |
-| `shared/probe/eligibility.jsonl`、`duplicates.jsonl` | 参考核验、长度筛选和去重记录 |
-| `shared/probe/fixed_pool.jsonl` | 原始prompt/response IDs、逐题seed、anchor有效性 |
-| `opsd/training_config.json`、`analysis_config.json` | 实际训练与分析配置；当前方法为OPSD |
-| `.session/attempts/<id>/console.log`、`state.json`、`progress.json` | 本次后台任务的控制台、进程心跳/退出码和当前阶段；历史attempt保留 |
-| `opsd/train/train.log` | 完整训练日志；报错首先定位这里 |
-| `opsd/train/metrics.jsonl` | 每step的metrics字典、预算、forward-KL loss与教师版本 |
-| `opsd/train/config_preflight.json`、`*preflight.log` | 实际Hydra/rollout schema验收 |
-| `opsd/train/plots/thinking_consistency.png`、`.csv` | 五项在线指标曲线与数据 |
-| `opsd/train/checkpoints/global_step_*/` | 正常完成后仅最新一份完整模型/optimizer/scheduler/RNG/dataloader恢复状态；保存/失败现场可能暂留新旧两份 |
-| `opsd/jobs/step_*.json`、`job_status/step_*.json` | 队列optimizer step、checkpoint、probe hash；最终status=complete |
-| `opsd/initial_adapter.json` | step0的LoRA B=0及实际adapter指纹 |
-| `opsd/hf/solution/global_step_*/` | 临时BF16合并权重，成功分析后删除；分析失败时保留供重试 |
-| `opsd/checkpoint_maintenance.jsonl` | 保存后分析与轮换耗时；从训练wall预算中扣除 |
-| `opsd/analysis/steps/step_*/` | anchors、neighbors、RSM、逐题曲率、分布、live回答、指标和manifest |
-| `report/metrics.csv`、`.jsonl`、`.parquet` | 按step/layer/pool/split/anchor/role区分的汇总 |
-| `report/*.png`、`report_manifest.json` | 曲率/RSA/NO/PR热图与曲线、行为对照、分布曲线及来源 |
-
-验收标准：
-
-1. 2-step训练到step2，仅保留step2完整checkpoint，但保留step0/1/2全部分析结果和3个完成的job；正式训练到200，仅保留step200完整checkpoint，保留全部8个监测step结果。日志能找到 `actor/forward_kl` 及五个 `opd/` 必需字段。
-2. 五项字段为 `opd/overlap_ratio`、`opd/overlap_token_advantage`、`opd/student_entropy`、`opd/teacher_entropy`、`opd/entropy_gap`。空交集advantage为null时同时检查覆盖率，不要求所有undefined量变成有限值。
-3. 数据、固定pool和anchor题ID跨checkpoint一致；heldout / train_probe 分开，fixed / live 分开，学生 / privileged_teacher 分开。
-4. `anchors.npz`、`anchors.json`、`curvature.parquet`、`distributions.parquet`、`neighbors.npz`、`rsm_*.npz` 和 `metrics.parquet` / JSONL 存在，step目录有 `complete.json`。state位置、block hook和N可追溯。
-5. 有live accuracy、长度、EOS、截断、抽取失败记录；性能为0或负增益也保留，不通过换模型隐藏。
-6. 新目录中可以有 `grpo/training_config.json` 和 `grpo/analysis_config.json`，但不应出现本次GRPO训练、checkpoint或分析任务。
-7. 最终汇报实际训练耗时、独立分析耗时、GPU型号/可见数和可用的显存峰值测量。没有测量就标未测，不用理论估算冒充实测。
-
-可在另一终端或重新SSH连接后观察训练（先激活同一环境；workdir使用实际运行目录）：
-
-```bash
-bash run_base_comparison.sh status --workdir "$OPSD_RUN_DIR" --watch
-bash run_base_comparison.sh logs --workdir "$OPSD_RUN_DIR" --stream train --follow
-```
-
-Ctrl+C只关闭查看器，不停止后台任务。停止须显式使用`stop --workdir`。`--watch`只在整个受管命令成功时返回0；训练到200/200后仍可能处于分析或报告阶段。
-
-开始prepare时还没有train.log，这是正常的。使用`logs --workdir ... --follow`查看完整流程控制台；训练详细输出查看`--stream train`。状态读取真实metrics/checkpoint/job记录并显示阶段与更新时间。后台启动命令返回只表示提交成功；退出码和完成状态以`status`为准，不能只看PID存在或PNG判断成功。
-
-## 8. 失败恢复和分阶段排查
-
-先保留原日志和checkpoint，修复具体问题后重试**相同配置和同一workdir**。不要清空运行目录、忽略hash校验或直接覆盖complete标记。
-
-```bash
-# 环境变量、BASE_ARGS、RUN_ARGS仍为第4/6节的同一组设置时：
-bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute
-
-# 已有prepare结果，仅恢复/继续OPSD训练：
-python -m scripts.research.compare train \
-  --workdir "$OPSD_RUN_DIR" --method opsd --execute
-
-# 训练已经完成，仅重试checkpoint导出和分析（此独立命令仍前台执行）：
-python -m scripts.research.compare analyze \
+  --config "$PWD/configs/analysis_deepmath.json"
+  --model-dir "$OPSD_MODEL_DIR" --model-revision "$OPSD_MODEL_REV"
+  --input "$OPSD_DATA_FILE" --dataset-revision "$OPSD_DATA_REV"
   --workdir "$OPSD_RUN_DIR" --method opsd
-
-# 不重新训练或分析，仅从缓存重画汇总：
-python -m scripts.research.compare report --workdir "$OPSD_RUN_DIR"
-
-# 仅重画已有在线训练日志：
-python -m scripts.research.run plot \
-  --input "$OPSD_RUN_DIR/opsd/train" --output "$OPSD_RUN_DIR/opsd/train/plots"
+)
+bash run_base_comparison.sh "${RUN_ARGS[@]}" > "$OPSD_LOG_DIR/formal-plan.json"
+bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute
+bash run_base_comparison.sh status --workdir "$OPSD_RUN_DIR" --watch
 ```
 
-训练用resume=auto，从最后保存的checkpoint恢复；尚未保存的更新需要重做。已完成200步时入口会复用完整checkpoint，避免额外更新第201步。分析按step顺序，必须先建立step0基线；完成缓存通过job/config/complete收据、源码、probe与产物hash校验后复用，不依赖已清理的旧权重。分析失败时停止训练并保留新旧checkpoint和当前HF导出；同配置恢复会先重试分析再清理。已删除的旧权重不能重新训练/重新提取，只能复用其完整分析结果；若要修改分析配置重新提取，需另行保留全部权重并新建运行目录。硬中断留下临时目录时先检查，不能伪造完成标记。
+正式计划必须为50步、8×8、lr1e-6、监测[0,1,5,10,20,50]、train10000/validation512/heldout512/train_probe64。预览会写config/models但不生成校准回答，不代表质量通过。
 
-| 现象 | 应对 |
-|---|---|
-| 模型路径/revision缺失、误用了Instruct | 确认真实来源和完整Base文件，不改名替代 |
-| 依赖/FlashAttention ABI错误 | 按environment报告和import错误修复当前环境，保留版本记录 |
-| 有效题不足 | 查看筛选与数量；失败发生在prepare结束前时临时报告可能未发布，结合控制台定位。调整科学设置则另建配置/目录，不能静默缩小N或截参考 |
-| OOM | 记录发生阶段和实际配置；先定位占用与资源配置。不得悄悄改全词表loss为top-k或更换模型 |
-| 配置、probe、源码hash不符 | 核对原始版本；恢复对应代码/数据，或建立明确的新实验目录，不绕过检查 |
-| checkpoint缺分片、LoRA adapter缺失/非零B | 检查原始保存与step0状态，不把未合并的基座当训练结果 |
-| 只有训练曲线，没有表征报告 | 查看analyze是否执行、job_status是否failed，再单独重试analyze/report |
+`--execute`默认受管后台运行，SSH断开后继续；返回只表示提交，不表示完成。排查可末尾加`--foreground`。不重复提交同一目录。
 
-默认分析时训练暂停，使用独立进程和原GPU分配，完成后继续；不是后台并发训练。训练worker显存可能仍驻留，先做2-step实测。不要另启analyze与默认同步分析竞争同一workdir；手动analyze只处理调用时已有jobs快照。
+```bash
+# 完整流程日志；prepare时尚无train.log，先看此处。
+bash run_base_comparison.sh logs --workdir "$OPSD_RUN_DIR" --follow
+# 训练详细日志。
+bash run_base_comparison.sh logs --workdir "$OPSD_RUN_DIR" --stream train --follow
+# 只读JSON状态。
+bash run_base_comparison.sh status --workdir "$OPSD_RUN_DIR" --json
+```
 
-## 9. GRPO保留但暂不执行
+顺序：环境检查 → 数据筛选/冻结 → 初始live质量门槛 → 固定回答池 → step0保存/分析 → 指定step训练/保存/分析 → 最终报告。prepare既含CPU筛选也含GPU生成；512题长回答和全回答分布评分可能耗时，按generation_progress及流程日志判断进度。
 
-GRPO将来使用同一Base起点、共享数据和固定probe，LoRA初始化与OPSD对齐，用数学verifier outcome reward训练。两种方法的监督和计算成本不同，同step不能直接视为同预算。
+## 9. checkpoint与产物
 
-代码保留显式 `--method grpo` / `--method both`，**本阶段不调用这些选项**。后续用户要求开展对照时，再用已有设计单独执行并分析，不需为本轮删改GRPO代码或原始 `grpo.sh`。
+常规save_every=50之外，监测点也保存checkpoint，覆盖0/1/5/10/20/50。latest流程：保存完整model/optimizer/data状态及标量 → 暂停训练 → 独立进程分析 → 成功后轮换旧checkpoint/HF导出 → 继续。分析失败保留现场并停止推进。
 
-## 10. 已验证范围与服务器最终交付
-
-本地已运行69项研究测试，以及此前11项OPD指标测试；CPU tiny GPT-2 的12个合成问题、2个权重状态已完成提取/缓存/报告。step1是参数扰动，不是训练。详情见 [VALIDATION_zh.md](docs/research/VALIDATION_zh.md)。
-
-**真实Qwen GPU训练、FSDP保存恢复、实际PEFT合并、Parquet写入、显存与耗时尚未在本机验证。** 本地缺少可用CUDA及多项生产依赖。因此服务器Codex需要实际做2-step验收，不能照抄本地测试通过就宣称200步已跑通。
-
-服务器完成或受阻时，按以下格式交付：
+分析进程独立不意味着训练worker显存已释放。分析载入当前模型，非step0另可载入初始模型；全回答分布使用KV cache和分块LM head，不缓存整条T×V分布。新显存/耗时以验收为准，不沿用旧256回答实验估算。
 
 ```text
-执行范围：OPSD only；GRPO未运行
-实际模型路径/revision/hash：
-实际数据文件/revision/hash及筛选数量：
-实际配置、代码版本、环境freeze路径：
-2-step验收：通过/失败，日志与产物路径
-正式训练：完成step / 200，最后完整checkpoint
-在线五项指标与forward-KL曲线路径：
-完成的分析step列表、失败/undefined指标及原因：
-表征/分布/行为数据表、图、manifest路径：
-训练耗时 / 分析耗时 / GPU及显存测量：
-未完成部分与具体错误：
+<workdir>/
+  config.json, models.json, design_manifest.json, environment.json
+  .session/                        # 后台控制与实际退出状态
+  shared/
+    preparation_audit/             # 筛选/答案隔离；失败也保留
+    generation_cache/, generation_progress.json
+    quality/baseline/              # quality及完整/失败回答
+    probe/
+      train.jsonl, validation.jsonl, heldout_probe.jsonl, train_probe.jsonl
+      baseline_live_rollouts.jsonl, fixed_pool.jsonl, probe_manifest.jsonl
+      manifest.json, complete.json
+  opsd/
+    training_config.json, analysis_config.json, initial_adapter.json
+    train/
+      metrics.jsonl, train.log, resolved_config.json, command.sh
+      hydra_preflight.log, rollout_schema_preflight.log
+      checkpoints/global_step_50/   # 正式完成后的最终完整checkpoint
+    jobs/, job_status/
+    analysis/
+      quality/step_XXXXXX/
+      steps/step_XXXXXX/
+        complete.json, run_manifest.json
+        metrics.jsonl, distributions.jsonl, curvature.jsonl, live_rollouts.jsonl
+        anchors.npz, anchors.json, rsm_*.npz, neighbors.npz
+        student_teacher_comparisons.json, student_teacher_neighbors.npz
+  grpo/training_config.json, grpo/analysis_config.json  # 设计预留，不代表训练
+  report/
+    metrics.csv, metrics.jsonl, *.png, report_manifest.json
+    OPSD_report.html                # 数据/JS/图库内嵌，单文件离线
 ```
+
+必须保留最终完整checkpoint，不能只有adapter或HTML。latest不保留全部历史权重，但保留各监测点分析表格/anchor。未来改变anchor/窗口/提取算法重算需预先另建retention=all实验或备份权重；已删除权重不能由anchor重建。
+
+## 10. 完成标准与HTML
+
+1. 任务completed且退出码0；不能只看PID/GPU占用。
+2. 实际训练到50，最终global_step_50完整可恢复。
+3. step0/1/5/10/20/50均有complete及有效产物hash。
+4. 两组新指标有正确field/role/pool/split/layer/anchor及n_valid；undefined不补0。
+5. 基线和各监测点heldout质量门槛通过，完整失败明细可审计。
+6. 有student_teacher_comparisons及邻居缓存，RSA按共同题ID配对。
+7. report/OPSD_report.html单文件离线可读，模型/实际step/指标可用性正确；不用旧step20报告交付新实验。
+8. 可以生成GRPO配置，但本轮没有GRPO训练日志/checkpoint。
+
+仅重画HTML无需GPU：
+
+```bash
+python -m analysis.html_report \
+  --run-dir "$OPSD_RUN_DIR" \
+  --output "$OPSD_RUN_DIR/report/OPSD_report.html"
+```
+
+HTML区分token主均值、逐题摘要、历史选点；概览按两组列13类指标及字段，区分代码支持与实测有值。正确率结合抽取/截断及样本量解释，RSA/CKA高不能证明推理机制或能力相同。
+
+## 11. 失败恢复
+
+源码/配置/模型/数据身份相同时可同目录重试，缓存与分析经hash检查复用。协议、指标算法、数据或模型改变后新建目录，不删complete或关闭身份校验硬续跑。
+
+```bash
+# RUN_ARGS保持第8节原参数。
+bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute
+# 已准备，仅恢复训练；后台运行，resume=auto。
+python -m scripts.research.compare train --workdir "$OPSD_RUN_DIR" --method opsd --execute
+# 只重试导出/分析，前台执行；step0必须先完成。
+python -m scripts.research.compare analyze --workdir "$OPSD_RUN_DIR" --method opsd
+# 完整重画表格、PNG与HTML。
+python -m scripts.research.compare report --workdir "$OPSD_RUN_DIR"
+```
+
+| 失败位置 | 排查依据 |
+|---|---|
+| import/CUDA/FlashAttention | 环境报告、ABI、真实kernel异常、本地verl导入路径 |
+| 合格题不足 | shared/preparation_audit/eligibility与隔离标签；特别检查teacher prompt2048排除量 |
+| 抽取门槛失败 | quality/.../quality.json、responses.jsonl、failed_responses.jsonl；区分编码、坏格式、截断 |
+| Hydra/Ray/vLLM | hydra_preflight、rollout_schema_preflight、train.log完整异常 |
+| 训练/分析OOM | 记录具体阶段、长度及并存进程；不静默改batch/n/长度或跳过指标 |
+| LoRA导出 | 保留checkpoint、alpha/r与失败目录；不把未合并的基座当新模型 |
+| HTML缺新指标 | 查实际每step metrics与role/aggregation/scope，重绘不能补算未测数据 |
+| 源码/probe不符 | 对照同步清单与旧运行身份；新建目录，不伪造完成标记 |
+
+仅在用户明确要求停止时执行`bash run_base_comparison.sh stop --workdir "$OPSD_RUN_DIR"`。退出日志查看不停止训练。到50步后入口复用最终checkpoint，不额外训练第51步。
+
+## 12. 代码入口与最终汇报
+
+| 文件 | 职责 |
+|---|---|
+| configs/analysis_deepmath.json、scripts/research/compare.py | 当前配置、OPSD默认选择和完整调度 |
+| analysis/prepare_probe.py、scripts/research/data.py | 筛选、隔离、分层划分与probe |
+| scripts/research/answer_protocol.py、verl/verl/utils/opsd.py | 统一提示/抽取/判分，特权上下文与token打包 |
+| scripts/research/launch.py | Hydra覆盖、LoRA/full-vocab forward KL、长度检查 |
+| verl/verl/workers/actor/dp_actor.py、fsdp_workers.py | 学生梯度前向、当前特权分支no-grad与更新 |
+| verl/verl/utils/opd_metrics.py、ray_trainer.py | 在线诊断、日志及保存/分析监测点 |
+| analysis/checkpoints.py | FSDP/LoRA导出、初始零B核验 |
+| analysis/extract.py、analysis/metrics/paired.py | anchor/曲率、初始比较和直接S_s/T_s比较 |
+| analysis/distributions.py、analysis/trajectory_distributions.py | 全回答全词表、token累加、同轨迹初始模型比较 |
+| analysis/evaluate.py | 完整live回答、质量门槛、可恢复缓存 |
+| analysis/report.py、analysis/html_report.py、analysis/report_template.html | 表格、图与离线HTML |
+
+本地已通过142项研究测试和11项原OPD指标测试，共153项，包括tiny GPT-2/Qwen3与HTML控件测试；没有运行本轮真实1.7B长上下文GPU实验。本地临时依赖目录不是服务器环境。
+
+最终汇报：真实命令/工作目录、源码清单校验、Python/pip/CUDA/GPU身份、模型/数据revision及hash、各split数量、实际完成步数、质量结果、两组新指标覆盖、最终checkpoint/HTML路径、prepare/训练/分析分别耗时及峰值显存。失败或未测明确标出，不只交一张图或“训练结束”。

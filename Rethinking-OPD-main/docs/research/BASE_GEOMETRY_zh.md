@@ -1,5 +1,9 @@
 # DeepMath × Qwen3-1.7B-Base：OPSD / GRPO 表征轨迹
 
+> 2026-10-27：已补充同一步学生与特权教师的直接RSA/CKA/kNN overlap，见[学生—教师几何](ST_GEOMETRY_zh.md)。默认每个监测点采集教师，独立role避免与初始模型比较混淆。
+
+> 2026-10-27：当前50步、答案协议v2、训练长度2048/16384。分布监测改为全回答token平均；详见[全回答指标](ALL_TOKEN_METRICS_zh.md)和[答案协议](ANSWER_PROTOCOL_zh.md)。下文未更新的200步/512长度为历史记录。
+
 > 2026-10-27 更新：用户已将当前实验总预算缩短为 **50 步**。默认新运行目录为 `research_runs/base_geometry_50`；正在运行的实验保留原目录及冻结分析配置，通过 `run_limits.json` 和显式续跑配置在第 50 步正常结束。下文 200 步预算为历史设计记录。
 
 更新：2026-10-26，Asia/Shanghai。以本轮用户明确要求为准，开发规范中“本轮不要求 RL 对照”扩展为 OPSD 与 GRPO 两组；其余按固定 probe、独立分析的设计实现。P0/P1 已实现，P2 的 Gride / ADP / ARI 未实现，配置启用会明确报错。没有加入几何正则，也不把平直化解释为能力提升。
@@ -59,7 +63,8 @@ step0 固定池的正确性属于生成源；不能当成后续 checkpoint 的�
 | `analysis/checkpoints.py` | 使用 vendored `verl.model_merger` 导出 FSDP；临时目录合并真实 alpha 的 LoRA，成功后原子发布，不写训练 checkpoint |
 | `analysis/extract.py` | eval + inference_mode，完整 block 输出 hook、anchor、曲率在线归约、逐 checkpoint manifest |
 | `analysis/metrics/{rsa,trajectory,neighbors,spectrum}.py` | RSA / 配对相关、曲率、原始 Euclidean kNN、参与率与 CKA |
-| `analysis/distributions.py` | 小型固定状态集合的全词表 T=1 entropy / KL / top-k 概率质量；NLL 正确 causal shift |
+| `analysis/trajectory_distributions.py` | fixed/live全回答分块评分、同轨迹初始模型比较，KV cache控制中间显存 |
+| `analysis/distributions.py` | 全部有效回答位置的全词表T=1 entropy、双向KL、top-k overlap/OTA与token累加；NLL正确causal shift |
 | `analysis/evaluate.py` | live rollout、与训练共享的答案抽取和等价判断、行为指标 |
 | `analysis/report.py` | 只读缓存重画图、汇总 CSV / JSONL / Parquet，不加载模型 |
 
@@ -72,19 +77,20 @@ hook 路径与实际维度均写 manifest；Qwen 的路径为 `model.layers.<0-b
 | 指标 | 实现口径 |
 |---|---|
 | RSM | 原始向量归一化后的跨题目余弦矩阵；统计仅取严格上三角，保存直方图、固定排序、无效零向量 ID；topic 少于两类时 topic 统计 undefined |
+| 学生—教师直接比较 | 同一checkpoint、固定题目/回答、同层anchor，联合有效题集上的RSA/CKA/Euclidean kNN overlap；独立role=student_vs_privileged_teacher |
 | RSA rho / RMSE | 与 step0 相同题 ID、层、pool、anchor 比较；Spearman 常量无定义，固定 pair 抽样 seed / n_pairs 可追溯 |
 | 曲率 | response 内连续非 special tokens，先转 float32 再作差；夹角单位 degrees，零步长 invalid；先题内后题间平均 |
 | relative-to-first / training delta | 首 block 为参考，按跨层和 step0 共同有限题集配对；同时输出 absolute C、D、TrainDeltaC、D_min、layer_star 和 N |
 | kNN overlap | 原始 H 上 Euclidean k=8/16/32，排除自身，距离并列按 sample_id 排序；N<=k 为 undefined，保存 indices、距离、逐题 overlap 和机会水平 |
 | PR / CKA | 中心化参与率与 Gram 形式 linear CKA；常数表示 undefined，不称 Gride / intrinsic dimension |
 | NLL / surprisal | 固定 response 的真实 target，bits/token；同时有逐层曲率与当前、step0 surprisal 的 Pearson 相关 |
-| 固定状态分布 | 默认预测 response 第 1/32/128 个 token 的位置，完整词表、T=1，题内状态平均后题目平均 |
-| 固定状态 KL | `KL(student || privileged_current_policy)` 和 `KL(student || initial_student)`，是监测方向；不替换训练中的前向 KL |
-| 固定状态词表 overlap | k=10/50/100，同时记录双方 shared probability mass；与在线训练 k=16、题目 kNN k=16 是三件不同的事 |
+| 固定状态分布 | fixed/live的全部有效回答预测位置，全词表T=1，跨题按有效token加权 |
+| 固定状态 KL | 双向student/privileged-current-policy KL，另记录当前/初始学生在同一轨迹上的KL；不替换训练前向KL |
+| 固定状态词表 overlap | 主k=16，额外10/50/100；记录overlap/OTA/共享概率质量/空交集率。与题目kNN的k独立 |
 
 GRPO 的 privileged-current-policy 是**额外诊断条件**，不是训练教师，字段 `teacher_role=diagnostic_privileged_policy`。OPSD 监测使用 checkpoint 的当前参数加 reference；训练在线诊断在更新之前，离线 step_s 几何在更新之后。两者不能不加说明地认为是完全相同参数状态。
 
-固定 pool 才计算训练前后的主几何变化；live 曲率单独报告，不把变化的文本当成固定文本做跨 step RSA 或 training delta。teacher 几何默认只在 0/20/100/200 计算，独立 role、独立矩阵。
+固定 pool 才计算训练前后的主几何变化；live 曲率单独报告，不把变化的文本当成固定文本做跨 step RSA 或 training delta。默认开启直接学生—教师比较，每个监测点均采集教师几何，独立role、独立矩阵。
 
 ```text
 <workdir>/

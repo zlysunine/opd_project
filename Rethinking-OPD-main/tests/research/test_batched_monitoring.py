@@ -111,9 +111,10 @@ class PreparationReuseTests(unittest.TestCase):
                                                for i in range(4)])
         write_jsonl(data/'eligible.jsonl', [])
         write_jsonl(data/'duplicates.jsonl', [])
+        write_jsonl(data/'answer_encoding_quarantine.jsonl', [])
         write_json(data/'eligible.jsonl.manifest.json', {})
         for name in ('analysis/prepare_probe.py', 'analysis/evaluate.py', 'scripts/research/data.py',
-                     'verl/verl/utils/opsd.py', 'scripts/val/eval/utils.py'):
+                     'verl/verl/utils/opsd.py', 'scripts/val/eval/utils.py','scripts/research/answer_protocol.py'):
             dest = backup/'source'/name
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT/name, dest)

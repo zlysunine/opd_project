@@ -159,10 +159,12 @@ class GeometryTests(unittest.TestCase):
 
     def test_base_prompt_and_both_method_objectives(self):
         messages=opsd.plain_messages('Q?')
-        self.assertEqual(messages[0]['content'],'Problem:\nQ?\n\nSolution:\n')
+        self.assertTrue(messages[0]['content'].startswith('Problem:\nQ?\n'))
+        self.assertIn('Final answer: \\boxed{YOUR_ANSWER}',messages[0]['content'])
+        original=messages[0]['content']
         q=opsd.privileged_messages(messages,'R','plain_completion')
-        self.assertEqual(q[0]['content'],'Reference information:\nR\n\nProblem:\nQ?\n\nSolution:\n')
-        self.assertEqual(messages[0]['content'],'Problem:\nQ?\n\nSolution:\n')
+        self.assertEqual(q[0]['content'],'Reference information:\nR\n\n'+original)
+        self.assertEqual(messages[0]['content'],original)
         c=resolve(ROOT/'configs/research/base_geometry.json')
         validate_experiment(c)
         opts=hydra_options(c,Path('/tmp/fixture'),'BASE')
@@ -225,13 +227,14 @@ class GeometryTests(unittest.TestCase):
             c.update(workdir=str(root/'run'),output_root=str(root/'run/shared'))
             c['model'].update(path=str(base),revision='tiny_fixture',device='cpu',dtype='float32')
             c['dataset'].update(input=str(native),revision='synthetic_fixture',train_n=8,dev_n=2)
-            c['training'].update(steps=1)
+            c['training'].update(steps=1,max_response_length=4)
             c['monitor'].update(heldout_probe_n=2,train_probe_n=2,optimizer_steps=[0,1],
+                                behavior_max_response_tokens=4,quality_gate={'enabled':False},
                                 max_probe_response_tokens=4,anchors=['prompt_last','response_3'])
             write_json(Path(c['workdir'])/'models.json',{'qwen3_1p7b_base':dict(path=str(base),revision='fixture',model_id='TINY_FIXTURE')})
             # Only answer-equivalence is replaced by the exact synthetic integer
             # verifier. Data adaptation, tokenization, generation and freeze are real.
-            checker=lambda text,gt,benchmark,truncated=False:answer_status(text,gt,'controlled_modular',truncated)
+            checker=lambda text,gt,benchmark,truncated=False,**kwargs:answer_status(text,gt,'controlled_modular',truncated)
             with patch('analysis.prepare_probe.answer_status',checker),patch('analysis.evaluate.answer_status',checker):
                 probe=prepare_comparison(c)
                 self.assertEqual(freeze(c),probe)
@@ -324,7 +327,10 @@ class GeometryTests(unittest.TestCase):
         changes=[('model','name_or_path','Qwen/Qwen3-1.7B'),
                  ('model','prompt_mode','chat'),('training','teacher_update_policy','frozen_initial'),
                  ('training','loss_type','reverse_kl'),('monitor','heavy_metrics',['gride']),
-                 ('monitor','knn_k',[0]),('monitor','anchors',['response_0']),('training','steps',0)]
+                 ('monitor','knn_k',[0]),('monitor','anchors',['response_0']),('training','steps',0),
+                 ('monitor','distribution_positions',[1,32,128]),('monitor','distribution_scope','selected'),
+                 ('monitor','state_chunk_size',False),('monitor','distribution_forward_chunk_size',0),
+                 ('monitor','compare_student_teacher','true')]
         with tempfile.TemporaryDirectory() as tmp:
             path=Path(tmp)/'config.json'
             write_json(path,original)

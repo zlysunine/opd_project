@@ -111,16 +111,12 @@ def controlled_dataset(out, count=64, seed=42, modulus=11, steps=3):
     return rows
 
 
-def verify(text, ground_truth, benchmark='controlled_modular'):
+def verify(text, ground_truth, benchmark='controlled_modular', extra_info=None):
     if benchmark == 'controlled_modular':
         answers = re.findall(r'\\boxed\{\s*([-+]?\d+)\s*\}', text)
         return bool(answers) and int(answers[-1]) == int(ground_truth)
-    # Reuse the repository math verifier without importing grade.py (loads a model at import).
-    module_dir = ROOT / 'scripts/val/eval'
-    if str(module_dir) not in sys.path:
-        sys.path.insert(0, str(module_dir))
-    from utils import grade_answer_verl
-    return bool(grade_answer_verl(text, ground_truth))
+    from .answer_protocol import evaluate_answer
+    return evaluate_answer(text, ground_truth, row=extra_info)['correct']
 
 
 def reference_intersection(paths, output_dir, correct_only=False):

@@ -85,6 +85,8 @@ class ComparisonSelectionTests(unittest.TestCase):
             self.assertEqual(plan['methods'],['opsd'])
             self.assertEqual(plan['monitor_steps'],[0,1,5,10,20,50])
             c=json.loads((root/'run/config.json').read_text())
+            self.assertTrue(c['monitor']['compare_student_teacher'])
+            self.assertEqual(c['monitor']['teacher_geometry_steps'],c['monitor']['optimizer_steps'])
             for key in ('optimizer_steps','teacher_geometry_steps','plot_full_rsm_steps'):
                 self.assertIn(50,c['monitor'][key])
                 self.assertLessEqual(max(c['monitor'][key]),50)
@@ -95,7 +97,7 @@ class ComparisonSelectionTests(unittest.TestCase):
             options=hydra_options(profile,root/'plan','BASE')
             self.assertEqual(options['trainer.total_training_steps'],50)
             parsed=compare.parser().parse_args(['run',*RUN_ARGS])
-            self.assertEqual(parsed.workdir,'research_runs/base_geometry_50')
+            self.assertEqual(parsed.workdir,'research_runs/base_geometry_50_answer_v2_full_tokens_paired')
 
 
 if __name__=='__main__':

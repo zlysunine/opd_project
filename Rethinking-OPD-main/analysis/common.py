@@ -48,6 +48,9 @@ def csv_table(path, rows):
 
 def load_config(path):
     c = json.loads(Path(path).read_text())
+    from scripts.research.answer_protocol import VERSION
+    if c['dataset'].get('answer_protocol',VERSION)!=VERSION:
+        raise ValueError('Unsupported answer protocol; do not reuse another protocol configuration')
     batch_size = c['monitor'].get('generation_batch_size', 1)
     if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
         raise ValueError('monitor.generation_batch_size must be a positive integer')
@@ -61,7 +64,35 @@ def load_config(path):
     if c['monitor'].get('heavy_metrics'):
         raise ValueError('Gride/ADP/ARI are not implemented; leave heavy_metrics empty')
     monitor=c['monitor']
-    for field in ('knn_k','distribution_positions','token_top_ks'):
+    for field in ('max_probe_response_tokens','behavior_max_response_tokens'):
+        value=monitor.get(field,monitor['max_probe_response_tokens'])
+        if isinstance(value,bool) or not isinstance(value,int) or value<1:
+            raise ValueError(f'monitor.{field} must be a positive integer')
+    gate=monitor.get('quality_gate',{})
+    if not isinstance(gate,dict) or not isinstance(gate.get('enabled',False),bool):
+        raise ValueError('quality_gate must specify a boolean enabled flag')
+    if gate.get('enabled',False):
+        limit=gate.get('max_extraction_failure_rate',.01)
+        if isinstance(limit,bool) or not isinstance(limit,(int,float)) or not np.isfinite(limit) or not 0<=limit<=1:
+            raise ValueError('Quality failure-rate limit must be finite and in [0,1]')
+        if not monitor.get('live_generation',True):
+            raise ValueError('Quality gate requires live_generation')
+        splits=gate.get('splits',['heldout_probe'])
+        if not isinstance(splits,list) or not splits or any(s not in ('heldout_probe','train_probe') for s in splits):
+            raise ValueError('Quality gate requires explicit nonempty probe splits')
+    if 'distribution_positions' in monitor:
+        raise ValueError('distribution_positions is obsolete; use distribution_scope=all_valid_tokens')
+    if monitor.get('distribution_scope','all_valid_tokens')!='all_valid_tokens':
+        raise ValueError('Paper-compatible distributions require all_valid_tokens')
+    if not isinstance(monitor.get('compare_to_initial',True),bool):
+        raise ValueError('compare_to_initial must be a boolean')
+    if not isinstance(monitor.get('compare_student_teacher',False),bool):
+        raise ValueError('compare_student_teacher must be a boolean')
+    for field in ('overlap_top_k','distribution_prefill_chunk_size','distribution_forward_chunk_size','state_chunk_size'):
+        value=monitor.get(field,16 if field in ('overlap_top_k','state_chunk_size') else 256)
+        if isinstance(value,bool) or not isinstance(value,int) or value<1:
+            raise ValueError(f'monitor.{field} must be a positive integer')
+    for field in ('knn_k','token_top_ks'):
         if any(not isinstance(v,int) or isinstance(v,bool) or v<1 for v in monitor[field]):
             raise ValueError(f'{field} must contain positive integers')
     if any(a!='prompt_last' and not re.fullmatch(r'response_[1-9][0-9]*',a) for a in monitor['anchors']):
@@ -95,7 +126,11 @@ def config_argument(description):
 
 
 def source_hashes():
-    return {str(p.relative_to(ROOT)): file_hash(p) for p in sorted((ROOT/'analysis').rglob('*.py'))}
+    paths=list((ROOT/'analysis').rglob('*.py'))
+    paths += [ROOT/'scripts/research/answer_protocol.py',ROOT/'scripts/val/eval/utils.py',
+              ROOT/'scripts/research/models.py',ROOT/'scripts/research/data.py',ROOT/'scripts/research/reward.py',
+              ROOT/'configs/research/plain_completion.jinja',ROOT/'verl/verl/utils/opsd.py']
+    return {str(p.relative_to(ROOT)): file_hash(p) for p in sorted(paths)}
 
 
 def step_dir(c, step):

@@ -149,6 +149,11 @@ def report(run_dir):
     write_json(output/'report_manifest.json',dict(source_steps=[str(s) for s in steps],plots=plots,
                probe_manifest_hash=next(iter(hashes)),
                interpretation='Fixed-pool geometry and live behavior are separate. Geometry changes do not establish better mathematical ability.'))
+    from .html_report import build
+    html,payload=build(root,output/'OPSD_report.html')
+    manifest=json.loads((output/'report_manifest.json').read_text())
+    manifest.update(html=html.name,html_standalone=True,html_metrics=len(payload['metrics']))
+    write_json(output/'report_manifest.json',manifest)
     return output
 
 

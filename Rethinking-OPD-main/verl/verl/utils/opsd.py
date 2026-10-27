@@ -20,13 +20,14 @@ import copy
 
 import torch
 from torch.utils.checkpoint import checkpoint
+from scripts.research.answer_protocol import build_student_prompt
 
 PRIVILEGE_TEMPLATE = "\n\nReference information (possibly empty):\n{reference}\nSolve the original question using any useful information above."
 
 
 def plain_messages(question):
     """Base continuation protocol, shared by training and independent probes."""
-    return [{"role": "user", "content": f"Problem:\n{question}\n\nSolution:\n"}]
+    return [{"role": "user", "content": build_student_prompt(question)}]
 
 
 def privileged_messages(messages, reference, prompt_mode="chat"):

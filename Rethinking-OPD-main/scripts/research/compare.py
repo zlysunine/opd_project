@@ -110,6 +110,18 @@ def prepare(c):
 def train(c,method,execute):
     root=Path(c['workdir'])
     current=json.loads((root/method/'training_config.json').read_text())
+    if execute and c.get('monitor',{}).get('quality_gate',{}).get('enabled',False):
+        from analysis.evaluate import enforce_quality
+        from .common import read_jsonl
+        probe=root/'shared/probe'
+        marker=json.loads((probe/'complete.json').read_text())
+        from analysis.common import source_hashes
+        if marker['identity']['sources']!=source_hashes():
+            raise ValueError('Prepared answer protocol or analysis sources changed; use a new run')
+        baseline=probe/'baseline_live_rollouts.jsonl'
+        if marker['files'].get(baseline.name)!=file_hash(baseline):
+            raise ValueError('Baseline quality receipt missing or changed; prepare a new answer-v2 run')
+        enforce_quality(read_jsonl(baseline),c['monitor'],root/'shared/quality/baseline')
     tracker=root/method/'train/checkpoints/latest_checkpointed_iteration.txt'
     if execute and tracker.is_file() and int(tracker.read_text().strip())>=current['steps']:
         from .pipeline import checkpoint_actor
@@ -176,7 +188,7 @@ def parser():
     sub=p.add_subparsers(dest='stage',required=True)
     for stage in ('configure','prepare','train','analyze','report','run'):
         s=sub.add_parser(stage)
-        s.add_argument('--workdir',default='research_runs/base_geometry_50')
+        s.add_argument('--workdir',default='research_runs/base_geometry_50_answer_v2_full_tokens_paired')
         if stage in ('configure','run'):
             s.add_argument('--config',default=str(ROOT/'configs/analysis_deepmath.json'))
             s.add_argument('--model-dir',required=True)

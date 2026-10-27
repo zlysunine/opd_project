@@ -1,8 +1,18 @@
 # OPD / OPSD / SFT / GRPO 研究管线
 
+**2026-10-28服务器重跑：** 以重写的[服务器交接](../../PILOT_HANDOFF_zh.md)为执行依据，先校验`SERVER_HANDOFF_MANIFEST.json`，再做独立2步工程验收和50步正式运行。旧版交接已归档，不再复制旧200/500步命令。
+
+**2026-10-27 指标清单与HTML：** 按“当前学生—初始学生”和“当前学生—当前教师”梳理记录项，并区分单模型统计。报告流程自动生成单文件离线HTML，涵盖新旧统计口径、直接RSA/CKA、曲线、热图与RSM图库。见[实验指标清单与完整HTML](METRIC_RECORDING_zh.md)。
+
+**2026-10-27 学生—教师直接表征比较：** 默认在0/1/5/10/20/50步计算固定题集上同一checkpoint的RSA、CKA、kNN overlap，独立role为`student_vs_privileged_teacher`，同时保留与step0的比较。实现、输出字段和运行方法见[学生—教师几何指标](ST_GEOMETRY_zh.md)。
+
+**2026-10-27 分布统计修正：** 离线fixed/live对全部有效回答位置计算全词表熵，按token加权；同步记录top-16 overlap/OTA、双向KL和当前/初始同轨迹比较。1/32/128分布选点已移除，几何anchor保留。见[全回答指标说明](ALL_TOKEN_METRICS_zh.md)。
+
+**2026-10-27 当前答案协议为v2：** 统一Base提示、抽取与判分，隔离不明A/True映射；行为评测16384 tokens、几何窗口256、heldout抽取失败率门槛1%。默认50步、新目录`research_runs/base_geometry_50_answer_v2_full_tokens_paired`，用户设置的训练长度2048/16384保留。先读[答案协议与运行说明](ANSWER_PROTOCOL_zh.md)。下文200步等数字保留为历史设计，不能替代当前配置。
+
 **2026-10-26 本轮主入口：Qwen3-1.7B-Base 的 OPSD / GRPO 表征轨迹比较。** 开发与运行说明见 [BASE_GEOMETRY_zh.md](BASE_GEOMETRY_zh.md)，一键脚本 `run_base_comparison.sh`，配置 `configs/analysis_deepmath.json`。保持 LoRA/前向 KL/current-batch self-teacher，同时独立记录 RSA、曲率、kNN、参与率、固定状态分布和 live 行为。两组共享数据及固定 probe。以下保留既有 non-thinking 和其他研究接口；不要将它们的模型起点与本轮 Base 混用。
 
-**当前先跑 OPSD，共200个optimizer step。** 一键脚本及 `compare run/train/analyze` 默认 `--method opsd`：记录 OPSD 在线指标、分析 checkpoint 表征并生成报告。GRPO 的设计、配置和训练接口均保留，只有显式传入 `--method grpo` 或 `--method both` 才执行。
+**当前先跑 OPSD，共50个optimizer step。** 一键脚本及 `compare run/train/analyze` 默认 `--method opsd`：记录 OPSD 在线指标、分析 checkpoint 表征并生成报告。GRPO 的设计、配置和训练接口均保留，只有显式传入 `--method grpo` 或 `--method both` 才执行。
 
 本交付扩展现有训练设施。2026-10-26 按用户要求，实验一改为 LoRA 和全词表前向 KL；没有加入表征蒸馏、PreSO 或额外正则。生产训练复用本仓库 verl / LLaMA-Factory；CPU tiny smoke 仅测试连接与不变量。审计、原论文设置和代码差异见 [AUDIT_zh.md](AUDIT_zh.md)，指标定义见 [METRICS_zh.md](METRICS_zh.md)，验收记录见 [VALIDATION_zh.md](VALIDATION_zh.md)。
 

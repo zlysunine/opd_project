@@ -12,9 +12,11 @@ import torch
 from scripts.research.common import checkpoint_identity, digest, file_hash, read_jsonl, write_json
 from scripts.research.models import Model
 from .common import config_argument, finite_mean, load_config, source_hashes, step_dir, table
-from .distributions import distribution_metrics, nll_bits, selected_log_probs
-from .evaluate import behavior, rollout_many
+from .distributions import nll_bits
+from .trajectory_distributions import trajectory_metrics
+from .evaluate import behavior, rollout_many, enforce_quality
 from .metrics.neighbors import knn, neighbor_overlap
+from .metrics.paired import summarize_student_teacher
 from .metrics.rsa import align_rows, cosine_rsm, rsa_to_initial, rsm_summary
 from .metrics.spectrum import linear_cka, spectrum
 from .metrics.trajectory import curvature, paired_difference, pearson
@@ -90,7 +92,11 @@ def extract(c, checkpoint, revision, step, model=None):
     for name, expected in frozen['files'].items():
         if file_hash(probe/name) != expected:
             raise ValueError(f'Frozen probe changed: {name}')
-    identity = dict(checkpoint_hash=checkpoint_identity(checkpoint), checkpoint_revision=revision,
+    initial_hash=checkpoint_identity(c['model']['path'])
+    if frozen['identity'].get('checkpoint_hash',initial_hash)!=initial_hash:
+        raise ValueError('Initial policy weights differ from the frozen probe identity')
+    identity = dict(checkpoint_hash=checkpoint_identity(checkpoint), initial_checkpoint_hash=initial_hash,
+                    checkpoint_revision=revision,
                     config_hash=digest(c), sources=source_hashes(), probe_manifest_hash=frozen['probe_manifest_hash'], step=step)
     target = step_dir(c, step)
     if (target/'complete.json').exists():
@@ -118,6 +124,17 @@ def extract(c, checkpoint, revision, step, model=None):
     if architecture is not None and architecture!=actual:
         raise ValueError('Checkpoint architecture differs from the frozen initial model')
     monitor = c['monitor']
+    initial_model=None
+    if monitor.get('distribution_metrics',True) and monitor.get('compare_to_initial',True):
+        if step==0:
+            if identity['checkpoint_hash']!=initial_hash:
+                raise ValueError('Step0 distribution baseline must use the archived initial policy')
+            initial_model=model
+        else:
+            initial_model=Model(c['model']['path'],c['model']['revision'],device=c['model']['device'],
+                                dtype=c['model']['dtype'],prompt_mode='plain_completion')
+        if initial_model.identity['tokenizer_hash']!=model.identity['tokenizer_hash']:
+            raise ValueError('Initial/current distribution tokenizers must be identical')
     fixed = read_jsonl(probe/'fixed_pool.jsonl')
     if monitor.get('additional_fixed_reference'):
         fixed += read_jsonl(probe/'fixed_reference.jsonl')
@@ -129,9 +146,13 @@ def extract(c, checkpoint, revision, step, model=None):
     with tempfile.TemporaryDirectory(prefix=f'.step-{step}-', dir=target.parent) as tmp, torch.inference_mode():
         out = Path(tmp)
         if monitor.get('live_generation', True):
-            live = rollout_many(model, read_jsonl(probe/'heldout_probe.jsonl')+read_jsonl(probe/'train_probe.jsonl'),
-                                monitor, 'live_rollout', step,
-                                root/'generation_cache'/f'step_{step:06d}', root/'generation_progress.json')
+            if step == 0 and (probe/'baseline_live_rollouts.jsonl').is_file():
+                live = read_jsonl(probe/'baseline_live_rollouts.jsonl')
+            else:
+                live = rollout_many(model, read_jsonl(probe/'heldout_probe.jsonl')+read_jsonl(probe/'train_probe.jsonl'),
+                                    monitor, 'live_rollout', step,
+                                    root/'generation_cache'/f'step_{step:06d}', root/'generation_progress.json')
+            enforce_quality(live,monitor,root/'quality'/f'step_{step:06d}')
         table(out/'live_rollouts', live, 'jsonl')
         arrays, metadata, curve_rows, dist_rows, metric_rows = {}, {}, [], [], []
         groups = defaultdict(list)
@@ -159,7 +180,9 @@ def extract(c, checkpoint, revision, step, model=None):
             for layer, values in curves.items():
                 curve_rows.append({**base_meta, 'problem_id':row['problem_id'], 'split':row['split'],
                                    'pool':row['pool'], 'role':role, 'layer':layer, 'module_path':f'{module_path}.{layer-1}',
-                                   'response_length':len(row['response_ids']), 'surprisal_bits':bits,
+                                   'response_length':min(len(row['response_ids']),monitor['max_probe_response_tokens']),
+                                   'geometry_window_clipped':len(row['response_ids'])>monitor['max_probe_response_tokens'],
+                                   'surprisal_bits':bits,
                                    **{k:v for k,v in values.items() if k!='angles_deg'}})
         for row in fixed+live:
             response = row['response_ids'][:monitor['max_probe_response_tokens']]
@@ -168,37 +191,18 @@ def extract(c, checkpoint, revision, step, model=None):
             anchors, curves, hidden, pos, path = collect(model, row['prompt_ids'], response, monitor)
             bits = nll_bits(model.model, hidden, response, pos['predictions'].tolist(), monitor['state_chunk_size'])
             store_geometry(row, 'student', anchors, curves, path, bits)
-            if not monitor.get('distribution_metrics', True) or row['pool']=='live_rollout':
-                del hidden
-                continue
-            states = [p for p in monitor['distribution_positions'] if 1 <= p <= len(response)]
-            logp = selected_log_probs(model.model, hidden, [int(pos['predictions'][p-1]) for p in states], monitor['state_chunk_size'])
             del hidden
-            teacher_prompt = model.prompt(row, True)
-            teacher_geometry = step in monitor.get('teacher_geometry_steps', []) and c.get('method')=='opsd'
-            ta, tc, th, tp, tpath = collect(model, teacher_prompt, response, monitor, teacher_geometry)
-            logq = selected_log_probs(model.model, th, [int(tp['predictions'][p-1]) for p in states], monitor['state_chunk_size'])
+            if monitor.get('distribution_metrics',True):
+                values=trajectory_metrics(model,row,monitor,initial_model)
+                dist_rows.append({**base_meta,'pool':row['pool'],'split':row['split'],
+                                  'problem_id':row['problem_id'],**values})
+            teacher_geometry = (row['pool']!='live_rollout' and c.get('method')=='opsd'
+                                and (monitor.get('compare_student_teacher',False)
+                                     or step in monitor.get('teacher_geometry_steps', [])))
             if teacher_geometry:
+                ta,tc,th,tp,tpath=collect(model,model.prompt(row,True),response,monitor,True)
                 store_geometry(row, 'privileged_teacher', ta, tc, tpath, np.nan)
-            del th
-            # Only a tiny fixed state set is cached, never all response logits. Full vocab is preserved.
-            initial_cache = step_dir(c,0)/'initial_log_probs'/f"{row['pool']}__{row['split']}__{row['problem_id']}.npz"
-            if step == 0:
-                cache = out/'initial_log_probs'/initial_cache.name
-                cache.parent.mkdir(exist_ok=True)
-                np.savez_compressed(cache, logp=logp, positions=np.asarray(states), response_hash=digest(response))
-                initial = logp
-            else:
-                with np.load(initial_cache, allow_pickle=False) as cache:
-                    if cache['positions'].tolist()!=states or str(cache['response_hash'])!=digest(response):
-                        raise ValueError('Initial distribution states differ from current fixed pool')
-                    initial = cache['logp']
-            for j, position in enumerate(states):
-                values = distribution_metrics(logp[j], logq[j], initial[j], monitor['token_top_ks'])
-                dist_rows.append({**base_meta, 'pool':row['pool'], 'split':row['split'],
-                                  'problem_id':row['problem_id'], 'response_position':position, 'temperature':1.,
-                                  'student_prediction_index':int(pos['predictions'][position-1]),
-                                  'teacher_prediction_index':int(tp['predictions'][position-1]), **values})
+                del th
         initial_arrays = np.load(step_dir(c,0)/'anchors.npz', allow_pickle=False) if step else None
         initial_meta = json.loads((step_dir(c,0)/'anchors.json').read_text()) if step else None
         neighbors = {}
@@ -252,23 +256,17 @@ def extract(c, checkpoint, revision, step, model=None):
                              chance_level=k/(len(ids)-1))
         if initial_arrays is not None:
             initial_arrays.close()
+        if monitor.get('compare_student_teacher',False) and c.get('method')=='opsd':
+            cohorts=[(pool,split,layer,anchor) for role,pool,split in groups if role=='student'
+                     for layer in range(1,len(model.layers())+1) for anchor in monitor['anchors']]
+            paired_manifest,paired_neighbors=summarize_student_teacher(arrays,metadata,monitor,emit,cohorts)
+            write_json(out/'student_teacher_comparisons.json',paired_manifest)
+            np.savez_compressed(out/'student_teacher_neighbors.npz',**paired_neighbors)
         np.savez_compressed(out/'anchors.npz', **arrays)
         write_json(out/'anchors.json',metadata)
         np.savez_compressed(out/'neighbors.npz', **neighbors)
         summarize_curvature(curve_rows, step_dir(c,0)/'curvature.jsonl' if step else None, emit)
-        # Each question has equal weight; multiple selected states never bias toward longer responses.
-        dgroups = defaultdict(list)
-        for row in dist_rows:
-            dgroups[(row['pool'],row['split'])].append(row)
-        for (pool,split), rows in dgroups.items():
-            keys = set(rows[0])-set(base_meta)-{'pool','split','problem_id','response_position','temperature',
-                                               'student_prediction_index','teacher_prediction_index'}
-            for name in keys:
-                per_question = defaultdict(list)
-                for row in rows:
-                    per_question[row['problem_id']].append(row.get(name))
-                avg,n = finite_mean([finite_mean(v)[0] for v in per_question.values()])
-                emit(name,avg,n,pool,split,temperature=1.,diagnostic_kl_direction='student||target')
+        summarize_distributions(dist_rows,emit)
         for split in ('heldout_probe','train_probe'):
             rows = [r for r in live if r['split']==split]
             for name,value in behavior(rows).items():
@@ -291,6 +289,22 @@ def extract(c, checkpoint, revision, step, model=None):
         write_json(out/'complete.json',dict(identity=identity, files=files))
         out.rename(target)
     return target
+
+
+def summarize_distributions(rows,emit):
+    """Paper-compatible token means; keep fixed/live and train/heldout separate."""
+    groups=defaultdict(list)
+    for row in rows:
+        groups[(row['pool'],row['split'])].append(row)
+    for (pool,split), records in groups.items():
+        keys=set().union(*(r['metric_sums'] for r in records))
+        for name in sorted(keys):
+            total=sum(r['metric_sums'].get(name,0.) for r in records)
+            n=sum(r['metric_token_counts'].get(name,0) for r in records)
+            emit(name,total/n if n else None,n,pool,split,temperature=1.,
+                 n_questions=sum(r['metric_token_counts'].get(name,0)>0 for r in records),
+                 aggregation='token_mean',distribution_scope='all_valid_tokens',
+                 diagnostic_kl_direction='metric_name_specifies_direction')
 
 
 def summarize_curvature(rows, initial_path, emit):
