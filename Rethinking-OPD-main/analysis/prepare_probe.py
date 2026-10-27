@@ -11,7 +11,7 @@ from scripts.research.common import checkpoint_identity, digest, file_hash, opsd
 from scripts.research.data import load_questions, prepare_deepmath
 from scripts.research.models import Model
 from .common import config_argument, load_config, source_hashes
-from .evaluate import answer_status, rollout
+from .evaluate import answer_status, rollout_many
 
 
 def normalized_question(text):
@@ -94,44 +94,48 @@ def freeze(c, model=None):
                       dtype=c['model']['dtype'], prompt_mode='plain_completion')
     with tempfile.TemporaryDirectory(prefix='.probe-', dir=root.parent) as tmp:
         out = Path(tmp)
-        native = load_questions(c['dataset']['input'],require_unique=False)
-        # Native duplicate problem IDs are made unique BEFORE the adapter's ID
-        # assertion; normalized question hash below is the actual split identity.
-        native = [{**r,'source_problem_id':r['problem_id'],'problem_id':f"{r['problem_id']}__row{i}"}
-                  for i,r in enumerate(native)]
-        rows = prepare_deepmath(native, out/'eligible.jsonl', c['dataset']['revision'],
-                                c['dataset']['difficulty_min'], c['dataset']['difficulty_max'],
-                                solution_field=c['dataset']['reference_field'], tokenizer=model.tokenizer)
-        accepted, checks = [], []
-        for row in rows:
-            reference = answer_status(row['privilege_text'], row['ground_truth'], row['benchmark'])
-            row = {**row, 'reference_correctness':reference['correct'], 'messages':opsd.plain_messages(row['question'])}
-            p, q = model.prompt(row), model.prompt(row, True)
-            reason = None
-            if c['dataset'].get('require_verified_reference', True) and not reference['correct']:
-                reason = 'reference_final_answer_not_verified'
-            elif len(p) > c['training']['max_prompt_length'] or len(q) > c['training']['max_teacher_prompt_length']:
-                reason = 'overlong_prompt'
-            elif max(len(p), len(q))+c['training']['max_response_length'] > model.model.config.max_position_embeddings:
-                reason = 'context_limit'
-            checks.append(dict(problem_id=row['problem_id'], reference_verified=reference['correct'],
-                               student_tokens=len(p), teacher_tokens=len(q), exclusion_reason=reason))
-            if reason is None:
-                accepted.append(row)
-        splits, duplicates = split_rows(accepted, c)
-        write_jsonl(out/'eligibility.jsonl', checks)
-        write_jsonl(out/'duplicates.jsonl', duplicates)
-        for name, values in splits.items():
-            write_jsonl(out/f'{name}.jsonl', values)
+        from scripts.research.preparation_cache import restore
+        cached = restore(c, out)
+        if cached is not None:
+            splits, duplicates = cached
+        else:
+            native = load_questions(c['dataset']['input'],require_unique=False)
+            # Native duplicate problem IDs are made unique BEFORE the adapter's ID
+            # assertion; normalized question hash below is the actual split identity.
+            native = [{**r,'source_problem_id':r['problem_id'],'problem_id':f"{r['problem_id']}__row{i}"}
+                      for i,r in enumerate(native)]
+            rows = prepare_deepmath(native, out/'eligible.jsonl', c['dataset']['revision'],
+                                    c['dataset']['difficulty_min'], c['dataset']['difficulty_max'],
+                                    solution_field=c['dataset']['reference_field'], tokenizer=model.tokenizer)
+            accepted, checks = [], []
+            for row in rows:
+                reference = answer_status(row['privilege_text'], row['ground_truth'], row['benchmark'])
+                row = {**row, 'reference_correctness':reference['correct'], 'messages':opsd.plain_messages(row['question'])}
+                p, q = model.prompt(row), model.prompt(row, True)
+                reason = None
+                if c['dataset'].get('require_verified_reference', True) and not reference['correct']:
+                    reason = 'reference_final_answer_not_verified'
+                elif len(p) > c['training']['max_prompt_length'] or len(q) > c['training']['max_teacher_prompt_length']:
+                    reason = 'overlong_prompt'
+                elif max(len(p), len(q))+c['training']['max_response_length'] > model.model.config.max_position_embeddings:
+                    reason = 'context_limit'
+                checks.append(dict(problem_id=row['problem_id'], reference_verified=reference['correct'],
+                                   student_tokens=len(p), teacher_tokens=len(q), exclusion_reason=reason))
+                if reason is None:
+                    accepted.append(row)
+            splits, duplicates = split_rows(accepted, c)
+            write_jsonl(out/'eligibility.jsonl', checks)
+            write_jsonl(out/'duplicates.jsonl', duplicates)
+            for name, values in splits.items():
+                write_jsonl(out/f'{name}.jsonl', values)
         probes = splits['heldout_probe']+splits['train_probe']
-        fixed = []
-        for row in probes:
-            result = rollout(model, row, c['monitor'], 'fixed_base_rollout', 0)
+        fixed = rollout_many(model, probes, c['monitor'], 'fixed_base_rollout', 0,
+                             root.parent/'generation_cache/fixed_base_rollout', root.parent/'generation_progress.json')
+        for result in fixed:
             result['anchor_membership'] = {a:a=='prompt_last' or len(result['response_ids']) >= int(a.split('_')[1])
                                             for a in c['monitor']['anchors']}
             result['position_index'] = {a:len(result['prompt_ids'])-1+(0 if a=='prompt_last' else int(a.split('_')[1]))
                                         for a,valid in result['anchor_membership'].items() if valid}
-            fixed.append(result)
         write_jsonl(out/'fixed_pool.jsonl', fixed)
         if c['monitor'].get('additional_fixed_reference'):
             references = []

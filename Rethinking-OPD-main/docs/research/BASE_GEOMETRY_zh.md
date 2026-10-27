@@ -1,5 +1,7 @@
 # DeepMath × Qwen3-1.7B-Base：OPSD / GRPO 表征轨迹
 
+> 2026-10-27 更新：用户已将当前实验总预算缩短为 **50 步**。默认新运行目录为 `research_runs/base_geometry_50`；正在运行的实验保留原目录及冻结分析配置，通过 `run_limits.json` 和显式续跑配置在第 50 步正常结束。下文 200 步预算为历史设计记录。
+
 更新：2026-10-26，Asia/Shanghai。以本轮用户明确要求为准，开发规范中“本轮不要求 RL 对照”扩展为 OPSD 与 GRPO 两组；其余按固定 probe、独立分析的设计实现。P0/P1 已实现，P2 的 Gride / ADP / ARI 未实现，配置启用会明确报错。没有加入几何正则，也不把平直化解释为能力提升。
 
 当前执行阶段调整为：**默认只训练 OPSD，保存在线 metrics 并分析 checkpoint 的表征变化**。GRPO 设计、共用数据和配置生成逻辑均保留；只有显式传入 `--method grpo` 或 `--method both` 才执行 GRPO。`run`、`train`、`analyze` 三个入口的默认 method 均为 `opsd`。
@@ -169,11 +171,11 @@ python -m scripts.research.compare report --workdir research_runs/base_geometry_
 
 这需要至少 88 个满足参考/长度规则的独立问题；train_probe 是 train 子集。heldout 的 kNN 有足够 N，train_probe=8 时 k>=8 按规范无定义。验收 Base prompt、在线五项指标、LoRA 初始指纹、checkpoint 导出、独立分析与恢复后，再运行 200 step。实际显存和耗时需由服务器测量；未承诺单卡默认长度一定不 OOM。
 
-训练仍每 50 step 保存常规 checkpoint，**另外**保存 monitor 的 `[0,1,5,10,20,50,100,200]`。step 按 optimizer update 计数，不按 microbatch。两组均保存 optimizer / scheduler / RNG / dataloader 状态，默认保留全部；同配置重新执行 train 使用原 resume=auto。分析队列不修改这些状态。只有成功保存 checkpoint 和标量才发布 job；导出与分析用临时目录原子发布，失败后不会留下伪 complete。缓存变化、checkpoint 内容变化和 probe 被改动都会报错。
+训练仍每 50 step 保存常规 checkpoint，**另外**保存 monitor 的 `[0,1,5,10,20,50,100,200]`。step 按 optimizer update 计数，不按 microbatch。默认 `training.checkpoint_retention=latest`，正常完成后只保留最新一份完整模型/optimizer/scheduler/RNG/dataloader状态。每次成功保存checkpoint和标量后，训练暂停，由独立进程完成当前监测点分析；结果表/图/manifest和job完成收据保留，临时HF权重删除，然后清理本运行较旧的checkpoint。分析失败则停止并保留现场，重试成功后才轮换。同配置使用resume=auto；已完成的旧分析通过收据、源码、probe和所有产物hash校验后复用，无需旧checkpoint。未识别目录或符号链接不纳入自动清理。设为all可恢复保留全部权重、训练后分析的方式。
 
-当前 FSDP checkpoint 保存完整 PEFT 模型状态，含冻结基座，并非仅 adapter；两组的多份 checkpoint 加合并 HF 权重可能占用数百 GB。固定状态的初始 full-vocab log probabilities 也单独缓存于 step0，数量由 `distribution_positions` 控制。提前准备磁盘，或在新配置中减少监测次数，不自动删除研究 checkpoint。
+当前 FSDP checkpoint 保存完整FP32 PEFT模型状态，含冻结基座，并非仅adapter。latest模式保存期间短暂需要新旧两份checkpoint，分析阶段另需一份临时HF导出；LoRA合并在FP32计算后按分析所用BF16保存，避免原单文件遮蔽新FP32分片。固定状态的初始full-vocab log probabilities和各点分析结果仍累积保留。训练分析峰值与缓存必须由2-step实测，不能把“只留最新”理解为零额外空间。
 
-默认不在训练进程内并发跑几何；在线 cheap metrics 与 checkpoint 监测属于同一次训练。如果有第二张 GPU，可在另一个进程指定不同 `CUDA_VISIBLE_DEVICES` 执行 analyze，处理当时已完成的 jobs；命令处理队列快照，不是常驻 watcher。单 GPU 默认按上述顺序运行，避免训练与分析争抢显存。
+默认不并发训练和几何分析：driver等待分析子进程结束后才更新下一批，子进程沿用launcher原GPU分配，避免CPU Ray driver清空CUDA_VISIBLE_DEVICES。训练worker显存可能仍驻留，GPU集成验收前不保证峰值可容纳。分析和轮换耗时写checkpoint_maintenance.jsonl，并从训练wall预算扣除。不要同时启动另一个analyze写同一运行目录；命令处理队列快照，不是常驻watcher。
 
 也提供附件要求的独立 CLI，读取已配置的分析配置和已导出的 HF 权重：
 

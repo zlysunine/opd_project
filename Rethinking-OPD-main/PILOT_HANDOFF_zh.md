@@ -1,5 +1,7 @@
 # 服务器 Codex 交接：Qwen3-1.7B-Base 的 OPSD 过程监测
 
+> 2026-10-27 更新：用户已将当前实验总预算缩短为 **50 步**。默认新运行目录为 `research_runs/base_geometry_50`；正在运行的实验保留原目录及冻结分析配置，通过 `run_limits.json` 和显式续跑配置在第 50 步正常结束。下文 200 步预算为历史设计记录。
+
 更新：2026-10-27，Asia/Shanghai。**本阶段只执行 OPSD，记录训练中的分布指标与 checkpoint 表征变化。GRPO 对照的设计和代码保留，当前不运行。**
 
 本文件是服务器操作主说明；指标细节见 [BASE_GEOMETRY_zh.md](docs/research/BASE_GEOMETRY_zh.md)。唯一的一键入口是 `run_base_comparison.sh`，默认且下文显式指定 `--method opsd`。
@@ -107,7 +109,7 @@ train / validation / heldout_probe 不重叠；train_probe 是 train 子集，�
 
 线上指标使用 step_s **更新前**参数，日志的 `opsd/teacher_parameter_version` 为 s-1；离线 step_s 分析读取 **更新后**checkpoint。几何在完整 decoder block 输出上提取，层号从1起；anchor 为 prompt_last / response_32 / response_128。短文本、空交集、零位移、N<=k 等未定义量保留 null / undefined 和 N，不补零。
 
-监测步数默认 `[0,1,5,10,20,50,100,200]`；教师几何默认只在 `[0,20,100,200]`。常规 checkpoint 还每50 step保存一次。**默认单卡先训练完，再独立分析已保存的监测 checkpoint；不会每步把所有 probe 挂到训练反传图里。**
+监测步数默认 `[0,1,5,10,20,50,100,200]`；教师几何默认只在 `[0,20,100,200]`。常规 checkpoint 还每50 step保存一次。**默认 `training.checkpoint_retention=latest`：保存完整 checkpoint 和标量后暂停训练，由独立进程完成当前监测点分析，保留表格/图/manifest，再清理旧 checkpoint 并继续训练。** 分析不进入训练反传图；分析期间训练 worker 的显存可能仍驻留，单卡峰值须由2-step验收实测。
 
 ## 3. 上传和选择正确入口
 
@@ -158,7 +160,7 @@ Rethinking-OPD-main/
 | 系统 | Linux x86_64；例如 Ubuntu 22.04 | 下文 CUDA wheel 路径面向 Linux/NVIDIA；不要直接套到 macOS、Windows 或 ARM |
 | GPU | 默认1张 A800 80GB，支持 BF16 | `CUDA_VISIBLE_DEVICES` 只暴露分配到的卡；单卡容量是否足够由2-step实际峰值决定 |
 | CPU / 内存 | 规划16个CPU核、128GB主存 | 是为 offload、checkpoint 导出和分析预留的资源建议，不是已测最低配置；注意容器/作业的实际内存限额 |
-| 磁盘 | 模型、数据、缓存和产物放可写的本地 SSD；建议至少300GB空闲 | 完整训练checkpoint、HF导出和分析表会累积；不是仅保存LoRA小文件，正式运行前按pilot产物估算 |
+| 磁盘 | 模型、数据、缓存和产物放可写的本地 SSD；按pilot实测峰值预留余量 | 默认只留最新完整checkpoint；保存/分析期间短暂存在新旧两份checkpoint及一份临时HF导出。分析表仍会累积；不能只按LoRA文件估算 |
 | Python | 推荐独立 Conda/venv 环境，Python 3.12 | 仓库自带 FlashAttention wheel 名含 `cp312`；不要混用系统pip和环境python |
 | Torch / vLLM | 参考 `torch==2.8.0`、`vllm==0.11.0` | vLLM 0.11.0 的CUDA依赖指定Torch2.8.0，不能单独升级Torch |
 | CUDA / 驱动 | 与选用的Torch/vLLM二进制匹配；vLLM 0.11.0标准预编译包为CUDA12.8 | 不能只看 `nvidia-smi` 中的CUDA字样；还要检查 `torch.version.cuda` 和真实kernel |
@@ -257,7 +259,7 @@ df -h "$OPSD_CACHE_ROOT" "$OPSD_LOG_DIR"
 free -h
 ```
 
-Ray临时目录宜选本地SSD上的短路径；路径过长时改用例如 `/tmp/opsd_ray`。容器运行需要GPU设备透传和足够的 `/dev/shm`，可用 `df -h /dev/shm` 检查。单机默认不需要手动 `ray start`；不要为此停止共享服务器上其他人的Ray进程。长任务建议在tmux或调度作业中运行，并保持相同环境/工作目录。
+Ray临时目录宜选本地SSD上的短路径；路径过长时改用例如 `/tmp/opsd_ray`。容器运行需要GPU设备透传和足够的 `/dev/shm`，可用 `df -h /dev/shm` 检查。单机默认不需要手动 `ray start`；不要为此停止共享服务器上其他人的Ray进程。`--execute`默认建立独立后台会话，SSH断开不终止任务；无需tmux/nohup。加`--foreground`才在前台执行。状态、日志、停止与恢复见[训练控制说明](docs/research/TRAINING_CONTROL_zh.md)。
 
 替换所有示例路径和 `ACTUAL_*` 为真实来源版本，不填写 main/master，不编造版本。模型目录需含完整权重、config、tokenizer；不要拿 Instruct 权重改目录名冒充 Base。manifest 记录本地文件hash，但来源声明仍须真实。
 
@@ -350,7 +352,7 @@ PY
 
 ### 4.5 固定命令参数
 
-在同一个 Bash / tmux 会话中定义共用参数；重新连接后需重新设置环境变量和数组：
+首次提交时在同一Bash会话中定义共用参数；后台进程继承该环境。重新连接后激活环境，按实际workdir查看状态即可；若要重新提交，仍需恢复原参数数组：
 
 ```bash
 set -o pipefail
@@ -384,9 +386,9 @@ PILOT_ARGS=(
 bash run_base_comparison.sh "${PILOT_ARGS[@]}" \
   > "$OPSD_LOG_DIR/pilot_plan.json"
 
-# 确认计划methods只有opsd后，执行同一参数。
-bash run_base_comparison.sh "${PILOT_ARGS[@]}" --execute 2>&1 \
-  | tee "$OPSD_LOG_DIR/pilot_console.log"
+# 确认计划methods只有opsd后，提交后台验收任务；返回不代表验收完成。
+bash run_base_comparison.sh "${PILOT_ARGS[@]}" --execute
+bash run_base_comparison.sh status --workdir "$OPSD_PILOT_DIR" --watch
 ```
 
 验收至少需要88个满足难度、参考核验、长度和去重要求的独立题，固定probe共72题。train_probe=8时其kNN的k>=8按规范undefined；heldout_probe=64可正常计算8/16/32邻域。Base短回答导致某些response anchor无有效题也应明确记录，不用伪造长文本。
@@ -405,8 +407,9 @@ RUN_ARGS=(
 bash run_base_comparison.sh "${RUN_ARGS[@]}" \
   > "$OPSD_LOG_DIR/formal_plan.json"
 
-bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute 2>&1 \
-  | tee "$OPSD_LOG_DIR/formal_console.log"
+# 默认后台运行；SSH断开不停止。验收成功后才提交正式任务。
+bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute
+bash run_base_comparison.sh status --workdir "$OPSD_RUN_DIR" --watch
 ```
 
 实际流程为：
@@ -415,8 +418,8 @@ bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute 2>&1 \
 configure（本地路径 / revision / 私有注册表）
   -> 环境检查
   -> prepare（筛选 / 去重 / 划分 / 初始固定rollout / 两组配置）
-  -> train OPSD（精确长度与Hydra检查 / 训练 / 在线指标 / checkpoint与分析jobs）
-  -> analyze OPSD（step0校验 / HF导出与LoRA合并 / 固定文本和live分析）
+  -> train OPSD（训练 / 在线指标 / 保存后暂停、逐监测点独立分析、清理旧权重）
+  -> analyze OPSD（校验已完成的分析缓存；失败时重试当前尚保留的checkpoint）
   -> report（读缓存汇总表格和图）
 ```
 
@@ -433,6 +436,7 @@ prepare会保存GRPO的配置文件，这是保留对照设计，**不会执行G
 | batch / rollouts / microbatch | 8 / 8 / 1 | 修改JSON |
 | steps / gpus / seed | 200 / 1 / 42 | JSON或同名CLI；gpus需匹配CUDA_VISIBLE_DEVICES |
 | epochs / save_every | 1 / 50 | 修改JSON |
+| checkpoint_retention | latest | 先分析再清理，保留各监测点结果；all恢复先训练后分析并保留全部权重 |
 | prompt / response / teacher prompt上限 | 512 / 512 / 2048 | 修改JSON；Base入口无对应长度CLI |
 | sampling_temperature / teacher_temperature | 1 / 1 | 修改JSON |
 | dataset：train_n / dev_n | 10000 / 512 | JSON或 `--train-n` / `--dev-n` |
@@ -457,21 +461,23 @@ Base入口目前没有 `--batch`、`--rollouts`、`--lora-rank`、`--profile`、
 | `shared/probe/eligibility.jsonl`、`duplicates.jsonl` | 参考核验、长度筛选和去重记录 |
 | `shared/probe/fixed_pool.jsonl` | 原始prompt/response IDs、逐题seed、anchor有效性 |
 | `opsd/training_config.json`、`analysis_config.json` | 实际训练与分析配置；当前方法为OPSD |
+| `.session/attempts/<id>/console.log`、`state.json`、`progress.json` | 本次后台任务的控制台、进程心跳/退出码和当前阶段；历史attempt保留 |
 | `opsd/train/train.log` | 完整训练日志；报错首先定位这里 |
 | `opsd/train/metrics.jsonl` | 每step的metrics字典、预算、forward-KL loss与教师版本 |
 | `opsd/train/config_preflight.json`、`*preflight.log` | 实际Hydra/rollout schema验收 |
 | `opsd/train/plots/thinking_consistency.png`、`.csv` | 五项在线指标曲线与数据 |
-| `opsd/train/checkpoints/global_step_*/` | 完整模型/optimizer/scheduler/RNG/dataloader恢复状态 |
+| `opsd/train/checkpoints/global_step_*/` | 正常完成后仅最新一份完整模型/optimizer/scheduler/RNG/dataloader恢复状态；保存/失败现场可能暂留新旧两份 |
 | `opsd/jobs/step_*.json`、`job_status/step_*.json` | 队列optimizer step、checkpoint、probe hash；最终status=complete |
 | `opsd/initial_adapter.json` | step0的LoRA B=0及实际adapter指纹 |
-| `opsd/hf/solution/global_step_*/` | 原子HF导出、合并真实alpha的LoRA和export完成标记 |
+| `opsd/hf/solution/global_step_*/` | 临时BF16合并权重，成功分析后删除；分析失败时保留供重试 |
+| `opsd/checkpoint_maintenance.jsonl` | 保存后分析与轮换耗时；从训练wall预算中扣除 |
 | `opsd/analysis/steps/step_*/` | anchors、neighbors、RSM、逐题曲率、分布、live回答、指标和manifest |
 | `report/metrics.csv`、`.jsonl`、`.parquet` | 按step/layer/pool/split/anchor/role区分的汇总 |
 | `report/*.png`、`report_manifest.json` | 曲率/RSA/NO/PR热图与曲线、行为对照、分布曲线及来源 |
 
 验收标准：
 
-1. 2-step训练到step2，有step0/1/2 checkpoint和3个完成的分析job；正式训练到200并完成全部8个监测step。日志能找到 `actor/forward_kl` 及五个 `opd/` 必需字段。
+1. 2-step训练到step2，仅保留step2完整checkpoint，但保留step0/1/2全部分析结果和3个完成的job；正式训练到200，仅保留step200完整checkpoint，保留全部8个监测step结果。日志能找到 `actor/forward_kl` 及五个 `opd/` 必需字段。
 2. 五项字段为 `opd/overlap_ratio`、`opd/overlap_token_advantage`、`opd/student_entropy`、`opd/teacher_entropy`、`opd/entropy_gap`。空交集advantage为null时同时检查覆盖率，不要求所有undefined量变成有限值。
 3. 数据、固定pool和anchor题ID跨checkpoint一致；heldout / train_probe 分开，fixed / live 分开，学生 / privileged_teacher 分开。
 4. `anchors.npz`、`anchors.json`、`curvature.parquet`、`distributions.parquet`、`neighbors.npz`、`rsm_*.npz` 和 `metrics.parquet` / JSONL 存在，step目录有 `complete.json`。state位置、block hook和N可追溯。
@@ -479,13 +485,16 @@ Base入口目前没有 `--batch`、`--rollouts`、`--lora-rank`、`--profile`、
 6. 新目录中可以有 `grpo/training_config.json` 和 `grpo/analysis_config.json`，但不应出现本次GRPO训练、checkpoint或分析任务。
 7. 最终汇报实际训练耗时、独立分析耗时、GPU型号/可见数和可用的显存峰值测量。没有测量就标未测，不用理论估算冒充实测。
 
-可在另一终端观察训练：
+可在另一终端或重新SSH连接后观察训练（先激活同一环境；workdir使用实际运行目录）：
 
 ```bash
-tail -f "$OPSD_RUN_DIR/opsd/train/train.log"
+bash run_base_comparison.sh status --workdir "$OPSD_RUN_DIR" --watch
+bash run_base_comparison.sh logs --workdir "$OPSD_RUN_DIR" --stream train --follow
 ```
 
-开始prepare时还没有train.log，这是正常的。控制台日志覆盖prepare/分析等阶段；出现进程退出时同时检查控制台、训练日志和 `opsd/job_status/`，不能只看是否有PNG判断成功。
+Ctrl+C只关闭查看器，不停止后台任务。停止须显式使用`stop --workdir`。`--watch`只在整个受管命令成功时返回0；训练到200/200后仍可能处于分析或报告阶段。
+
+开始prepare时还没有train.log，这是正常的。使用`logs --workdir ... --follow`查看完整流程控制台；训练详细输出查看`--stream train`。状态读取真实metrics/checkpoint/job记录并显示阶段与更新时间。后台启动命令返回只表示提交成功；退出码和完成状态以`status`为准，不能只看PID存在或PNG判断成功。
 
 ## 8. 失败恢复和分阶段排查
 
@@ -499,7 +508,7 @@ bash run_base_comparison.sh "${RUN_ARGS[@]}" --execute
 python -m scripts.research.compare train \
   --workdir "$OPSD_RUN_DIR" --method opsd --execute
 
-# 训练已经完成，仅重试checkpoint导出和分析：
+# 训练已经完成，仅重试checkpoint导出和分析（此独立命令仍前台执行）：
 python -m scripts.research.compare analyze \
   --workdir "$OPSD_RUN_DIR" --method opsd
 
@@ -511,7 +520,7 @@ python -m scripts.research.run plot \
   --input "$OPSD_RUN_DIR/opsd/train" --output "$OPSD_RUN_DIR/opsd/train/plots"
 ```
 
-训练用resume=auto，从最后保存的checkpoint恢复；尚未保存的更新需要重做。已完成200步时入口会复用完整checkpoint，避免额外更新第201步。分析按step顺序，必须先建立step0基线；完整缓存经身份校验后复用。临时HF导出或分析失败不会写训练checkpoint，正常异常可重试；硬中断留下临时目录时先检查，不能伪造完成标记。
+训练用resume=auto，从最后保存的checkpoint恢复；尚未保存的更新需要重做。已完成200步时入口会复用完整checkpoint，避免额外更新第201步。分析按step顺序，必须先建立step0基线；完成缓存通过job/config/complete收据、源码、probe与产物hash校验后复用，不依赖已清理的旧权重。分析失败时停止训练并保留新旧checkpoint和当前HF导出；同配置恢复会先重试分析再清理。已删除的旧权重不能重新训练/重新提取，只能复用其完整分析结果；若要修改分析配置重新提取，需另行保留全部权重并新建运行目录。硬中断留下临时目录时先检查，不能伪造完成标记。
 
 | 现象 | 应对 |
 |---|---|
@@ -523,7 +532,7 @@ python -m scripts.research.run plot \
 | checkpoint缺分片、LoRA adapter缺失/非零B | 检查原始保存与step0状态，不把未合并的基座当训练结果 |
 | 只有训练曲线，没有表征报告 | 查看analyze是否执行、job_status是否failed，再单独重试analyze/report |
 
-默认不与训练争抢同一张卡做几何分析。多卡独立分析属于可选运行方式，analyze只处理调用时已有jobs的快照，不是常驻watcher。
+默认分析时训练暂停，使用独立进程和原GPU分配，完成后继续；不是后台并发训练。训练worker显存可能仍驻留，先做2-step实测。不要另启analyze与默认同步分析竞争同一workdir；手动analyze只处理调用时已有jobs快照。
 
 ## 9. GRPO保留但暂不执行
 

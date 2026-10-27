@@ -38,6 +38,12 @@ class ResearchBudget:
         self.totals['wall_seconds'] = self.previous_wall + time.monotonic()-self.start
         return {'budget/'+key: value for key, value in self.totals.items()}
 
+    def exclude_pause(self, seconds):
+        """Keep synchronous checkpoint analysis out of the training wall budget."""
+        if seconds < 0:
+            raise ValueError('Pause duration must be nonnegative')
+        self.start += seconds
+
     def exceeded(self, limits):
         return any(limit is not None and self.totals[key] >= limit for key,limit in limits.items())
 

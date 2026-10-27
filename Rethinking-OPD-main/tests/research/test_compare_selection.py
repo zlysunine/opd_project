@@ -48,7 +48,7 @@ class ComparisonSelectionTests(unittest.TestCase):
                   patch.object(compare,'write_json'),patch.object(compare,'prepare') as prepare,
                   patch.object(compare,'train') as train,patch.object(compare,'analyze') as analyze,
                   patch('analysis.report.report') as report,contextlib.redirect_stdout(io.StringIO())):
-                compare.main(['run',*RUN_ARGS,'--execute',*option])
+                compare.main(['run',*RUN_ARGS,'--execute','--foreground',*option])
                 prepare.assert_called_once_with(c)
                 self.assertEqual([call.args for call in train.call_args_list],[(c,method,True) for method in expected])
                 self.assertEqual([call.args for call in analyze.call_args_list],[(c,method,None) for method in expected])
@@ -58,7 +58,7 @@ class ComparisonSelectionTests(unittest.TestCase):
         c=self.config()
         with (patch.object(compare,'load',return_value=c),patch.object(compare,'train') as train,
               patch.object(compare,'analyze') as analyze):
-            compare.main(['train','--execute'])
+            compare.main(['train','--execute','--foreground'])
             train.assert_called_once_with(c,'opsd',True)
             analyze.assert_not_called()
             train.reset_mock()
@@ -67,7 +67,7 @@ class ComparisonSelectionTests(unittest.TestCase):
             train.assert_not_called()
 
 
-    def test_default_200_steps_include_final_monitoring_and_effective_training_budget(self):
+    def test_default_50_steps_include_final_monitoring_and_effective_training_budget(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             model=root/'Qwen3-1.7B-Base'
@@ -81,21 +81,21 @@ class ComparisonSelectionTests(unittest.TestCase):
             with contextlib.redirect_stdout(output):
                 compare.main(args)
             plan=json.loads(output.getvalue())
-            self.assertEqual(plan['training']['steps'],200)
+            self.assertEqual(plan['training']['steps'],50)
             self.assertEqual(plan['methods'],['opsd'])
-            self.assertEqual(plan['monitor_steps'],[0,1,5,10,20,50,100,200])
+            self.assertEqual(plan['monitor_steps'],[0,1,5,10,20,50])
             c=json.loads((root/'run/config.json').read_text())
             for key in ('optimizer_steps','teacher_geometry_steps','plot_full_rsm_steps'):
-                self.assertIn(200,c['monitor'][key])
-                self.assertLessEqual(max(c['monitor'][key]),200)
+                self.assertIn(50,c['monitor'][key])
+                self.assertLessEqual(max(c['monitor'][key]),50)
             self.assertEqual((c['training']['batch'],c['training']['rollouts'],c['training']['learning_rate']),(8,8,1e-6))
             self.assertFalse((root/'run/opsd/train').exists())
             profile=resolve(ROOT/c['training']['profile'])
-            self.assertEqual(profile['steps'],200)
+            self.assertEqual(profile['steps'],50)
             options=hydra_options(profile,root/'plan','BASE')
-            self.assertEqual(options['trainer.total_training_steps'],200)
+            self.assertEqual(options['trainer.total_training_steps'],50)
             parsed=compare.parser().parse_args(['run',*RUN_ARGS])
-            self.assertEqual(parsed.workdir,'research_runs/base_geometry_200')
+            self.assertEqual(parsed.workdir,'research_runs/base_geometry_50')
 
 
 if __name__=='__main__':

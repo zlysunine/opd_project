@@ -1,0 +1,174 @@
+﻿id,source,metric,title,category,unit,contexts,finite_points,missing_points,png
+training::actor/entropy,training,actor/entropy,actor/entropy,训练·优化与预算,nats,1,20,0,charts/000.png
+training::actor/forward_kl,training,actor/forward_kl,训练前向 KL,训练·优化与预算,nats,1,20,0,charts/001.png
+training::actor/forward_kl_teacher_tokens,training,actor/forward_kl_teacher_tokens,actor/forward_kl_teacher_tokens,训练·优化与预算,原始单位,1,20,0,charts/002.png
+training::actor/grad_norm,training,actor/grad_norm,梯度范数,训练·优化与预算,原始单位,1,20,0,charts/003.png
+training::actor/loss,training,actor/loss,训练损失,训练·优化与预算,nats,1,20,0,charts/004.png
+training::actor/lr,training,actor/lr,actor/lr,训练·优化与预算,原始单位,1,20,0,charts/005.png
+training::budget/optimized_tokens,training,budget/optimized_tokens,budget/optimized_tokens,训练·优化与预算,原始单位,1,20,0,charts/006.png
+training::budget/questions,training,budget/questions,budget/questions,训练·优化与预算,原始单位,1,20,0,charts/007.png
+training::budget/rollout_tokens,training,budget/rollout_tokens,budget/rollout_tokens,训练·优化与预算,原始单位,1,20,0,charts/008.png
+training::budget/teacher_forward_tokens,training,budget/teacher_forward_tokens,budget/teacher_forward_tokens,训练·优化与预算,原始单位,1,20,0,charts/009.png
+training::budget/updates,training,budget/updates,budget/updates,训练·优化与预算,原始单位,1,20,0,charts/010.png
+training::budget/wall_seconds,training,budget/wall_seconds,budget/wall_seconds,训练·优化与预算,秒,1,20,0,charts/011.png
+training::critic/advantages/abs_max,training,critic/advantages/abs_max,critic/advantages/abs_max,训练·奖励兼容字段,原始单位,1,20,0,charts/012.png
+training::critic/advantages/max,training,critic/advantages/max,critic/advantages/max,训练·奖励兼容字段,原始单位,1,20,0,charts/013.png
+training::critic/advantages/mean,training,critic/advantages/mean,critic/advantages/mean,训练·奖励兼容字段,原始单位,1,20,0,charts/014.png
+training::critic/advantages/min,training,critic/advantages/min,critic/advantages/min,训练·奖励兼容字段,原始单位,1,20,0,charts/015.png
+training::critic/returns/max,training,critic/returns/max,critic/returns/max,训练·奖励兼容字段,原始单位,1,20,0,charts/016.png
+training::critic/returns/mean,training,critic/returns/mean,critic/returns/mean,训练·奖励兼容字段,原始单位,1,20,0,charts/017.png
+training::critic/returns/min,training,critic/returns/min,critic/returns/min,训练·奖励兼容字段,原始单位,1,20,0,charts/018.png
+training::critic/rewards/max,training,critic/rewards/max,critic/rewards/max,训练·奖励兼容字段,原始单位,1,20,0,charts/019.png
+training::critic/rewards/mean,training,critic/rewards/mean,critic/rewards/mean,训练·奖励兼容字段,原始单位,1,20,0,charts/020.png
+training::critic/rewards/min,training,critic/rewards/min,critic/rewards/min,训练·奖励兼容字段,原始单位,1,20,0,charts/021.png
+training::critic/score/max,training,critic/score/max,critic/score/max,训练·奖励兼容字段,原始单位,1,20,0,charts/022.png
+training::critic/score/mean,training,critic/score/mean,critic/score/mean,训练·奖励兼容字段,原始单位,1,20,0,charts/023.png
+training::critic/score/min,training,critic/score/min,critic/score/min,训练·奖励兼容字段,原始单位,1,20,0,charts/024.png
+training::critic/true_reward/max,training,critic/true_reward/max,critic/true_reward/max,训练·奖励兼容字段,原始单位,1,20,0,charts/025.png
+training::critic/true_reward/mean,training,critic/true_reward/mean,critic/true_reward/mean,训练·奖励兼容字段,原始单位,1,20,0,charts/026.png
+training::critic/true_reward/min,training,critic/true_reward/min,critic/true_reward/min,训练·奖励兼容字段,原始单位,1,20,0,charts/027.png
+training::global_seqlen/balanced_max,training,global_seqlen/balanced_max,global_seqlen/balanced_max,训练·长度统计,原始单位,1,20,0,charts/028.png
+training::global_seqlen/balanced_min,training,global_seqlen/balanced_min,global_seqlen/balanced_min,训练·长度统计,原始单位,1,20,0,charts/029.png
+training::global_seqlen/max,training,global_seqlen/max,global_seqlen/max,训练·长度统计,原始单位,1,20,0,charts/030.png
+training::global_seqlen/mean,training,global_seqlen/mean,global_seqlen/mean,训练·长度统计,原始单位,1,20,0,charts/031.png
+training::global_seqlen/min,training,global_seqlen/min,global_seqlen/min,训练·长度统计,原始单位,1,20,0,charts/032.png
+training::global_seqlen/minmax_diff,training,global_seqlen/minmax_diff,global_seqlen/minmax_diff,训练·长度统计,原始单位,1,20,0,charts/033.png
+training::opd/empty_intersection_rate,training,opd/empty_intersection_rate,opd/empty_intersection_rate,训练·蒸馏诊断,原始单位,1,20,0,charts/034.png
+training::opd/entropy_gap,training,opd/entropy_gap,在线绝对熵差,训练·蒸馏诊断,nats,1,20,0,charts/035.png
+training::opd/entropy_gap_signed,training,opd/entropy_gap_signed,在线有符号熵差,训练·蒸馏诊断,nats,1,20,0,charts/036.png
+training::opd/kl_renormalized_student_topk_p_to_q,training,opd/kl_renormalized_student_topk_p_to_q,opd/kl_renormalized_student_topk_p_to_q,训练·蒸馏诊断,原始单位,1,20,0,charts/037.png
+training::opd/overlap_nonempty_fraction,training,opd/overlap_nonempty_fraction,opd/overlap_nonempty_fraction,训练·蒸馏诊断,原始单位,1,20,0,charts/038.png
+training::opd/overlap_ratio,training,opd/overlap_ratio,在线 top-16 词表重叠率,训练·蒸馏诊断,原始单位,1,20,0,charts/039.png
+training::opd/overlap_token_advantage,training,opd/overlap_token_advantage,重叠 token 优势,训练·蒸馏诊断,原始单位,1,20,0,charts/040.png
+training::opd/repo_raw_log_ratio_student_topk,training,opd/repo_raw_log_ratio_student_topk,opd/repo_raw_log_ratio_student_topk,训练·蒸馏诊断,原始单位,1,20,0,charts/041.png
+training::opd/shared_mass_student,training,opd/shared_mass_student,opd/shared_mass_student,训练·蒸馏诊断,原始单位,1,20,0,charts/042.png
+training::opd/shared_mass_teacher,training,opd/shared_mass_teacher,opd/shared_mass_teacher,训练·蒸馏诊断,原始单位,1,20,0,charts/043.png
+training::opd/student_entropy,training,opd/student_entropy,在线学生熵,训练·蒸馏诊断,nats,1,20,0,charts/044.png
+training::opd/student_probability_temperature,training,opd/student_probability_temperature,opd/student_probability_temperature,训练·蒸馏诊断,原始单位,1,20,0,charts/045.png
+training::opd/teacher_entropy,training,opd/teacher_entropy,在线教师熵,训练·蒸馏诊断,nats,1,20,0,charts/046.png
+training::opd/teacher_probability_temperature,training,opd/teacher_probability_temperature,opd/teacher_probability_temperature,训练·蒸馏诊断,原始单位,1,20,0,charts/047.png
+training::opd/valid_response_tokens,training,opd/valid_response_tokens,opd/valid_response_tokens,训练·蒸馏诊断,原始单位,1,20,0,charts/048.png
+training::opsd/teacher_forward_tokens,training,opsd/teacher_forward_tokens,opsd/teacher_forward_tokens,训练·蒸馏诊断,原始单位,1,20,0,charts/049.png
+training::opsd/teacher_parameter_version,training,opsd/teacher_parameter_version,opsd/teacher_parameter_version,训练·蒸馏诊断,原始单位,1,20,0,charts/050.png
+training::perf/cpu_memory_used_gb,training,perf/cpu_memory_used_gb,perf/cpu_memory_used_gb,训练·性能资源,GiB（原始日志单位）,1,20,0,charts/051.png
+training::perf/max_memory_allocated_gb,training,perf/max_memory_allocated_gb,GPU 已分配显存峰值,训练·性能资源,GiB（原始日志单位）,1,20,0,charts/052.png
+training::perf/max_memory_reserved_gb,training,perf/max_memory_reserved_gb,GPU 保留显存峰值,训练·性能资源,GiB（原始日志单位）,1,20,0,charts/053.png
+training::perf/mfu/actor,training,perf/mfu/actor,perf/mfu/actor,训练·性能资源,原始单位,1,20,0,charts/054.png
+training::perf/throughput,training,perf/throughput,perf/throughput,训练·性能资源,原始单位,1,20,0,charts/055.png
+training::perf/time_per_step,training,perf/time_per_step,perf/time_per_step,训练·性能资源,秒,1,20,0,charts/056.png
+training::perf/total_num_tokens,training,perf/total_num_tokens,perf/total_num_tokens,训练·性能资源,原始单位,1,20,0,charts/057.png
+training::prompt_length/clip_ratio,training,prompt_length/clip_ratio,prompt_length/clip_ratio,训练·长度统计,原始单位,1,20,0,charts/058.png
+training::prompt_length/max,training,prompt_length/max,prompt_length/max,训练·长度统计,原始单位,1,20,0,charts/059.png
+training::prompt_length/mean,training,prompt_length/mean,prompt_length/mean,训练·长度统计,原始单位,1,20,0,charts/060.png
+training::prompt_length/min,training,prompt_length/min,prompt_length/min,训练·长度统计,原始单位,1,20,0,charts/061.png
+training::research/peak_memory_max_rank_gb,training,research/peak_memory_max_rank_gb,research/peak_memory_max_rank_gb,训练·性能资源,GiB（原始日志单位）,1,20,0,charts/062.png
+training::response/aborted_ratio,training,response/aborted_ratio,response/aborted_ratio,训练·长度统计,原始单位,1,20,0,charts/063.png
+training::response_length/clip_ratio,training,response_length/clip_ratio,response_length/clip_ratio,训练·长度统计,原始单位,1,20,0,charts/064.png
+training::response_length/max,training,response_length/max,response_length/max,训练·长度统计,原始单位,1,20,0,charts/065.png
+training::response_length/mean,training,response_length/mean,response_length/mean,训练·长度统计,原始单位,1,20,0,charts/066.png
+training::response_length/min,training,response_length/min,response_length/min,训练·长度统计,原始单位,1,20,0,charts/067.png
+training::response_length_non_aborted/clip_ratio,training,response_length_non_aborted/clip_ratio,response_length_non_aborted/clip_ratio,训练·长度统计,原始单位,1,20,0,charts/068.png
+training::response_length_non_aborted/max,training,response_length_non_aborted/max,response_length_non_aborted/max,训练·长度统计,原始单位,1,20,0,charts/069.png
+training::response_length_non_aborted/mean,training,response_length_non_aborted/mean,response_length_non_aborted/mean,训练·长度统计,原始单位,1,20,0,charts/070.png
+training::response_length_non_aborted/min,training,response_length_non_aborted/min,response_length_non_aborted/min,训练·长度统计,原始单位,1,20,0,charts/071.png
+training::teacher/entropy,training,teacher/entropy,teacher/entropy,训练·蒸馏诊断,nats,1,20,0,charts/072.png
+training::timing_per_token_ms/adv,training,timing_per_token_ms/adv,timing_per_token_ms/adv,训练·性能资源,毫秒/token,1,20,0,charts/073.png
+training::timing_per_token_ms/gen,training,timing_per_token_ms/gen,timing_per_token_ms/gen,训练·性能资源,毫秒/token,1,20,0,charts/074.png
+training::timing_per_token_ms/update_actor,training,timing_per_token_ms/update_actor,timing_per_token_ms/update_actor,训练·性能资源,毫秒/token,1,20,0,charts/075.png
+training::timing_s/adv,training,timing_s/adv,timing_s/adv,训练·性能资源,秒,1,20,0,charts/076.png
+training::timing_s/compute_log_prob,training,timing_s/compute_log_prob,timing_s/compute_log_prob,训练·性能资源,秒,1,20,0,charts/077.png
+training::timing_s/compute_rm_score,training,timing_s/compute_rm_score,timing_s/compute_rm_score,训练·性能资源,秒,1,20,0,charts/078.png
+training::timing_s/gen,training,timing_s/gen,训练轨迹生成耗时,训练·性能资源,秒,1,20,0,charts/079.png
+training::timing_s/generate_sequences,training,timing_s/generate_sequences,timing_s/generate_sequences,训练·性能资源,秒,1,20,0,charts/080.png
+training::timing_s/generation_timing/max,training,timing_s/generation_timing/max,timing_s/generation_timing/max,训练·性能资源,秒,1,20,0,charts/081.png
+training::timing_s/generation_timing/min,training,timing_s/generation_timing/min,timing_s/generation_timing/min,训练·性能资源,秒,1,20,0,charts/082.png
+training::timing_s/generation_timing/topk_ratio,training,timing_s/generation_timing/topk_ratio,timing_s/generation_timing/topk_ratio,训练·性能资源,秒,1,20,0,charts/083.png
+training::timing_s/opd_dynamic_metrics,training,timing_s/opd_dynamic_metrics,timing_s/opd_dynamic_metrics,训练·性能资源,秒,1,20,0,charts/084.png
+training::timing_s/reward,training,timing_s/reward,timing_s/reward,训练·性能资源,秒,1,20,0,charts/085.png
+training::timing_s/save_checkpoint,training,timing_s/save_checkpoint,timing_s/save_checkpoint,训练·性能资源,秒,1,4,16,charts/086.png
+training::timing_s/start_profile,training,timing_s/start_profile,timing_s/start_profile,训练·性能资源,秒,1,20,0,charts/087.png
+training::timing_s/step,training,timing_s/step,每次参数更新耗时,训练·性能资源,秒,1,20,0,charts/088.png
+training::timing_s/stop_profile,training,timing_s/stop_profile,timing_s/stop_profile,训练·性能资源,秒,1,20,0,charts/089.png
+training::timing_s/update_actor,training,timing_s/update_actor,参数更新阶段耗时,训练·性能资源,秒,1,20,0,charts/090.png
+training::training/epoch,training,training/epoch,training/epoch,训练·优化与预算,原始单位,1,20,0,charts/091.png
+training::training/global_step,training,training/global_step,training/global_step,训练·优化与预算,原始单位,1,20,0,charts/092.png
+training::training/rollout_actor_probs_pearson_corr,training,training/rollout_actor_probs_pearson_corr,training/rollout_actor_probs_pearson_corr,训练·优化与预算,原始单位,1,20,0,charts/093.png
+training::training/rollout_probs_diff_max,training,training/rollout_probs_diff_max,training/rollout_probs_diff_max,训练·优化与预算,原始单位,1,20,0,charts/094.png
+training::training/rollout_probs_diff_mean,training,training/rollout_probs_diff_mean,training/rollout_probs_diff_mean,训练·优化与预算,原始单位,1,20,0,charts/095.png
+training::training/rollout_probs_diff_std,training,training/rollout_probs_diff_std,training/rollout_probs_diff_std,训练·优化与预算,原始单位,1,20,0,charts/096.png
+training::training/rollout_probs_diff_valid,training,training/rollout_probs_diff_valid,training/rollout_probs_diff_valid,训练·优化与预算,原始单位,1,20,0,charts/097.png
+analysis::accuracy_micro,analysis,accuracy_micro,自主生成正确率（微平均）,监测汇总,原始单位,2,10,0,charts/098.png
+analysis::accuracy_topic_macro,analysis,accuracy_topic_macro,按主题宏平均正确率,监测汇总,原始单位,2,10,0,charts/099.png
+analysis::activation_norm,analysis,activation_norm,表示向量范数,监测汇总,原始单位,12,1176,0,charts/100.png
+analysis::curvature_d_min_deg,analysis,curvature_d_min_deg,最小相对曲率,监测汇总,度,6,24,0,charts/101.png
+analysis::curvature_deg,analysis,curvature_deg,轨迹平均转角,监测汇总,度,6,672,0,charts/102.png
+analysis::curvature_layer_star,analysis,curvature_layer_star,最小曲率所在层,监测汇总,原始单位,6,24,0,charts/103.png
+analysis::curvature_relative_first_deg,analysis,curvature_relative_first_deg,相对第一层曲率变化,监测汇总,度,6,672,0,charts/104.png
+analysis::curvature_surprisal_current_pearson,analysis,curvature_surprisal_current_pearson,曲率与当前惊异度的相关,监测汇总,原始单位,6,560,112,charts/105.png
+analysis::curvature_surprisal_initial_pearson,analysis,curvature_surprisal_initial_pearson,当前曲率与初始惊异度的相关,监测汇总,原始单位,6,280,392,charts/106.png
+analysis::curvature_training_delta_deg,analysis,curvature_training_delta_deg,相对初始模型曲率变化,监测汇总,度,6,392,280,charts/107.png
+analysis::entropy_gap_abs_nats,analysis,entropy_gap_abs_nats,教师学生绝对熵差,监测汇总,nats,2,10,0,charts/108.png
+analysis::entropy_gap_signed_nats,analysis,entropy_gap_signed_nats,教师熵减学生熵,监测汇总,nats,2,10,0,charts/109.png
+analysis::eos_rate,analysis,eos_rate,EOS 正常结束率,监测汇总,原始单位,2,10,0,charts/110.png
+analysis::extraction_failure_rate,analysis,extraction_failure_rate,答案抽取失败率,监测汇总,原始单位,2,10,0,charts/111.png
+analysis::invalid_angle_fraction,analysis,invalid_angle_fraction,无效转角比例,监测汇总,原始单位,6,672,0,charts/112.png
+analysis::kl_student_teacher_nats,analysis,kl_student_teacher_nats,诊断 KL（学生 || 教师）,监测汇总,nats,2,10,0,charts/113.png
+analysis::kl_to_initial_nats,analysis,kl_to_initial_nats,诊断 KL（当前学生 || 初始学生）,监测汇总,nats,2,10,0,charts/114.png
+analysis::linear_cka_to_initial,analysis,linear_cka_to_initial,与初始表示的线性 CKA,监测汇总,原始单位,12,1176,0,charts/115.png
+analysis::mean_step_norm,analysis,mean_step_norm,隐藏状态相邻步长,监测汇总,原始单位,6,672,0,charts/116.png
+analysis::neighbor_overlap_k16,analysis,neighbor_overlap_k16,题目近邻保持率 k=16,监测汇总,原始单位,12,1176,0,charts/117.png
+analysis::neighbor_overlap_k32,analysis,neighbor_overlap_k32,题目近邻保持率 k=32,监测汇总,原始单位,12,1176,0,charts/118.png
+analysis::neighbor_overlap_k8,analysis,neighbor_overlap_k8,题目近邻保持率 k=8,监测汇总,原始单位,12,1176,0,charts/119.png
+analysis::participation_ratio,analysis,participation_ratio,表示参与率,监测汇总,原始单位,12,1176,0,charts/120.png
+analysis::response_length,analysis,response_length,回答 token 数,监测汇总,原始单位,2,10,0,charts/121.png
+analysis::rsa_rho_to_initial,analysis,rsa_rho_to_initial,与初始表示的 RSA 相关,监测汇总,原始单位,12,1176,0,charts/122.png
+analysis::rsa_rmse_to_initial,analysis,rsa_rmse_to_initial,与初始 RSM 的均方根差,监测汇总,原始单位,12,1176,0,charts/123.png
+analysis::rsm_mean,analysis,rsm_mean,RSM 平均余弦,监测汇总,原始单位,12,1176,0,charts/124.png
+analysis::rsm_q5,analysis,rsm_q5,rsm_q5,监测汇总,原始单位,12,1176,0,charts/125.png
+analysis::rsm_q50,analysis,rsm_q50,rsm_q50,监测汇总,原始单位,12,1176,0,charts/126.png
+analysis::rsm_q95,analysis,rsm_q95,rsm_q95,监测汇总,原始单位,12,1176,0,charts/127.png
+analysis::rsm_std,analysis,rsm_std,RSM 余弦标准差,监测汇总,原始单位,12,1176,0,charts/128.png
+analysis::rsm_topic_between,analysis,rsm_topic_between,跨主题余弦相似度,监测汇总,原始单位,12,1176,0,charts/129.png
+analysis::rsm_topic_gap,analysis,rsm_topic_gap,同主题与跨主题相似度差,监测汇总,原始单位,12,1176,0,charts/130.png
+analysis::rsm_topic_within,analysis,rsm_topic_within,同主题余弦相似度,监测汇总,原始单位,12,1176,0,charts/131.png
+analysis::student_entropy_nats,analysis,student_entropy_nats,固定状态学生熵,监测汇总,nats,2,10,0,charts/132.png
+analysis::surprisal_bits,analysis,surprisal_bits,固定文本每 token 惊异度,监测汇总,bits/token,6,560,112,charts/133.png
+analysis::teacher_entropy_nats,analysis,teacher_entropy_nats,固定状态教师熵,监测汇总,nats,2,10,0,charts/134.png
+analysis::token_top100_overlap,analysis,token_top100_overlap,词表 top-100 重叠率,监测汇总,原始单位,2,10,0,charts/135.png
+analysis::token_top100_shared_mass_student,analysis,token_top100_shared_mass_student,词表 top-100 学生共享概率质量,监测汇总,原始单位,2,10,0,charts/136.png
+analysis::token_top100_shared_mass_teacher,analysis,token_top100_shared_mass_teacher,词表 top-100 教师共享概率质量,监测汇总,原始单位,2,10,0,charts/137.png
+analysis::token_top10_overlap,analysis,token_top10_overlap,词表 top-10 重叠率,监测汇总,原始单位,2,10,0,charts/138.png
+analysis::token_top10_shared_mass_student,analysis,token_top10_shared_mass_student,词表 top-10 学生共享概率质量,监测汇总,原始单位,2,10,0,charts/139.png
+analysis::token_top10_shared_mass_teacher,analysis,token_top10_shared_mass_teacher,词表 top-10 教师共享概率质量,监测汇总,原始单位,2,10,0,charts/140.png
+analysis::token_top50_overlap,analysis,token_top50_overlap,词表 top-50 重叠率,监测汇总,原始单位,2,10,0,charts/141.png
+analysis::token_top50_shared_mass_student,analysis,token_top50_shared_mass_student,词表 top-50 学生共享概率质量,监测汇总,原始单位,2,10,0,charts/142.png
+analysis::token_top50_shared_mass_teacher,analysis,token_top50_shared_mass_teacher,词表 top-50 教师共享概率质量,监测汇总,原始单位,2,10,0,charts/143.png
+analysis::top_eigenvalue_fraction,analysis,top_eigenvalue_fraction,首特征值占比,监测汇总,原始单位,12,1176,0,charts/144.png
+analysis::truncation_rate,analysis,truncation_rate,回答截断率,监测汇总,原始单位,2,10,0,charts/145.png
+distribution::entropy_gap_abs_nats,distribution,entropy_gap_abs_nats,教师学生绝对熵差,逐题概率分布,nats,8,40,0,charts/146.png
+distribution::entropy_gap_signed_nats,distribution,entropy_gap_signed_nats,教师熵减学生熵,逐题概率分布,nats,8,40,0,charts/147.png
+distribution::kl_student_teacher_nats,distribution,kl_student_teacher_nats,诊断 KL（学生 || 教师）,逐题概率分布,nats,8,40,0,charts/148.png
+distribution::kl_to_initial_nats,distribution,kl_to_initial_nats,诊断 KL（当前学生 || 初始学生）,逐题概率分布,nats,8,40,0,charts/149.png
+distribution::student_entropy_nats,distribution,student_entropy_nats,固定状态学生熵,逐题概率分布,nats,8,40,0,charts/150.png
+distribution::teacher_entropy_nats,distribution,teacher_entropy_nats,固定状态教师熵,逐题概率分布,nats,8,40,0,charts/151.png
+distribution::token_top100_overlap,distribution,token_top100_overlap,词表 top-100 重叠率,逐题概率分布,原始单位,8,40,0,charts/152.png
+distribution::token_top100_shared_mass_student,distribution,token_top100_shared_mass_student,词表 top-100 学生共享概率质量,逐题概率分布,原始单位,8,40,0,charts/153.png
+distribution::token_top100_shared_mass_teacher,distribution,token_top100_shared_mass_teacher,词表 top-100 教师共享概率质量,逐题概率分布,原始单位,8,40,0,charts/154.png
+distribution::token_top10_overlap,distribution,token_top10_overlap,词表 top-10 重叠率,逐题概率分布,原始单位,8,40,0,charts/155.png
+distribution::token_top10_shared_mass_student,distribution,token_top10_shared_mass_student,词表 top-10 学生共享概率质量,逐题概率分布,原始单位,8,40,0,charts/156.png
+distribution::token_top10_shared_mass_teacher,distribution,token_top10_shared_mass_teacher,词表 top-10 教师共享概率质量,逐题概率分布,原始单位,8,40,0,charts/157.png
+distribution::token_top50_overlap,distribution,token_top50_overlap,词表 top-50 重叠率,逐题概率分布,原始单位,8,40,0,charts/158.png
+distribution::token_top50_shared_mass_student,distribution,token_top50_shared_mass_student,词表 top-50 学生共享概率质量,逐题概率分布,原始单位,8,40,0,charts/159.png
+distribution::token_top50_shared_mass_teacher,distribution,token_top50_shared_mass_teacher,词表 top-50 教师共享概率质量,逐题概率分布,原始单位,8,40,0,charts/160.png
+curvature::invalid_fraction,curvature,invalid_fraction,无效转角比例,逐题曲率,原始单位,6,672,0,charts/161.png
+curvature::mean_deg,curvature,mean_deg,逐题轨迹平均转角,逐题曲率,度,6,672,0,charts/162.png
+curvature::mean_step_norm,curvature,mean_step_norm,隐藏状态相邻步长,逐题曲率,原始单位,6,672,0,charts/163.png
+curvature::response_length,curvature,response_length,回答 token 数,逐题曲率,原始单位,6,672,0,charts/164.png
+curvature::surprisal_bits,curvature,surprisal_bits,固定文本每 token 惊异度,逐题曲率,bits/token,6,560,112,charts/165.png
+curvature::valid_angles,curvature,valid_angles,有效转角数量,逐题曲率,原始单位,6,672,0,charts/166.png
+behavior::correct,behavior,correct,逐题最终答案正确标记,生成行为,原始单位,2,10,0,charts/167.png
+behavior::eos,behavior,eos,正常 EOS 结束标记,生成行为,原始单位,2,10,0,charts/168.png
+behavior::extraction_failed,behavior,extraction_failed,答案抽取失败标记,生成行为,原始单位,2,10,0,charts/169.png
+behavior::repeated_4gram_rate,behavior,repeated_4gram_rate,重复四元组比例,生成行为,原始单位,2,10,0,charts/170.png
+behavior::response_length,behavior,response_length,回答 token 数,生成行为,原始单位,2,10,0,charts/171.png
+behavior::truncated,behavior,truncated,达到长度上限标记,生成行为,原始单位,2,10,0,charts/172.png

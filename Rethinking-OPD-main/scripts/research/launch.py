@@ -3,6 +3,7 @@ import copy
 import json
 import os
 from pathlib import Path
+import re
 import shlex
 import subprocess
 import sys
@@ -10,6 +11,17 @@ import time
 
 from .common import ROOT, digest, file_hash, provenance, write_json, write_jsonl
 from .data import load_questions, export_verl
+
+
+def hydra_value(value):
+    """Quote values, but keep dictionary keys in Hydra's override grammar."""
+    if isinstance(value,dict):
+        if any(not isinstance(key,str) or not re.fullmatch(r'[A-Za-z_][A-Za-z_0-9]*',key) for key in value):
+            raise ValueError('Hydra dictionary keys must be identifiers')
+        return '{'+','.join(f'{key}:{hydra_value(item)}' for key,item in value.items())+'}'
+    if isinstance(value,(list,tuple)):
+        return '['+','.join(hydra_value(item) for item in value)+']'
+    return json.dumps(value)
 
 
 def resolve(path, stack=()):
@@ -126,7 +138,15 @@ def hydra_options(c, out, student, teacher=None):
     if c.get('group')=='exp_base_geometry':
         options['actor_rollout_ref.model.lora_init_seed']=c['seed']
     if c.get('monitor'):
-        options['+trainer.research_monitor']=c['monitor']
+        monitor=copy.deepcopy(c['monitor'])
+        if c.get('checkpoint_retention')=='latest':
+            # Worker rotation deletes before saving. Rotate whole checkpoints only
+            # after the driver has saved, logged and successfully analyzed them.
+            options['trainer.max_actor_ckpt_to_keep']=None
+            options['trainer.max_critic_ckpt_to_keep']=None
+            monitor['checkpoint_retention']='latest'
+            monitor['cuda_visible_devices']=os.environ.get('CUDA_VISIBLE_DEVICES')
+        options['+trainer.research_monitor']=monitor
     return options
 
 
@@ -138,6 +158,8 @@ def reference_source_info(c):
 
 
 def validate_experiment(c):
+    if c.get('checkpoint_retention','all') not in ('all','latest'):
+        raise ValueError('checkpoint_retention must be all or latest')
     if c.get('group')=='exp_base_geometry':
         if (c['student']!='qwen3_1p7b_base' or c['initialization']!='base'
                 or c.get('prompt_mode')!='plain_completion' or c['method'] not in ('opsd','rl')):
@@ -318,7 +340,7 @@ def plan(c, output=None, execute=False):
             opts['actor_rollout_ref.model.custom_chat_template'] = (ROOT/template_path).read_text()
         if c['method']=='opd' and not teacher_path:
             opts['reward_model.model.path'] = '<SET_EXTERNAL_TEACHER_PATH>'
-        command = [sys.executable,'-m','verl.trainer.main_ppo']+[f'{key}={json.dumps(value)}' for key,value in opts.items()]
+        command = [sys.executable,'-m','verl.trainer.main_ppo']+[f'{key}={hydra_value(value)}' for key,value in opts.items()]
         if execute:
             export_verl(train,out/'train.parquet')
             export_verl(val,out/'validation.parquet')

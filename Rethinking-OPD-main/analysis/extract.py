@@ -13,7 +13,7 @@ from scripts.research.common import checkpoint_identity, digest, file_hash, read
 from scripts.research.models import Model
 from .common import config_argument, finite_mean, load_config, source_hashes, step_dir, table
 from .distributions import distribution_metrics, nll_bits, selected_log_probs
-from .evaluate import behavior, rollout
+from .evaluate import behavior, rollout_many
 from .metrics.neighbors import knn, neighbor_overlap
 from .metrics.rsa import align_rows, cosine_rsm, rsa_to_initial, rsm_summary
 from .metrics.spectrum import linear_cka, spectrum
@@ -129,8 +129,9 @@ def extract(c, checkpoint, revision, step, model=None):
     with tempfile.TemporaryDirectory(prefix=f'.step-{step}-', dir=target.parent) as tmp, torch.inference_mode():
         out = Path(tmp)
         if monitor.get('live_generation', True):
-            for row in read_jsonl(probe/'heldout_probe.jsonl')+read_jsonl(probe/'train_probe.jsonl'):
-                live.append(rollout(model, row, monitor, 'live_rollout', step))
+            live = rollout_many(model, read_jsonl(probe/'heldout_probe.jsonl')+read_jsonl(probe/'train_probe.jsonl'),
+                                monitor, 'live_rollout', step,
+                                root/'generation_cache'/f'step_{step:06d}', root/'generation_progress.json')
         table(out/'live_rollouts', live, 'jsonl')
         arrays, metadata, curve_rows, dist_rows, metric_rows = {}, {}, [], [], []
         groups = defaultdict(list)

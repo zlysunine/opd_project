@@ -31,6 +31,10 @@ def finalize_lora_merge(target, config):
                                              torch_dtype=torch.float32,attn_implementation='eager')
     adapted=PeftModel.from_pretrained(base,adapter,local_files_only=True,is_trainable=False)
     merged=adapted.merge_and_unload(safe_merge=True)
+    # Analysis consumes BF16 weights. Merge in FP32, then round once here rather
+    # than on analysis load. Keeping the original BF16 layout also prevents an
+    # obsolete single-file export from shadowing newly written FP32 shards.
+    merged.to(dtype=torch.bfloat16)
     merged.save_pretrained(target,safe_serialization=True)
     write_json(target/'lora_merge.json',{'merged':True,'rank':settings['r'],
                'alpha':settings['lora_alpha'],'source_adapter':str(adapter)})

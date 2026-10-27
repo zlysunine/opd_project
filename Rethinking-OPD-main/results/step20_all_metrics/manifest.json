@@ -1,0 +1,319 @@
+{
+  "schema": 1,
+  "selected_step": 20,
+  "monitor_steps": [
+    0,
+    1,
+    5,
+    10,
+    20
+  ],
+  "counts": {
+    "training": 98,
+    "analysis": 48,
+    "distribution": 15,
+    "curvature": 6,
+    "behavior": 6
+  },
+  "total_metrics": 173,
+  "coverage_complete": true,
+  "source_rows": {
+    "distributions": 8555,
+    "curvature": 193536,
+    "behavior": 2880
+  },
+  "sources": {
+    "final_step20/metrics.jsonl": {
+      "sha256": "4caadc16bb784bb33faa8992c0487d7703300a12d1dea4ab2e1937c0d389037d",
+      "bytes": 81128
+    },
+    "opsd/analysis/steps/step_000000/complete.json": {
+      "sha256": "5c6424d6cb79cd42ca926fbe74e647829717250b5b905cae5d88818618849b86",
+      "bytes": 142089
+    },
+    "opsd/analysis/steps/step_000000/metrics.jsonl": {
+      "sha256": "47a2b00d6ff265cc3295a3059f94c0c385364cd8b1bb8e30788ad85252945839",
+      "bytes": 6976331
+    },
+    "opsd/analysis/steps/step_000000/distributions.jsonl": {
+      "sha256": "6eb8140d66739c9c83026efedd62374efdbab4b9af6c49a97633a02ef916c489",
+      "bytes": 2750324
+    },
+    "opsd/analysis/steps/step_000000/curvature.jsonl": {
+      "sha256": "24d316df643c99b29144ad451a58a0fb55f69a45931882ef81575782b483bc8d",
+      "bytes": 51295373
+    },
+    "opsd/analysis/steps/step_000000/live_rollouts.jsonl": {
+      "sha256": "93193ddc97c78e16ba004671a55ad9e19ff85fecab529dd9b510d17f03ac789d",
+      "bytes": 5928069
+    },
+    "opsd/analysis/steps/step_000001/complete.json": {
+      "sha256": "f33a62b21c26f07f2555946cab8472a84237979c9d296e1b8a9c6f254ca8d625",
+      "bytes": 27565
+    },
+    "opsd/analysis/steps/step_000001/metrics.jsonl": {
+      "sha256": "4356fb8edd76f2718c1a2d1bc62392ba8aa52dd24f7e69f3b53ac13d2f331438",
+      "bytes": 3984221
+    },
+    "opsd/analysis/steps/step_000001/distributions.jsonl": {
+      "sha256": "8d2e880a28f4d7cad535eebaea77631351b01b48d6aeace22fcfdef189159623",
+      "bytes": 2903978
+    },
+    "opsd/analysis/steps/step_000001/curvature.jsonl": {
+      "sha256": "37561d9a18e65108b196267cc91fee7f6e6a9661ded71d4240bfa82104c70fc3",
+      "bytes": 36521413
+    },
+    "opsd/analysis/steps/step_000001/live_rollouts.jsonl": {
+      "sha256": "df5f4ca2aada544d5ad9d6cb9e46720d59c0ff0800b896368eed4eb9de9b118a",
+      "bytes": 5925558
+    },
+    "opsd/analysis/steps/step_000005/complete.json": {
+      "sha256": "cae6f06f85fffe9c768b4a9ed2fe3a0874765b88444cc16be063a5f62df5ec62",
+      "bytes": 27565
+    },
+    "opsd/analysis/steps/step_000005/metrics.jsonl": {
+      "sha256": "49b6b91262a461c36156cd382b878acf587d48501159520ca0db40792b26212c",
+      "bytes": 3991952
+    },
+    "opsd/analysis/steps/step_000005/distributions.jsonl": {
+      "sha256": "297ee5987f207182311395bb9d61ef4ad535ffdfb9a5e0234a1211d4c048a2e8",
+      "bytes": 2907339
+    },
+    "opsd/analysis/steps/step_000005/curvature.jsonl": {
+      "sha256": "ca11ca4e8248f6b35280462a86cd2fda5dcd4e4700b7488798d39797000e072b",
+      "bytes": 36585758
+    },
+    "opsd/analysis/steps/step_000005/live_rollouts.jsonl": {
+      "sha256": "4aa82efca74cd3a5d188f50eb1dc82e5461c533c44b0d7e660eb38dc63a00b0b",
+      "bytes": 5930483
+    },
+    "opsd/analysis/steps/step_000010/complete.json": {
+      "sha256": "703869bac5b11f0c54d4f79b807bbaeac6d5a1ba83a4c848c5508ea492c384b4",
+      "bytes": 27567
+    },
+    "opsd/analysis/steps/step_000010/metrics.jsonl": {
+      "sha256": "33b7c56ae81acac2ebc3ce795286a34ab5b7736fdb272491e01f2b6e10419917",
+      "bytes": 4007037
+    },
+    "opsd/analysis/steps/step_000010/distributions.jsonl": {
+      "sha256": "04670e5e7483958602b6eeea6ae61bde4db658e35a8154c545242fa89c9c335c",
+      "bytes": 2914249
+    },
+    "opsd/analysis/steps/step_000010/curvature.jsonl": {
+      "sha256": "62af7a8e9946eb43b7812fd6d14ffd7dfe6e465681f1968a1150c84d5d0dd428",
+      "bytes": 36715583
+    },
+    "opsd/analysis/steps/step_000010/live_rollouts.jsonl": {
+      "sha256": "99fa43638dff1dea5aad136228ca1465ec9f3f9f636124f418ec9a3b778e7bc2",
+      "bytes": 5929048
+    },
+    "opsd/analysis/steps/step_000020/complete.json": {
+      "sha256": "939b180afeaeb4729b617e9d8760c240d9a2a9a7b772e765719b6f32968ffce4",
+      "bytes": 54113
+    },
+    "opsd/analysis/steps/step_000020/metrics.jsonl": {
+      "sha256": "037acb3b7be3ab2fa4338e65bca249e1b790579ebe0f667477609bcacd175326",
+      "bytes": 7554720
+    },
+    "opsd/analysis/steps/step_000020/distributions.jsonl": {
+      "sha256": "165a8006d20ecefbb6e864273a8c1589ce8942c5f4f2bdad39d61b23dedaa940",
+      "bytes": 2914187
+    },
+    "opsd/analysis/steps/step_000020/curvature.jsonl": {
+      "sha256": "1a5bbae1b6ea8f3b2289a7d48d1effe3ea91661a62fd8134f0a835f7b66ba212",
+      "bytes": 55070143
+    },
+    "opsd/analysis/steps/step_000020/live_rollouts.jsonl": {
+      "sha256": "99fa717f6b10495463b132193fc3f83207f6a828a803378346c27174ecb338c0",
+      "bytes": 5927536
+    }
+  },
+  "raw_fields": {
+    "training": [
+      "actor/entropy",
+      "actor/forward_kl",
+      "actor/forward_kl_teacher_tokens",
+      "actor/grad_norm",
+      "actor/loss",
+      "actor/lr",
+      "budget/optimized_tokens",
+      "budget/questions",
+      "budget/rollout_tokens",
+      "budget/teacher_forward_tokens",
+      "budget/updates",
+      "budget/wall_seconds",
+      "critic/advantages/abs_max",
+      "critic/advantages/max",
+      "critic/advantages/mean",
+      "critic/advantages/min",
+      "critic/returns/max",
+      "critic/returns/mean",
+      "critic/returns/min",
+      "critic/rewards/max",
+      "critic/rewards/mean",
+      "critic/rewards/min",
+      "critic/score/max",
+      "critic/score/mean",
+      "critic/score/min",
+      "critic/true_reward/max",
+      "critic/true_reward/mean",
+      "critic/true_reward/min",
+      "global_seqlen/balanced_max",
+      "global_seqlen/balanced_min",
+      "global_seqlen/max",
+      "global_seqlen/mean",
+      "global_seqlen/min",
+      "global_seqlen/minmax_diff",
+      "opd/empty_intersection_rate",
+      "opd/entropy_gap",
+      "opd/entropy_gap_signed",
+      "opd/kl_renormalized_student_topk_p_to_q",
+      "opd/overlap_nonempty_fraction",
+      "opd/overlap_ratio",
+      "opd/overlap_token_advantage",
+      "opd/repo_raw_log_ratio_student_topk",
+      "opd/shared_mass_student",
+      "opd/shared_mass_teacher",
+      "opd/student_entropy",
+      "opd/student_probability_temperature",
+      "opd/teacher_entropy",
+      "opd/teacher_probability_temperature",
+      "opd/valid_response_tokens",
+      "opsd/teacher_forward_tokens",
+      "opsd/teacher_parameter_version",
+      "perf/cpu_memory_used_gb",
+      "perf/max_memory_allocated_gb",
+      "perf/max_memory_reserved_gb",
+      "perf/mfu/actor",
+      "perf/throughput",
+      "perf/time_per_step",
+      "perf/total_num_tokens",
+      "prompt_length/clip_ratio",
+      "prompt_length/max",
+      "prompt_length/mean",
+      "prompt_length/min",
+      "research/peak_memory_max_rank_gb",
+      "response/aborted_ratio",
+      "response_length/clip_ratio",
+      "response_length/max",
+      "response_length/mean",
+      "response_length/min",
+      "response_length_non_aborted/clip_ratio",
+      "response_length_non_aborted/max",
+      "response_length_non_aborted/mean",
+      "response_length_non_aborted/min",
+      "teacher/entropy",
+      "timing_per_token_ms/adv",
+      "timing_per_token_ms/gen",
+      "timing_per_token_ms/update_actor",
+      "timing_s/adv",
+      "timing_s/compute_log_prob",
+      "timing_s/compute_rm_score",
+      "timing_s/gen",
+      "timing_s/generate_sequences",
+      "timing_s/generation_timing/max",
+      "timing_s/generation_timing/min",
+      "timing_s/generation_timing/topk_ratio",
+      "timing_s/opd_dynamic_metrics",
+      "timing_s/reward",
+      "timing_s/save_checkpoint",
+      "timing_s/start_profile",
+      "timing_s/step",
+      "timing_s/stop_profile",
+      "timing_s/update_actor",
+      "training/epoch",
+      "training/global_step",
+      "training/rollout_actor_probs_pearson_corr",
+      "training/rollout_probs_diff_max",
+      "training/rollout_probs_diff_mean",
+      "training/rollout_probs_diff_std",
+      "training/rollout_probs_diff_valid"
+    ],
+    "analysis": [
+      "accuracy_micro",
+      "accuracy_topic_macro",
+      "activation_norm",
+      "curvature_d_min_deg",
+      "curvature_deg",
+      "curvature_layer_star",
+      "curvature_relative_first_deg",
+      "curvature_surprisal_current_pearson",
+      "curvature_surprisal_initial_pearson",
+      "curvature_training_delta_deg",
+      "entropy_gap_abs_nats",
+      "entropy_gap_signed_nats",
+      "eos_rate",
+      "extraction_failure_rate",
+      "invalid_angle_fraction",
+      "kl_student_teacher_nats",
+      "kl_to_initial_nats",
+      "linear_cka_to_initial",
+      "mean_step_norm",
+      "neighbor_overlap_k16",
+      "neighbor_overlap_k32",
+      "neighbor_overlap_k8",
+      "participation_ratio",
+      "response_length",
+      "rsa_rho_to_initial",
+      "rsa_rmse_to_initial",
+      "rsm_mean",
+      "rsm_q5",
+      "rsm_q50",
+      "rsm_q95",
+      "rsm_std",
+      "rsm_topic_between",
+      "rsm_topic_gap",
+      "rsm_topic_within",
+      "student_entropy_nats",
+      "surprisal_bits",
+      "teacher_entropy_nats",
+      "token_top100_overlap",
+      "token_top100_shared_mass_student",
+      "token_top100_shared_mass_teacher",
+      "token_top10_overlap",
+      "token_top10_shared_mass_student",
+      "token_top10_shared_mass_teacher",
+      "token_top50_overlap",
+      "token_top50_shared_mass_student",
+      "token_top50_shared_mass_teacher",
+      "top_eigenvalue_fraction",
+      "truncation_rate"
+    ],
+    "distribution": [
+      "entropy_gap_abs_nats",
+      "entropy_gap_signed_nats",
+      "kl_student_teacher_nats",
+      "kl_to_initial_nats",
+      "student_entropy_nats",
+      "teacher_entropy_nats",
+      "token_top100_overlap",
+      "token_top100_shared_mass_student",
+      "token_top100_shared_mass_teacher",
+      "token_top10_overlap",
+      "token_top10_shared_mass_student",
+      "token_top10_shared_mass_teacher",
+      "token_top50_overlap",
+      "token_top50_shared_mass_student",
+      "token_top50_shared_mass_teacher"
+    ],
+    "curvature": [
+      "invalid_fraction",
+      "mean_deg",
+      "mean_step_norm",
+      "response_length",
+      "surprisal_bits",
+      "valid_angles"
+    ],
+    "behavior": [
+      "correct",
+      "eos",
+      "extraction_failed",
+      "repeated_4gram_rate",
+      "response_length",
+      "truncated"
+    ]
+  },
+  "all_pngs": true,
+  "rsm_gallery_images": 120,
+  "metadata_exclusions": "step/layer/position are selectors; n_valid/status are support fields; input text/IDs are not metrics"
+}

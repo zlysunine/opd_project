@@ -1,0 +1,20 @@
+{
+  "rendered_metrics": 173,
+  "page_errors": [],
+  "external_network_requests": 0,
+  "checks": [
+    "search",
+    "all metrics",
+    "28-layer heatmap",
+    "5-step layer curves",
+    "median",
+    "histogram",
+    "CSV export",
+    "PNG export",
+    "SVG export",
+    "120 RSM gallery",
+    "173-row catalogue",
+    "undefined teacher values",
+    "mobile render"
+  ]
+}

@@ -114,6 +114,52 @@ class Model:
             ids = ids[:ids.index(self.tokenizer.eos_token_id)+1]
         return ids, self.tokenizer.decode(ids, skip_special_tokens=True), not ids or ids[-1] != self.tokenizer.eos_token_id
 
+    @torch.no_grad()
+    def generate_batch(self, rows, seeds, max_tokens=128, temperature=1., top_p=1., greedy=False):
+        """Left-padded inference with a separate sampling RNG for every question.
+
+        A logits processor samples each row independently; HF then selects the
+        sampled token by argmax. This avoids sharing a batch-wide sampling RNG.
+        Batched floating-point computation may differ from the old serial pool.
+        """
+        from transformers import LogitsProcessor, LogitsProcessorList
+
+        if not rows or len(rows) != len(seeds) or temperature <= 0 or top_p != 1.:
+            raise ValueError('Batched monitoring requires nonempty rows, matching seeds, temperature>0 and top_p=1')
+        prompts = [self.prompt(row) for row in rows]
+        width = max(map(len, prompts))
+        if width + max_tokens > self.model.config.max_position_embeddings:
+            raise ValueError('Batched prompt + generation exceeds model context')
+        ids = torch.full((len(rows), width), self.tokenizer.pad_token_id, dtype=torch.long, device=self.device)
+        mask = torch.zeros_like(ids)
+        for i, prompt in enumerate(prompts):
+            ids[i, width-len(prompt):] = torch.tensor(prompt, device=ids.device)
+            mask[i, width-len(prompt):] = 1
+
+        class IndependentSampling(LogitsProcessor):
+            def __init__(processor):
+                processor.generators = [torch.Generator(device=ids.device).manual_seed(seed) for seed in seeds]
+
+            def __call__(processor, input_ids, scores):
+                probabilities = (scores.float() / temperature).softmax(-1)
+                choices = torch.stack([torch.multinomial(p, 1, generator=g)
+                                       for p, g in zip(probabilities, processor.generators)])
+                return torch.full_like(scores, -float('inf')).scatter_(1, choices, 0.)
+
+        processors = LogitsProcessorList([] if greedy else [IndependentSampling()])
+        generated = self.model.generate(
+            input_ids=ids, attention_mask=mask, max_new_tokens=max_tokens, do_sample=False,
+            num_beams=1, logits_processor=processors, pad_token_id=self.tokenizer.pad_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
+        )[:, width:].tolist()
+        results = []
+        for response in generated:
+            if self.tokenizer.eos_token_id in response:
+                response = response[:response.index(self.tokenizer.eos_token_id)+1]
+            results.append((response, self.tokenizer.decode(response, skip_special_tokens=True),
+                            not response or response[-1] != self.tokenizer.eos_token_id))
+        return results
+
     def layers(self):
         if hasattr(self.model, 'model') and hasattr(self.model.model, 'layers'):
             return self.model.model.layers

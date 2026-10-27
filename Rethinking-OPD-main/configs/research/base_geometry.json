@@ -5,6 +5,7 @@
   "initialization": "base",
   "prompt_mode": "plain_completion",
   "chat_template_path": "configs/research/plain_completion.jinja",
-  "steps": 200,
-  "notes": "Base OPSD/GRPO comparison. LoRA r16/alpha32, lr1e-6, batch8*n8, 200 optimizer updates; share data and fixed probes. OPSD only by default. Not a paper reproduction."
+  "steps": 50,
+  "checkpoint_retention": "latest",
+  "notes": "Base OPSD/GRPO comparison. LoRA r16/alpha32, lr1e-6, batch8*n8, 50 optimizer updates; share data and fixed probes. OPSD only by default. Not a paper reproduction."
 }

@@ -3,9 +3,11 @@ import argparse
 import copy
 import json
 from pathlib import Path
+import sys
 
 from .common import ROOT, file_hash, write_json
 from .launch import plan, resolve, validate_experiment
+from .job_control import record_progress
 
 
 def configure(args):
@@ -90,6 +92,8 @@ def prepare(c):
         current['monitor'] = dict(optimizer_steps=c['monitor']['optimizer_steps'],probe_manifest=str(manifest),
                                  probe_manifest_hash=file_hash(manifest),analysis_config=str(path),method=method,
                                  job_dir=str(root/method/'jobs'))
+        if current.get('checkpoint_retention')=='latest':
+            current['monitor']['checkpoint_retention']='latest'
         validate_experiment(current)
         write_json(root/method/'training_config.json',current)
         write_json(path,analysis)
@@ -113,8 +117,9 @@ def train(c,method,execute):
         step,actor=checkpoint_actor(current,'solution',current['steps'])
         # A previous process can exit between final checkpoint and job publication.
         # Reconstruct that job without performing update steps+1.
-        if current.get('monitor') and step in current['monitor']['optimizer_steps']:
-            load_verl_utility('research_monitor').write_analysis_job(current['monitor'],actor.parent,step)
+        if current.get('monitor') and (step in current['monitor']['optimizer_steps']
+                                      or current['monitor'].get('checkpoint_retention')=='latest'):
+            load_verl_utility('research_monitor').finish_checkpoint(current['monitor'],actor.parent,step)
         print(f'{method}: training already reached optimizer step {step}; reusing checkpoint')
         return str(root/method/'train'),None
     return plan(current,root/method/'train',execute)
@@ -124,6 +129,7 @@ def analyze(c,method,steps=None):
     from analysis.extract import extract
     from analysis.checkpoints import export_checkpoint, verify_initial_adapter
     from analysis.common import load_config
+    from .retention import latest_only, completed_analysis, record_analysis, discard_export
     root=Path(c['workdir'])
     path=root/method/'analysis_config.json'
     analysis=load_config(path)
@@ -138,6 +144,10 @@ def analyze(c,method,steps=None):
             raise ValueError('Queued job points to a different probe manifest')
         step=job['optimizer_step']
         try:
+            if latest_only(current) and completed_analysis(job_path,path,analysis) is not None:
+                if step:
+                    discard_export(current,step)
+                continue
             if step==0:
                 initial=verify_initial_adapter(job['checkpoint_path'],current)
                 other=root/('grpo' if method=='opsd' else 'opsd')/'initial_adapter.json'
@@ -145,10 +155,17 @@ def analyze(c,method,steps=None):
                     raise ValueError('OPSD/GRPO initial LoRA tensors differ; comparison is not paired')
                 write_json(root/method/'initial_adapter.json',initial)
             # Verified zero-B LoRA gives exactly the archived Base function at step0.
+            record_progress(c['workdir'],'exporting',method,step)
             checkpoint=c['model']['path'] if step==0 else str(export_checkpoint(current,step))
             revision=c['model']['revision'] if step==0 else f"{c['model']['revision']}:{method}:optimizer_step_{step}"
+            record_progress(c['workdir'],'analyzing',method,step)
             result=extract(analysis,checkpoint,revision,step)
-            write_json(root/method/'job_status'/job_path.name,dict(status='complete',analysis_path=str(result)))
+            if latest_only(current):
+                record_analysis(job_path,path,result)
+                if step:
+                    discard_export(current,step)
+            else:
+                write_json(root/method/'job_status'/job_path.name,dict(status='complete',analysis_path=str(result)))
         except Exception as error:
             write_json(root/method/'job_status'/job_path.name,dict(status='failed',error=f'{type(error).__name__}: {error}'))
             raise
@@ -159,7 +176,7 @@ def parser():
     sub=p.add_subparsers(dest='stage',required=True)
     for stage in ('configure','prepare','train','analyze','report','run'):
         s=sub.add_parser(stage)
-        s.add_argument('--workdir',default='research_runs/base_geometry_200')
+        s.add_argument('--workdir',default='research_runs/base_geometry_50')
         if stage in ('configure','run'):
             s.add_argument('--config',default=str(ROOT/'configs/analysis_deepmath.json'))
             s.add_argument('--model-dir',required=True)
@@ -174,16 +191,36 @@ def parser():
                            help='Default: opsd. Choose grpo or both explicitly to run the retained RL comparison.')
         if stage in ('train','run'):
             s.add_argument('--execute',action='store_true')
+            s.add_argument('--foreground',action='store_true',
+                           help='Run attached for debugging; --execute otherwise starts an SSH-independent background task')
         if stage=='analyze':
             s.add_argument('--steps',help='Comma-separated optimizer steps; step0 must be analyzed first')
     return p
 
 
 def main(argv=None):
-    args=parser().parse_args(argv)
+    arguments=list(sys.argv[1:] if argv is None else argv)
+    args=parser().parse_args(arguments)
     method=getattr(args,'method','opsd')
     methods=('opsd','grpo') if method=='both' else (method,)
     c=configure(args) if args.stage in ('configure','run') else load(args.workdir)
+    if args.stage in ('run','train') and args.execute and not args.foreground:
+        from .job_control import start_session
+        child_args=[args.stage,'--workdir',c['workdir'],'--method',method,'--execute']
+        if args.stage=='run':
+            for name in ('config','model_dir','model_revision','input','dataset_revision','steps','gpus','seed',
+                         'train_n','dev_n','probe_n','train_probe_n','monitor_steps'):
+                value=getattr(args,name,None)
+                if value is not None:
+                    if name in ('config','model_dir','input'):
+                        value=Path(value).resolve()
+                    child_args.extend(['--'+name.replace('_','-'),str(value)])
+        command=[sys.executable,'-u','-m','scripts.research.compare',*child_args,'--foreground']
+        started=start_session(c['workdir'],command,methods)
+        print(json.dumps(started,ensure_ascii=False,indent=2))
+        if started['status']=='failed':
+            raise SystemExit(1)
+        return
     if args.stage=='configure':
         print('Configured:',Path(c['workdir'])/'config.json')
     elif args.stage=='prepare':
@@ -195,23 +232,30 @@ def main(argv=None):
         print(json.dumps(dict(status='plan_only',model=c['model'],training=c['training'],
                    methods=list(methods),
                    stages=['prepare shared probes']+[f'train {method.upper()} -> analyze checkpoints' for method in methods]+['report'],
+                   checkpoint_retention=c['training'].get('checkpoint_retention','all'),
+                   analysis_schedule='after each save before rotation' if c['training'].get('checkpoint_retention')=='latest' else 'after training',
                    monitor_steps=c['monitor']['optimizer_steps']),indent=2))
     else:
         if args.stage=='run':
             from .preflight import check_environment
+            record_progress(c['workdir'],'environment_check')
             status=check_environment(c['training']['gpus'])
             write_json(Path(c['workdir'])/'environment.json',status)
             if not status['ok']:
                 raise RuntimeError('Environment check failed: '+'; '.join(status['errors']))
+            record_progress(c['workdir'],'prepare')
             prepare(c)
         for method in methods:
             if args.stage in ('train','run'):
+                record_progress(c['workdir'],'training',method)
                 train(c,method,args.execute)
             if args.stage in ('analyze','run'):
+                record_progress(c['workdir'],'analysis_verification',method)
                 selected=None if args.stage=='run' or not args.steps else {int(v) for v in args.steps.split(',')}
                 analyze(c,method,selected)
         if args.stage=='run':
             from analysis.report import report
+            record_progress(c['workdir'],'report')
             print(report(c['workdir']))
 
 

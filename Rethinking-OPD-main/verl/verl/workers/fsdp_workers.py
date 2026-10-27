@@ -1076,9 +1076,16 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
                 prompts, data.batch["responses"], data.batch["response_mask"], self.tokenizer.pad_token_id,
                 cfg["max_teacher_prompt_length"],
             )
+            diagnostic_token_budget = cfg.get(
+                "diagnostic_token_budget", cfg["max_teacher_prompt_length"] + data.batch["responses"].shape[1]
+            )
+            if isinstance(diagnostic_token_budget, bool) or not isinstance(diagnostic_token_budget, int):
+                raise ValueError("diagnostic_token_budget must be an integer")
+            if diagnostic_token_budget < cfg["max_teacher_prompt_length"] + data.batch["responses"].shape[1]:
+                raise ValueError("Diagnostic token budget must fit a full privileged sequence")
             meta = {
                 "micro_batch_size": self.config.rollout.log_prob_micro_batch_size_per_gpu,
-                "max_token_len": cfg["max_teacher_prompt_length"] + data.batch["responses"].shape[1],
+                "max_token_len": diagnostic_token_budget,
                 "use_dynamic_bsz": self.config.rollout.log_prob_use_dynamic_bsz,
                 "temperature": data.meta_info["teacher_temperature"],
                 "top_k": data.meta_info["log_prob_top_k"],

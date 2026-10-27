@@ -1,0 +1,17 @@
+{
+  "selected_step": 20,
+  "metrics": 173,
+  "training_rows": 20,
+  "training_fields_checked": 98,
+  "monitor_rows_exactly_matched_to_source": 25626,
+  "undefined_monitor_rows_preserved": 896,
+  "sample_export_rows": {
+    "distributions": 8555,
+    "curvature": 193536,
+    "behavior": 2880
+  },
+  "source_sha256_verified": 26,
+  "static_metric_pngs": 173,
+  "rsm_gallery_pngs": 120,
+  "source_files_modified": false
+}

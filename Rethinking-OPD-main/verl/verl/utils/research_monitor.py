@@ -15,6 +15,10 @@
 """Driver-only analysis jobs; no model hooks, RNG use, or analysis dependencies."""
 import hashlib
 import json
+import os
+import subprocess
+import sys
+import time
 from pathlib import Path
 
 
@@ -41,3 +45,30 @@ def write_analysis_job(config, checkpoint, step):
     temp = out.with_suffix(".tmp")
     temp.write_text(json.dumps(job, indent=2) + "\n")
     temp.replace(out)
+
+
+def finish_checkpoint(config, checkpoint, step):
+    """Analyze while training is paused, then rotate; return non-training seconds."""
+    if analysis_due(config, step):
+        write_analysis_job(config, checkpoint, step)
+    if config.get("checkpoint_retention") != "latest":
+        return 0.0
+    project = Path(__file__).resolve().parents[3]
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.pathsep.join([str(project), str(project / "verl"), env.get("PYTHONPATH", "")])
+    # A CPU-only Ray driver can have an empty CUDA_VISIBLE_DEVICES even though
+    # its workers own GPUs. Restore the allocation captured by the launcher.
+    if "cuda_visible_devices" in config:
+        if config["cuda_visible_devices"] is None:
+            env.pop("CUDA_VISIBLE_DEVICES", None)
+        else:
+            env["CUDA_VISIBLE_DEVICES"] = config["cuda_visible_devices"]
+    command = [sys.executable, "-m", "scripts.research.retention", "--analysis-config", config["analysis_config"],
+               "--checkpoint", str(checkpoint), "--step", str(step)]
+    started = time.monotonic()
+    subprocess.run(command, cwd=project, env=env, check=True)
+    elapsed = time.monotonic() - started
+    timings = Path(config["job_dir"]).parent / "checkpoint_maintenance.jsonl"
+    with timings.open("a") as stream:
+        stream.write(json.dumps({"optimizer_step": step, "analysis_and_rotation_seconds": elapsed}) + "\n")
+    return elapsed

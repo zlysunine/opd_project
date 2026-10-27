@@ -1,5 +1,5 @@
 {
-  "run_id": "deepmath_base_geometry_200",
+  "run_id": "deepmath_base_geometry_50",
   "model": {
     "name_or_path": "Qwen/Qwen3-1.7B-Base",
     "path": null,
@@ -20,26 +20,63 @@
     "dev_n": 512
   },
   "monitor": {
-    "optimizer_steps": [0, 1, 5, 10, 20, 50, 100, 200],
+    "optimizer_steps": [
+      0,
+      1,
+      5,
+      10,
+      20,
+      50
+    ],
     "heldout_probe_n": 512,
     "train_probe_n": 64,
     "seed": 20261026,
     "max_probe_response_tokens": 256,
-    "anchors": ["prompt_last", "response_32", "response_128"],
-    "knn_k": [8, 16, 32],
-    "curvature_eps": 1e-8,
-    "distribution_positions": [1, 32, 128],
+    "anchors": [
+      "prompt_last",
+      "response_32",
+      "response_128"
+    ],
+    "knn_k": [
+      8,
+      16,
+      32
+    ],
+    "curvature_eps": 1e-08,
+    "distribution_positions": [
+      1,
+      32,
+      128
+    ],
     "distribution_metrics": true,
-    "token_top_ks": [10, 50, 100],
+    "token_top_ks": [
+      10,
+      50,
+      100
+    ],
     "state_chunk_size": 16,
-    "teacher_geometry_steps": [0, 20, 100, 200],
+    "teacher_geometry_steps": [
+      0,
+      20,
+      50
+    ],
     "additional_fixed_reference": false,
     "live_generation": true,
     "live_greedy": true,
     "linear_cka": true,
     "rsa_max_pairs": 1000000,
-    "plot_full_rsm_steps": [0, 20, 100, 200],
-    "plot_relative_depths": [0.0, 0.25, 0.5, 0.75, 1.0],
+    "plot_full_rsm_steps": [
+      0,
+      20,
+      50
+    ],
+    "plot_relative_depths": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
     "heavy_metrics": []
   },
   "training": {
@@ -48,13 +85,14 @@
     "lora_rank": 16,
     "lora_alpha": 32,
     "lora_target_modules": "all-linear",
-    "learning_rate": 1e-6,
+    "learning_rate": 1e-06,
     "batch": 8,
     "rollouts": 8,
     "microbatch": 1,
-    "steps": 200,
+    "steps": 50,
     "epochs": 1,
     "save_every": 50,
+    "checkpoint_retention": "latest",
     "seed": 42,
     "gpus": 1,
     "max_prompt_length": 512,
@@ -66,5 +104,5 @@
     "teacher_update_policy": "current_batch_stop_gradient"
   },
   "table_format": "parquet",
-  "output_root": "research_runs/base_geometry_200/shared"
+  "output_root": "research_runs/base_geometry_50/shared"
 }

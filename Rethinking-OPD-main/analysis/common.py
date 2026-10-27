@@ -48,6 +48,9 @@ def csv_table(path, rows):
 
 def load_config(path):
     c = json.loads(Path(path).read_text())
+    batch_size = c['monitor'].get('generation_batch_size', 1)
+    if isinstance(batch_size, bool) or not isinstance(batch_size, int) or batch_size < 1:
+        raise ValueError('monitor.generation_batch_size must be a positive integer')
     if c['model']['name_or_path'] != 'Qwen/Qwen3-1.7B-Base':
         raise ValueError('This experiment explicitly requires Qwen/Qwen3-1.7B-Base')
     for key in ('model', 'dataset'):

@@ -1,0 +1,4 @@
+# Generated bundles contain embedded vendor JavaScript and data; review the builder instead.
+results/** linguist-generated=true
+results/step20_all_metrics/index.html -diff
+results/step20_all_metrics/data/report_data.json -diff

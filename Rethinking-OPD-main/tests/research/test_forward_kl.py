@@ -224,7 +224,7 @@ class ForwardKLTests(unittest.TestCase):
             with patch.dict(sys.modules,{'peft':types.SimpleNamespace(PeftModel=Adapter)}), \
                  patch('transformers.AutoModelForCausalLM.from_pretrained',return_value=base):
                 finalize_lora_merge(root,{'lora_rank':2,'lora_alpha':4})
-            torch.testing.assert_close(base.weight,original+2)
+            torch.testing.assert_close(base.weight,(original+2).to(torch.bfloat16),atol=0,rtol=0)
             self.assertTrue(json.loads((root/'lora_merge.json').read_text())['merged'])
 
     def test_prepare_refuses_old_128_question_budget_before_evaluation(self):

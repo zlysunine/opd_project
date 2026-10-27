@@ -842,8 +842,9 @@ class RayPPOTrainer:
         local_latest_checkpointed_iteration = os.path.join(
             self.config.trainer.default_local_dir, "latest_checkpointed_iteration.txt"
         )
-        with open(local_latest_checkpointed_iteration, "w") as f:
+        with open(local_latest_checkpointed_iteration + ".tmp", "w") as f:
             f.write(str(self.global_steps))
+        os.replace(local_latest_checkpointed_iteration + ".tmp", local_latest_checkpointed_iteration)
 
     def _load_checkpoint(self):
         if self.config.trainer.resume_mode == "disable":
@@ -988,19 +989,19 @@ class RayPPOTrainer:
         self._load_checkpoint()
         monitor = self.config.trainer.get("research_monitor", None)
         if monitor:
-            from verl.utils.research_monitor import analysis_due, write_analysis_job
+            from verl.utils.research_monitor import analysis_due, finish_checkpoint
 
+            checkpoint = os.path.join(self.config.trainer.default_local_dir, f"global_step_{self.global_steps}")
             if analysis_due(monitor, self.global_steps):
                 # All FSDP ranks save through the existing worker-group RPC.
-                # Geometry extraction is performed later by an independent process.
+                # Latest-only runs analyze in an independent process before continuing.
                 job_path = os.path.join(monitor["job_dir"], f"step_{self.global_steps:06d}.json")
                 if not os.path.exists(job_path):
                     self._save_checkpoint()
-                write_analysis_job(
-                    monitor,
-                    os.path.join(self.config.trainer.default_local_dir, f"global_step_{self.global_steps}"),
-                    self.global_steps,
-                )
+                finish_checkpoint(monitor, checkpoint, self.global_steps)
+            elif monitor.get("checkpoint_retention") == "latest" and os.path.isdir(checkpoint):
+                # Resume a periodic save interrupted before analysis/rotation.
+                finish_checkpoint(monitor, checkpoint, self.global_steps)
         research_budget = None
         if self.config.trainer.get("research_metrics_path"):
             from verl.utils.research_budget import ResearchBudget
@@ -2391,6 +2392,7 @@ class RayPPOTrainer:
                 # 3. The current step number is a multiple of the save frequency.
                 # 4. The ESI(Elastic Server Instance)/training plan is close to expiration.
                 monitor_due = bool(monitor) and analysis_due(monitor, self.global_steps)
+                checkpoint_saved = False
                 if monitor_due or (self.config.trainer.save_freq > 0 and (
                     is_last_step or self.global_steps % self.config.trainer.save_freq == 0 or esi_close_to_expiration
                 )):
@@ -2398,6 +2400,7 @@ class RayPPOTrainer:
                         print("Force saving checkpoint: ESI instance expiration approaching.")
                     with marked_timer("save_checkpoint", timing_raw, color="green"):
                         self._save_checkpoint()
+                    checkpoint_saved = True
 
                 with marked_timer("stop_profile", timing_raw):
                     next_step_profile = (
@@ -2439,13 +2442,15 @@ class RayPPOTrainer:
                 logger.log(data=metrics, step=self.global_steps)
                 if research_budget is not None:
                     research_budget.log(self.global_steps, metrics)
-                if monitor_due:
+                if monitor and checkpoint_saved:
                     # Publish only after both checkpoint and scalars are durable.
-                    write_analysis_job(
+                    analysis_seconds = finish_checkpoint(
                         monitor,
                         os.path.join(self.config.trainer.default_local_dir, f"global_step_{self.global_steps}"),
                         self.global_steps,
                     )
+                    if research_budget is not None:
+                        research_budget.exclude_pause(analysis_seconds)
 
                 progress_bar.update(1)
                 self.global_steps += 1
