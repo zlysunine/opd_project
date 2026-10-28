@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import copy
+import json
 import logging
 import os
 import re
@@ -33,6 +34,15 @@ import verl.utils.torch_functional as verl_F
 from verl.utils.model import compute_position_id_with_mask
 
 logger = logging.getLogger(__name__)
+
+
+def decode_extra_info(value):
+    """Read JSON metadata without Arrow struct coercion; retain legacy dicts."""
+    if isinstance(value, str):
+        value = json.loads(value)
+        if not isinstance(value, dict):
+            raise ValueError("Serialized extra_info must contain a JSON object")
+    return value
 
 
 def collate_fn(data_list: list[dict]) -> dict:
@@ -292,6 +302,8 @@ class RLHFDataset(Dataset):
         Note that we also return the raw_input_ids so that it can be combined with other chat template
         """
         row_dict: dict = self.dataframe[item]
+        if "extra_info" in row_dict:
+            row_dict["extra_info"] = decode_extra_info(row_dict["extra_info"])
         messages = self._build_messages(row_dict)
         model_inputs = {}
 

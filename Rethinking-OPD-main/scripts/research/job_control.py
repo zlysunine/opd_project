@@ -284,7 +284,14 @@ def status(workdir):
                 analyzed_steps=analyzed, expected_analysis_steps=expected, failed_analysis=failed,
                 metrics_updated_unix=metrics_path.stat().st_mtime if metric else None,
                 train_log=str(base/'train/train.log'))
-    return dict(status=lifecycle, workdir=str(workdir), phase=progress.get('phase','starting' if directory else 'not_started'),
+    from .preparation_progress import read_preparation
+    preparation = read_preparation(workdir)
+    generation = _read(workdir/'shared/generation_progress.json')
+    current_phase = progress.get('phase','starting' if directory else 'not_started')
+    if preparation and current_phase in ('starting','not_started','prepare'):
+        current_phase = preparation['phase']
+    return dict(status=lifecycle, workdir=str(workdir), phase=current_phase,
+                preparation=preparation, generation=generation,
                 active_method=progress.get('method'), analysis_step=progress.get('optimizer_step'),
                 supervisor=state.get('supervisor'), child=state.get('child'),
                 started_utc=state.get('started_utc'), heartbeat_utc=state.get('heartbeat_utc'),
@@ -296,7 +303,13 @@ def status(workdir):
 def render(report):
     phases = {'not_started':'尚未启动','starting':'正在启动','environment_check':'检查环境',
               'prepare':'准备数据和固定输入','training':'训练','analysis_verification':'校验分析结果',
-              'exporting':'导出分析权重','analyzing':'分析 checkpoint','checkpoint_cleanup':'清理旧权重','report':'生成报告'}
+              'exporting':'导出分析权重','analyzing':'分析 checkpoint','checkpoint_cleanup':'清理旧权重','report':'生成报告',
+              'identity_check':'校验输入身份','model_loading':'加载模型','selection_cache':'校验已保存筛选结果',
+              'native_read':'读取原生数据','native_adaptation':'难度筛选与参考文本分词',
+              'eligibility_checks':'逐题核验参考答案和长度','selection':'逐题筛选',
+              'split_freeze':'去重并冻结划分','selection_checkpoint':'保存筛选检查点',
+              'baseline_generation':'生成基线回答','baseline_quality':'检查基线抽取成功率',
+              'fixed_pool_generation':'生成固定输入池','publishing_probe':'保存固定输入池','complete':'数据准备完成'}
     states = {'not_started':'未启动','starting':'启动中','running':'运行中','stopping':'停止中',
               'completed':'已完成','failed':'失败','stopped':'已停止','lost':'进程已退出（无完成记录）',
               'orphaned':'监控进程退出，训练子进程仍存活'}
@@ -310,6 +323,36 @@ def render(report):
     if report['heartbeat_utc']:
         heartbeat = datetime.fromisoformat(report['heartbeat_utc']).astimezone(ZoneInfo('Asia/Shanghai'))
         lines.append('后台心跳：'+heartbeat.strftime('%Y-%m-%d %H:%M:%S %z'))
+    prep = report.get('preparation')
+    if prep:
+        processed, total = prep.get('processed'), prep.get('total')
+        if total is not None:
+            lines.append(f"  数据处理：{processed}/{total}；本阶段记录状态：{prep['status']}")
+        if prep.get('accepted') is not None:
+            lines.append(f"  筛选通过（去重前）：{prep['accepted']}；排除：{prep.get('excluded','未知')}")
+        if prep.get('exclusion_counts'):
+            lines.append('  排除原因：'+str(prep['exclusion_counts']))
+        if prep.get('elapsed_seconds') is not None:
+            lines.append(f"  准备累计耗时：{prep['elapsed_seconds']/60:.1f} 分钟")
+        if prep.get('rows_per_second') is not None:
+            lines.append(f"  本阶段处理速度：{prep['rows_per_second']:.2f} 题/秒")
+        if prep.get('status')=='running' and prep.get('remaining_seconds') is not None:
+            lines.append(f"  本阶段预计剩余：{prep['remaining_seconds']/60:.1f} 分钟（基于实测平均速度）")
+        if prep.get('current_problem_id'):
+            lines.append('  最近处理题目：'+str(prep['current_problem_id']))
+        if prep.get('updated_unix'):
+            updated = datetime.fromtimestamp(prep['updated_unix'],ZoneInfo('Asia/Shanghai'))
+            lines.append('  数据进度更新时间：'+updated.strftime('%Y-%m-%d %H:%M:%S %z'))
+        for item in prep.get('baseline_quality',{}).get('splits',[]):
+            n, failures = item['n'], item['failures']
+            rate = f"{(n-failures)/n:.1%}" if n else '未知'
+            lines.append(f"  基线 {item['split']} 抽取成功：{n-failures}/{n}（{rate}）；"
+                         f"门槛：{'通过' if item['passed'] else '失败'}")
+        if prep.get('error'):
+            lines.append('  数据准备错误：'+prep['error'])
+    gen = report.get('generation')
+    if gen:
+        lines.append(f"  回答生成：{gen['pool']} {gen['completed']}/{gen['total']}；状态：{gen['status']}")
     for method, item in report['methods'].items():
         percent = f" ({item['percent']:.1f}%)" if item['percent'] is not None else ''
         lines.append(f"{method.upper()} 训练：{item['completed_steps']}/{item['total_steps'] or '?'}{percent}；"

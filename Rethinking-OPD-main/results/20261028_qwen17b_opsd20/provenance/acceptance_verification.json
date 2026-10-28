@@ -1,0 +1,333 @@
+{
+  "workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50",
+  "checkpoint": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/opsd/train/checkpoints/global_step_2",
+  "report": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/report/OPSD_report.html",
+  "verified_steps": [
+    0,
+    1,
+    2
+  ],
+  "quality_gates_passed": true,
+  "extraction_success_rates": {
+    "workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50",
+    "required_heldout_success_rate": 0.7,
+    "expected_stages": [
+      "baseline",
+      "step_000000",
+      "step_000001",
+      "step_000002"
+    ],
+    "pending_stages": [],
+    "completed": true,
+    "all_gates_passed": true,
+    "rates": [
+      {
+        "stage": "baseline",
+        "split": "heldout_probe",
+        "n": 50,
+        "extraction_successes": 42,
+        "extraction_failures": 8,
+        "extraction_success_rate": 0.84,
+        "extraction_failure_rate": 0.16,
+        "truncation_rate": 0.08,
+        "accuracy": 0.5,
+        "parse_status_counts": {
+          "extracted": 42,
+          "missing_final_answer": 7,
+          "invalid_answer_type": 1
+        },
+        "quality_gate_applies": true,
+        "quality_gate_passed": true,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/shared/quality/baseline/responses.jsonl"
+      },
+      {
+        "stage": "baseline",
+        "split": "train_probe",
+        "n": 4,
+        "extraction_successes": 3,
+        "extraction_failures": 1,
+        "extraction_success_rate": 0.75,
+        "extraction_failure_rate": 0.25,
+        "truncation_rate": 0.0,
+        "accuracy": 0.5,
+        "parse_status_counts": {
+          "extracted": 3,
+          "missing_final_answer": 1
+        },
+        "quality_gate_applies": false,
+        "quality_gate_passed": null,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/shared/quality/baseline/responses.jsonl"
+      },
+      {
+        "stage": "step_000000",
+        "split": "heldout_probe",
+        "n": 50,
+        "extraction_successes": 42,
+        "extraction_failures": 8,
+        "extraction_success_rate": 0.84,
+        "extraction_failure_rate": 0.16,
+        "truncation_rate": 0.08,
+        "accuracy": 0.5,
+        "parse_status_counts": {
+          "extracted": 42,
+          "missing_final_answer": 7,
+          "invalid_answer_type": 1
+        },
+        "quality_gate_applies": true,
+        "quality_gate_passed": true,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/opsd/analysis/quality/step_000000/responses.jsonl"
+      },
+      {
+        "stage": "step_000000",
+        "split": "train_probe",
+        "n": 4,
+        "extraction_successes": 3,
+        "extraction_failures": 1,
+        "extraction_success_rate": 0.75,
+        "extraction_failure_rate": 0.25,
+        "truncation_rate": 0.0,
+        "accuracy": 0.5,
+        "parse_status_counts": {
+          "extracted": 3,
+          "missing_final_answer": 1
+        },
+        "quality_gate_applies": false,
+        "quality_gate_passed": null,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/opsd/analysis/quality/step_000000/responses.jsonl"
+      },
+      {
+        "stage": "step_000001",
+        "split": "heldout_probe",
+        "n": 50,
+        "extraction_successes": 45,
+        "extraction_failures": 5,
+        "extraction_success_rate": 0.9,
+        "extraction_failure_rate": 0.1,
+        "truncation_rate": 0.02,
+        "accuracy": 0.6,
+        "parse_status_counts": {
+          "extracted": 45,
+          "invalid_answer_type": 1,
+          "missing_final_answer": 4
+        },
+        "quality_gate_applies": true,
+        "quality_gate_passed": true,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/opsd/analysis/quality/step_000001/responses.jsonl"
+      },
+      {
+        "stage": "step_000001",
+        "split": "train_probe",
+        "n": 4,
+        "extraction_successes": 3,
+        "extraction_failures": 1,
+        "extraction_success_rate": 0.75,
+        "extraction_failure_rate": 0.25,
+        "truncation_rate": 0.0,
+        "accuracy": 0.5,
+        "parse_status_counts": {
+          "extracted": 3,
+          "missing_final_answer": 1
+        },
+        "quality_gate_applies": false,
+        "quality_gate_passed": null,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/opsd/analysis/quality/step_000001/responses.jsonl"
+      },
+      {
+        "stage": "step_000002",
+        "split": "heldout_probe",
+        "n": 50,
+        "extraction_successes": 41,
+        "extraction_failures": 9,
+        "extraction_success_rate": 0.82,
+        "extraction_failure_rate": 0.18,
+        "truncation_rate": 0.04,
+        "accuracy": 0.5,
+        "parse_status_counts": {
+          "extracted": 41,
+          "missing_final_answer": 8,
+          "invalid_answer_type": 1
+        },
+        "quality_gate_applies": true,
+        "quality_gate_passed": true,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/opsd/analysis/quality/step_000002/responses.jsonl"
+      },
+      {
+        "stage": "step_000002",
+        "split": "train_probe",
+        "n": 4,
+        "extraction_successes": 3,
+        "extraction_failures": 1,
+        "extraction_success_rate": 0.75,
+        "extraction_failure_rate": 0.25,
+        "truncation_rate": 0.0,
+        "accuracy": 0.5,
+        "parse_status_counts": {
+          "extracted": 3,
+          "missing_final_answer": 1
+        },
+        "quality_gate_applies": false,
+        "quality_gate_passed": null,
+        "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/opsd/analysis/quality/step_000002/responses.jsonl"
+      }
+    ],
+    "updated_unix": 1793154057.2588608
+  },
+  "training_metrics_validation": {
+    "passed": true,
+    "optimizer_updates": 2,
+    "required_fields": [
+      "actor/forward_kl",
+      "actor/grad_norm",
+      "opd/overlap_ratio",
+      "opd/overlap_token_advantage",
+      "opd/student_entropy",
+      "opd/teacher_entropy",
+      "opd/entropy_gap"
+    ],
+    "nonzero_lora_B": true,
+    "steps": [
+      {
+        "step": 1,
+        "actor/forward_kl": 0.0223362036049366,
+        "actor/grad_norm": 0.07134208083152771,
+        "opd/overlap_ratio": 0.9293029308319092,
+        "opd/overlap_token_advantage": -0.0013604151317849755,
+        "opd/student_entropy": 1.0023541450500488,
+        "opd/teacher_entropy": 1.008620262145996,
+        "opd/entropy_gap": 0.06944669038057327,
+        "response_truncation_rate": 0.0,
+        "response_length_mean": 496.796875,
+        "optimized_tokens": 31795.0
+      },
+      {
+        "step": 2,
+        "actor/forward_kl": 0.015055129304528236,
+        "actor/grad_norm": 0.04873266443610191,
+        "opd/overlap_ratio": 0.9405501484870911,
+        "opd/overlap_token_advantage": -0.0009101833566091955,
+        "opd/student_entropy": 1.1971182823181152,
+        "opd/teacher_entropy": 1.200709581375122,
+        "opd/entropy_gap": 0.05588676035404205,
+        "response_truncation_rate": 0.0,
+        "response_length_mean": 880.78125,
+        "optimized_tokens": 88165.0
+      }
+    ],
+    "analysis_readiness": {
+      "passed": true,
+      "complete": true,
+      "checked_steps": [
+        0,
+        1,
+        2
+      ],
+      "expected_steps": [
+        0,
+        1,
+        2
+      ],
+      "stage_checks_passed": true,
+      "minimum_extraction_success_rate": 0.7,
+      "interpretation": "Readiness validates measurements and coverage; it does not require accuracy or KL improvement.",
+      "undefined_policy": "Undefined short anchors, N<=k, or zero-variance correlations remain null; core heldout metrics must be measured.",
+      "steps": [
+        {
+          "step": 0,
+          "heldout_n": 50,
+          "extraction_successes": 42,
+          "extraction_success_rate": 0.84,
+          "extraction_failure_rate": 0.16,
+          "truncation_rate": 0.08,
+          "complete_extractable_rate": 0.84,
+          "accuracy": 0.5,
+          "format_compliance_rate": 0.48,
+          "metric_rows": 8298,
+          "measured_rows": 6926,
+          "undefined_rows": 1372,
+          "undefined_by_metric": {
+            "rsm_topic_within": 168,
+            "rsm_topic_gap": 168,
+            "neighbor_overlap_k8": 168,
+            "neighbor_overlap_k16": 168,
+            "neighbor_overlap_k32": 168,
+            "neighbor_overlap_student_teacher_k8": 84,
+            "neighbor_overlap_student_teacher_k16": 84,
+            "neighbor_overlap_student_teacher_k32": 84,
+            "surprisal_bits": 56,
+            "curvature_surprisal_current_pearson": 56,
+            "curvature_surprisal_initial_pearson": 112,
+            "curvature_training_delta_deg": 56
+          },
+          "all_valid_tokens_verified": true,
+          "student_initial_coverage": true,
+          "student_teacher_geometry_coverage": true,
+          "warnings": []
+        },
+        {
+          "step": 1,
+          "heldout_n": 50,
+          "extraction_successes": 45,
+          "extraction_success_rate": 0.9,
+          "extraction_failure_rate": 0.1,
+          "truncation_rate": 0.02,
+          "complete_extractable_rate": 0.9,
+          "accuracy": 0.6,
+          "format_compliance_rate": 0.5,
+          "metric_rows": 8298,
+          "measured_rows": 6926,
+          "undefined_rows": 1372,
+          "undefined_by_metric": {
+            "rsm_topic_within": 168,
+            "rsm_topic_gap": 168,
+            "neighbor_overlap_k8": 168,
+            "neighbor_overlap_k16": 168,
+            "neighbor_overlap_k32": 168,
+            "neighbor_overlap_student_teacher_k8": 84,
+            "neighbor_overlap_student_teacher_k16": 84,
+            "neighbor_overlap_student_teacher_k32": 84,
+            "surprisal_bits": 56,
+            "curvature_surprisal_current_pearson": 56,
+            "curvature_surprisal_initial_pearson": 112,
+            "curvature_training_delta_deg": 56
+          },
+          "all_valid_tokens_verified": true,
+          "student_initial_coverage": true,
+          "student_teacher_geometry_coverage": true,
+          "warnings": []
+        },
+        {
+          "step": 2,
+          "heldout_n": 50,
+          "extraction_successes": 41,
+          "extraction_success_rate": 0.8200000000000001,
+          "extraction_failure_rate": 0.18,
+          "truncation_rate": 0.04,
+          "complete_extractable_rate": 0.82,
+          "accuracy": 0.5,
+          "format_compliance_rate": 0.44,
+          "metric_rows": 8298,
+          "measured_rows": 6926,
+          "undefined_rows": 1372,
+          "undefined_by_metric": {
+            "rsm_topic_within": 168,
+            "rsm_topic_gap": 168,
+            "neighbor_overlap_k8": 168,
+            "neighbor_overlap_k16": 168,
+            "neighbor_overlap_k32": 168,
+            "neighbor_overlap_student_teacher_k8": 84,
+            "neighbor_overlap_student_teacher_k16": 84,
+            "neighbor_overlap_student_teacher_k32": 84,
+            "surprisal_bits": 56,
+            "curvature_surprisal_current_pearson": 56,
+            "curvature_surprisal_initial_pearson": 112,
+            "curvature_training_delta_deg": 56
+          },
+          "all_valid_tokens_verified": true,
+          "student_initial_coverage": true,
+          "student_teacher_geometry_coverage": true,
+          "warnings": []
+        }
+      ]
+    }
+  }
+}

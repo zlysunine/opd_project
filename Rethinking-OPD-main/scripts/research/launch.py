@@ -10,7 +10,8 @@ import sys
 import time
 
 from .common import ROOT, digest, file_hash, provenance, write_json, write_jsonl
-from .data import load_questions, export_verl
+from .data import load_questions
+from .training_data import export_verl_training as export_verl
 
 
 def hydra_value(value):

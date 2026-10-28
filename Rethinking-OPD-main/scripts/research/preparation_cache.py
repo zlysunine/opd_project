@@ -1,5 +1,6 @@
 """Verify and reuse completed data selection without redoing model generation."""
 import ast
+import copy
 import json
 from pathlib import Path
 import shutil
@@ -53,11 +54,14 @@ def selection_sources(root=ROOT):
 
 def selection_identity(c):
     dataset = {k:v for k,v in c['dataset'].items() if k != 'preparation_cache'}
+    sampling = {k:c['monitor'][k] for k in ('seed','heldout_probe_n','train_probe_n')}
+    if 'heldout_selection' in c['monitor']:
+        sampling['heldout_selection'] = copy.deepcopy(c['monitor']['heldout_selection'])
     return dict(dataset=dataset, input_hash=file_hash(dataset['input']), model=c['model'],
                 checkpoint_hash=checkpoint_identity(c['model']['path']),
                 lengths={k:c['training'][k] for k in ('max_prompt_length', 'max_teacher_prompt_length',
                                                        'max_response_length')},
-                sampling={k:c['monitor'][k] for k in ('seed', 'heldout_probe_n', 'train_probe_n')})
+                sampling=sampling)
 
 
 def validate_splits(directory, c):
@@ -136,3 +140,30 @@ def restore(c, output):
                     source_workdir=manifest['source_workdir'], counts=manifest['counts']))
     print('PREPARATION_CACHE_VERIFIED', json.dumps(manifest['counts']), flush=True)
     return splits, duplicates
+
+
+def save_selection(directory, c, target):
+    """Publish durable selection before any GPU generation or quality gates."""
+    import os
+    directory, target = Path(directory), Path(target)
+    if target.exists():
+        raise ValueError(f'Refusing to overwrite selection checkpoint: {target}')
+    temporary = target.with_name('.'+target.name+'.building')
+    temporary.mkdir(parents=True,exist_ok=False)
+    splits, _ = validate_splits(directory,c)
+    for name in FILES:
+        os.link(directory/name,temporary/name)
+    manifest = dict(schema=1,identity=selection_identity(c),selection_sources=selection_sources(),
+                    files={name:file_hash(temporary/name) for name in FILES},
+                    source_workdir=str(Path(c.get('workdir',directory.parent.parent)).resolve()),
+                    source_snapshot=str(target/'selection_complete.json'),
+                    counts={name:len(rows) for name,rows in splits.items()})
+    from collections import Counter
+    counts = Counter(row['exclusion_reason'] or 'accepted'
+                     for row in read_jsonl(directory/'eligibility.jsonl'))
+    manifest['screening_counts'] = dict(processed=sum(counts.values()),accepted=counts.get('accepted',0),
+                                       excluded=sum(counts.values())-counts.get('accepted',0),
+                                       exclusion_counts={k:v for k,v in counts.items() if k!='accepted'})
+    write_json(temporary/'selection_complete.json',manifest)
+    temporary.rename(target)
+    return target

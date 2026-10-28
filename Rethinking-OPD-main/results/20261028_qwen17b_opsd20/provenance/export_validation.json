@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "html": {
+    "OPSD_report.html": {
+      "bytes": 14900210,
+      "monitor_steps": [
+        0,
+        1,
+        5,
+        10,
+        20
+      ],
+      "metrics": 263,
+      "embedded_rsm_images": 120,
+      "offline_assets": true
+    },
+    "acceptance_2step.html": {
+      "bytes": 12916583,
+      "monitor_steps": [
+        0,
+        1,
+        2
+      ],
+      "metrics": 263,
+      "embedded_rsm_images": 120,
+      "offline_assets": true
+    }
+  },
+  "all_20_training_steps": true,
+  "all_5_checkpoints": true,
+  "behavior_rows": 270,
+  "weights_exported": false,
+  "all_data_streams_readable": true,
+  "limitations": [
+    "Node runtime control test skipped; HTML structure, embedded assets and data validated."
+  ]
+}

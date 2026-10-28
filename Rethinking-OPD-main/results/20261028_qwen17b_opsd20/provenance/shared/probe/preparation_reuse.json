@@ -1,0 +1,11 @@
+{
+  "cache": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/formal_selection_reuse_pilot",
+  "manifest_hash": "3f4d1c2a9417fafe0d487f2b5074e3e4484587b6e2006fcc2ba5091c3f3a8076",
+  "source_workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814",
+  "counts": {
+    "heldout_probe": 50,
+    "validation": 512,
+    "train": 2814,
+    "train_probe": 4
+  }
+}

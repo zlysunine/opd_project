@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "config_hash": "fc7d8a64ad527ca6db332b78ed8042c617a54d2c370f736ea2f12e593f120fd4",
+    "input_hash": "e4981f9b3f3b2840b71539a1970858f1448ea798f26b1e976031cbb1fb7780b5",
+    "sources": {
+      "analysis/__init__.py": "4a706955bc8e775bafc6e656f66023e7be9549f4ca25db6e1d910dfa70d0fc9d",
+      "analysis/checkpoints.py": "8e8edcb0b471826529898ed55cb8a863587b74c115cc2af3302da9ea6c0a274b",
+      "analysis/common.py": "d26c86e8803de2f398cb8af123aa49c7389d0796df08673cd13c45070c123b40",
+      "analysis/distributions.py": "45ebfab15abe40838343f8a7dbcc847c1ef79a96465784b864538220191ef7a1",
+      "analysis/evaluate.py": "59d3a0d9fdd012ec6ba93e1d46b171795fde7f2d28d51df0a9ccde6e28bb0d4f",
+      "analysis/extract.py": "5807e6a7a7909bfb831cbda1a667c43b24aa04a1864eb06d99ea29416dbe3ca1",
+      "analysis/html_report.py": "22a99d894a7441f4831eb0034db37f5e3a24d77e9b897750145be3a95d976275",
+      "analysis/metrics/__init__.py": "7dde4988236a36e4b83974e540fb846bb27df9f8c637c25ecedf65fc46c94c02",
+      "analysis/metrics/neighbors.py": "4736113cd94c6fa79178175ddd735cfc315fb98720f42735b920007e3ff81a65",
+      "analysis/metrics/paired.py": "c6afe2df4e958007fb1172fa17975d2f6b884017fe1b32ef45364ab861354b33",
+      "analysis/metrics/rsa.py": "0ce3171d5ac2f68911163da6ac7a5b0bdf3e1bc4b6fe3dd2a60efa9b80669713",
+      "analysis/metrics/spectrum.py": "2a7329d27d23e8007c1a434d05991fc6002e528bb8a723d9a26130272de214ea",
+      "analysis/metrics/trajectory.py": "731a33cfbfc59ca343bca41edfa9e8440335bd7edb80265b0e698e334cfff225",
+      "analysis/prepare_probe.py": "704887744db14e2fbc921598fba880063f6339bf2522b0418c7a543fd099a375",
+      "analysis/report.py": "25fb3226c9f0e6e21369b9fce9aab64d0c6f9a75a6d92bbad0ce4ed9a21837a6",
+      "analysis/smoke.py": "f0756dbb66c65d4381b92cd446f700a985398e5bce9ee94a9c5f5cccd6cf8f4d",
+      "analysis/trajectory_distributions.py": "610c71b8d534b013b573911d26257001f182b918c07166ec2c20d01037cb74d7",
+      "configs/research/plain_completion.jinja": "13c53088948cdbe056896f930e97b5d20a97588522ffc7cc238fb4145a19fb10",
+      "scripts/research/answer_protocol.py": "4fff4feaed2e7bd35af9e15a5ebe79f84d54f62c4401b83417669225a9a66d71",
+      "scripts/research/data.py": "e2275f55c1b9a1464a5e8528e2845767192016e41708bf1ac358c1effe40e82d",
+      "scripts/research/models.py": "1dfd856b100ffd7e591020ef93868bb6cac2b2d0a7866ced8aebcbf65e18eb97",
+      "scripts/research/reward.py": "6cfb41c7dbf708fb90da0b32ee2e0a00337b3b68c863655584d38e641d0a2519",
+      "scripts/val/eval/utils.py": "04f7a0328be18409b55836f7a794dd31fbc982d5870bc542a8fe7c91f9490d7f",
+      "verl/verl/utils/opsd.py": "c1ebd569e5f999bbe0fa5987d2f45231e29206e56deb3e6bbebeb88eb46abfa0"
+    },
+    "checkpoint_hash": "ba288b1460aa43317f35b35e1e61cfb7f975ceaabb439c1b6d455d7bef4644ee"
+  },
+  "files": {
+    "eligible.jsonl": "dcbad53fa6838695c19c7e913d4709b10d587daebfa11833572a77af78e280e3",
+    "eligible.jsonl.manifest.json": "5076640c6b76d232b883f14849189e76726803e1ff378cb3b656286d301bedb2",
+    "eligibility.jsonl": "46c240cf2c90886ce3ab6665c2f71cda9cd908346b68a5fe2ae84a89080d2817",
+    "duplicates.jsonl": "3e304285c4311a9ac9747259a9f36336d0d2a444aa5c7c5734089ad20ec5d552",
+    "answer_encoding_quarantine.jsonl": "3d786ca940d4f56fb26504d900157138c9ea37ab89fda1fcd418a4f6dae63166",
+    "heldout_probe.jsonl": "c7a156761f962aa192ddadb7becf84f41eb5bae44e092529f473789ee6ee2d10",
+    "validation.jsonl": "b8818d4419cd0270bfd7c38374ad784f708a6d11c81cdba7a3142dca9ea9cbb4",
+    "train.jsonl": "d818924af8be184161f2cd00e6ec02e857216eedb5d2346c2a699b51863d2924",
+    "train_probe.jsonl": "7eded9e538f815dd3ec0109a368acc61de02985f72e47c81424794fd3318befd",
+    "preparation_reuse.json": "994da24e124697adb2871273f1331d4a711ef01adde77a224bb259fc4371b014",
+    "baseline_live_rollouts.jsonl": "e6617f46d5ab66734a71677341ded72d2019050a4be052ccc973a2014101f8e7",
+    "fixed_pool.jsonl": "e09083abddaad2d867c4d4f1eeffc8da9d58031aa56a5eb6dc5c8b21a68458de",
+    "probe_manifest.jsonl": "fa67905e1ac9cf2a9e233e2b09fca6f91d312816840a38fb247e6bf72d88e749",
+    "manifest.json": "2d1daf1275ec301a264fe3775e8dc099be59e19d10606b9f8aae0e98e9655e8c"
+  },
+  "probe_manifest_hash": "fa67905e1ac9cf2a9e233e2b09fca6f91d312816840a38fb247e6bf72d88e749"
+}

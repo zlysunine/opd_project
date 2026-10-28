@@ -177,7 +177,7 @@ def partition_questions(rows, output, seed=42, validation_fraction=.1, test_frac
 
 
 def prepare_deepmath(rows, output, revision, level_min=5., level_max=7.,
-                     privilege_type='solution', solution_field='r1_solution_1', tokenizer=None):
+                     privilege_type='solution', solution_field='r1_solution_1', tokenizer=None, progress=None):
     """Adapt native DeepMath rows; difficulty is a continuous score, never rounded.
 
     References are dataset artifacts, not logits from an external teacher model.
@@ -193,6 +193,8 @@ def prepare_deepmath(rows, output, revision, level_min=5., level_max=7.,
     selected=[]
     histogram={}
     for i, raw in enumerate(rows):
+        if progress is not None:
+            progress(i, len(rows), len(selected))
         extra=raw.get('extra_info') or {}
         score=raw.get('difficulty',raw.get('level',extra.get('difficulty',extra.get('level'))))
         try:
@@ -227,6 +229,8 @@ def prepare_deepmath(rows, output, revision, level_min=5., level_max=7.,
                        'generation_config':{'source_type':'dataset_reference','dataset_id':'zwhe99/DeepMath-103K',
                                             'dataset_revision':revision,'solution_field':solution_field}})
         selected.append(row)
+    if progress is not None:
+        progress(len(rows), len(rows), len(selected))
     if not selected: raise ValueError('No DeepMath questions satisfy the configured difficulty bounds')
     if len({r['problem_id'] for r in selected})!=len(selected): raise ValueError('Duplicate DeepMath problem IDs')
     write_jsonl(output,selected)

@@ -40,7 +40,7 @@
 "behavior_max_response_tokens": 16384,
 "quality_gate": {
   "enabled": true,
-  "max_extraction_failure_rate": 0.01,
+  "max_extraction_failure_rate": 0.30,
   "splits": ["heldout_probe"]
 }
 ```
@@ -52,7 +52,7 @@
 ## 质量门槛与持久化
 
 1. prepare阶段先在初始Base上生成live校准回答，按全部heldout题计算抽取失败率。
-2. 默认门槛≤1%，512题允许最多5题失败。小pilot同样应用比例门槛，不代表小样本通过能证明正式512题通过。
+2. 服务器本轮按用户要求采用失败率≤30%（成功率≥70%）：2-step验收heldout50题，至少35题抽取成功；正式训练复用同一heldout50题，最多15题失败；train_probe复用4题。后续checkpoint仍逐次检查质量门槛。
 3. 超标立即报错，保留完整回答、失败样本和原因统计，不发布完成的probe，也不开始训练。
 4. 通过后的初始live记录冻结到probe，并在step0分析复用。训练入口再次验证初始记录hash与质量；各后续监测checkpoint在几何提取前再次检查live质量。
 5. 后续checkpoint失败时现有latest轮换流程停止并保留恢复现场；未通过的分析不会发布complete标记。质量门槛不以准确率为条件，数学答错不会被删除。
@@ -72,21 +72,21 @@
 
 ## 服务器运行
 
-默认新目录为 `research_runs/base_geometry_50_answer_v2_full_tokens_paired`；预算仍为50步、batch8×8、lr1e-6、LoRA，默认仅OPSD。
+默认新目录为 `research_runs/base_geometry_20_answer_v2_full_tokens_paired`；预算为20步、batch8×8、lr1e-6、LoRA，默认仅OPSD。
 
 ```bash
 bash run_base_comparison.sh \
   --model-dir "$OPSD_MODEL_DIR" --model-revision "$OPSD_MODEL_REV" \
   --input "$OPSD_DATA_FILE" --dataset-revision "$OPSD_DATA_REV" \
-  --workdir research_runs/base_geometry_50_answer_v2_full_tokens_paired --method opsd
+  --workdir research_runs/base_geometry_20_answer_v2_full_tokens_paired --method opsd
 
 # 核对计划后执行；默认后台任务，使用status查看真实退出状态。
 bash run_base_comparison.sh \
   --model-dir "$OPSD_MODEL_DIR" --model-revision "$OPSD_MODEL_REV" \
   --input "$OPSD_DATA_FILE" --dataset-revision "$OPSD_DATA_REV" \
-  --workdir research_runs/base_geometry_50_answer_v2_full_tokens_paired --method opsd --execute
+  --workdir research_runs/base_geometry_20_answer_v2_full_tokens_paired --method opsd --execute
 
-bash run_base_comparison.sh status --workdir research_runs/base_geometry_50_answer_v2_full_tokens_paired --watch
+bash run_base_comparison.sh status --workdir research_runs/base_geometry_20_answer_v2_full_tokens_paired --watch
 ```
 
 纯预览不生成校准回答，不能证明质量达标。真正的Qwen质量门槛只能在服务器实际生成后判定；代码不能保证自由生成的Base在第一次尝试时就达标。高失败率会被拦截并留下可诊断记录，而不会被掩盖。

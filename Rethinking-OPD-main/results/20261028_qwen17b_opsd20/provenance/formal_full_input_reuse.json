@@ -1,0 +1,36 @@
+{
+  "formal": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814",
+  "config": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/formal_config_20step_reuse_pilot.json",
+  "source_probe": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/shared/probe",
+  "source_probe_sha256": "496a49c5258a79b5a2840fca1c54b4b45c251806ca9bf5bc5fb04ba5946681d1",
+  "counts": {
+    "heldout_probe": 50,
+    "train_probe": 4,
+    "validation": 512,
+    "train": 2814
+  },
+  "screened_unique": 3838,
+  "unused_screened_candidates": 462,
+  "generation_calls": 0,
+  "exact_files_reused": [
+    "heldout_probe.jsonl",
+    "train_probe.jsonl",
+    "fixed_pool.jsonl",
+    "baseline_live_rollouts.jsonl"
+  ],
+  "larger_training_subset_preserves_pilot_train_ids": true,
+  "validation_preserves_pilot_validation_ids": true,
+  "no_probe_training_leakage": true,
+  "pools": [
+    {
+      "pool": "live_rollout",
+      "answers_reused": 54,
+      "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/shared/generation_cache/baseline_live"
+    },
+    {
+      "pool": "fixed_base_rollout",
+      "answers_reused": 54,
+      "source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50/shared/generation_cache/fixed_base_rollout"
+    }
+  ]
+}

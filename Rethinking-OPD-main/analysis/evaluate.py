@@ -168,7 +168,9 @@ def enforce_quality(rows, config, output):
         n=len(selected)
         failed=sum(r['extraction_failed'] for r in selected)
         passed=bool(n) and failed/n<=limit
-        summaries.append(dict(split=split,n=n,failures=failed,
+        summaries.append(dict(split=split,n=n,failures=failed,successes=n-failed,
+                              extraction_success_rate=(n-failed)/n if n else None,
+                              minimum_success_rate=1-limit,
                               extraction_failure_rate=failed/n if n else None,passed=passed,
                               parse_status_counts=dict(Counter(r.get('parse_status','legacy') for r in selected))))
     write_jsonl(output/'responses.jsonl',rows)

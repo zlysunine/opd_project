@@ -1,0 +1,31 @@
+Runner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=37/54 batch=1 elapsed_seconds=371.8
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=38/54 batch=1 elapsed_seconds=382.9
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=39/54 batch=1 elapsed_seconds=389.9
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=40/54 batch=1 elapsed_seconds=396.3
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=41/54 batch=1 elapsed_seconds=832.3
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=42/54 batch=1 elapsed_seconds=851.6
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=43/54 batch=1 elapsed_seconds=860.4
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=44/54 batch=1 elapsed_seconds=872.9
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=45/54 batch=1 elapsed_seconds=893.0
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=46/54 batch=1 elapsed_seconds=910.4
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=47/54 batch=1 elapsed_seconds=920.5
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=48/54 batch=1 elapsed_seconds=930.6
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=49/54 batch=1 elapsed_seconds=954.8
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=50/54 batch=1 elapsed_seconds=965.9
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=51/54 batch=1 elapsed_seconds=976.2
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=52/54 batch=1 elapsed_seconds=976.8
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=53/54 batch=1 elapsed_seconds=995.3
+[36m(TaskRunner pid=86597)[0m GENERATION_PROGRESS pool=live_rollout step=20 completed=54/54 batch=1 elapsed_seconds=999.6
+[36m(TaskRunner pid=86597)[0m Removed analyzed checkpoint: /root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/checkpoints/global_step_10
+[36m(TaskRunner pid=86597)[0m Final validation metrics: None
+[36m(TaskRunner pid=86597)[0m 
+Training Progress: 100%|██████████| 20/20 [4:22:03<00:00, 771.42s/it]
+Training Progress: 100%|██████████| 20/20 [4:22:03<00:00, 786.18s/it]
+[36m(TaskRunner pid=86597)[0m Traceback (most recent call last):
+[36m(TaskRunner pid=86597)[0m   File "/root/autodl-tmp/envs/opsd/lib/python3.12/site-packages/ray/_private/workers/default_worker.py", line 323, in <module>
+[36m(TaskRunner pid=86597)[0m     worker.main_loop()
+[36m(TaskRunner pid=86597)[0m   File "/root/autodl-tmp/envs/opsd/lib/python3.12/site-packages/ray/_private/worker.py", line 1069, in main_loop
+[36m(TaskRunner pid=86597)[0m     self.core_worker.run_task_loop()
+[36m(TaskRunner pid=86597)[0m   File "/root/autodl-tmp/envs/opsd/lib/python3.12/site-packages/torch/utils/data/_utils/signal_handling.py", line 73, in handler
+[36m(TaskRunner pid=86597)[0m     _error_if_any_worker_fails()
+[36m(TaskRunner pid=86597)[0m RuntimeError: DataLoader worker (pid 87360) is killed by signal: Killed. 

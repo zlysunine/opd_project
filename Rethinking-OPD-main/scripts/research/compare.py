@@ -188,7 +188,7 @@ def parser():
     sub=p.add_subparsers(dest='stage',required=True)
     for stage in ('configure','prepare','train','analyze','report','run'):
         s=sub.add_parser(stage)
-        s.add_argument('--workdir',default='research_runs/base_geometry_50_answer_v2_full_tokens_paired')
+        s.add_argument('--workdir',default='research_runs/base_geometry_20_answer_v2_full_tokens_paired')
         if stage in ('configure','run'):
             s.add_argument('--config',default=str(ROOT/'configs/analysis_deepmath.json'))
             s.add_argument('--model-dir',required=True)

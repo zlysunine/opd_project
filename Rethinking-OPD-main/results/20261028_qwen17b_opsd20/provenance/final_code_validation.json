@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "tests": 69,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 1,
+  "elapsed_seconds": 16.859637022018433,
+  "files": [
+    "test_preparation_progress.py",
+    "test_training_data_transport.py",
+    "test_answer_protocol.py",
+    "test_job_control.py",
+    "test_compare_selection.py",
+    "test_pipeline.py",
+    "test_html_report.py",
+    "test_all_token_distributions.py",
+    "test_student_teacher_geometry.py"
+  ]
+}

@@ -67,7 +67,7 @@ class ComparisonSelectionTests(unittest.TestCase):
             train.assert_not_called()
 
 
-    def test_default_50_steps_include_final_monitoring_and_effective_training_budget(self):
+    def test_default_20_steps_include_final_monitoring_and_effective_training_budget(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
             model=root/'Qwen3-1.7B-Base'
@@ -81,23 +81,25 @@ class ComparisonSelectionTests(unittest.TestCase):
             with contextlib.redirect_stdout(output):
                 compare.main(args)
             plan=json.loads(output.getvalue())
-            self.assertEqual(plan['training']['steps'],50)
+            self.assertEqual(plan['training']['steps'],20)
             self.assertEqual(plan['methods'],['opsd'])
-            self.assertEqual(plan['monitor_steps'],[0,1,5,10,20,50])
+            self.assertEqual(plan['monitor_steps'],[0,1,5,10,20])
             c=json.loads((root/'run/config.json').read_text())
             self.assertTrue(c['monitor']['compare_student_teacher'])
             self.assertEqual(c['monitor']['teacher_geometry_steps'],c['monitor']['optimizer_steps'])
             for key in ('optimizer_steps','teacher_geometry_steps','plot_full_rsm_steps'):
-                self.assertIn(50,c['monitor'][key])
-                self.assertLessEqual(max(c['monitor'][key]),50)
+                self.assertIn(20,c['monitor'][key])
+                self.assertLessEqual(max(c['monitor'][key]),20)
             self.assertEqual((c['training']['batch'],c['training']['rollouts'],c['training']['learning_rate']),(8,8,1e-6))
             self.assertFalse((root/'run/opsd/train').exists())
             profile=resolve(ROOT/c['training']['profile'])
-            self.assertEqual(profile['steps'],50)
+            # Mirror prepare(): the analysis training section overrides the base profile.
+            profile.update(c['training'])
+            self.assertEqual(profile['steps'],20)
             options=hydra_options(profile,root/'plan','BASE')
-            self.assertEqual(options['trainer.total_training_steps'],50)
+            self.assertEqual(options['trainer.total_training_steps'],20)
             parsed=compare.parser().parse_args(['run',*RUN_ARGS])
-            self.assertEqual(parsed.workdir,'research_runs/base_geometry_50_answer_v2_full_tokens_paired')
+            self.assertEqual(parsed.workdir,'research_runs/base_geometry_20_answer_v2_full_tokens_paired')
 
 
 if __name__=='__main__':

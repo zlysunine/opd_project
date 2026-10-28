@@ -113,6 +113,23 @@ class AnswerProtocolTests(unittest.TestCase):
             self.assertEqual(len(read_jsonl(Path(tmp)/'responses.jsonl')),100)
             self.assertEqual(len(read_jsonl(Path(tmp)/'failed_responses.jsonl')),2)
 
+    def test_seventy_percent_gate_on_one_hundred_questions(self):
+        rows=[dict(problem_id=str(i),split='heldout_probe',extraction_failed=i>=70,
+                   parse_status='extracted' if i<70 else 'missing_final_answer',response_text='raw') for i in range(100)]
+        config={'quality_gate':dict(enabled=True,max_extraction_failure_rate=.30,splits=['heldout_probe'])}
+        with tempfile.TemporaryDirectory() as tmp:
+            enforce_quality(rows,config,tmp)
+            summary=json.loads((Path(tmp)/'quality.json').read_text())
+            self.assertTrue(summary['passed'])
+            self.assertEqual(summary['splits'][0]['successes'],70)
+            self.assertEqual(summary['splits'][0]['extraction_success_rate'],.70)
+            self.assertEqual(summary['splits'][0]['minimum_success_rate'],.70)
+            rows[69]['extraction_failed']=True
+            with self.assertRaisesRegex(ValueError,'quality gate failed'):
+                enforce_quality(rows,config,tmp)
+            self.assertEqual(len(read_jsonl(Path(tmp)/'responses.jsonl')),100)
+            self.assertEqual(len(read_jsonl(Path(tmp)/'failed_responses.jsonl')),31)
+
     def test_empty_probe_cannot_pass_gate(self):
         with tempfile.TemporaryDirectory() as tmp,self.assertRaisesRegex(ValueError,'quality gate failed'):
             enforce_quality([],{'quality_gate':{'enabled':True}},tmp)

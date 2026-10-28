@@ -93,3 +93,28 @@ python -m scripts.research.compare train --workdir research_runs/base_opsd_accep
 ```
 
 现有 `opsd/train/train.log`、`metrics.jsonl`、`job_status/`、各监测点分析结果和“只留最新checkpoint”策略继续生效。
+
+## 数据准备进度与筛选结果保留
+
+数据准备与训练使用同一条状态命令。下列示例为本轮2步验收目录：
+
+```bash
+source /root/autodl-tmp/activate_opsd.sh
+bash run_base_comparison.sh status --workdir research_runs/base_opsd_20261028_acceptance_2step --watch
+# 单次查询 / JSON
+bash run_base_comparison.sh status --workdir research_runs/base_opsd_20261028_acceptance_2step
+bash run_base_comparison.sh status --workdir research_runs/base_opsd_20261028_acceptance_2step --json
+```
+
+状态显示输入身份检查、原生数据读取、难度筛选/参考分词、逐题答案编码/参考核验/长度检查、去重划分、基线回答、基线抽取质量、固定输入池等阶段。
+逐题处理每5秒刷新 `shared/preparation_progress.json`，包括已处理/总题数、通过/排除及原因、最近记录题目、耗时、实测速度。
+有已完成题目的实测速度后才显示当前阶段的预计剩余时间；读取文件、模型加载、缓存校验等无题数阶段不编造百分比或ETA。
+回答生成进度读取 `shared/generation_progress.json`，不将题目筛选完成当作训练完成。
+
+筛选结果在GPU回答生成前保存到 `shared/preparation_selection/`，带数据/模型/选择规则身份和逐文件SHA256。
+相同科学配置和源码下重试会校验并复用该检查点，重新处理尚未完成的后续阶段。
+生成或质量门槛失败后，工作目录 `.probe-*`、完整筛选检查点、失败回答和进度错误记录保留；不会伪造最终 `probe/complete.json`。
+更改协议、长度或筛选规则仍需新配置/目录，不能跳过身份校验。
+
+旧运行没有进度文件时，状态工具可从已完整写出的 `preparation_audit/eligibility.jsonl` 和基线质量收据恢复真实计数；没有中间记录时不会猜测逐题进度。
+按 Ctrl+C 只退出状态查看，不停止后台任务。

@@ -1,0 +1,9 @@
+{
+  "qwen3_1p7b_base": {
+    "model_id": "Qwen/Qwen3-1.7B-Base",
+    "path": "/root/autodl-tmp/opsd_inputs/models/Qwen3-1.7B-Base",
+    "revision": "ea980cb0a6c2ae4b936e82123acc929f1cec04c1",
+    "initialization": "base",
+    "size": "1.7B"
+  }
+}

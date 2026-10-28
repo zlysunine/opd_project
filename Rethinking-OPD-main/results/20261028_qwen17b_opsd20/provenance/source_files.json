@@ -1,0 +1,266 @@
+{
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/report/OPSD_report.html": {
+    "sha256": "05e17f92808d59eacb5da2e4a203c1d9eb2abb5a1c6e647548fb17a8525eafaa",
+    "bytes": 14900210
+  },
+  "research_runs/base_opsd_20261028_acceptance_2step_q70_n50/report/OPSD_report.html": {
+    "sha256": "c95107a27b71e2fc3e28639aacd44bc716da71773efd7e76a045d39cc6a51ae2",
+    "bytes": 12916583
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/config.json": {
+    "sha256": "a51b0388f3953fdac1a0a201be0a11c5937bb284e33a5e4a5724aabd7e129eab",
+    "bytes": 3770
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/models.json": {
+    "sha256": "5d811c04ebbf92b4e12e51c8ef111d058538028fc072245576b8a087b8b0158f",
+    "bytes": 247
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/training_config.json": {
+    "sha256": "ebc6fa38ba33c2d10cbef94f02c22f5944c527dbff31964027afa70d9a4334f4",
+    "bytes": 3318
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis_config.json": {
+    "sha256": "7780636894fa646060062bde34b1a336389ca5c848ebbbbb2aa4fb5e227ed139",
+    "bytes": 6023
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/manifest.json": {
+    "sha256": "2d1daf1275ec301a264fe3775e8dc099be59e19d10606b9f8aae0e98e9655e8c",
+    "bytes": 17485
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/complete.json": {
+    "sha256": "7d59891c34774fb33b22233afbde30ba50ff8e52245ab4bb59428ae3db130c8d",
+    "bytes": 4231
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/preparation_reuse.json": {
+    "sha256": "994da24e124697adb2871273f1331d4a711ef01adde77a224bb259fc4371b014",
+    "bytes": 466
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/metric_validation.json": {
+    "sha256": "59831506d2cb3a72c2fe5c028295fce4f51ddde362abd0fa02a2c1c590868f11",
+    "bytes": 16449
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/provenance.json": {
+    "sha256": "ae3a158d9b271f4d0be377baac0ae646bb0cc62e96834fdedad283e4d155ba37",
+    "bytes": 14238
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/resolved_config.json": {
+    "sha256": "e1f59c14f63a2dd14faa530dafc72922432939e84d8996585c96ed2d3c4b8321",
+    "bytes": 4954
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/verl_resolved_config.json": {
+    "sha256": "69b33457e7fa1035813a0295aeaa357d98559a483d3bf980a5a21535d8934bbf",
+    "bytes": 22256
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/command.json": {
+    "sha256": "f94ea4ce33949b202965a4566905c9558df6c7d404968a813e87d71cd9d14d35",
+    "bytes": 5951
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/preflight.json": {
+    "sha256": "9566dbc9afb488ff914172c1943eaa4bd5442124a5bb9579dc7fa94cf941f27b",
+    "bytes": 604
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/report/analysis_readiness.json": {
+    "sha256": "f03db31d5944f9aca6da1159b8c6c841a4fc2d91eaf1d89fc845e65410969344",
+    "bytes": 5922
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/report/report_manifest.json": {
+    "sha256": "9987f618c5c9e4d46475ec651adc1af185b865a6805817867d5c80d888d94eb4",
+    "bytes": 87663
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/metrics.jsonl": {
+    "sha256": "4b5c3cefa8234a78f058e632929f0c5e34bf4c0e14ee1ca9738f1977367dcd68",
+    "bytes": 87615
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/train/train.log": {
+    "sha256": "8f79d907826183d2c5ce1443523dcdafc21cceea0f001941b790a79e8c402195",
+    "bytes": 197646
+  },
+  "research_runs/server_handoff_20261028/formal_verification.json": {
+    "sha256": "3590d04204c6bf43b2c7e92c2e384c355133b7fc7e43678a6e371057a66c2c9d",
+    "bytes": 28020
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/acceptance_verification.json": {
+    "sha256": "0535095f23271068ca005ffb64957c0e0a9e23c98cf0e357a99bb64ee8359320",
+    "bytes": 12025
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/formal_full_input_reuse.json": {
+    "sha256": "4084b6aac150a09f671cd33f18a0b95d7d9d7bd01e7837722a087da288bea7f0",
+    "bytes": 1492
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/active_run.json": {
+    "sha256": "921dad0b5f865b587b6de3ddbcba3d46ea6e6cfce3a2365614355df7e4d4cd39",
+    "bytes": 1053
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/final_code_validation.json": {
+    "sha256": "0500254f388965d479ce50d5ac37afbdabf205f1caaa83d7f96ba6163170e703",
+    "bytes": 438
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/final_code_validation.log": {
+    "sha256": "8210cd2b71735921b55534056ac2e0838ef66f749d330cf2f7e9fc43e97ec9b4",
+    "bytes": 11855
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/pip-freeze.txt": {
+    "sha256": "9249774bccbc1efa8a9d330a837cdf1449c75a33c1ccf34d909ae1da8b7aef13",
+    "bytes": 4953
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/environment-check.json": {
+    "sha256": "1a2d8cded93353de3735225fa8420944d84cc2acdd98c0135360d4707a9ee533",
+    "bytes": 603
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000000/complete.json": {
+    "sha256": "7eeaf1bdaec5b65d8112395b07e12d6c011aa725267845d6fcb9cd9ff1082969",
+    "bytes": 55464
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000000/run_manifest.json": {
+    "sha256": "9a5fb932bb8d936a1c1fd02b25cd49cde8d8356d8c112d63b352479f136a3e92",
+    "bytes": 13302
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000000/live_rollouts.jsonl": {
+    "sha256": "e6617f46d5ab66734a71677341ded72d2019050a4be052ccc973a2014101f8e7",
+    "bytes": 1133839
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000000/distributions.jsonl": {
+    "sha256": "5dce0417d783b00b8ae5d3a9edc0c242b3012e52c17baadd8d875007bbc1100a",
+    "bytes": 949002
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000000/curvature.jsonl": {
+    "sha256": "003c8613eeec7a1788e27539c7705b5f5a2e7e4a9cd51871562e90564876e5de",
+    "bytes": 5052207
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000001/complete.json": {
+    "sha256": "4f9967b3ba2eabcfe39ac0c4dcd45893177529b1570e1b00301625f2dc7a9610",
+    "bytes": 55486
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000001/run_manifest.json": {
+    "sha256": "accbbab1df3f54368edff270569671be9a611ff2039660e5a23e28f2514d4efa",
+    "bytes": 13441
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000001/live_rollouts.jsonl": {
+    "sha256": "a664da5d8c73240387fb227318952867eba1717b1a2221ffdb0bc2ed9ec807ae",
+    "bytes": 1177961
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000001/distributions.jsonl": {
+    "sha256": "fcf1df8a19dd0cc4ee0909dbb36b4de108268d0c0734a83a8acc724b1eb07e4d",
+    "bytes": 997740
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000001/curvature.jsonl": {
+    "sha256": "762317199f8aafae767aa23205b39004fdde5711336f0978853a8fe81b0daa14",
+    "bytes": 5369823
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000005/complete.json": {
+    "sha256": "2da7d76306eef923bb1436ff648d2e49b44a88412450b42240667c12a9e80c05",
+    "bytes": 55486
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000005/run_manifest.json": {
+    "sha256": "e4e792654d0beb6c63ef26069157a9d02a2a4d76f36eafe97e4da466b3cc83cf",
+    "bytes": 13442
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000005/live_rollouts.jsonl": {
+    "sha256": "51183afd31899de3330c18fb556f2133aa4cfd7c3b4458558b6257bde0a14949",
+    "bytes": 1136164
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000005/distributions.jsonl": {
+    "sha256": "66dfe6b9cef65eb604395f269f90a0658cdb637518c592ad6094b7e3cd1e0740",
+    "bytes": 998246
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000005/curvature.jsonl": {
+    "sha256": "79ede66a0ae35ef7dc9e947ece8d703d2057178b683b95156363f9ddf489b205",
+    "bytes": 5392690
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000010/complete.json": {
+    "sha256": "4223eafef4c948a98813f6390afd2a2db042b9668e9792d9a949c10621d5f9c3",
+    "bytes": 55488
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000010/run_manifest.json": {
+    "sha256": "3ad2327466b1e148f0c0f8098bd65f03696e5e89773a25ffc2b1f4ca520fbe94",
+    "bytes": 13445
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000010/live_rollouts.jsonl": {
+    "sha256": "cf11529bd30224963c3ce194ebcd71b0b9b9270480711bdcdd764c279d7f8f5c",
+    "bytes": 673660
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000010/distributions.jsonl": {
+    "sha256": "2f7e703e3df31e4070fedf58346ee56ba41841dcbf57882eb598814140e52f91",
+    "bytes": 997968
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000010/curvature.jsonl": {
+    "sha256": "71243192f48153f30c61655d3fc8c111a1fcd123a2a26f072d5ab2f1c1030abf",
+    "bytes": 5401472
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000020/complete.json": {
+    "sha256": "7590fd7f53aff83dbac2107f282f8bd45fc06e38880e5da45757790593d98fa9",
+    "bytes": 55488
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000020/run_manifest.json": {
+    "sha256": "9b53b2e819359d2765b709446d9ff040c794e6c3fe96cfaf96a54a4de4733ffe",
+    "bytes": 13446
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000020/live_rollouts.jsonl": {
+    "sha256": "9e7fa58fde71935e72adc908b3788e66eb562e6155bdf9c384b9f577b6d69fbe",
+    "bytes": 783119
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000020/distributions.jsonl": {
+    "sha256": "758d6b13be655d895d3f1332ce8bad410ccb3bf701c4d6e03955895c14140d94",
+    "bytes": 998074
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis/steps/step_000020/curvature.jsonl": {
+    "sha256": "10f62333cff1caf4aa887e3dc17571591c0588558415d2608c847dac6bb3282d",
+    "bytes": 5401630
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/train.jsonl": {
+    "sha256": "d818924af8be184161f2cd00e6ec02e857216eedb5d2346c2a699b51863d2924",
+    "bytes": 21362626
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/validation.jsonl": {
+    "sha256": "b8818d4419cd0270bfd7c38374ad784f708a6d11c81cdba7a3142dca9ea9cbb4",
+    "bytes": 3945976
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/heldout_probe.jsonl": {
+    "sha256": "c7a156761f962aa192ddadb7becf84f41eb5bae44e092529f473789ee6ee2d10",
+    "bytes": 386071
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/train_probe.jsonl": {
+    "sha256": "7eded9e538f815dd3ec0109a368acc61de02985f72e47c81424794fd3318befd",
+    "bytes": 28869
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/report/metrics.csv": {
+    "sha256": "af2b0a2b46c4db7de160e64fec698f86924108920eb98f29192786f6946e7477",
+    "bytes": 24818236
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/run_new_experiment.py": {
+    "sha256": "063038056dd118fb2e39ab07ba4146dbf064a6f2ff17a3c4671bfb0f29764937",
+    "bytes": 10346
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/pilot_validation.py": {
+    "sha256": "bb1fb35ec20a15b27f4a259b6facbb3bced0e0bda745645fada25666dbcc5246",
+    "bytes": 3564
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/analysis_readiness.py": {
+    "sha256": "338274bee667bbbeece302840290c1c71a3d8723405cef1230e3be62644c83b9",
+    "bytes": 8928
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/reuse_full_pilot_inputs.py": {
+    "sha256": "86c593cdd33d97703d098f9b2dadd349f1d9ef70ee81c5f18a5a1185d6f7d034",
+    "bytes": 9536
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/adopt_baseline_prefix.py": {
+    "sha256": "2e4bdf22198c798dde77c8866b579caa1253a6d04d7680927acd760e8e8056b5",
+    "bytes": 7112
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/recover_screened_pool.py": {
+    "sha256": "557b55c8e388343e961f51fcce77100f7d4789b407ce64ed49b325d337e285c5",
+    "bytes": 3685
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/build_recovered_selection_cache.py": {
+    "sha256": "468cd74c9a1b13853a09313b3de34869da41af178a7868a7ac4343237b6d5a25",
+    "bytes": 4908
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/write_handoff_docs.py": {
+    "sha256": "071fe5df5e85faef2e61ca676332e3e0ce9e37f7b65bb54d2b1c491aefe8aea1",
+    "bytes": 13984
+  },
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/complete_and_shutdown.py": {
+    "sha256": "7df04aad612a3bb2a90d481b49b7f9b3b1478a79ac8a268aa8c65656df9c1019",
+    "bytes": 3319
+  }
+}

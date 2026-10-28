@@ -1,0 +1,3381 @@
+﻿difficulty,problem_id,split,topic
+5.0,00fd98abea024a22ac8c,train,Algebra
+5.0,01e82c0f1bd1ae677597,train,Algebra
+5.0,06d7609956348db210b0,train,Algebra
+5.0,09195acdfb1469fb9e0c,train,Algebra
+5.0,0922f54fe63431296bfe,train,Algebra
+5.0,098ceec321be57fecf61,train,Algebra
+5.0,0b0ff1aba17b0abba86b,train,Algebra
+5.0,0b825f6d82ddb36bba80,train,Algebra
+5.0,0c4a1fe3140c165e952a,train,Algebra
+5.0,0fb39d60746b52f607f7,train,Algebra
+5.0,103aa9ecc13d62cd1f69,train,Algebra
+5.0,10638228fbb306e6c630,train,Algebra
+5.0,106cd94f2205e210b4b7,train,Algebra
+5.0,1350f2917bcaaedca836,train,Algebra
+5.0,136cf607bfea132248af,train,Algebra
+5.0,13a5ea10040c145d7edc,train,Algebra
+5.0,1472356873596ab5938b,train,Algebra
+5.0,14ea6f333c7003c009fa,train,Algebra
+5.0,150c7a73cf5eee872bde,train,Algebra
+5.0,15efc3bc0552a4deb9f6,train,Algebra
+5.0,1724a1300b148cb7487a,train,Algebra
+5.0,172ada750c9a4f445ec1,train,Algebra
+5.0,174847cebc03334232c4,train,Algebra
+5.0,182c96f8db0186ff6850,train,Algebra
+5.0,185994202ee12f1ecd1c,train,Algebra
+5.0,188e138ea73aac7f5581,train,Algebra
+5.0,18ff3e4999efebf2497f,train,Algebra
+5.0,1901bfb0a33f64a041b0,train,Algebra
+5.0,1979d28f165811e59664,train,Algebra
+5.0,1a1c1d177ee60334a29e,train,Algebra
+5.0,1aa114dd78909f24a771,train,Algebra
+5.0,1b34d76dbbe66eeb9163,train,Algebra
+5.0,1b7e32ec51e10db088ae,train,Algebra
+5.0,1b941944156c90d57d4c,train,Algebra
+5.0,1ba043df50456ac320f7,train,Algebra
+5.0,1d3d8a638e1d4a435c9a,train,Algebra
+5.0,1d4f79aee17bdd88f67a,train,Algebra
+5.0,1f39c41f363ffc6d9085,train,Algebra
+5.0,1f48eed6d93afede427a,train,Algebra
+5.0,1f4fcb64a91f8ea4e898,train,Algebra
+5.0,202a5812fad11545bf5b,train,Algebra
+5.0,2052acae516ca2c0ea6b,train,Algebra
+5.0,22775f2c665cbd264c2f,train,Algebra
+5.0,26221c416fb947c58b61,train,Algebra
+5.0,2663684b4bdb1663632e,train,Algebra
+5.0,26c73293cead404447f1,train,Algebra
+5.0,27b1f62fa99a53ffee2d,train,Algebra
+5.0,290fe78d2333d4b76990,train,Algebra
+5.0,29a426dc970c9c322c3f,train,Algebra
+5.0,2a559fada1771a3c7124,train,Algebra
+5.0,2c2e5d298b38dde14f06,train,Algebra
+5.0,2c83a238df6807d2993a,train,Algebra
+5.0,2e17ebd71dc20a43db13,train,Algebra
+5.0,2e99d5c85436d60b213e,train,Algebra
+5.0,32134ddb1856a4918d4b,train,Algebra
+5.0,335b3527241dc43967af,train,Algebra
+5.0,339cb760b0c2d063440d,train,Algebra
+5.0,3487289429c57b5d11f7,train,Algebra
+5.0,34f31d6d2ed00a9f31d6,train,Algebra
+5.0,367e5fc2854885ea814b,train,Algebra
+5.0,37e70318a58e65e43248,train,Algebra
+5.0,385696cfa1f1b58ca1af,train,Algebra
+5.0,385d1cb5e8b30e3f4754,train,Algebra
+5.0,38c0498345560f815651,train,Algebra
+5.0,38c56ff3688f4496fb1b,train,Algebra
+5.0,38d4d304a7d7e934653a,train,Algebra
+5.0,3a45428b2ca129625df9,train,Algebra
+5.0,3b0cca3844e91a7222f1,train,Algebra
+5.0,3b35565a2fa63e9d5cb5,train,Algebra
+5.0,3cec1700dad055d0854a,train,Algebra
+5.0,3cec3874f276e2990eae,train,Algebra
+5.0,3ced11232c6bccc243a1,train,Algebra
+5.0,3d1a4d32c06e175451a6,train,Algebra
+5.0,3dacd7de589f407941c2,train,Algebra
+5.0,3f13feb36bcf54cdaead,train,Algebra
+5.0,3f850708d8531fa1a70b,train,Algebra
+5.0,41bad457d01e7524be14,train,Algebra
+5.0,41ca17bc7dc9b8de9dcb,train,Algebra
+5.0,4232c03133aaad8417ee,train,Algebra
+5.0,4285533dae0553806fc5,train,Algebra
+5.0,42b437dd7afbf9f5ff46,train,Algebra
+5.0,42e9d052820382231946,train,Algebra
+5.0,43d32c629f212793c820,train,Algebra
+5.0,45eca1b51f1eded2e886,train,Algebra
+5.0,46d33b6a08394e77b090,train,Algebra
+5.0,47b127737dbfdb739fb1,train,Algebra
+5.0,480c49417d2a82891043,train,Algebra
+5.0,48f05734f5e49eece0a2,train,Algebra
+5.0,49a85e97f91a169fcb2a,train,Algebra
+5.0,4b226299ffea5df0b7e4,train,Algebra
+5.0,4b71de1a15ce0e923dc6,train,Algebra
+5.0,4c7cae54fd19b655af44,train,Algebra
+5.0,4ca1f44a2e3aab500081,train,Algebra
+5.0,4d94e9aeda31497f08ef,train,Algebra
+5.0,4e746e8cac931d9cdc89,train,Algebra
+5.0,4f3766a426e8c308dd7f,train,Algebra
+5.0,4fb04eb8d71c4b59f91f,train,Algebra
+5.0,506c84be057fd3971108,train,Algebra
+5.0,51b7dd6228ca23f76a88,train,Algebra
+5.0,51f7bdf7f7aecfb7421d,train,Algebra
+5.0,51fc923c6828f18caba3,train,Algebra
+5.0,52a85ff7b7f093f0b8c4,train,Algebra
+5.0,52f3950717a4b30e2418,train,Algebra
+5.0,536f8c8ac15d43067809,train,Algebra
+5.0,550cf3d1626323e0233f,train,Algebra
+5.0,566486229081df3a1011,train,Algebra
+5.0,59ffcf1b4cc43fdc4872,train,Algebra
+5.0,5a170f0d6e96c89cd83b,train,Algebra
+5.0,5b5ccd03bc15116d0803,train,Algebra
+5.0,5ba24f77da1a2176ef59,train,Algebra
+5.0,5bb53d0cd96042e71504,train,Algebra
+5.0,5be298b32a46188fe030,train,Algebra
+5.0,5c7c3e1c6521daecb2b6,train,Algebra
+5.0,5e7d84f9758437ff4036,train,Algebra
+5.0,5ec2a3d067abd5299616,train,Algebra
+5.0,5ffbae47f307100defa6,train,Algebra
+5.0,611fb9078d242ec2510e,train,Algebra
+5.0,62475940af33dbf10d44,train,Algebra
+5.0,6327930170ab17360f2e,train,Algebra
+5.0,63473a8e6b4c5664b81c,train,Algebra
+5.0,6361340cf40d827321b0,train,Algebra
+5.0,63d51b15aceed97ec75a,train,Algebra
+5.0,655441828213cd845874,train,Algebra
+5.0,6663ae454818d9b03adb,train,Algebra
+5.0,66f7333bdd634bd1e3ff,train,Algebra
+5.0,6703c4d74b7c91539796,train,Algebra
+5.0,6d0db3066dde7fa24c9f,train,Algebra
+5.0,6dfd65b965e24bb51076,train,Algebra
+5.0,6e3baadd75c1877fb250,train,Algebra
+5.0,6e48172374217fb79581,train,Algebra
+5.0,6e49c3d8356c13ae47eb,train,Algebra
+5.0,6e61571b5b96e8ac037a,train,Algebra
+5.0,6eee62b01426f4a6b774,train,Algebra
+5.0,6f450347e24a65789ac8,train,Algebra
+5.0,6f59efad92b278a27fc0,train,Algebra
+5.0,7101540ec60fd4240cb2,train,Algebra
+5.0,723f19b14d5257ba501b,train,Algebra
+5.0,72b41f1d7a9f1653d19f,train,Algebra
+5.0,72c8d3643049f8c7f215,train,Algebra
+5.0,735b79eec68af2156035,train,Algebra
+5.0,74076fecfe596aefb3de,train,Algebra
+5.0,75257214c44d0f476a7c,train,Algebra
+5.0,7576118d6b09096aec47,train,Algebra
+5.0,779923b46b18061dca35,train,Algebra
+5.0,78f9ed719c35af274396,train,Algebra
+5.0,7947c26bcb1ff49ab963,train,Algebra
+5.0,795f533c36ee14dc5b68,train,Algebra
+5.0,79c2bf50696ad54343b4,train,Algebra
+5.0,7bd60be1219b1d705074,train,Algebra
+5.0,7c602d028408461254c6,train,Algebra
+5.0,7e60e55675cc2a462552,train,Algebra
+5.0,8218b52b99bcbfecbb28,train,Algebra
+5.0,823901410049f6b3b491,train,Algebra
+5.0,83002e0f8bc8397869cc,train,Algebra
+5.0,8354534b562b565859ef,train,Algebra
+5.0,8380ecf4142ffdaef6da,train,Algebra
+5.0,83c313266e5636350fe6,train,Algebra
+5.0,8479922690eb16dd781f,train,Algebra
+5.0,85172a89c76fee943184,train,Algebra
+5.0,85f7679159d51a48acd6,train,Algebra
+5.0,86c7d049531280e55c09,train,Algebra
+5.0,8711824b3c03a79d53a3,train,Algebra
+5.0,87457c9ab54bc230a160,train,Algebra
+5.0,8764d54975f14ee5ca61,train,Algebra
+5.0,877fb1ecc073a1114404,train,Algebra
+5.0,87debfffd372cdf50e54,train,Algebra
+5.0,88a3d21bf790377dbf86,train,Algebra
+5.0,88b27a03290be8c0c8cc,train,Algebra
+5.0,88ddc41107cc3607bccc,train,Algebra
+5.0,89f23bba0417faccdb13,train,Algebra
+5.0,8a03a19f7fc8f8b4479c,train,Algebra
+5.0,8a348483fe46c3fc1006,train,Algebra
+5.0,8bd7befd34ca1e6b5705,train,Algebra
+5.0,8bfa8fce3a0994d6d83b,train,Algebra
+5.0,8e7dac462dd2064b7d4c,train,Algebra
+5.0,8fffdb28e053e2c7da3f,train,Algebra
+5.0,901a429c3e48de49f951,train,Algebra
+5.0,90a119d648ac638a17e3,train,Algebra
+5.0,92f14391ea321061f94b,train,Algebra
+5.0,9393ab8c18391e9d6627,train,Algebra
+5.0,94cfa5e297bc025045ed,train,Algebra
+5.0,9a730b995458edbf27a6,train,Algebra
+5.0,9bd1196a3c5cf0c1919e,train,Algebra
+5.0,9bddaca8ec89f771349a,train,Algebra
+5.0,9c6f0e99f7502ad6bed9,train,Algebra
+5.0,9cc8e7463a436a1b2e86,train,Algebra
+5.0,9ef984704cdf6ef67d3c,train,Algebra
+5.0,9f20bff9a252b4929f76,train,Algebra
+5.0,9faf0094d0f29cf48f07,train,Algebra
+5.0,a12f234a42f10528677b,train,Algebra
+5.0,a23189fa7880638c3cab,train,Algebra
+5.0,a3109329dcae40ec9eac,train,Algebra
+5.0,a3eaf4272382e4c79a85,train,Algebra
+5.0,a4b9426d2f33b36f41e9,train,Algebra
+5.0,a6ffa53ed0363996a7b2,train,Algebra
+5.0,a8190f0185469d65edf5,train,Algebra
+5.0,aa17f89af946c68f02f8,train,Algebra
+5.0,ab0e735e457b7f6982d0,train,Algebra
+5.0,abde054021f866adcb36,train,Algebra
+5.0,ac716c630d4f76a875a8,train,Algebra
+5.0,ac917ec6d40cbfe47930,train,Algebra
+5.0,b0ed46be18d67becc62a,train,Algebra
+5.0,b38a4a06e2e7dfb81545,train,Algebra
+5.0,b3c4df0c1147e06da9fa,train,Algebra
+5.0,b50b1b58071f981b9267,train,Algebra
+5.0,b584eb00b90f2baa5152,train,Algebra
+5.0,b6eb9b648b6335bd438f,train,Algebra
+5.0,b82f8bacfc4103012020,train,Algebra
+5.0,b88de76504d822bfcb3e,train,Algebra
+5.0,b9297000fe7e3d684ea2,train,Algebra
+5.0,b9883fb5e48d1ddd5ce6,train,Algebra
+5.0,b9b1e9d6cd90d7f92db6,train,Algebra
+5.0,baba95347af6786cb7f7,train,Algebra
+5.0,bb40f530552114ec6421,train,Algebra
+5.0,bbbfb41fbad7ffa21d93,train,Algebra
+5.0,bcf0096cd9600e38a94a,train,Algebra
+5.0,bcf66cfc99081e77a56c,train,Algebra
+5.0,bd418919ce0c06442ba1,train,Algebra
+5.0,bdc42ad4cb2c3b4cd910,train,Algebra
+5.0,bde9a26d4b09ad8ec98d,train,Algebra
+5.0,be23c12032c1f5b82be0,train,Algebra
+5.0,be2f6150694208cf7f5b,train,Algebra
+5.0,bebdb3bd688ebf321f39,train,Algebra
+5.0,bfc6ee1efecb776dfa62,train,Algebra
+5.0,c0939202ccf2fec95ef9,train,Algebra
+5.0,c1fb9009d49a4acfb352,train,Algebra
+5.0,c26a9edcc5221c43713b,train,Algebra
+5.0,c30923e22ce4d2d58481,train,Algebra
+5.0,c44c24d4586b00ea0fd3,train,Algebra
+5.0,c70e9637a77d3989be86,train,Algebra
+5.0,ca1ebe66e28870e74b42,train,Algebra
+5.0,ca3b6cce5e789f022e75,train,Algebra
+5.0,ca445920f0704b0daad6,train,Algebra
+5.0,ca68be0e87d95cccc0c2,train,Algebra
+5.0,cb6712440faae37c6a6d,train,Algebra
+5.0,cc4dea3cbc80c8452e3a,train,Algebra
+5.0,cda3ea8088c4d93ba87b,train,Algebra
+5.0,cf861d99da7f4ca22d1d,train,Algebra
+5.0,cfdc19a61fba7438b0d2,train,Algebra
+5.0,d08777fc8ce876a5889d,train,Algebra
+5.0,d119212d89b684b996bd,train,Algebra
+5.0,d1c2aa0ff55cd0f14b03,train,Algebra
+5.0,d1ec8ef0e16d70d42b72,train,Algebra
+5.0,d4a915f9c5159cbb6206,train,Algebra
+5.0,d4f87bfbd7dd5d58dab2,train,Algebra
+5.0,d526552285ebaf018194,train,Algebra
+5.0,d6432e0c4345770c2586,train,Algebra
+5.0,d765cdb8eb1ddee6e97f,train,Algebra
+5.0,d7b7c4caace40a333c06,train,Algebra
+5.0,d85cd9229d83afcd44bc,train,Algebra
+5.0,d9b57508ab7cd0571a1f,train,Algebra
+5.0,db72de5076fcc7f05cd0,train,Algebra
+5.0,dce9881f94417e4e817d,train,Algebra
+5.0,df347c0c9d5a37846f88,train,Algebra
+5.0,df548ad60943acd07158,train,Algebra
+5.0,dfe08022a038e2fb543e,train,Algebra
+5.0,e064d391656bbb9de2e8,train,Algebra
+5.0,e14e86f60c3e3def1b91,train,Algebra
+5.0,e1656b121b30995977f0,train,Algebra
+5.0,e41fa65793216af0f63b,train,Algebra
+5.0,e42e7dceb5aca9fe9d3d,train,Algebra
+5.0,e4f7a2c77d84ff138e63,train,Algebra
+5.0,e87bd8288a6c59f85bd7,train,Algebra
+5.0,ead00e8b8d984723887e,train,Algebra
+5.0,eb13cd9980c7c5b3046c,train,Algebra
+5.0,ebef2f73aad7c7c05d08,train,Algebra
+5.0,ed781ae3b2d94ec2a183,train,Algebra
+5.0,edb7b4fafbf31cd8f7e9,train,Algebra
+5.0,edf70b0095fe6a28c892,train,Algebra
+5.0,eeffa958afdef3586c8b,train,Algebra
+5.0,f07b3de3a819598cbd73,train,Algebra
+5.0,f17e36df6c186091179c,train,Algebra
+5.0,f24403d8cbcf01606dbc,train,Algebra
+5.0,f2dc788cf54e140b47cd,train,Algebra
+5.0,f3f650628fdb42eb8ebc,train,Algebra
+5.0,f432aecdeba5b9d12aa2,train,Algebra
+5.0,f4ca82e021526d3403fb,train,Algebra
+5.0,f4e2c11cd249f758ebc7,train,Algebra
+5.0,f829092ae264e0861d71,train,Algebra
+5.0,f873571b216d6e576053,train,Algebra
+5.0,f9376e0b3eaade7cc9a4,train,Algebra
+5.0,fa63bbbf77f96f6bdbe0,train,Algebra
+5.0,fa86e1504c73feb414c9,train,Algebra
+5.0,fb5a28e03c362a466df7,train,Algebra
+5.0,fc11b1d10a619dba6288,train,Algebra
+5.0,fe9b569b15dc5027b891,train,Algebra
+5.5,02e6023f47defc00fceb,train,Algebra
+5.5,043cce40d7aeb69abcb8,train,Algebra
+5.5,04cea40a563fbb3e27e8,train,Algebra
+5.5,04eb4ca8e459edb2691d,train,Algebra
+5.5,081d7a076d1b0ed8cd88,train,Algebra
+5.5,0a0fc7a59bb42d411320,train,Algebra
+5.5,0ad900acf08d7af771e0,train,Algebra
+5.5,0c1e5b93fbe220be27ba,train,Algebra
+5.5,0d2733c3f42f1cfdba43,train,Algebra
+5.5,0e45622e99c610b918e6,train,Algebra
+5.5,0f6c06218f5f3a949128,train,Algebra
+5.5,12883e9a478702ff743d,train,Algebra
+5.5,15307de8909badc7db56,train,Algebra
+5.5,165a19720583aab61f3d,train,Algebra
+5.5,182d6da1e95b371cb96a,train,Algebra
+5.5,1a7764f343c7a63ce269,train,Algebra
+5.5,1d7b3b5ce4d8771c60d9,train,Algebra
+5.5,1f3b842a371e917b676b,train,Algebra
+5.5,2172c43014b293627c41,train,Algebra
+5.5,226c63a901bef532dbb9,train,Algebra
+5.5,2569d8878281706ff67f,train,Algebra
+5.5,25d6b8a44eee646aa91d,train,Algebra
+5.5,25dd658b234c325bd686,train,Algebra
+5.5,260b64d22f7d73931b7c,train,Algebra
+5.5,29d014f8589ab8115d24,train,Algebra
+5.5,2be1f5b16b939e734fc7,train,Algebra
+5.5,2cdcdbab79bab6ebf943,train,Algebra
+5.5,2d8d907da418495458ae,train,Algebra
+5.5,2da1ab8fdb80f98548f3,train,Algebra
+5.5,309548663acb472b5ba2,train,Algebra
+5.5,31913ea6b6aa7a9995dd,train,Algebra
+5.5,31daafa0770b01ce4174,train,Algebra
+5.5,3280dbe9046cb4e879ef,train,Algebra
+5.5,32cc7b7a0644cdbdcca0,train,Algebra
+5.5,341790729c2d2571d8e2,train,Algebra
+5.5,37843a265674d8679dc0,train,Algebra
+5.5,38818454c70beb701ea1,train,Algebra
+5.5,38c7e8f3bc1e57ea0e80,train,Algebra
+5.5,409ce34c3ceefff07565,train,Algebra
+5.5,44647fc45b3f768172ee,train,Algebra
+5.5,45fd664839d3014d36fc,train,Algebra
+5.5,4b307e7a021f5d9e82ee,train,Algebra
+5.5,4c235dc5c7c1aa957e52,train,Algebra
+5.5,4de9f3793a8b2d6583b3,train,Algebra
+5.5,4ee1ace6b7b3b8f50f49,train,Algebra
+5.5,4f3a1d8975653a25d671,train,Algebra
+5.5,50a257cb8b27930ecb17,train,Algebra
+5.5,539ce3d7f482544feb65,train,Algebra
+5.5,53b1c0a3de62bb51c514,train,Algebra
+5.5,54a61f766153208c8e29,train,Algebra
+5.5,556ffd4e33f53c162fc6,train,Algebra
+5.5,55ffd21daacae5d04003,train,Algebra
+5.5,5813f38a5c89b8921665,train,Algebra
+5.5,5a1e901cb5500972c83d,train,Algebra
+5.5,5c86b8f29892e9818f5f,train,Algebra
+5.5,5edc30d95bb97b1e186d,train,Algebra
+5.5,5ef8c3bd88fff2f48c4a,train,Algebra
+5.5,5f1f394d8e68c0af2442,train,Algebra
+5.5,61c88c86589def8dd8d6,train,Algebra
+5.5,63125a7ade803c374888,train,Algebra
+5.5,63fc51f8d4f86745c210,train,Algebra
+5.5,6446c5248622c4365ce1,train,Algebra
+5.5,66e7b1383a08102f41ce,train,Algebra
+5.5,68cf11645718dd38147d,train,Algebra
+5.5,69c2b2f9e7b82581c773,train,Algebra
+5.5,6eafd166335cdaa1052d,train,Algebra
+5.5,6ece3b4595f58bb16087,train,Algebra
+5.5,6f1c6f1f5e66bb7b8769,train,Algebra
+5.5,726607d6da7c0a81456f,train,Algebra
+5.5,73a57d5a17718fe4432c,train,Algebra
+5.5,73b627a44d2bc1cf7c7b,train,Algebra
+5.5,75523a45bc9efd958ea9,train,Algebra
+5.5,7c5dd46fe135113f754f,train,Algebra
+5.5,821829ebc95ca6729b7c,train,Algebra
+5.5,8329e0602135eab8c3e7,train,Algebra
+5.5,84a93da851343c4e8dd5,train,Algebra
+5.5,850de857ca22d51c8901,train,Algebra
+5.5,8740881c11c256ff91bf,train,Algebra
+5.5,8f25f066b34be882211a,train,Algebra
+5.5,8f62a73b2a97e56028a3,train,Algebra
+5.5,902875af4efb079a6751,train,Algebra
+5.5,91ed08f6f9249fdbc0e9,train,Algebra
+5.5,91f7bebc4683a2384ae7,train,Algebra
+5.5,935736cebeb3fd0d2d8e,train,Algebra
+5.5,939354225430d9ba9ae0,train,Algebra
+5.5,94a9d80369a9945e252e,train,Algebra
+5.5,9554b6960fcdd8215b2f,train,Algebra
+5.5,95770b6b52e566bc83c5,train,Algebra
+5.5,96a8fa04c0ba304d61d1,train,Algebra
+5.5,97c9aaa13a97c71ff3ca,train,Algebra
+5.5,984ebd2a9e50b702269c,train,Algebra
+5.5,98df4cea830747da9390,train,Algebra
+5.5,99f2dca5639cc7a5a8f5,train,Algebra
+5.5,9a7cc66614dbee50c931,train,Algebra
+5.5,9bd771ba9f54d922e845,train,Algebra
+5.5,9ccedd5415a8f81d8ddb,train,Algebra
+5.5,9f054ffb910da1dd2218,train,Algebra
+5.5,a15c0e8223c9ec2938d9,train,Algebra
+5.5,a402186018312cde4c34,train,Algebra
+5.5,a667352dc8cc095b908d,train,Algebra
+5.5,aa4224c9a9c74c45b817,train,Algebra
+5.5,aa7b278373c1d771859a,train,Algebra
+5.5,aae27ac1cb8595d5e435,train,Algebra
+5.5,ac690db6313df49d16d3,train,Algebra
+5.5,ae30779d4e2e2b1bbd71,train,Algebra
+5.5,af3521eb5b32e201ecc3,train,Algebra
+5.5,afea0f6707a8f8d26a5d,train,Algebra
+5.5,b253ff83199474f3f5bd,train,Algebra
+5.5,b2e16851eae60a83c0f3,train,Algebra
+5.5,b3117999352645fd7d10,train,Algebra
+5.5,b66e0c13f19d2ac28616,train,Algebra
+5.5,bc44a85440b0302a7625,train,Algebra
+5.5,bd1cde54e04beec72d8c,train,Algebra
+5.5,bfba34433221cb14d90f,train,Algebra
+5.5,c01c9975d27157ec91bc,train,Algebra
+5.5,c0d81b6e105a79106242,train,Algebra
+5.5,c217a3ffe4870bfe96d7,train,Algebra
+5.5,c34a19f853eedbf66102,train,Algebra
+5.5,c3e5415c9db1461c790d,train,Algebra
+5.5,c5d5c6a8dfb4ea6eb96b,train,Algebra
+5.5,c998dcfb730e6670bfa9,train,Algebra
+5.5,cba440a8bfcd0137bc0e,train,Algebra
+5.5,cc0cd3f45d10bb35be28,train,Algebra
+5.5,d241573f710cada429e8,train,Algebra
+5.5,d5007dd30d21841e54d1,train,Algebra
+5.5,d51f70bf579e93db6baf,train,Algebra
+5.5,d6669daaf975dc254948,train,Algebra
+5.5,d6d8c9033cea20ab50fa,train,Algebra
+5.5,d8320ef1990ead765896,train,Algebra
+5.5,d88e7291bcec2ff242c7,train,Algebra
+5.5,db93fc4a52a7027f9286,train,Algebra
+5.5,e3f06b8d3b27219caabd,train,Algebra
+5.5,e46f84c38a1e9483675b,train,Algebra
+5.5,e8c533617c2188dccd0c,train,Algebra
+5.5,e900b221d4d039c5a942,train,Algebra
+5.5,e9c6e769e1d2741b7bf4,train,Algebra
+5.5,e9d488148bb26767b420,train,Algebra
+5.5,ed935151930b89bd56d9,train,Algebra
+5.5,ede8baf0c2dbd8d585bf,train,Algebra
+5.5,ef70b10010354aab234e,train,Algebra
+5.5,f249a5ae81c6b309b34b,train,Algebra
+5.5,f37fd850d6224e2ee514,train,Algebra
+5.5,f6ae80e1269ff4e6c718,train,Algebra
+5.5,f7d4524bb6134bc53ff1,train,Algebra
+5.5,f7e98f831bde3c10da1b,train,Algebra
+5.5,f858d2a9839d6808bd8a,train,Algebra
+6.0,000f05f4970819a63438,train,Algebra
+6.0,020b1f1d8d8bfdf6c57f,train,Algebra
+6.0,044ee51aa0de493eaba1,train,Algebra
+6.0,047f56f3eec131a96511,train,Algebra
+6.0,04f28c8b2534a689de37,train,Algebra
+6.0,0701eb0abf034fecb423,train,Algebra
+6.0,0802e9693ce2019fd7c3,train,Algebra
+6.0,09687f005762b2e0bfa1,train,Algebra
+6.0,0979ce03f3a6f6ad9929,train,Algebra
+6.0,0afd961ec0bedc99de9e,train,Algebra
+6.0,0bde9c866a89c49b65cf,train,Algebra
+6.0,0c20a790c8297866efb4,train,Algebra
+6.0,0d1243a0f4a116d6c9d4,train,Algebra
+6.0,0da7713654ec75902635,train,Algebra
+6.0,0fae1d75fd8ec0a5137e,train,Algebra
+6.0,10532046703c658e5b01,train,Algebra
+6.0,1062b43ab505bb2c379c,train,Algebra
+6.0,112ebc1863578c7c3de6,train,Algebra
+6.0,123cd0f2490b1dd4ce7b,train,Algebra
+6.0,12b93f935d12644439a6,train,Algebra
+6.0,138888c6b7acb5858a82,train,Algebra
+6.0,13f9274240633b4950f7,train,Algebra
+6.0,14a874196aaac11fe52f,train,Algebra
+6.0,17b94a1e961ff4fbaf71,train,Algebra
+6.0,19601cbe42dd91e8e8c5,train,Algebra
+6.0,1adeca7e621f7b583b64,train,Algebra
+6.0,1b01cfc96577ab1586eb,train,Algebra
+6.0,1b6259a9a156a4bd5b5d,train,Algebra
+6.0,1ca619490b6bce34e463,train,Algebra
+6.0,1cd3e2d11f12e6246ed7,train,Algebra
+6.0,1ce92294c0c920c12023,train,Algebra
+6.0,1eae796cae2b5df7493e,train,Algebra
+6.0,1f792af388e76989dc90,train,Algebra
+6.0,2030aa527b07123b360d,train,Algebra
+6.0,20aef419e312bd7691ec,train,Algebra
+6.0,20d9334fe16fa8af66ea,train,Algebra
+6.0,2253ffa9795db96e19dc,train,Algebra
+6.0,23146984da2256966890,train,Algebra
+6.0,23b56909255066dbc95c,train,Algebra
+6.0,2601e198898c536ea15d,train,Algebra
+6.0,260f394ad846fceef930,train,Algebra
+6.0,264857405f47bf961eb2,train,Algebra
+6.0,2706d05c6a0844f19199,train,Algebra
+6.0,2762bd27fbf14c48d269,train,Algebra
+6.0,276e33e9615330a8431d,train,Algebra
+6.0,27900c2420eba82f736a,train,Algebra
+6.0,27f2f21d038ba580f31a,train,Algebra
+6.0,2f2cb952e6188bf2722c,train,Algebra
+6.0,2f94fb90ce871fe9eaf6,train,Algebra
+6.0,318e8a4816097cadc804,train,Algebra
+6.0,3294c305c0c22c6b2197,train,Algebra
+6.0,3452d3c5d586058dc9a7,train,Algebra
+6.0,3464e944a488dbec8ce3,train,Algebra
+6.0,34b0e83ec86dcc8edadc,train,Algebra
+6.0,34ba288da050e6998284,train,Algebra
+6.0,34eddd1d5bbcf10bbf30,train,Algebra
+6.0,3632b4f92ccdc4142c02,train,Algebra
+6.0,379719f6ebfd36310d4d,train,Algebra
+6.0,3800dcaa9c96cef4b0c8,train,Algebra
+6.0,39033f3a31152f6359fc,train,Algebra
+6.0,3a44ea6c7ec5fe318e2d,train,Algebra
+6.0,3b888a1f526619126c70,train,Algebra
+6.0,3bc2ab206d3da385bb00,train,Algebra
+6.0,3c0c3133df3e55c43b7b,train,Algebra
+6.0,3d0f3a2d00db25153958,train,Algebra
+6.0,3ee3e1076c17090cd06a,train,Algebra
+6.0,3fbe4a613c4f95ad222c,train,Algebra
+6.0,3fcaaf8787a3cd2e0d12,train,Algebra
+6.0,3fd37306d338e4b423b2,train,Algebra
+6.0,400858a74cb8f429379e,train,Algebra
+6.0,41a8fcb564cc79829622,train,Algebra
+6.0,42dddda4df59c660c6ae,train,Algebra
+6.0,43fbe013b4131df1db2b,train,Algebra
+6.0,44961821fb882c04067e,train,Algebra
+6.0,45929b34c3eb1a750dba,train,Algebra
+6.0,4688ebec5a1df7922052,train,Algebra
+6.0,46df6f2163c46ba5eb86,train,Algebra
+6.0,471cae5efe7fe40e47d0,train,Algebra
+6.0,49eb5b1ebb41979da725,train,Algebra
+6.0,4a693a1972b6693c7807,train,Algebra
+6.0,4b17b7a4b14abcec679c,train,Algebra
+6.0,4bf7b51c4294ab1abf91,train,Algebra
+6.0,4c2745d8081e3a31cdc7,train,Algebra
+6.0,4c6b12430e74e4e26f3d,train,Algebra
+6.0,4c746db456bc8e8f6e87,train,Algebra
+6.0,4d9d132e6cec5a704cc4,train,Algebra
+6.0,4e441c8657deeb8f057b,train,Algebra
+6.0,4ee861bd21b4c3fbc03b,train,Algebra
+6.0,5024ef698a20ba13511a,train,Algebra
+6.0,504f83cd4cfb3bfcf988,train,Algebra
+6.0,5171ac0ccc40e5c19f6e,train,Algebra
+6.0,51a88ae7cf8893b53fde,train,Algebra
+6.0,543752afa6e210c0e068,train,Algebra
+6.0,54a4a095ce31f13cf622,train,Algebra
+6.0,576db4633d5bab0bdf49,train,Algebra
+6.0,57df5313762e9db77fb1,train,Algebra
+6.0,5aa23f75391cf775c90c,train,Algebra
+6.0,5af5c519b90e09050323,train,Algebra
+6.0,5c5e16e24f63f7ce2e12,train,Algebra
+6.0,5e8407de6fe8a77f9e88,train,Algebra
+6.0,5efa0439350c333c1371,train,Algebra
+6.0,5f34688d81499eb92f33,train,Algebra
+6.0,5f8792da66040559b31b,train,Algebra
+6.0,5fb75451094f41708fb7,train,Algebra
+6.0,5fffed9548c4ad91864c,train,Algebra
+6.0,610ded2b72987bd5e1b1,train,Algebra
+6.0,62c802f87b8231521f38,train,Algebra
+6.0,633397b6e6e18a222e5b,train,Algebra
+6.0,65c0e8db93a928949aa2,train,Algebra
+6.0,6658cf4b2332abd373de,train,Algebra
+6.0,667676ecd07621ee54ab,train,Algebra
+6.0,6693ffb3708546ebeb59,train,Algebra
+6.0,66fd85779753aa24df34,train,Algebra
+6.0,67131b4d51028602d5d0,train,Algebra
+6.0,6742512bd5df30b5839b,train,Algebra
+6.0,675152a075c2d14835cd,train,Algebra
+6.0,68ded590207639b866ff,train,Algebra
+6.0,6907a677fffe5d8ce328,train,Algebra
+6.0,6963db53e2bd0f52f552,train,Algebra
+6.0,6a33f78b859407d867aa,train,Algebra
+6.0,6b3d582dc24f1fc45c8b,train,Algebra
+6.0,6bce040a059076d60198,train,Algebra
+6.0,6bedebdbae264c08083c,train,Algebra
+6.0,6bf54eded1f97f129ff7,train,Algebra
+6.0,6d29545c0a53d6fae043,train,Algebra
+6.0,6d78b9bf3883783bfe1e,train,Algebra
+6.0,700fd80fb08e05732610,train,Algebra
+6.0,712bf5a19f9e7824e626,train,Algebra
+6.0,71cc7e5435a2cf1f76b5,train,Algebra
+6.0,72603c9beb2ebfea5344,train,Algebra
+6.0,74b042e39242242f5962,train,Algebra
+6.0,758fd8cfc3e7e2663f98,train,Algebra
+6.0,76092eabc57c5b5267fd,train,Algebra
+6.0,76f7a50dd979c5aeef46,train,Algebra
+6.0,778e8d4d02f78d88a2f3,train,Algebra
+6.0,795a04c563c79e687c53,train,Algebra
+6.0,79d4bcc065e7d00ef6b8,train,Algebra
+6.0,7afbaf255a78a56b17c2,train,Algebra
+6.0,7cdb31b73bffc5117a37,train,Algebra
+6.0,7cdf2065a8e8b436def2,train,Algebra
+6.0,7d44b8427290dbc4857f,train,Algebra
+6.0,7e03b3e625a75e5606b4,train,Algebra
+6.0,7e1e668cda4456f8060e,train,Algebra
+6.0,7f2d12862e647d023179,train,Algebra
+6.0,7fac9c3a68802a508ec8,train,Algebra
+6.0,80cd5d8047fda9ef57ad,train,Algebra
+6.0,82cac166598be761d6ed,train,Algebra
+6.0,83c02c5676414c9e942e,train,Algebra
+6.0,84db46148b5c29884ced,train,Algebra
+6.0,850f3860470345a727b6,train,Algebra
+6.0,864e82819a39a574863a,train,Algebra
+6.0,869c4ea9de6bc0993802,train,Algebra
+6.0,8725beab6841014d4013,train,Algebra
+6.0,881da6ba716d82a64526,train,Algebra
+6.0,885651439b442df67236,train,Algebra
+6.0,888c77cd9653f6fe50aa,train,Algebra
+6.0,894fe0980a7fac7b2bf0,train,Algebra
+6.0,8a9f3613860b860de071,train,Algebra
+6.0,8cb4e9ef09cb192861a5,train,Algebra
+6.0,8d032204ec022f920784,train,Algebra
+6.0,8d278ea1558a2a0064f7,train,Algebra
+6.0,8f53799cd1f816a13319,train,Algebra
+6.0,91459297737e2a74d07c,train,Algebra
+6.0,9273587e801ecf79977e,train,Algebra
+6.0,9274db1f884d9fe2aeff,train,Algebra
+6.0,92bca91dddd97492178d,train,Algebra
+6.0,92efd010102cfaa1c4cd,train,Algebra
+6.0,92fc917f075d5ece192c,train,Algebra
+6.0,946444290104041d51c7,train,Algebra
+6.0,9466991ceffaa42803b6,train,Algebra
+6.0,94db50a79052559b6fd9,train,Algebra
+6.0,97ff83a28bf5f990ab37,train,Algebra
+6.0,98cc73df0e87c7b035a8,train,Algebra
+6.0,992101ecffd9b73a74f5,train,Algebra
+6.0,99ce0bbde1c95665fbbc,train,Algebra
+6.0,99dc5401b911539cdfef,train,Algebra
+6.0,9acb0dbda03861ffd208,train,Algebra
+6.0,9afb358c6b670ca6e5a6,train,Algebra
+6.0,9b755ae3775e8b4726ff,train,Algebra
+6.0,9bab003fbf2b101e8f40,train,Algebra
+6.0,9c677b22b424665a7869,train,Algebra
+6.0,9d7a3ebe2dbfc00a04a3,train,Algebra
+6.0,9ee9c59e12919a047d8b,train,Algebra
+6.0,9f0888b767267fbb8674,train,Algebra
+6.0,9f34246868b11d522dd4,train,Algebra
+6.0,9f66b8fba7bfe904a207,train,Algebra
+6.0,a063b93a38089c8da2df,train,Algebra
+6.0,a3e15ca9b1645a7ee21a,train,Algebra
+6.0,a41ac588bbda259a23f3,train,Algebra
+6.0,a4523fae3913fd2e8f22,train,Algebra
+6.0,a6e5402da7c665b11c0d,train,Algebra
+6.0,a7eb79207616dc95d616,train,Algebra
+6.0,a999649ca76a2f963f09,train,Algebra
+6.0,a9c72f34a26f24ab901f,train,Algebra
+6.0,aa923fec5212e7e478ee,train,Algebra
+6.0,ac1e454f27b9f8805fbe,train,Algebra
+6.0,ac576638ecb2480a2ecf,train,Algebra
+6.0,acde3f2f2aca6f020fd7,train,Algebra
+6.0,ad3a923deaa4c4f4fd2a,train,Algebra
+6.0,adba007ca257daf6fbd1,train,Algebra
+6.0,ae18b1a6ae1fd64858ee,train,Algebra
+6.0,af4c196abfe3cd2ff10b,train,Algebra
+6.0,af7036be701a1a1f5a03,train,Algebra
+6.0,afce9000b4f3e54cb304,train,Algebra
+6.0,b01c4bcd0c7a03142cbc,train,Algebra
+6.0,b52eb25df432d479a172,train,Algebra
+6.0,b54764e73bc8c969d079,train,Algebra
+6.0,b683dfa3e8ae71d34b39,train,Algebra
+6.0,b72153f37be8bdb34749,train,Algebra
+6.0,b8c6f7a6982f4fa9691e,train,Algebra
+6.0,baa1c1aac100de0b557e,train,Algebra
+6.0,bb1ec56a4d2f3070b669,train,Algebra
+6.0,bd1d22948e2653fce4d6,train,Algebra
+6.0,bd8e6846c80270802a42,train,Algebra
+6.0,c05d4994695ba87b3333,train,Algebra
+6.0,c0a3f4aaee03be3657f5,train,Algebra
+6.0,c0aa49b991a74b1ef4ca,train,Algebra
+6.0,c0f025d99325624d10be,train,Algebra
+6.0,c26a1690ef0ad7924550,train,Algebra
+6.0,c2f2b052aad8fb228d75,train,Algebra
+6.0,c37401704571ea04be7b,train,Algebra
+6.0,c48c4b242df777e0fc60,train,Algebra
+6.0,c50a4b1f72897bd9f460,train,Algebra
+6.0,c82f1965b5121dec4108,train,Algebra
+6.0,c8928cd6a215276e0b91,train,Algebra
+6.0,c8a03aaf2816b98ab8f2,train,Algebra
+6.0,c8c4eacab971b3efc8f9,train,Algebra
+6.0,c90d1fa51fed991c45bd,train,Algebra
+6.0,c93e6182b6cfda5a0e12,train,Algebra
+6.0,ca020d1fd71962c403d2,train,Algebra
+6.0,ca60b550ec613e517c61,train,Algebra
+6.0,cd1cc8b78b4440b34839,train,Algebra
+6.0,cd22fd69fc066b50893e,train,Algebra
+6.0,ce77fe6c1c61584983fc,train,Algebra
+6.0,ce950da5b34e5c013068,train,Algebra
+6.0,cf2a0648dddd68ffb96a,train,Algebra
+6.0,cf3c600389be92849e73,train,Algebra
+6.0,cf5abfc03efe7f442811,train,Algebra
+6.0,cf8acf9106fbada24f28,train,Algebra
+6.0,d051ca494ced389c49ea,train,Algebra
+6.0,d139e2d7167eb6dc99d0,train,Algebra
+6.0,d1648e0d3f0afb72bfef,train,Algebra
+6.0,d365b4eb528c3b8be3dd,train,Algebra
+6.0,d4303dceab1b1f3d4a84,train,Algebra
+6.0,d449e4709a6f5a47d436,train,Algebra
+6.0,d674b7e3fae776ec03ce,train,Algebra
+6.0,d92d230dbdc8d92c0cdb,train,Algebra
+6.0,daa3eb26e6d903402e15,train,Algebra
+6.0,dd17ddac651c5f0336c1,train,Algebra
+6.0,dd3c360d0dcf91100e58,train,Algebra
+6.0,de3d76150dbe23fd9076,train,Algebra
+6.0,e0e6e380ebf2bee4a68a,train,Algebra
+6.0,e0f1314b02edb5b476f4,train,Algebra
+6.0,e1bc658ccb4613852870,train,Algebra
+6.0,e1e2ddfb8fd61e817f11,train,Algebra
+6.0,e297650676e9eae3b3fb,train,Algebra
+6.0,e3dd25d870db0862fa82,train,Algebra
+6.0,e56140985e2a62270828,train,Algebra
+6.0,e65729393c49d0910bf1,train,Algebra
+6.0,e6b5e016f2e799d4aad4,train,Algebra
+6.0,e6ca7d51836d7b45b8f4,train,Algebra
+6.0,e7256069e0a064b14dec,train,Algebra
+6.0,e743815e22201a1d6ee5,train,Algebra
+6.0,e7a5561d907fc0cf9e4d,train,Algebra
+6.0,e7f4bd56a642572af251,train,Algebra
+6.0,e8c53b13cffbb5898491,train,Algebra
+6.0,ea2d233c32f47773ea8a,train,Algebra
+6.0,eccdb3078272881122e6,train,Algebra
+6.0,ed8026b0a8064055f6e9,train,Algebra
+6.0,ef6b2b862d4bbb0e4ab0,train,Algebra
+6.0,f097f221a08a04decafd,train,Algebra
+6.0,f2488c8f99442c5e1355,train,Algebra
+6.0,f2598e368d56647978e0,train,Algebra
+6.0,f2b1832e1986f7011d88,train,Algebra
+6.0,f369c103356c55516439,train,Algebra
+6.0,f3cb41c9b35bf4ebb535,train,Algebra
+6.0,f4e4a8ac76fd4d747232,train,Algebra
+6.0,f4f9755d23566f72d390,train,Algebra
+6.0,f6ce4f942a9d579a5423,train,Algebra
+6.0,f7e24c87ac9f67b605a2,train,Algebra
+6.0,f84187f4af73a1074f1b,train,Algebra
+6.0,fdefd5a372592ff5a755,train,Algebra
+6.0,fe65efbe91abe34c19fc,train,Algebra
+6.0,fe9f5ae83cb1a61bb96e,train,Algebra
+6.0,fec4449977bedba1ca89,train,Algebra
+6.0,ff3d964ca146df6c7fce,train,Algebra
+6.0,ffd932a512223a36425f,train,Algebra
+6.5,012c1fb6bef75f0dccd0,train,Algebra
+6.5,01464591030cfb6e7129,train,Algebra
+6.5,024a30e20feed46e0d3e,train,Algebra
+6.5,050806fb37b084ec924c,train,Algebra
+6.5,05fc02734b7c654856bb,train,Algebra
+6.5,0610c732409046a9a58d,train,Algebra
+6.5,08c0e01cc8f7b998d2f8,train,Algebra
+6.5,098b47075ac97019c831,train,Algebra
+6.5,0dd356e01220b92ce5e7,train,Algebra
+6.5,0e17fb8705989d91fe62,train,Algebra
+6.5,0f96611c555515845aba,train,Algebra
+6.5,10e0a9a8ad2fdd7e3933,train,Algebra
+6.5,10ecf5f1019c3d1b3515,train,Algebra
+6.5,15e26eaf46b572ecbdc6,train,Algebra
+6.5,16fdbe1d9eca86b6b8a6,train,Algebra
+6.5,18b2cde57c5d439ec116,train,Algebra
+6.5,1df93054ff28c01a12e9,train,Algebra
+6.5,1ebe9c2df10bc17074b3,train,Algebra
+6.5,21a0ab00d2cec8f70f8d,train,Algebra
+6.5,2384537b6a9b17a73056,train,Algebra
+6.5,25827846cc4ee1870de8,train,Algebra
+6.5,25b6661322233f3be156,train,Algebra
+6.5,2642a222f645b65049ab,train,Algebra
+6.5,286b9c5ddb773e3eb361,train,Algebra
+6.5,2b5b6fafdbe0a5adc8bf,train,Algebra
+6.5,2c01bf1fab4ad006844c,train,Algebra
+6.5,2d2a7bfffea0213b6c7f,train,Algebra
+6.5,2f5bd2b8090209bf596e,train,Algebra
+6.5,2f693203e36a9aca399e,train,Algebra
+6.5,36080930fb9d1d1708a0,train,Algebra
+6.5,36706f4b14e679bb472a,train,Algebra
+6.5,36f6e490961f93d37a71,train,Algebra
+6.5,3858f233b38daf3040aa,train,Algebra
+6.5,3a2fef5def12ed6a2c0a,train,Algebra
+6.5,3b685e39ae12d21dca98,train,Algebra
+6.5,3e3ccef90d568456f9ee,train,Algebra
+6.5,3f400256b26380a47cab,train,Algebra
+6.5,3fb1bfe4f95f1294383f,train,Algebra
+6.5,42fad646aba54f15c8f0,train,Algebra
+6.5,46fa292a7fdc8eccc212,train,Algebra
+6.5,4726833c9a642bb525fc,train,Algebra
+6.5,4774df4ead3f23087cf1,train,Algebra
+6.5,4c4c4e99462074162d52,train,Algebra
+6.5,4c56f2c8aec92636a966,train,Algebra
+6.5,4d9a2322fa3ab3c73009,train,Algebra
+6.5,4eb12bdd437773a23540,train,Algebra
+6.5,508abc46ba12a3bfbc7e,train,Algebra
+6.5,517769e600727ae1d844,train,Algebra
+6.5,532cf3fa0699331640aa,train,Algebra
+6.5,5536995fcd3fe640ba94,train,Algebra
+6.5,55db7e3dbc00f8239bd8,train,Algebra
+6.5,566bf032cb6ceae3ee46,train,Algebra
+6.5,589af4b223121530a25f,train,Algebra
+6.5,5a4fa5a08d8879283dc7,train,Algebra
+6.5,5b34e58ad474d9342819,train,Algebra
+6.5,5e734d1a6fe86f779755,train,Algebra
+6.5,5e8136bb233e911fccbd,train,Algebra
+6.5,5f32dbd6b656b4814d1c,train,Algebra
+6.5,611f33a9f69e24557471,train,Algebra
+6.5,6513aa7816042f4eeab5,train,Algebra
+6.5,65eda1124c3dd6b516d3,train,Algebra
+6.5,69727e57a27b357a6bef,train,Algebra
+6.5,6ef00ed716b8aa77a52c,train,Algebra
+6.5,70c7eb111f49f06a9bcb,train,Algebra
+6.5,71a1892a9ab2a56e8435,train,Algebra
+6.5,75d8f6970f971e2c83c2,train,Algebra
+6.5,774fe566724ee7546a0e,train,Algebra
+6.5,77916424510a34e344ac,train,Algebra
+6.5,7912c525e7061f1ed774,train,Algebra
+6.5,7a6244a29148acd4f44b,train,Algebra
+6.5,7b38098c6593a8179fe5,train,Algebra
+6.5,7d1bdd7d31785e476835,train,Algebra
+6.5,7dff2a113e94aee1479f,train,Algebra
+6.5,7f162d3d50fabea4e4f3,train,Algebra
+6.5,85277c68512e29fbf476,train,Algebra
+6.5,877d08c81d05109c7442,train,Algebra
+6.5,881081c9e1235d18074c,train,Algebra
+6.5,8c1ab0d06d16c8dba837,train,Algebra
+6.5,8d87f3059c1ebbcc4eb2,train,Algebra
+6.5,9245fd511d1440835a30,train,Algebra
+6.5,932392fd4bb1f5696106,train,Algebra
+6.5,951a1c02fe356b8460bb,train,Algebra
+6.5,967fb0e7004bc0bed39e,train,Algebra
+6.5,96c4d73c44775cf7983b,train,Algebra
+6.5,96f3fa4033aa70497e5b,train,Algebra
+6.5,9a2228feda903a98a346,train,Algebra
+6.5,9a5515deac252b625c48,train,Algebra
+6.5,9ab8464184d219a4fad1,train,Algebra
+6.5,9ee58e7690551e22b520,train,Algebra
+6.5,9f3e5d1c1b70872a0f08,train,Algebra
+6.5,9f78923bafcddcc790ae,train,Algebra
+6.5,a3921aed33cfaef3c941,train,Algebra
+6.5,a48fcdc380a045127f57,train,Algebra
+6.5,a51de355dda21e94836f,train,Algebra
+6.5,a6806e075564158fb91d,train,Algebra
+6.5,a751bda3b8397c298974,train,Algebra
+6.5,a91f167057ae0710b9b1,train,Algebra
+6.5,ac3f38a641884f79422c,train,Algebra
+6.5,ae651fbf19868784bf1e,train,Algebra
+6.5,afe7b8600ead1744dc6c,train,Algebra
+6.5,b18bc901fe399ca8ca2e,train,Algebra
+6.5,b42f29973010fef4f478,train,Algebra
+6.5,b59e786c0ce7f513fb95,train,Algebra
+6.5,b9fc221c9af438d9b349,train,Algebra
+6.5,bb4ea6cbbfad847ad4fa,train,Algebra
+6.5,bd5f57e2d87578a6b117,train,Algebra
+6.5,c07dbc4c6c0ea30b47d7,train,Algebra
+6.5,c5caf5b9c31895c6b9d4,train,Algebra
+6.5,c7a9835cceb3c397d156,train,Algebra
+6.5,c9d9d803012a37ccbe50,train,Algebra
+6.5,ca17594278f9fde5c665,train,Algebra
+6.5,d1ee25b55b12c2e39292,train,Algebra
+6.5,d2d0b994d4d13d2a54d6,train,Algebra
+6.5,d4af1d50caf872675de6,train,Algebra
+6.5,d54393374e692aac6d91,train,Algebra
+6.5,d64081ea5fd836c209c8,train,Algebra
+6.5,d741fbeb2995ea3c3b9d,train,Algebra
+6.5,dabec0385d6fc5bcf5dd,train,Algebra
+6.5,db95dc2b169167892a0d,train,Algebra
+6.5,dba7150bc6ea09b07640,train,Algebra
+6.5,dd143085c4d5ccfffeb9,train,Algebra
+6.5,debcffa22a120d3d7440,train,Algebra
+6.5,e05021ba9bc5b2cc9e43,train,Algebra
+6.5,e0eb9b8f51002fa04a1c,train,Algebra
+6.5,e3caf6ddaa7671e04f32,train,Algebra
+6.5,e5424a5588ab292ec44c,train,Algebra
+6.5,e720402cf01da7fe4e0d,train,Algebra
+6.5,e97e967110e79d3018f2,train,Algebra
+6.5,e9e0fbf620b20fb11c25,train,Algebra
+6.5,eae908b35052e9917950,train,Algebra
+6.5,ed8ca19ed7d7f223837c,train,Algebra
+6.5,ef1d28a6602bbdd9798f,train,Algebra
+6.5,ef21ce603e79b13da39b,train,Algebra
+6.5,f0d4e4f7a36ccde01c6c,train,Algebra
+6.5,f15fc35e7682f99361d0,train,Algebra
+6.5,f16d35039aa1ebb908e2,train,Algebra
+6.5,f41a7496861ca1b44a5e,train,Algebra
+6.5,f471775dea4a9af42118,train,Algebra
+6.5,f59598fdb5c07864f025,train,Algebra
+6.5,f5b4bc16fa5408d9b5a4,train,Algebra
+6.5,fc1fc6885efeca2b04ed,train,Algebra
+6.5,fe38a1ee09f4bdbe8283,train,Algebra
+6.5,ffe94d7499ecbbda5195,train,Algebra
+7.0,0121fee0e809051e0bd2,train,Algebra
+7.0,03ae3c14e4c89105aac2,train,Algebra
+7.0,072138c7baaa6d504b48,train,Algebra
+7.0,0e9c17ab092ea490afdd,train,Algebra
+7.0,1291249e06eec4883be2,train,Algebra
+7.0,13477f80c5615ae7dda6,train,Algebra
+7.0,17b70fd8a30bcdba70ac,train,Algebra
+7.0,192b315e4708a7b33456,train,Algebra
+7.0,19674096df9dbfba2abe,train,Algebra
+7.0,1a1b5007ec4a014f05f0,train,Algebra
+7.0,1db1d02bf2cdfbc3e3a1,train,Algebra
+7.0,1e9e17f99768908d4d54,train,Algebra
+7.0,1fbe8393414dc47396b4,train,Algebra
+7.0,2036d2e387b86b95ecd9,train,Algebra
+7.0,22e9cbda6ffd626614ef,train,Algebra
+7.0,28be4df96b0d2cac0996,train,Algebra
+7.0,292c5847af60ba578426,train,Algebra
+7.0,293eda72e8b7f091fb18,train,Algebra
+7.0,29a7d7cc8c9a2f0d6b26,train,Algebra
+7.0,2c0ff5ff6744a5b28195,train,Algebra
+7.0,2e7c9d17396e2bf78960,train,Algebra
+7.0,2eedf2c5e1b346d66e42,train,Algebra
+7.0,2eee5b3a71a6023f80be,train,Algebra
+7.0,31bf3fb20f85418d245d,train,Algebra
+7.0,31fc37d567552b0597da,train,Algebra
+7.0,341a2999c370f82e347c,train,Algebra
+7.0,34206b139147772934e7,train,Algebra
+7.0,34b43b7fe2d322861ba0,train,Algebra
+7.0,370e3b48ac878e602767,train,Algebra
+7.0,376c0b206e181f3add06,train,Algebra
+7.0,378c35db7320e62f256b,train,Algebra
+7.0,3c31647b07eb674b0a9c,train,Algebra
+7.0,3dc788b7e3475b2757e1,train,Algebra
+7.0,3e8aba8ea75521c2e909,train,Algebra
+7.0,3e8f30c8dbec7cc62097,train,Algebra
+7.0,3ea5cec3c24f7bd6ecbf,train,Algebra
+7.0,3ef4b6312f89d0eb5fff,train,Algebra
+7.0,3f580b245839f5ed0238,train,Algebra
+7.0,4080a1681489f2ac99eb,train,Algebra
+7.0,417fc7bce04ee62f0941,train,Algebra
+7.0,44e15dbc602ec4a7c582,train,Algebra
+7.0,474ce940713aa1857fe1,train,Algebra
+7.0,4b64aa41b06ed2300147,train,Algebra
+7.0,4de396fb68ed931d7551,train,Algebra
+7.0,5082a81f4516398f6ae7,train,Algebra
+7.0,51b46446a23bb44ba8d4,train,Algebra
+7.0,525a570f6600f01eadf2,train,Algebra
+7.0,55a5d2a0fedfdbdd80bb,train,Algebra
+7.0,577b92f3787fbb26a457,train,Algebra
+7.0,592bde8b240634fbcbf7,train,Algebra
+7.0,5a8d6ea94d7b7baa149a,train,Algebra
+7.0,5d964c93be7815f0b773,train,Algebra
+7.0,5f18f96747f8f7d5dc35,train,Algebra
+7.0,5f799c58b3ddd265228c,train,Algebra
+7.0,5fe0d42dea19b06bfb74,train,Algebra
+7.0,60b03352fe7f3aac9b18,train,Algebra
+7.0,62adca925fa0482ea885,train,Algebra
+7.0,62b4066bd2b1860529b7,train,Algebra
+7.0,6350680d16499511afc2,train,Algebra
+7.0,666c25ebe7db3186acb7,train,Algebra
+7.0,668050db5553c0750198,train,Algebra
+7.0,66bae3c42867096e59bf,train,Algebra
+7.0,684d7d86273752b83d7f,train,Algebra
+7.0,689cbdb8b64b8acba282,train,Algebra
+7.0,6c7095919635759ff7dd,train,Algebra
+7.0,6dd667e2da219e03b23d,train,Algebra
+7.0,6f87a79a6c9a91afbf84,train,Algebra
+7.0,700f8343441d14f143ae,train,Algebra
+7.0,710eede72ba92b336978,train,Algebra
+7.0,74b1393d92a5a7cfc048,train,Algebra
+7.0,76e5958f959d41447be8,train,Algebra
+7.0,7ab3d632fb9cf10d6c06,train,Algebra
+7.0,7ad370d11d4d39fdf9e6,train,Algebra
+7.0,7c093a933baa18ba5b62,train,Algebra
+7.0,7d5b0ff37bc079bf6bb3,train,Algebra
+7.0,7e1a015afe72c5cb5d0e,train,Algebra
+7.0,7e55c7f0438317474fff,train,Algebra
+7.0,812fb50e586a94df885c,train,Algebra
+7.0,81a75eac38fe0adb21d2,train,Algebra
+7.0,85f2b90eaf9e4d510f95,train,Algebra
+7.0,86ec7b8aa9f74a3a0e06,train,Algebra
+7.0,873458d1fe04e4c7888d,train,Algebra
+7.0,89ee54b47bba065e9a12,train,Algebra
+7.0,8e7933f5f6f292caf9f0,train,Algebra
+7.0,91bb0e7f8bfe1790d308,train,Algebra
+7.0,93ae30e46eb5b68d1ff7,train,Algebra
+7.0,9409cb8c6f61fd8bbd02,train,Algebra
+7.0,94460f1647028f76a689,train,Algebra
+7.0,95d6b22d3a43ae82260f,train,Algebra
+7.0,965b814b3510ce7709dc,train,Algebra
+7.0,98a5c8f426663c81beb8,train,Algebra
+7.0,98f5028b24200e1e397e,train,Algebra
+7.0,a020e9255b8a9f17dd17,train,Algebra
+7.0,a0565eac89b7e399cc55,train,Algebra
+7.0,a19e69b212cbffec1106,train,Algebra
+7.0,a35f0830fc6d81235079,train,Algebra
+7.0,a4aa8d7e68eb8e9fcfe1,train,Algebra
+7.0,a5a52c8b7ebcdb6f78f8,train,Algebra
+7.0,a6cd19e12e88a011ad1b,train,Algebra
+7.0,a7ada897a55bfd0e7048,train,Algebra
+7.0,a83db5962880789dbc9b,train,Algebra
+7.0,aa819ecb5bb5cabe96b1,train,Algebra
+7.0,ac45b7ac16a0f6e198f4,train,Algebra
+7.0,ad7f1199bf16f3594249,train,Algebra
+7.0,af12d44b85861977ecd7,train,Algebra
+7.0,b25af7b087a2cc3689a5,train,Algebra
+7.0,ba922861f5593d74601d,train,Algebra
+7.0,bdf100322eb5dbad3620,train,Algebra
+7.0,c10feea825b1fde320c3,train,Algebra
+7.0,c12bb84ce8e082482790,train,Algebra
+7.0,c32ae571db573771eaa3,train,Algebra
+7.0,c38060cbff39c70750a0,train,Algebra
+7.0,c3b7d8bf531eeb7c6a6e,train,Algebra
+7.0,c5eae9980556cce10532,train,Algebra
+7.0,c7395aa3067a732f4745,train,Algebra
+7.0,c777d595ad71263b0526,train,Algebra
+7.0,c8968c158d54c30e5f55,train,Algebra
+7.0,ca849d3142a4c170435c,train,Algebra
+7.0,cc3734af96da3bd87eb5,train,Algebra
+7.0,cd3e5155f55d5a23b687,train,Algebra
+7.0,ce4609f3e00c43549520,train,Algebra
+7.0,cfed0374cdb280676d52,train,Algebra
+7.0,d0853bfb5cf237c24df6,train,Algebra
+7.0,d2ab5709c8c4f6dc1866,train,Algebra
+7.0,d350f37be73d4ac10777,train,Algebra
+7.0,d40feafbb4d5ff6edc2d,train,Algebra
+7.0,d506036698a20240c1e9,train,Algebra
+7.0,d6f46f82e5c2e2e2d6c9,train,Algebra
+7.0,d7ecf0cef8754d96ba06,train,Algebra
+7.0,dc55487d8d3d933d9879,train,Algebra
+7.0,e6c25d4eda622ccfd70f,train,Algebra
+7.0,e6ed01914f98336794c5,train,Algebra
+7.0,ea9b4ac8febe5446ec55,train,Algebra
+7.0,ec20fb1f894fed616c13,train,Algebra
+7.0,ed7b46235f67973d735c,train,Algebra
+7.0,f2a558635cfb9653825e,train,Algebra
+7.0,f5c53c3b04f062c87198,train,Algebra
+7.0,f66cae2cbef58da96ffe,train,Algebra
+7.0,f701772b9659fdd2f62d,train,Algebra
+7.0,f7c91eb0cb2693894ef8,train,Algebra
+7.0,f86d445db10247e352f1,train,Algebra
+7.0,fcc3cd2dc22607f1b860,train,Algebra
+7.0,fe0d73fd88cd0602b565,train,Algebra
+5.0,01f948753bf52ffd8193,train,Applied Mathematics
+5.0,02d7939560d96b07eeae,train,Applied Mathematics
+5.0,0332cee4e013e9f737f7,train,Applied Mathematics
+5.0,034f40d1a8a338726e54,train,Applied Mathematics
+5.0,03b3148feb090f5d6e9f,train,Applied Mathematics
+5.0,0689e6cc2daa7fe771f0,train,Applied Mathematics
+5.0,06a08bcbd6af51d585ec,train,Applied Mathematics
+5.0,06cd85f1b69118b21bb1,train,Applied Mathematics
+5.0,0a343f8861f7778b2f7a,train,Applied Mathematics
+5.0,0b9c0200de9beb25d300,train,Applied Mathematics
+5.0,119c0daa70ff4bb60d2f,train,Applied Mathematics
+5.0,1585149a30cc4e77677c,train,Applied Mathematics
+5.0,189128d2ff58f4348506,train,Applied Mathematics
+5.0,195f2586ae1b9d4d33f5,train,Applied Mathematics
+5.0,210b0c8202964792f2ea,train,Applied Mathematics
+5.0,25c98e1e7d9fda6afd26,train,Applied Mathematics
+5.0,279a0a0eef075a765e3d,train,Applied Mathematics
+5.0,2cdecdc747a712e3cac5,train,Applied Mathematics
+5.0,2f280a0fc754f74b2b95,train,Applied Mathematics
+5.0,2f7e57790a8bc9cc4fe7,train,Applied Mathematics
+5.0,34dfc9dd359438418003,train,Applied Mathematics
+5.0,34fbba780c10b6c6ef56,train,Applied Mathematics
+5.0,372e22303677fec605a2,train,Applied Mathematics
+5.0,3a5e23e54eb0edb49425,train,Applied Mathematics
+5.0,3bac8b94c17d1437d4c0,train,Applied Mathematics
+5.0,3c7bd1f8de2d9953864b,train,Applied Mathematics
+5.0,3ca94bbadffae9dd4237,train,Applied Mathematics
+5.0,3f0b52364b91c8ad10c8,train,Applied Mathematics
+5.0,3f2e25f6e26c5e6d93ff,train,Applied Mathematics
+5.0,4019cd74e43e22b92db4,train,Applied Mathematics
+5.0,43f23686d07d754455d6,train,Applied Mathematics
+5.0,4410b3884686d12c5399,train,Applied Mathematics
+5.0,46e07a089646dc562c63,train,Applied Mathematics
+5.0,472526d020df3b4d50f4,train,Applied Mathematics
+5.0,4b23d29967873674593a,train,Applied Mathematics
+5.0,4d534981767a664c9f7b,train,Applied Mathematics
+5.0,4d93abbe3e3b6995b3cf,train,Applied Mathematics
+5.0,4f6637b09e9309f9be82,train,Applied Mathematics
+5.0,4fa13004a5d25799b5a2,train,Applied Mathematics
+5.0,5321eeb0362bd43b484d,train,Applied Mathematics
+5.0,59c544432be8f2d9b165,train,Applied Mathematics
+5.0,5c6967b0800c992e173a,train,Applied Mathematics
+5.0,5f10d0de278cbfe2124b,train,Applied Mathematics
+5.0,5fae063cad2ec6441c89,train,Applied Mathematics
+5.0,6202c5eb4dd5e98fc561,train,Applied Mathematics
+5.0,66ce8a797161c8a3cecb,train,Applied Mathematics
+5.0,68716166d77cfd676d5f,train,Applied Mathematics
+5.0,6c03d05d8d77f9c0f66f,train,Applied Mathematics
+5.0,6c5d8e1724ed63ea11a1,train,Applied Mathematics
+5.0,6dbb656f5d6cd36d1b7c,train,Applied Mathematics
+5.0,6e6a035dce6419b1b246,train,Applied Mathematics
+5.0,6efe2067a5134924644e,train,Applied Mathematics
+5.0,6f6c92c75ff3bd973831,train,Applied Mathematics
+5.0,6f97b31fd81c3e62ff58,train,Applied Mathematics
+5.0,70a1168f24ed8f932fa6,train,Applied Mathematics
+5.0,729a176ed65807862e22,train,Applied Mathematics
+5.0,72a231d184ac72d04921,train,Applied Mathematics
+5.0,74f4f37cc8c6372d7e90,train,Applied Mathematics
+5.0,7784e281ecbc0528bef9,train,Applied Mathematics
+5.0,789e2fc4887320e464e5,train,Applied Mathematics
+5.0,7a13dd29afe620b7d2e1,train,Applied Mathematics
+5.0,7aacb24590c08a4b44e8,train,Applied Mathematics
+5.0,7cb3071f1e8a49cedf88,train,Applied Mathematics
+5.0,7faa116fe182d577b1b2,train,Applied Mathematics
+5.0,8084662a9e55078126fe,train,Applied Mathematics
+5.0,84be808147ccca8aa6a1,train,Applied Mathematics
+5.0,8a85bc485a4341cce7c5,train,Applied Mathematics
+5.0,8dcb18ba3878ab8d2d56,train,Applied Mathematics
+5.0,8e444348028fd55f1e00,train,Applied Mathematics
+5.0,8f11f46a99d8644a50fa,train,Applied Mathematics
+5.0,9191467f57289b88c792,train,Applied Mathematics
+5.0,9343a6b81f2c9580beeb,train,Applied Mathematics
+5.0,944c94840e803acc1bbd,train,Applied Mathematics
+5.0,959952f8e03b98667f1d,train,Applied Mathematics
+5.0,9712ad7d5aa559ae7076,train,Applied Mathematics
+5.0,9716de297ad14310ee56,train,Applied Mathematics
+5.0,9844f0d1ab46ff562895,train,Applied Mathematics
+5.0,997a44e5ed329eb39310,train,Applied Mathematics
+5.0,9f96321c2222d3ac2194,train,Applied Mathematics
+5.0,9fd4097671010a5227fe,train,Applied Mathematics
+5.0,9ffeab5ebd8457a6e2de,train,Applied Mathematics
+5.0,a1786547e39507517e4a,train,Applied Mathematics
+5.0,a179a1ef74f5df43f52a,train,Applied Mathematics
+5.0,a795eccdb24236cad9be,train,Applied Mathematics
+5.0,a7c428658cbcf42be790,train,Applied Mathematics
+5.0,a852312a2d7e7fd97dd2,train,Applied Mathematics
+5.0,a93a81c3e905fc156893,train,Applied Mathematics
+5.0,abe7f508692092d8d5a1,train,Applied Mathematics
+5.0,abf1a1212d4d9e1d3ef1,train,Applied Mathematics
+5.0,adbd36b92769b184d3d6,train,Applied Mathematics
+5.0,aedb59e266e356c3690d,train,Applied Mathematics
+5.0,af3a6f33a835b9d222e7,train,Applied Mathematics
+5.0,afd90e161707772fc087,train,Applied Mathematics
+5.0,b0730fc455a3441dd5b4,train,Applied Mathematics
+5.0,b08692ed843cebb59af2,train,Applied Mathematics
+5.0,b158c3eeb3a0e67875a7,train,Applied Mathematics
+5.0,b47ae85d1d7bbe18546a,train,Applied Mathematics
+5.0,b4d73f9bd2c09b5a3dd9,train,Applied Mathematics
+5.0,b5476229126f18489c8d,train,Applied Mathematics
+5.0,b60afe204c62ee9cdc9f,train,Applied Mathematics
+5.0,b7436d8286412ac1b4ff,train,Applied Mathematics
+5.0,b8347a04dfaffb5af872,train,Applied Mathematics
+5.0,b928e55143ac4d45f2e6,train,Applied Mathematics
+5.0,ba396e74f2c46a8d60ea,train,Applied Mathematics
+5.0,ba511c118829c0fe252f,train,Applied Mathematics
+5.0,bb5eaa7d6a9f15a313e5,train,Applied Mathematics
+5.0,bea66b92075638b25bd5,train,Applied Mathematics
+5.0,c1ffcf01f45fb0da8898,train,Applied Mathematics
+5.0,c4882aa63bf94a8b6a7b,train,Applied Mathematics
+5.0,c5bb8c477717b469a098,train,Applied Mathematics
+5.0,c914399d5b5e4864c499,train,Applied Mathematics
+5.0,cab8d0d093ee1ff0836a,train,Applied Mathematics
+5.0,d01da14905e308921a73,train,Applied Mathematics
+5.0,d0eee550f0e92999bb35,train,Applied Mathematics
+5.0,d59eef9f8ccf03bd3578,train,Applied Mathematics
+5.0,d82aa4942c6c4482e344,train,Applied Mathematics
+5.0,dc06a7afd0e0a96ac67e,train,Applied Mathematics
+5.0,dd93d5cc35cd2eb4bb85,train,Applied Mathematics
+5.0,df8655454d859800f481,train,Applied Mathematics
+5.0,e1b00125230c8316380e,train,Applied Mathematics
+5.0,e349998c22a4ee7647b0,train,Applied Mathematics
+5.0,e6632bb644d1607e1dbd,train,Applied Mathematics
+5.0,e6b3a54de2a2ba12f526,train,Applied Mathematics
+5.0,e6fd496341117a0e454c,train,Applied Mathematics
+5.0,eba4e003c449ac24401c,train,Applied Mathematics
+5.0,ebfe5b25f194c5ae7d1b,train,Applied Mathematics
+5.0,eff3a5b85fea9dd32175,train,Applied Mathematics
+5.0,f36443b29f4b04500f5f,train,Applied Mathematics
+5.0,f4bec4db73bc10b2f3cc,train,Applied Mathematics
+5.0,f8140ee12db4b4eb3b89,train,Applied Mathematics
+5.0,f832456dbd6bfce07bae,train,Applied Mathematics
+5.0,fbfc03bec6f428e089e5,train,Applied Mathematics
+5.0,fd36a3df93c7df0d0ae3,train,Applied Mathematics
+5.0,fe9469c2c9d35a11e454,train,Applied Mathematics
+5.0,fffb9eefc7ad81bb10bc,train,Applied Mathematics
+5.5,023133cd1505ac4e7dc8,train,Applied Mathematics
+5.5,0a7e12d8135f727f12a7,train,Applied Mathematics
+5.5,0c2ac53a3f3a6003c511,train,Applied Mathematics
+5.5,110f93359d7de8f85a5f,train,Applied Mathematics
+5.5,1394b0f6c82596e2ffaa,train,Applied Mathematics
+5.5,13a859b2570902c6abcc,train,Applied Mathematics
+5.5,18465c5f8fefeec71414,train,Applied Mathematics
+5.5,1ce637673bdd33ccf121,train,Applied Mathematics
+5.5,1ec9324bee49f5b42f0d,train,Applied Mathematics
+5.5,1f6cd164890cd40222d1,train,Applied Mathematics
+5.5,23e39c7ed1388a950b67,train,Applied Mathematics
+5.5,2426d036620241722542,train,Applied Mathematics
+5.5,27b146d8ec2f1ff1c9cc,train,Applied Mathematics
+5.5,284e6310130453f2da31,train,Applied Mathematics
+5.5,2896628290fc6b65e84a,train,Applied Mathematics
+5.5,2a04dd6d668ea040d513,train,Applied Mathematics
+5.5,2a25aa881f420196ea6a,train,Applied Mathematics
+5.5,2c60815bcc95db269fe0,train,Applied Mathematics
+5.5,3123e2f930f955f4391f,train,Applied Mathematics
+5.5,3427ddf647dbb5308559,train,Applied Mathematics
+5.5,35cd207b915019f64f72,train,Applied Mathematics
+5.5,3c8b7c57fbe34bc57080,train,Applied Mathematics
+5.5,3d7d4c658e87963067ab,train,Applied Mathematics
+5.5,420bc614952c783d89b4,train,Applied Mathematics
+5.5,4e4680ede47666686925,train,Applied Mathematics
+5.5,533e5bcef5e34119a6b1,train,Applied Mathematics
+5.5,570f01f8dea1fdc28302,train,Applied Mathematics
+5.5,58e0ebb0e1e436cfc6c4,train,Applied Mathematics
+5.5,63f3642473c9da4fb547,train,Applied Mathematics
+5.5,6a5533fe12c6e24c501a,train,Applied Mathematics
+5.5,6b82fab44d840b7a03a7,train,Applied Mathematics
+5.5,6ca167cd7e7edd63e1f9,train,Applied Mathematics
+5.5,6d643406017c8d38207f,train,Applied Mathematics
+5.5,6f93228213706faa87e2,train,Applied Mathematics
+5.5,769f912e33c331199059,train,Applied Mathematics
+5.5,785f438850b5afcc9b49,train,Applied Mathematics
+5.5,7e5caefd14bfa3e94a78,train,Applied Mathematics
+5.5,7f0813e8c5eea5f3f051,train,Applied Mathematics
+5.5,8c4fc609d376d8650553,train,Applied Mathematics
+5.5,8f50153f8647bbcdb88d,train,Applied Mathematics
+5.5,90f0058a46dd205168c2,train,Applied Mathematics
+5.5,9191294f52035dc13322,train,Applied Mathematics
+5.5,923b06877f88749de7bf,train,Applied Mathematics
+5.5,92e0c083b5e473b5949a,train,Applied Mathematics
+5.5,92e855b187fe58cb7be9,train,Applied Mathematics
+5.5,96707a672f26582bc1e1,train,Applied Mathematics
+5.5,9862d21df4e123f17bc7,train,Applied Mathematics
+5.5,9909b41996ebac790f7f,train,Applied Mathematics
+5.5,9917afcffe4ea4264e53,train,Applied Mathematics
+5.5,a149ef26c08a1ce622da,train,Applied Mathematics
+5.5,a4a80d6b4b9121c627c7,train,Applied Mathematics
+5.5,a71d96912c7d53cdf829,train,Applied Mathematics
+5.5,aa2128ac9be4f8798f09,train,Applied Mathematics
+5.5,aaaabda74af4b270932c,train,Applied Mathematics
+5.5,bd2bad3e9e7fd6eb9141,train,Applied Mathematics
+5.5,c1109391f871b06937a8,train,Applied Mathematics
+5.5,c5676498207a8345e834,train,Applied Mathematics
+5.5,c673cd697bb9d9f31484,train,Applied Mathematics
+5.5,ce00c2943736becb77db,train,Applied Mathematics
+5.5,d011f3a103053167fccd,train,Applied Mathematics
+5.5,d06c7f149b3c3113c237,train,Applied Mathematics
+5.5,d14b455b424f80c107df,train,Applied Mathematics
+5.5,d460e264467a61d71128,train,Applied Mathematics
+5.5,d69075c7066a632b59f4,train,Applied Mathematics
+5.5,d6c1706c10be9d0ecb08,train,Applied Mathematics
+5.5,d9341322c60cc6eb7750,train,Applied Mathematics
+5.5,db398fbb866ada8b0eaf,train,Applied Mathematics
+5.5,dbe5e2d535d8ff0eb76f,train,Applied Mathematics
+5.5,dd941356652d60358e04,train,Applied Mathematics
+5.5,de073c443bcbbcdc03b4,train,Applied Mathematics
+5.5,de1a7ed082f3a135bbc9,train,Applied Mathematics
+5.5,e866a81b4378c9ba5e83,train,Applied Mathematics
+5.5,f0a197e1cce6af4cf448,train,Applied Mathematics
+5.5,f18c74241793b8fe4745,train,Applied Mathematics
+5.5,f4dab35c81b014a07187,train,Applied Mathematics
+5.5,fb493e627c06cac5b2c6,train,Applied Mathematics
+5.5,ffcae8e7bb741084ac46,train,Applied Mathematics
+6.0,009a64d170ec78fc2cea,train,Applied Mathematics
+6.0,01c302447c57595fdb9d,train,Applied Mathematics
+6.0,030b6e12625fd691570e,train,Applied Mathematics
+6.0,03edf0afb7cdfdca73f0,train,Applied Mathematics
+6.0,097868c25b3ea6f9aa6f,train,Applied Mathematics
+6.0,0b184edcdfa43bce9cb7,train,Applied Mathematics
+6.0,13a2d015d7d40bfb8db2,train,Applied Mathematics
+6.0,151ebce1aaa4aa574b80,train,Applied Mathematics
+6.0,1719de74c04c193cbd68,train,Applied Mathematics
+6.0,17efe95104d6f5b414db,train,Applied Mathematics
+6.0,1b84a4552b5607f097fd,train,Applied Mathematics
+6.0,216a29af6a8c227ea96b,train,Applied Mathematics
+6.0,251bc002a738450483fb,train,Applied Mathematics
+6.0,27741a1d2bb959ce3b6b,train,Applied Mathematics
+6.0,2898763ef93a00d049d7,train,Applied Mathematics
+6.0,2c2cf09c58ae04a6e26d,train,Applied Mathematics
+6.0,2db91627b793d0bf32fd,train,Applied Mathematics
+6.0,34a882e14ded4c8b45cc,train,Applied Mathematics
+6.0,36293162b17a52e6bd0c,train,Applied Mathematics
+6.0,3e1172fd8f86425c9eb3,train,Applied Mathematics
+6.0,3ef9d3ed539f0f62cf94,train,Applied Mathematics
+6.0,41c25e3b5d1bf7af67a7,train,Applied Mathematics
+6.0,45ec01321fc523185296,train,Applied Mathematics
+6.0,4623cad008e1c80e4b0b,train,Applied Mathematics
+6.0,4d078680f36b4454eaf6,train,Applied Mathematics
+6.0,5063818c73b1a2e3b283,train,Applied Mathematics
+6.0,5b5294eb5c098e5481bf,train,Applied Mathematics
+6.0,5c655cf09069b459a02b,train,Applied Mathematics
+6.0,6763e4b3c82688029122,train,Applied Mathematics
+6.0,67bce1d91f1c4d8a6eda,train,Applied Mathematics
+6.0,69e4c5fe04818a3f3721,train,Applied Mathematics
+6.0,6eab73afcdf26cf2a750,train,Applied Mathematics
+6.0,72b54d3254acb8d30bf0,train,Applied Mathematics
+6.0,75ab78ab54c8fdbad7e1,train,Applied Mathematics
+6.0,75f0028d5ed23ae2ebc3,train,Applied Mathematics
+6.0,7d1a28cdd2c1c0aa398a,train,Applied Mathematics
+6.0,7e7ab8649cb4132a5dad,train,Applied Mathematics
+6.0,86821573055372c07dda,train,Applied Mathematics
+6.0,88ed0e58470419f34800,train,Applied Mathematics
+6.0,8971c3d67a08a110b89b,train,Applied Mathematics
+6.0,8c3ad69a710551937b9d,train,Applied Mathematics
+6.0,8c8e6b9c18fbd0e522c9,train,Applied Mathematics
+6.0,8db0aeeb8d20f07c5c9c,train,Applied Mathematics
+6.0,96058cd18d1bba100c13,train,Applied Mathematics
+6.0,9c763396753e3e4f68ca,train,Applied Mathematics
+6.0,9cfe582910646c32fc62,train,Applied Mathematics
+6.0,9e79adaf11c5e493a93f,train,Applied Mathematics
+6.0,a0bec0a0c6510aad8283,train,Applied Mathematics
+6.0,b170781d8c52fe084083,train,Applied Mathematics
+6.0,b1aa9fee550f37b6868d,train,Applied Mathematics
+6.0,b4f7d9ad44fb20ff4d2b,train,Applied Mathematics
+6.0,b5de9d3799f4ac4c69b4,train,Applied Mathematics
+6.0,c0265d13d73d549534d5,train,Applied Mathematics
+6.0,c34c8b500953468d0eff,train,Applied Mathematics
+6.0,c587f17f745f7d285a3f,train,Applied Mathematics
+6.0,c836492332fcf743a742,train,Applied Mathematics
+6.0,c83d1acaf9b3f9739a49,train,Applied Mathematics
+6.0,c8a35d9ae43aeca3169f,train,Applied Mathematics
+6.0,cd07a1a94df1721da850,train,Applied Mathematics
+6.0,cf701d900f6176156615,train,Applied Mathematics
+6.0,d4e9bc2164a01d94b58a,train,Applied Mathematics
+6.0,d9aa5778ccda51eee4e7,train,Applied Mathematics
+6.0,db0b131079980955b4c6,train,Applied Mathematics
+6.0,dd7a1e9bb6c4d7a2d59f,train,Applied Mathematics
+6.0,de75e494020ad609332b,train,Applied Mathematics
+6.0,e1a4c2bfac52d787dd02,train,Applied Mathematics
+6.0,e6b3045df25435cd4a77,train,Applied Mathematics
+6.0,e9926e578314ac95b644,train,Applied Mathematics
+6.0,ec1d8deb947ad815a543,train,Applied Mathematics
+6.0,ec4b05fe4681eca5ae58,train,Applied Mathematics
+6.0,f0586b7ce72a6d31e14c,train,Applied Mathematics
+6.0,f233bc79e20a938cdece,train,Applied Mathematics
+6.0,f35048fc126ca12880d2,train,Applied Mathematics
+6.0,f6b4c242a2c533fb2c35,train,Applied Mathematics
+6.0,f8bdd42f8302a442763a,train,Applied Mathematics
+6.0,fa2651bd84e000209b05,train,Applied Mathematics
+6.5,097e8048bd3f6d47ebef,train,Applied Mathematics
+6.5,15e069f008efd8e3a457,train,Applied Mathematics
+6.5,1b3de6603c688e8b8567,train,Applied Mathematics
+6.5,226530982b919573f13e,train,Applied Mathematics
+6.5,23650777d30684f3fef6,train,Applied Mathematics
+6.5,2eb938df6e10eab85acd,train,Applied Mathematics
+6.5,31b85f587906d71d4e8c,train,Applied Mathematics
+6.5,3417c6db80eaf53521a9,train,Applied Mathematics
+6.5,399078d77b66d1bb1f16,train,Applied Mathematics
+6.5,3afe6d351dcdd7873819,train,Applied Mathematics
+6.5,3ce3212eb55b0aa11631,train,Applied Mathematics
+6.5,3f2dc0442105f903d90f,train,Applied Mathematics
+6.5,43029314a1d02c3ec1f5,train,Applied Mathematics
+6.5,4600092fb4c14e63a898,train,Applied Mathematics
+6.5,4e6068b958dd62952212,train,Applied Mathematics
+6.5,5a975fe15b2fe7db5643,train,Applied Mathematics
+6.5,601c99fac5d1d2ca49d3,train,Applied Mathematics
+6.5,784e2300941a56c8e2a1,train,Applied Mathematics
+6.5,7f0e9b82b4e82b09829f,train,Applied Mathematics
+6.5,9926ca3efebc2501822c,train,Applied Mathematics
+6.5,a2bedec784b87c02e885,train,Applied Mathematics
+6.5,a8f232a4a309995a094f,train,Applied Mathematics
+6.5,af787cde1303af1f7ec4,train,Applied Mathematics
+6.5,bb48f6c32f53187cacba,train,Applied Mathematics
+6.5,cd7f01a55d4d11794959,train,Applied Mathematics
+6.5,cf623132da952a9a9b14,train,Applied Mathematics
+6.5,d112e7285a58fbb7a64b,train,Applied Mathematics
+6.5,ea26697a3057b54ca50c,train,Applied Mathematics
+6.5,eb4d9011ab2ccc562437,train,Applied Mathematics
+6.5,ed1d4021e1bfa8a10f41,train,Applied Mathematics
+6.5,f28ba9bfe175a0d799f7,train,Applied Mathematics
+7.0,12bf4062c585c139b92b,train,Applied Mathematics
+7.0,355b607503952562e544,train,Applied Mathematics
+7.0,4a58f952baca21b69436,train,Applied Mathematics
+7.0,66b4b12a4054044072d1,train,Applied Mathematics
+7.0,b3389f2dce0a047f2932,train,Applied Mathematics
+7.0,b99cd59453a83d2fcbde,train,Applied Mathematics
+7.0,c6dac40b24e98414dffa,train,Applied Mathematics
+7.0,d029785f79ae3dc3f709,train,Applied Mathematics
+7.0,d930c4c8151c93a74073,train,Applied Mathematics
+7.0,e9d8e1a73b5534f8fc7a,train,Applied Mathematics
+7.0,ec0ea4654d72e9402176,train,Applied Mathematics
+7.0,fd254b85351e4ade6da5,train,Applied Mathematics
+5.0,009f247b27a9855ec8ec,train,Calculus
+5.0,00ba384afcd248da601c,train,Calculus
+5.0,00f921bc60dd8cbb7719,train,Calculus
+5.0,017167759100f49a7c7e,train,Calculus
+5.0,04448b7896317af8ec5e,train,Calculus
+5.0,04530372053bc0c1b315,train,Calculus
+5.0,04cdc30321c43d793d15,train,Calculus
+5.0,0559a95fc47f733999d0,train,Calculus
+5.0,060fb63bc87c61818fbc,train,Calculus
+5.0,0661f24779ce816295c6,train,Calculus
+5.0,06d35fb3af37daeaa4b5,train,Calculus
+5.0,0770b10c135ffb88cdce,train,Calculus
+5.0,07f918741b4fa64081e8,train,Calculus
+5.0,093b9320dd7969a6838a,train,Calculus
+5.0,0988ed3178506793bf0d,train,Calculus
+5.0,09d432e9d89069d8283e,train,Calculus
+5.0,0a2e077fdb578743c2f3,train,Calculus
+5.0,0a591a7237db308d25a4,train,Calculus
+5.0,0a7b26d137bbbdc4b312,train,Calculus
+5.0,0cab87379da11756ea39,train,Calculus
+5.0,0ce5af209a764f402ee0,train,Calculus
+5.0,0df6b8131f5fe527a1b2,train,Calculus
+5.0,0ebd444ed224cf2c8aa1,train,Calculus
+5.0,0ec0465fbc858ad937bf,train,Calculus
+5.0,0f8aaf1c22f3ce5856f0,train,Calculus
+5.0,1136d4f5fff722282942,train,Calculus
+5.0,1169823ba197f71481c6,train,Calculus
+5.0,1189b52d98a6e3069d24,train,Calculus
+5.0,11f752d6f7ae66f351bf,train,Calculus
+5.0,12711c49537da572c17e,train,Calculus
+5.0,12ab0b55f461773868eb,train,Calculus
+5.0,12ff97428e19529dadac,train,Calculus
+5.0,149c09516d3d0ed2835c,train,Calculus
+5.0,14b1a53305976b8042ab,train,Calculus
+5.0,166e4100b6c2bbcf941b,train,Calculus
+5.0,18d145d959b3d0f4d08b,train,Calculus
+5.0,1aaeb3c9d29eeb3afc10,train,Calculus
+5.0,1c46780e06dfcd85f843,train,Calculus
+5.0,1c49db5f5d95be969288,train,Calculus
+5.0,1f02da4e0bbe8f3e8b46,train,Calculus
+5.0,1f696eb7c16758d3aa76,train,Calculus
+5.0,2027e86f90c87f9c789e,train,Calculus
+5.0,2260a08428764dec2c3e,train,Calculus
+5.0,22c9617ab5a63e9ce02d,train,Calculus
+5.0,22e3a58f96f8cd58fad3,train,Calculus
+5.0,2495b29f99913fd21d1c,train,Calculus
+5.0,286dadc9ad2ef0401fef,train,Calculus
+5.0,2abe0f6f7d7e094a3485,train,Calculus
+5.0,2c98d712d0573f1e5925,train,Calculus
+5.0,2d350ef6f8aaedc00ba4,train,Calculus
+5.0,2f2032715d5b2d41712c,train,Calculus
+5.0,30ddc421ba2038fffdb7,train,Calculus
+5.0,34b917f878891498802f,train,Calculus
+5.0,35e3e99717bede67df20,train,Calculus
+5.0,366ab5bea2b40d9fddf1,train,Calculus
+5.0,3e4506e9938e821dcf16,train,Calculus
+5.0,3fac734a278f5cf8fe0f,train,Calculus
+5.0,40bf109805c361fd513e,train,Calculus
+5.0,411d6075de131e40e61a,train,Calculus
+5.0,42caba6f19da825b94a4,train,Calculus
+5.0,438c3bdc4a6e8af3552b,train,Calculus
+5.0,43b7b64a5451bdf4c11a,train,Calculus
+5.0,43df1ccff96078613029,train,Calculus
+5.0,4553b8f1cd282fe5e3f0,train,Calculus
+5.0,4686d53b8be39a2c91c4,train,Calculus
+5.0,469671593a26a43c93e2,train,Calculus
+5.0,471765828fed70dbca24,train,Calculus
+5.0,491dd0ca76388d5c6c52,train,Calculus
+5.0,4aac19295e097e50a50e,train,Calculus
+5.0,4b5196fe1eb03b242b37,train,Calculus
+5.0,4e492f90902ee475d794,train,Calculus
+5.0,4f5fd8d6b825a9831cf7,train,Calculus
+5.0,4f634500c918cc4d7928,train,Calculus
+5.0,4f692c4442298898458c,train,Calculus
+5.0,5089dd6407634d6af79e,train,Calculus
+5.0,5127f300916babaefd32,train,Calculus
+5.0,5270a5a18891e91744ea,train,Calculus
+5.0,541219e777ed7d8d9bfa,train,Calculus
+5.0,5438dc5046014f7e88da,train,Calculus
+5.0,545b90cbe5294d0df5ca,train,Calculus
+5.0,559d47ce6bcb859fd320,train,Calculus
+5.0,5a98686fd22dae20c2f9,train,Calculus
+5.0,5b419e6c81c8a33a6030,train,Calculus
+5.0,5beb8b24181f9fc40adc,train,Calculus
+5.0,5c49dc33d55859f8ddeb,train,Calculus
+5.0,5d66c2ad10473e65e893,train,Calculus
+5.0,5e88db40f3eec5cfeedf,train,Calculus
+5.0,5f4ea70a0f95f3bdb93e,train,Calculus
+5.0,5f55183c7136e12d52f8,train,Calculus
+5.0,64fd0e123d055e5b5c60,train,Calculus
+5.0,655a8eccd766750b8d60,train,Calculus
+5.0,6571cba59c2d70451440,train,Calculus
+5.0,669f2b96b60fcb936072,train,Calculus
+5.0,682e1afd6544c9ca0293,train,Calculus
+5.0,69329e2027b834f4cedd,train,Calculus
+5.0,6a38de18614cbecb6f99,train,Calculus
+5.0,6b25ed3d4a85b6e1a507,train,Calculus
+5.0,6cc5bd9ac3e18ffef81a,train,Calculus
+5.0,6e202f833b8656585018,train,Calculus
+5.0,6f559400e6dd42a48c47,train,Calculus
+5.0,70914c04fdedd2f493b2,train,Calculus
+5.0,7124066522e2e5ff8a32,train,Calculus
+5.0,727856f4e7d738f80db3,train,Calculus
+5.0,737b1a45560ecf7b0f7f,train,Calculus
+5.0,7391b8d8ee026ce92bd2,train,Calculus
+5.0,7766a52c98c63312c675,train,Calculus
+5.0,79dd094cf2bafa252d6b,train,Calculus
+5.0,7bba92fe1e26001322a4,train,Calculus
+5.0,7bd34c3288e5fc475d35,train,Calculus
+5.0,7c215acea244f3af066f,train,Calculus
+5.0,81840004094ce3540ade,train,Calculus
+5.0,81e9acc6a92bbae77c05,train,Calculus
+5.0,8204e136b106fdcb3ef5,train,Calculus
+5.0,8279deaf899486e255f8,train,Calculus
+5.0,83bcc87e687d185001cf,train,Calculus
+5.0,84fa5587f145e72c5928,train,Calculus
+5.0,851d209c81aa67f093a9,train,Calculus
+5.0,854f479571e03c1a29d1,train,Calculus
+5.0,85d4a89bac061aaa53da,train,Calculus
+5.0,87e77f1aa3cddf8b29df,train,Calculus
+5.0,882f528df630ebc3cb09,train,Calculus
+5.0,891373c877e9d8bc6f4f,train,Calculus
+5.0,8965d8d8d2126dcf2df6,train,Calculus
+5.0,89fe923f298a728e1878,train,Calculus
+5.0,8b3b931cc3baedc78d6f,train,Calculus
+5.0,8b6ed25778390d4431ce,train,Calculus
+5.0,8be895d51833520734ab,train,Calculus
+5.0,8c1eada2bf5855ffeac6,train,Calculus
+5.0,8c37beafa2c22984d2f9,train,Calculus
+5.0,8c604d91087dd0ef1c56,train,Calculus
+5.0,8ce2b036ab77eb73ae88,train,Calculus
+5.0,8e002056d2efd05bfdc2,train,Calculus
+5.0,8ec9d37a1ee7b7dada74,train,Calculus
+5.0,8ff14d9422897857498f,train,Calculus
+5.0,91370f748e2c10a31f05,train,Calculus
+5.0,924ac65b39a3a93f4de6,train,Calculus
+5.0,93e202772844b780b675,train,Calculus
+5.0,966f1ae8f7e08a3961de,train,Calculus
+5.0,97637b57a379c6cc2a83,train,Calculus
+5.0,97ff3f2466e799d708bd,train,Calculus
+5.0,9907e05777150b938039,train,Calculus
+5.0,99df9992cc1a36f2c08f,train,Calculus
+5.0,9b396d0f64695fc3d080,train,Calculus
+5.0,9c52053f0f38bd0a158c,train,Calculus
+5.0,9d733c120a83306f8ed0,train,Calculus
+5.0,9db4faa552372fa0b5ca,train,Calculus
+5.0,9def692e07f4edcc1cce,train,Calculus
+5.0,9e12a88725868e2b659a,train,Calculus
+5.0,9fb8c362144ebdb9bba7,train,Calculus
+5.0,a050e33da2090c4ac4e8,train,Calculus
+5.0,a05877d007b11d4d03e2,train,Calculus
+5.0,a0c53ec8003e652df13f,train,Calculus
+5.0,a10e63e8f2e74814f294,train,Calculus
+5.0,a111cbaaf9a4fd863ca0,train,Calculus
+5.0,a1daad14cf1131243e94,train,Calculus
+5.0,a1eb6ae2b8ed87cc3fd4,train,Calculus
+5.0,a4ade50e6040ec9c48b0,train,Calculus
+5.0,a4f4cc06dcca1441e50b,train,Calculus
+5.0,a5891c3c214f5bdf9686,train,Calculus
+5.0,a7ed4a12d9b75cd949b8,train,Calculus
+5.0,a95ab53420b88281aa78,train,Calculus
+5.0,ab3b2a44ddf0aaff42a3,train,Calculus
+5.0,ab78b2aec316ea0ec079,train,Calculus
+5.0,ad60dfb91d8149e2f5eb,train,Calculus
+5.0,ae0d0df81729facd1782,train,Calculus
+5.0,aed121b3327b7b384024,train,Calculus
+5.0,afcc9ee1127083d75ee7,train,Calculus
+5.0,b0302222e896cfa29375,train,Calculus
+5.0,b0d3538d70faf290d336,train,Calculus
+5.0,b2c285019b018cf59565,train,Calculus
+5.0,b32708b290bc4352753a,train,Calculus
+5.0,b3574007b50f1bdcee65,train,Calculus
+5.0,b40af81c1944fa16fe55,train,Calculus
+5.0,b53773ab719c43532bae,train,Calculus
+5.0,b6be55391bf7f3fcc99b,train,Calculus
+5.0,b762be32dde49bedb9b2,train,Calculus
+5.0,bc4f937e1a6ec749cddd,train,Calculus
+5.0,bd5228cc80ffde6bdb45,train,Calculus
+5.0,bdf4bd70ad8f82f05f15,train,Calculus
+5.0,bf10d1eaca12e0ae9779,train,Calculus
+5.0,c4da608c7d9a23c026a3,train,Calculus
+5.0,c541b7f8a2fa478e7d34,train,Calculus
+5.0,c6927d1447bf9a805b58,train,Calculus
+5.0,c777e6b9c99453ff7d77,train,Calculus
+5.0,c92623b78ce3400542b6,train,Calculus
+5.0,c9371226eaf10decc0f0,train,Calculus
+5.0,c95c5814331dd20a42e9,train,Calculus
+5.0,c9f18b6e82bafbf28d01,train,Calculus
+5.0,ca4cf6465d909355bc4a,train,Calculus
+5.0,cbc8da750c6f2164bb53,train,Calculus
+5.0,ceb704f4b1fbff1ea0a4,train,Calculus
+5.0,cf5430692bf79f645611,train,Calculus
+5.0,cfa2dd5b1dd0b57d4f72,train,Calculus
+5.0,d25cb8bc6e73e6fb2345,train,Calculus
+5.0,d261421bd045aca5f111,train,Calculus
+5.0,d2e2ffb13826967463ca,train,Calculus
+5.0,d4f56df1e197420e9da7,train,Calculus
+5.0,d6d8934bb4ec64ff8f0c,train,Calculus
+5.0,d6eab0f160b253cf0d6d,train,Calculus
+5.0,d6f3ab171d09cd97ebb8,train,Calculus
+5.0,d750eb538860477d39f0,train,Calculus
+5.0,d835ba28c6e36a786b67,train,Calculus
+5.0,d919366266f7de4bd2d0,train,Calculus
+5.0,da32e84b37bfab37a24f,train,Calculus
+5.0,db170878356e9836876e,train,Calculus
+5.0,db8542b92a7676a44041,train,Calculus
+5.0,dbbdcabb99578e82f2d1,train,Calculus
+5.0,dde1f05b789bec56069e,train,Calculus
+5.0,de834ee83fae98633a73,train,Calculus
+5.0,dfd6bcf2ec1617983871,train,Calculus
+5.0,e06bafd1cee349eccf8e,train,Calculus
+5.0,e08680892f430405f9d2,train,Calculus
+5.0,e27a5919315558b6cf1f,train,Calculus
+5.0,e5de32ac8c3283e88fc1,train,Calculus
+5.0,e6a242889986dee24bd5,train,Calculus
+5.0,ebba6015b69b0ab32e2d,train,Calculus
+5.0,ed6bcba2fc55d2efded5,train,Calculus
+5.0,ef1f96fcbe273dbbda29,train,Calculus
+5.0,f014247e03a06551c7dc,train,Calculus
+5.0,f3729d2d1de0624d47d2,train,Calculus
+5.0,f3a08487eef04c7f211c,train,Calculus
+5.0,f58b27a5130359a69474,train,Calculus
+5.0,f662595856f85b66ec15,train,Calculus
+5.0,f71ab6f962a4ea49624d,train,Calculus
+5.0,f84a1f054ad65a533f75,train,Calculus
+5.0,f866a3a4eea73f3e1d60,train,Calculus
+5.0,fbfc4e6d42cb368ec9a8,train,Calculus
+5.5,0028d8f51a5b555b6239,train,Calculus
+5.5,00623a4a001f9d4eb0d5,train,Calculus
+5.5,06e55110c9f5ae4cb069,train,Calculus
+5.5,0977e6d1622298b222fa,train,Calculus
+5.5,0a5e2b02342e90fb7cb6,train,Calculus
+5.5,0d963b29fb01659427c8,train,Calculus
+5.5,0df431b56d133b6d0225,train,Calculus
+5.5,0ebd5b7ec39d00c3f07f,train,Calculus
+5.5,0f0bc10eceb271c4ec57,train,Calculus
+5.5,104f0539f7c92c359307,train,Calculus
+5.5,1116d9593d78e58fbf16,train,Calculus
+5.5,159ba2c59c0d74de9d5d,train,Calculus
+5.5,18ce02600d6976c82594,train,Calculus
+5.5,1b1295f12bd2ffc30fe4,train,Calculus
+5.5,1cc64888b427e25085c1,train,Calculus
+5.5,1cf4c493b621b7e013cc,train,Calculus
+5.5,1d1a9f09a5781e5268fd,train,Calculus
+5.5,1d6426d8632c71223a51,train,Calculus
+5.5,1e5f45b812c99a180862,train,Calculus
+5.5,1eb057d53aecb3c69355,train,Calculus
+5.5,1f17486b26ddbc124f12,train,Calculus
+5.5,2009cac91c9c624bf2b3,train,Calculus
+5.5,206825ba1b85e27ac9eb,train,Calculus
+5.5,20fffff1a0e4b0ba309b,train,Calculus
+5.5,2123ebdd41544e312f68,train,Calculus
+5.5,225f93ce9d68c9f310bb,train,Calculus
+5.5,2477b01a58be09b84b2f,train,Calculus
+5.5,24f29e486a1bf320a70b,train,Calculus
+5.5,251a511fec5f3cf0d6e3,train,Calculus
+5.5,2618ed54a15a2248ae14,train,Calculus
+5.5,26464e6393309b3028ca,train,Calculus
+5.5,26e660c3c1ac93a2b6f1,train,Calculus
+5.5,28a26b8dda3148d3bbda,train,Calculus
+5.5,29017f7170b74ab8b4dc,train,Calculus
+5.5,294937f5ab23fc65525a,train,Calculus
+5.5,2c900913a4ceb86ade2c,train,Calculus
+5.5,2d554d9364424b798fb6,train,Calculus
+5.5,2de90d385a8bb83c397d,train,Calculus
+5.5,2f02b4668c5afb2373a0,train,Calculus
+5.5,30f6feac179e6f753a13,train,Calculus
+5.5,31d633e5292d7f6ce4c6,train,Calculus
+5.5,32a14e21e9977245264a,train,Calculus
+5.5,3389399ef14e76fcbaa8,train,Calculus
+5.5,33acf9c634a123ed34be,train,Calculus
+5.5,345d134b9430e2cb6e03,train,Calculus
+5.5,34fe076e5f22568b7881,train,Calculus
+5.5,356306a4d15f127ea1ff,train,Calculus
+5.5,37052cefe8257a3170e4,train,Calculus
+5.5,3938b9409dcd44af351c,train,Calculus
+5.5,3a1deb3714a750e070be,train,Calculus
+5.5,3bb1d6faf03e7ba8fcda,train,Calculus
+5.5,3d14e2e1f55b0b1135bd,train,Calculus
+5.5,3dc130a2958ae219dee6,train,Calculus
+5.5,3eb3bfd6ae32f0ddbd42,train,Calculus
+5.5,4108d423dffef00c0e60,train,Calculus
+5.5,415ce9becbdceb324642,train,Calculus
+5.5,462d191b5099b42a08f6,train,Calculus
+5.5,47278537d393ab851b64,train,Calculus
+5.5,48327d5717c02e91bc4f,train,Calculus
+5.5,49128684707258e0d717,train,Calculus
+5.5,49cea944ce673410d928,train,Calculus
+5.5,4dccbe48865bea3e60a4,train,Calculus
+5.5,5182837992e7474e4dd4,train,Calculus
+5.5,53925b229bb8beae75a6,train,Calculus
+5.5,55c6fb300476f2b4a473,train,Calculus
+5.5,56c8c3b9001578b878d6,train,Calculus
+5.5,571f860bac75cb3950ee,train,Calculus
+5.5,57305aa60e0808d106d0,train,Calculus
+5.5,5786763929b02d88a058,train,Calculus
+5.5,596cb3ec656e40b2af0b,train,Calculus
+5.5,5b2c89c2d43f2f6083e8,train,Calculus
+5.5,5b7593ab351e32dd4fa7,train,Calculus
+5.5,5d17ec98b870d16518a8,train,Calculus
+5.5,5d380ed23fea794e38a5,train,Calculus
+5.5,5ec47b0a9175270c1e38,train,Calculus
+5.5,5f1e6ea8db31a403772c,train,Calculus
+5.5,5ff08bb3a0b285debc46,train,Calculus
+5.5,61c1c37fe3483b6ee58a,train,Calculus
+5.5,62e03ade6c79fa214a20,train,Calculus
+5.5,635cc6408a84ee7d5f1f,train,Calculus
+5.5,643f5d9dd554e2d754a6,train,Calculus
+5.5,6461ee0a7ea7a9972110,train,Calculus
+5.5,66922aeeeecfbfe4f2a2,train,Calculus
+5.5,66b010dd4a67b5b8c75d,train,Calculus
+5.5,671daf42df83df77d512,train,Calculus
+5.5,67f549fe5185d49164b7,train,Calculus
+5.5,6baf2ca1e5ac4ee9e729,train,Calculus
+5.5,6f9e05d0cd25e32d8ad1,train,Calculus
+5.5,6fa944a01da98b39005d,train,Calculus
+5.5,71293078a10dffa8cc5e,train,Calculus
+5.5,72af6729dbe539ca0c8f,train,Calculus
+5.5,7523e19fd063d062571c,train,Calculus
+5.5,76b2020bd59e1478248a,train,Calculus
+5.5,773004fb74f017bbd3b2,train,Calculus
+5.5,774092fcf76a7db78168,train,Calculus
+5.5,781d59dc6d3b50706f51,train,Calculus
+5.5,782c3c7e9d1ab4d52c1b,train,Calculus
+5.5,78e5b8327a66d4a0e6dc,train,Calculus
+5.5,7a920c97277562f3c085,train,Calculus
+5.5,7ab4008d8eb313ac9a41,train,Calculus
+5.5,7d404e30a025cce34252,train,Calculus
+5.5,7d6a4bfd30075d01da5e,train,Calculus
+5.5,80e63ac5080f2e9628cc,train,Calculus
+5.5,827a23d3bdddcde5d8dc,train,Calculus
+5.5,843af25767e4b8ac99cb,train,Calculus
+5.5,847dc2c1abb5727f9e68,train,Calculus
+5.5,874be15d5dd283d6c5b6,train,Calculus
+5.5,88038c556f4d73af25e4,train,Calculus
+5.5,88fdd358f8655fe86ece,train,Calculus
+5.5,8ce406ad65457409f57d,train,Calculus
+5.5,8e09696cb6da67d63626,train,Calculus
+5.5,8e425e0130a948224a13,train,Calculus
+5.5,8fb9ca20c4541135c95a,train,Calculus
+5.5,936c681999928f0aad10,train,Calculus
+5.5,9788716149071f3db18e,train,Calculus
+5.5,97af49d17c63acef069a,train,Calculus
+5.5,980c282d59c8a8251381,train,Calculus
+5.5,982603509c6643d0130c,train,Calculus
+5.5,9915321918c26faa46a3,train,Calculus
+5.5,9a0c369e1204fbf77266,train,Calculus
+5.5,9afa852a787a85e59213,train,Calculus
+5.5,9b63af68d8313cd57dc9,train,Calculus
+5.5,9f57178896d52a83cd0d,train,Calculus
+5.5,a23f335a1e88c043cf48,train,Calculus
+5.5,a255fb127ea01accf41f,train,Calculus
+5.5,a29c7b83ca88c487dc62,train,Calculus
+5.5,a3b3f0c5b398c4170cc2,train,Calculus
+5.5,a4eea69324026b466382,train,Calculus
+5.5,a66897f10e9585ba7c63,train,Calculus
+5.5,a7c3604abe9e9ad4eb9c,train,Calculus
+5.5,a886971c84d4b89ea609,train,Calculus
+5.5,a97a958299b19e8e5f5d,train,Calculus
+5.5,a9ccebe576a92afe633a,train,Calculus
+5.5,aa031c887f167257a7ec,train,Calculus
+5.5,aa78e308400437551f6e,train,Calculus
+5.5,aa8a90aec4a3ec2bc10c,train,Calculus
+5.5,abd389f68122d7234606,train,Calculus
+5.5,ae73ac59a73f1d40f801,train,Calculus
+5.5,b0dca2a56cf3403b1e28,train,Calculus
+5.5,b1994fb0ba48d260ebb0,train,Calculus
+5.5,b1afa89888d07f2f02a2,train,Calculus
+5.5,b513d0bce9f1ff38854f,train,Calculus
+5.5,b76cfaa16b52b6fd8ea7,train,Calculus
+5.5,b85f8e44e4cc031d2e74,train,Calculus
+5.5,b8d42d9046a4d0e4bff0,train,Calculus
+5.5,b8dc0cf1f69eee331390,train,Calculus
+5.5,ba0b41b630131ff3ba1a,train,Calculus
+5.5,ba36533271888bf58310,train,Calculus
+5.5,bcff452072a04084c640,train,Calculus
+5.5,c0ceabd8bd2faa132526,train,Calculus
+5.5,c44505b6e8f511991916,train,Calculus
+5.5,c524f60b958d449c4a4c,train,Calculus
+5.5,c7100fbfe66291d42f6d,train,Calculus
+5.5,c78f52e216adb1b96dad,train,Calculus
+5.5,c7ec8bbd802b0a2e531a,train,Calculus
+5.5,c913270f660e81edd0fa,train,Calculus
+5.5,ca646f64511d32b1c204,train,Calculus
+5.5,cb08de583a6d3f236ce3,train,Calculus
+5.5,cb6760b38b65aadfe327,train,Calculus
+5.5,cc50b68305241c207218,train,Calculus
+5.5,ce7542630b7fa2bb3e2b,train,Calculus
+5.5,ce77dc6002e911aecaf7,train,Calculus
+5.5,cfa4659e09e3bcd41fdb,train,Calculus
+5.5,cfd3c9de7b841a71d637,train,Calculus
+5.5,d22b15ef48a773de16bd,train,Calculus
+5.5,d3ae4de659528f180a17,train,Calculus
+5.5,d4426db52aa124b5a282,train,Calculus
+5.5,d4badbf37c079c6c5523,train,Calculus
+5.5,d72d495ff67f08ed713f,train,Calculus
+5.5,d87751374c1262781cd1,train,Calculus
+5.5,d881757b560e6d81a233,train,Calculus
+5.5,d8ebfb226531921954da,train,Calculus
+5.5,dba131e8f757dbb54a06,train,Calculus
+5.5,dba671f54b836f09adea,train,Calculus
+5.5,dc21af3d81f23fc4ad19,train,Calculus
+5.5,dc21c0eb5bd8f062f612,train,Calculus
+5.5,dc6d2fe475e9fa12bc9d,train,Calculus
+5.5,dc7ceb127a41885de26e,train,Calculus
+5.5,dcc6d78858b7b99a2324,train,Calculus
+5.5,ddc4d435c1c11d6aea8d,train,Calculus
+5.5,dea84f599d70260e94b4,train,Calculus
+5.5,e0bdd05a75b5fd1886d2,train,Calculus
+5.5,e0ff2ec78d3350202931,train,Calculus
+5.5,e12681dac801ff1c0a00,train,Calculus
+5.5,e1534ceab3aadfb52fce,train,Calculus
+5.5,e375d9eaf84ad6f12ede,train,Calculus
+5.5,e37f2b3af60dbe2b0880,train,Calculus
+5.5,e382155c3b0411950286,train,Calculus
+5.5,e43eaf9d1dac8c613b9d,train,Calculus
+5.5,e4c8f74bcd01ed0ff7ce,train,Calculus
+5.5,e7940216c8c3fbbd9b83,train,Calculus
+5.5,e91e43dc0b328c43a034,train,Calculus
+5.5,e98ca32e30a5a7449d1d,train,Calculus
+5.5,eba8b398e328428684ac,train,Calculus
+5.5,ec026aca6833d6db2bde,train,Calculus
+5.5,ec26ef9dac236cc592a5,train,Calculus
+5.5,efad47f2470204f47191,train,Calculus
+5.5,f22155cbd7e0bfe326d5,train,Calculus
+5.5,f5a10c882b0b7a5ed96b,train,Calculus
+5.5,f8fbe3dbf95a944f9403,train,Calculus
+5.5,faf64e52ae3203c4363e,train,Calculus
+5.5,febcd2f181978cf3aed9,train,Calculus
+5.5,fffae0eb582aebc10bf8,train,Calculus
+6.0,019e77da944eceadef8a,train,Calculus
+6.0,023ea7830f002e21e7ea,train,Calculus
+6.0,031777e45477b1e24c68,train,Calculus
+6.0,03de9af3a9c2b8763a57,train,Calculus
+6.0,05dd4779a6c83faa8470,train,Calculus
+6.0,070af9889594e770e72b,train,Calculus
+6.0,072c767998b7a8b71887,train,Calculus
+6.0,073d56914c9d9605db06,train,Calculus
+6.0,07bca84ae4ba0cf3b3ed,train,Calculus
+6.0,09017486b4488f9a8c07,train,Calculus
+6.0,097dfd641d6b48dbbbeb,train,Calculus
+6.0,099f2b5570e77c917611,train,Calculus
+6.0,09b11f056ba817523903,train,Calculus
+6.0,0bb354f5816d289f231d,train,Calculus
+6.0,0d6d113d471afddc060e,train,Calculus
+6.0,0de48bc08ead81d386a0,train,Calculus
+6.0,0de9627d0908f119eb2a,train,Calculus
+6.0,1024e6bd176d25180f6b,train,Calculus
+6.0,102b4b0d36cd1039f314,train,Calculus
+6.0,12a674df2031bf70c377,train,Calculus
+6.0,13d8af48068ee6fd6720,train,Calculus
+6.0,13f6acaa12e5877edeef,train,Calculus
+6.0,1545e83fcd429b1107c4,train,Calculus
+6.0,156274df304c57d37efc,train,Calculus
+6.0,15a608a3cf4d168707f3,train,Calculus
+6.0,17392919d88414b108ae,train,Calculus
+6.0,17f3c083130084cdc312,train,Calculus
+6.0,1ac3d20ea0ef21110304,train,Calculus
+6.0,1b40c92c584e9bd38607,train,Calculus
+6.0,1d4059a12d2d55dae83c,train,Calculus
+6.0,1d71833b0d494f1dfbd0,train,Calculus
+6.0,1e234fbf547788894262,train,Calculus
+6.0,1fd441318758cfe32ce3,train,Calculus
+6.0,217939a4afc231f7572d,train,Calculus
+6.0,21a4409f1bb2c4b2b4e6,train,Calculus
+6.0,2285eb520797c178d029,train,Calculus
+6.0,239ec6d314fafb5a34b1,train,Calculus
+6.0,2414e5e8a6c5e6653771,train,Calculus
+6.0,25a0611fba9b7d080a7c,train,Calculus
+6.0,25bbabe66d2084f0dce6,train,Calculus
+6.0,2c0956e82e0f4098b2da,train,Calculus
+6.0,2c80af424d49ca209b50,train,Calculus
+6.0,2ca2eeaa5c9ad8d7729e,train,Calculus
+6.0,2decaa362e76ae12eb8c,train,Calculus
+6.0,300d72d6132be6c2fbac,train,Calculus
+6.0,30b2f6627284df5e2a0f,train,Calculus
+6.0,339e8fa4f07aa70ca4c5,train,Calculus
+6.0,35456f1683522957252b,train,Calculus
+6.0,363dde736e1f51f4f047,train,Calculus
+6.0,38952945cad60b3f3f39,train,Calculus
+6.0,393b47f322b97a42b1b2,train,Calculus
+6.0,3ba2d0d7d611a030a72c,train,Calculus
+6.0,3bc407df1aeb5461dde3,train,Calculus
+6.0,3c8a52a3b97b49754f1e,train,Calculus
+6.0,3dd50938723a9e065e58,train,Calculus
+6.0,3e1fcdbaa5c54761426d,train,Calculus
+6.0,3ec0b58f80ac6d96bb34,train,Calculus
+6.0,3efb35c587593a6ffd9c,train,Calculus
+6.0,3fdf5979df69d92c78e1,train,Calculus
+6.0,411c1c9aa7d526268aec,train,Calculus
+6.0,4170dd0037e5f06c0049,train,Calculus
+6.0,42004691af01ff45dfc9,train,Calculus
+6.0,431488e7e1901bb31d45,train,Calculus
+6.0,451074157b5e79328397,train,Calculus
+6.0,45ce77361b7c93ce2e57,train,Calculus
+6.0,4731e2c87987bc4ada52,train,Calculus
+6.0,48d9691e4b7d0f8c14db,train,Calculus
+6.0,4a249532954e7efb5097,train,Calculus
+6.0,4b35fd987cfb1f3b414a,train,Calculus
+6.0,4b3a634acb61d9386dc3,train,Calculus
+6.0,4ba45857b3f5d9dbc385,train,Calculus
+6.0,4bdbc2c44b01ae73f662,train,Calculus
+6.0,4c2bea1562c1bf2354f9,train,Calculus
+6.0,4d78f20f5b041d22651b,train,Calculus
+6.0,4daa9e2520ce1649a608,train,Calculus
+6.0,4e25ab16bb450d29a8f8,train,Calculus
+6.0,4f273fae4a93ba25f62a,train,Calculus
+6.0,4f2c6ed0b1032d8cf0a7,train,Calculus
+6.0,4f76e118bcaac278ee41,train,Calculus
+6.0,4f9a9da76f2f24d853da,train,Calculus
+6.0,52b208662595e0649df6,train,Calculus
+6.0,547de51044e6bfae335c,train,Calculus
+6.0,54beb292dc79ec639d03,train,Calculus
+6.0,55f52d0ba33bd82bc5e1,train,Calculus
+6.0,56975446b82d1483f8b3,train,Calculus
+6.0,5724beccc9b1d4d72597,train,Calculus
+6.0,577a90140098dcea0b67,train,Calculus
+6.0,57a4d49e465191787aeb,train,Calculus
+6.0,5811f1e82b0ee7f0c5ed,train,Calculus
+6.0,58b95d5360a03fdf8135,train,Calculus
+6.0,591a020f2f0944ee68be,train,Calculus
+6.0,5978141682dcf71c1750,train,Calculus
+6.0,5a19e376a1861a9b839e,train,Calculus
+6.0,5b0e0223fe2a6e8957b0,train,Calculus
+6.0,5ba8c56098a716c224b6,train,Calculus
+6.0,5bfecf0640ccb62d487a,train,Calculus
+6.0,5fdd72d55c258d8472d5,train,Calculus
+6.0,5ff7c20e47924ae4f1ac,train,Calculus
+6.0,6148292d3dab57876f66,train,Calculus
+6.0,61517ac901a4cb32409f,train,Calculus
+6.0,61ff4f388ade6aeef169,train,Calculus
+6.0,6385fbf0b73cb739400e,train,Calculus
+6.0,63a0dbf1ef99ea5b4b2d,train,Calculus
+6.0,644e4295b3192f0e3b23,train,Calculus
+6.0,64d11f8890901eb9a604,train,Calculus
+6.0,650a152890fb263e7591,train,Calculus
+6.0,65d63b17aff5eb3f54f7,train,Calculus
+6.0,65f59eb9f6baf72732a8,train,Calculus
+6.0,679444b351bbf9d71d49,train,Calculus
+6.0,67e75d07ddcca3fffb3d,train,Calculus
+6.0,68ba5de7222dfdef7bb3,train,Calculus
+6.0,68d451c2ef96bcad63d9,train,Calculus
+6.0,691d6b7f99aa0aa092da,train,Calculus
+6.0,6b0a157d70a4519e997f,train,Calculus
+6.0,6b66369c3702b5b828ea,train,Calculus
+6.0,6c4518aa4b8b83515c5d,train,Calculus
+6.0,6e921cc1df53273dd1e6,train,Calculus
+6.0,6f7744c89f0f7bc1cd4d,train,Calculus
+6.0,703a63ad32f1edeec872,train,Calculus
+6.0,70706e97f881f04ec7a1,train,Calculus
+6.0,7224aa5f3884466f75e2,train,Calculus
+6.0,7753f554638a86b00815,train,Calculus
+6.0,776c17cd0866848a42cd,train,Calculus
+6.0,783a264626427e1b401a,train,Calculus
+6.0,78dd05908cdbcdb0a7a5,train,Calculus
+6.0,79161ad91e9f7d47aa82,train,Calculus
+6.0,7936535910698ea68320,train,Calculus
+6.0,7947c926bd321a3abec4,train,Calculus
+6.0,7acef1eacf01a83baaa8,train,Calculus
+6.0,7b9ac893d41befb43e94,train,Calculus
+6.0,7bf85ce4723251b721f7,train,Calculus
+6.0,7bfd73f44269a76be657,train,Calculus
+6.0,7c2b94033715db1dc44c,train,Calculus
+6.0,7e52bb1817a21a427954,train,Calculus
+6.0,7f0d8dfc26fe228d27c6,train,Calculus
+6.0,7f3757115881e66cdb1f,train,Calculus
+6.0,80434988913f452fe1ee,train,Calculus
+6.0,80cc87683bb871dd0eb3,train,Calculus
+6.0,819a6292f2bf1eb25dbd,train,Calculus
+6.0,83bb4567eee13f662e34,train,Calculus
+6.0,864f171c01bcf1531587,train,Calculus
+6.0,88872b38fdee65ee2bec,train,Calculus
+6.0,889fdd08cfa26a6470f8,train,Calculus
+6.0,897ebdae005742cb78d8,train,Calculus
+6.0,8cea6f5e3c92582b9ae7,train,Calculus
+6.0,8d9d2062218f20bb497f,train,Calculus
+6.0,8f873bf85acc158f3aca,train,Calculus
+6.0,92cf2db4633b8721ca00,train,Calculus
+6.0,948d1e09f36dec0461e9,train,Calculus
+6.0,9518057397f209e11c6f,train,Calculus
+6.0,968534bf3568407c1de9,train,Calculus
+6.0,97200af516abe505a21d,train,Calculus
+6.0,9aa31aa2923e786e4ae8,train,Calculus
+6.0,9ae092436b94d69d784a,train,Calculus
+6.0,9b098f45f18b166b8bb2,train,Calculus
+6.0,9d7dc79d7170844240d6,train,Calculus
+6.0,9e33fbdc8c01b46c0f6a,train,Calculus
+6.0,9ff817f2a93e374d3faf,train,Calculus
+6.0,a12814d6818bba20f1c7,train,Calculus
+6.0,a174befa5490d17d6400,train,Calculus
+6.0,a18a9abd5dc14e5735fc,train,Calculus
+6.0,a3f4405f25980667d43b,train,Calculus
+6.0,a4e2dafad524b449a4a8,train,Calculus
+6.0,a4f714740459ecd19b0e,train,Calculus
+6.0,a58a63a472e95b3ab8ce,train,Calculus
+6.0,a65161956b976d491b40,train,Calculus
+6.0,a7c5e09f2fb97856da05,train,Calculus
+6.0,a8488d72fe7062af1769,train,Calculus
+6.0,a9555abd625e2c47c17f,train,Calculus
+6.0,aa3e350d677b830c02eb,train,Calculus
+6.0,aa8ea7c5e03a66f3e165,train,Calculus
+6.0,ab4df6d742301fa15595,train,Calculus
+6.0,ab56bce4595713886d53,train,Calculus
+6.0,abd42d9c0ac0ad3a9064,train,Calculus
+6.0,ac2116ecd6444fd02dfc,train,Calculus
+6.0,acd59c54c6fc63d79c66,train,Calculus
+6.0,ad7e966e9a71b584c8ac,train,Calculus
+6.0,ae13507546786f4d6192,train,Calculus
+6.0,af4f6aa357ca12c00078,train,Calculus
+6.0,af6cf55c730fed0de5e2,train,Calculus
+6.0,b0a75fc1f73794ba897b,train,Calculus
+6.0,b0be3d6085b71dbbc971,train,Calculus
+6.0,b160b1e48831002701c4,train,Calculus
+6.0,b1a16156f5f4fe47d455,train,Calculus
+6.0,b1ba96c27aad6eb2d8c9,train,Calculus
+6.0,b2720daf7a2ecfd2cc0f,train,Calculus
+6.0,b2c3fd648f58f414ccd6,train,Calculus
+6.0,b2ce36e14b70ce4c2b10,train,Calculus
+6.0,b30318333cdaa7280243,train,Calculus
+6.0,b414c197feb40ab3dd48,train,Calculus
+6.0,b446795192c412c6cca7,train,Calculus
+6.0,b44e341ec88a0dd95e28,train,Calculus
+6.0,b56f55a6dd5e2045d645,train,Calculus
+6.0,b66d54d3eab945dc3fa0,train,Calculus
+6.0,b8705100ea465c743874,train,Calculus
+6.0,b95e0ccd654548d5c4e1,train,Calculus
+6.0,baf451277853db707110,train,Calculus
+6.0,bcfbba36c06505938c0e,train,Calculus
+6.0,bda69e6a3341f31b8e15,train,Calculus
+6.0,beb94a0bd2c962d4dd3e,train,Calculus
+6.0,bfadb4a1b318ba4eb8ae,train,Calculus
+6.0,c01dd7ecaa8ae7eead55,train,Calculus
+6.0,c0755f64ededf5485da2,train,Calculus
+6.0,c11006318f959afea89f,train,Calculus
+6.0,c145b401979882daab4f,train,Calculus
+6.0,c38c93c2e18864e7e4de,train,Calculus
+6.0,c39463b14afdbf3e4f66,train,Calculus
+6.0,c433e477634a1ebd672d,train,Calculus
+6.0,c43550be54b09b9653e7,train,Calculus
+6.0,c454df6315839712f582,train,Calculus
+6.0,c462f3b102bed24e82f1,train,Calculus
+6.0,c595fadea1d6e55a6e3a,train,Calculus
+6.0,c5df532995361449c462,train,Calculus
+6.0,c846978153cad804b91b,train,Calculus
+6.0,c8667d90882f91ad96f3,train,Calculus
+6.0,c9a0b183ec9d3e54746b,train,Calculus
+6.0,cadaf0d68d4e27aeb06e,train,Calculus
+6.0,cb3d0a20d55130c20d49,train,Calculus
+6.0,cbba4c4340ee5ffbda11,train,Calculus
+6.0,cc88f9c477d21ec64098,train,Calculus
+6.0,cdca335c65c41be15af0,train,Calculus
+6.0,ce41907c8ba97ad2544d,train,Calculus
+6.0,cee6ef210a0f5fe14ffc,train,Calculus
+6.0,cf28234fc20a91613c05,train,Calculus
+6.0,d344e783c49c2d2c9799,train,Calculus
+6.0,d5173c33b52879b63076,train,Calculus
+6.0,d57e10c015626f17a528,train,Calculus
+6.0,d6136e63b550c918fd53,train,Calculus
+6.0,d61e8d9482adf1c5e90f,train,Calculus
+6.0,d6ea2287224249e4a837,train,Calculus
+6.0,d7403d0c92775aabb3e6,train,Calculus
+6.0,d85b987ded60739446d4,train,Calculus
+6.0,d89d5e8d3ce0a6c3c8b5,train,Calculus
+6.0,d8c2abcf346cbb8d69e1,train,Calculus
+6.0,d8d369a2c9a60993477b,train,Calculus
+6.0,d915c48cdf5b9698fe91,train,Calculus
+6.0,d979f25af019e188cddb,train,Calculus
+6.0,d97fb7a0adc5c077306c,train,Calculus
+6.0,d9d4af2c3437fe322b00,train,Calculus
+6.0,d9e76c2e8cc989270c7c,train,Calculus
+6.0,da5786dc8dfb129ad7da,train,Calculus
+6.0,db547ce1a0814f57d739,train,Calculus
+6.0,dbfa9d3e403c942ba482,train,Calculus
+6.0,dc91b7c0e83fe0035113,train,Calculus
+6.0,dd2deda72ec06e9c1105,train,Calculus
+6.0,df49cc7aab760011bf0e,train,Calculus
+6.0,dfd726965bf61cff6955,train,Calculus
+6.0,dff740a6c4831b8ce6a4,train,Calculus
+6.0,e1453093b6669d892dc9,train,Calculus
+6.0,e165b5b251ee987fabc6,train,Calculus
+6.0,e4551d3f0f9cdbbe50c1,train,Calculus
+6.0,e5763592162845ae1679,train,Calculus
+6.0,e6a867e28ae645df310b,train,Calculus
+6.0,e904ce80cfb65526c30c,train,Calculus
+6.0,ea8f20868392e08a2953,train,Calculus
+6.0,eaf0708ec1b50aa0e2fd,train,Calculus
+6.0,eafb9ae1ed83bbf081ec,train,Calculus
+6.0,eb00c0c39afd60a0fd98,train,Calculus
+6.0,ebc76b351d33f481803e,train,Calculus
+6.0,ec09799a370cc5ffd66e,train,Calculus
+6.0,ecc860458122c940ae17,train,Calculus
+6.0,ecfcb973a0df6a7f03a2,train,Calculus
+6.0,ed689262502a0fec4b9d,train,Calculus
+6.0,edcc1d1e8443b530b657,train,Calculus
+6.0,f1eba56f24e5802d2a97,train,Calculus
+6.0,f21cec2174cbdd765f86,train,Calculus
+6.0,f2f5707263c8fc683265,train,Calculus
+6.0,f3a7d8a51260281efb59,train,Calculus
+6.0,f5048f69b6f1ad1c7522,train,Calculus
+6.0,f57e4ddddd8f4992ab2d,train,Calculus
+6.0,f8c29899767767888900,train,Calculus
+6.0,f9f92f5ef126975065e3,train,Calculus
+6.0,fb870397168bc3703a7d,train,Calculus
+6.0,fd469abb8320c697764f,train,Calculus
+6.0,ff51dec5789415046924,train,Calculus
+6.0,ffccdbe2939082bef7a3,train,Calculus
+6.5,021e24a5b47edd502d22,train,Calculus
+6.5,0284f220fb81f925bc50,train,Calculus
+6.5,02ae58f682cf8ffb2acc,train,Calculus
+6.5,02f10899b38abb038b15,train,Calculus
+6.5,045893fa25affb4c487e,train,Calculus
+6.5,0ba7319e745544728790,train,Calculus
+6.5,0bf2ac02bf947b4295ef,train,Calculus
+6.5,0ca1643593e00ef42e9e,train,Calculus
+6.5,0d552ac6491f10490125,train,Calculus
+6.5,0fa613242cf9e96c1c0c,train,Calculus
+6.5,11277fdbc2f84633d22f,train,Calculus
+6.5,12288116c2ff59345f14,train,Calculus
+6.5,155ac84a5888dbc934c6,train,Calculus
+6.5,15d2297b1a3a40eac830,train,Calculus
+6.5,17a01cb8a86c0dd1f60e,train,Calculus
+6.5,1add3df7b97b2feb68e2,train,Calculus
+6.5,1d4414dde0fe7b071c8c,train,Calculus
+6.5,25ca11b1e09160be0e82,train,Calculus
+6.5,2612e26aa7ddb98256c5,train,Calculus
+6.5,29d9e9eed63b1d30202c,train,Calculus
+6.5,2b3e6a169090880faad6,train,Calculus
+6.5,2c5a6e4284e9c6fb84b3,train,Calculus
+6.5,2d29e429eead643a3062,train,Calculus
+6.5,30b57cb8d35a3d7a6914,train,Calculus
+6.5,31a8c9ba0a7149a3fd43,train,Calculus
+6.5,31efb3681908e1e873da,train,Calculus
+6.5,3532d389ade21882b9b7,train,Calculus
+6.5,37609ac073c0745d168d,train,Calculus
+6.5,3df3590e437a00d00370,train,Calculus
+6.5,4182c0b579d7b36e8c9c,train,Calculus
+6.5,44e340d9348d6111a029,train,Calculus
+6.5,45abf512e6d57c37d2c3,train,Calculus
+6.5,47f2b1bba084f5abf1b4,train,Calculus
+6.5,4933ef77dbf9efdccdb1,train,Calculus
+6.5,49d8b28e1a25b55053d2,train,Calculus
+6.5,4a2c71fef2af75177fbe,train,Calculus
+6.5,4baca8d77133160afc98,train,Calculus
+6.5,4fc2403324219a0c1b5d,train,Calculus
+6.5,52b5d038ac58763b99cc,train,Calculus
+6.5,538a17667feb17c1119e,train,Calculus
+6.5,54553c210b4e2825dac9,train,Calculus
+6.5,56f673a37b0275041ce1,train,Calculus
+6.5,576fcb9d2b1d04b38b0d,train,Calculus
+6.5,5ad8bfd05ca90bc89dc7,train,Calculus
+6.5,5cb955b04ed9581d7c7f,train,Calculus
+6.5,61ffcb83a36587bf932a,train,Calculus
+6.5,62ee37613336d8334f34,train,Calculus
+6.5,630b2775486021f53a9a,train,Calculus
+6.5,68d48060fbea8afc0d25,train,Calculus
+6.5,6d28d20d27518a96b9a6,train,Calculus
+6.5,6dee214bd39b31d4a155,train,Calculus
+6.5,6e8d2f5982a4506166ce,train,Calculus
+6.5,6ea510d967aed49ee8b6,train,Calculus
+6.5,6faecdacd0a7e513b440,train,Calculus
+6.5,70b4d7e580133b8a13a8,train,Calculus
+6.5,71a708b8624762618565,train,Calculus
+6.5,71ffd4d30b6a2141d8f3,train,Calculus
+6.5,7306564071a55d4cf8d4,train,Calculus
+6.5,73773e73b50494365962,train,Calculus
+6.5,750ff571b3acdb07cbfc,train,Calculus
+6.5,767908ee57787bb42c88,train,Calculus
+6.5,78ecdedc2d29f7744866,train,Calculus
+6.5,7977f097932b748abc93,train,Calculus
+6.5,79c82f2b17cf576424c8,train,Calculus
+6.5,7a11aa8b925a8382e7b6,train,Calculus
+6.5,7ac66909a2f498fd25a8,train,Calculus
+6.5,7bcef5fc2b700e2a44e0,train,Calculus
+6.5,7cb61dc3ab8dcd7d485b,train,Calculus
+6.5,7cf87af4b9be78092d0a,train,Calculus
+6.5,7e9b6dafe1f42775bc01,train,Calculus
+6.5,84b3ce84cccf9415e050,train,Calculus
+6.5,85427c463b785d48fd23,train,Calculus
+6.5,88ecc82734ad5d27b6e4,train,Calculus
+6.5,892c9df4d444aea40228,train,Calculus
+6.5,8b5b3904dd7f43eb7e9b,train,Calculus
+6.5,8be36e5c4663be3512aa,train,Calculus
+6.5,8c05b27db70313023aeb,train,Calculus
+6.5,8cb7eac1829ae521dd9d,train,Calculus
+6.5,8f562e4917d3dff32200,train,Calculus
+6.5,902a9629402db8d7747b,train,Calculus
+6.5,91abf579c45ab979ca65,train,Calculus
+6.5,98e925e7842d04cdc51e,train,Calculus
+6.5,9c2bad8c432470c53d85,train,Calculus
+6.5,9c58e03d31dc35e0ba32,train,Calculus
+6.5,9f5a66faad2eec81f324,train,Calculus
+6.5,a231f486010b93ae7379,train,Calculus
+6.5,a42a9691fecf3f9a45ba,train,Calculus
+6.5,a5487ab20ae0c6cb5558,train,Calculus
+6.5,a5d5de3c58dab92bf56f,train,Calculus
+6.5,a706fede005b5420f1b5,train,Calculus
+6.5,a9f07fced4432d15a85a,train,Calculus
+6.5,aafcae282a1564e56b92,train,Calculus
+6.5,aaffedaff7ec9143eb19,train,Calculus
+6.5,ae13a66e7ff84e740d6d,train,Calculus
+6.5,af186db04215197121a9,train,Calculus
+6.5,af79d12f823e5a215a57,train,Calculus
+6.5,b17cd3964d56c14da2d1,train,Calculus
+6.5,b3d7ba9faa6117f3cbcb,train,Calculus
+6.5,b5bab4bbdc28461d23e5,train,Calculus
+6.5,b5be6d330ed57611deaa,train,Calculus
+6.5,b601f2efa384d530ad25,train,Calculus
+6.5,bb90747332fc86ca4d72,train,Calculus
+6.5,bba967da04d6c2a9c0c5,train,Calculus
+6.5,bdbdc795916a947045dc,train,Calculus
+6.5,bf500cb0281099f404a2,train,Calculus
+6.5,c0d8c5dab889ddcd74d6,train,Calculus
+6.5,c28251c54497c329d3ae,train,Calculus
+6.5,c2df34f31f8a8c309c6c,train,Calculus
+6.5,c3155bcdf4ecd1ec1ba3,train,Calculus
+6.5,c524dd513942c9eacc51,train,Calculus
+6.5,c52e96e18fd2d229e6e6,train,Calculus
+6.5,c79ab42fe5709a8b8a0a,train,Calculus
+6.5,c9362400721ec6af99f3,train,Calculus
+6.5,ca3647f2c7b7c98f0a81,train,Calculus
+6.5,cb35f8e294e45b3d52d5,train,Calculus
+6.5,cb964bb47563ec107acf,train,Calculus
+6.5,ccf97f7f2bc5be565def,train,Calculus
+6.5,cd1e7bfcbd986c6969da,train,Calculus
+6.5,ce002202486d7279225b,train,Calculus
+6.5,ce384a38f55cc5a86385,train,Calculus
+6.5,cf9e99f25cd99f617ce0,train,Calculus
+6.5,d19b67979660b0d3e034,train,Calculus
+6.5,d1b3a02d2657d8ec8b21,train,Calculus
+6.5,d22d22ee04971c0bda5a,train,Calculus
+6.5,d49f29acde203879c85c,train,Calculus
+6.5,d5c572c33f29242f9170,train,Calculus
+6.5,d62e0d11eff5fc155fc9,train,Calculus
+6.5,d707832ce89a95fd2cc7,train,Calculus
+6.5,d8cbb592d5cc83e4d155,train,Calculus
+6.5,dbada1db4c0a500459d6,train,Calculus
+6.5,de3c1a8750664f9ad4a5,train,Calculus
+6.5,e2b128c043b8d0cc0f23,train,Calculus
+6.5,e3636bee57ddc64c6124,train,Calculus
+6.5,e5359e9d2e6216519cc8,train,Calculus
+6.5,e87e76380e93fea78ffc,train,Calculus
+6.5,e88e93f73c3b0fdb9c35,train,Calculus
+6.5,ea11207512fb5c2ee83e,train,Calculus
+6.5,eb970dc16c102785697f,train,Calculus
+6.5,ec892c537d783e7b1bff,train,Calculus
+6.5,f0e6fbe96100b081ef74,train,Calculus
+6.5,f4088eb2201fff0ca0a1,train,Calculus
+6.5,f6fe02a52be6a66a42ee,train,Calculus
+6.5,f87d1c333b85f9392cc8,train,Calculus
+6.5,fc938a6e65f94639272e,train,Calculus
+6.5,fed6bbcbc8c6a8a62c5c,train,Calculus
+7.0,00a550f07b8079023d05,train,Calculus
+7.0,012541fe741f88ea045a,train,Calculus
+7.0,036ba0aab73e14ad4eeb,train,Calculus
+7.0,06979f243f2bea4db01d,train,Calculus
+7.0,08779ed823fb8b5f20f2,train,Calculus
+7.0,0a89f0a532d48bbe65af,train,Calculus
+7.0,0bc6f35804bd04f2f552,train,Calculus
+7.0,0d263454884611e23024,train,Calculus
+7.0,0dab444af888496f7ff2,train,Calculus
+7.0,10ecef89dd43ac3de0c0,train,Calculus
+7.0,1347d434990f097207cb,train,Calculus
+7.0,1469ace24b41ddbd99fa,train,Calculus
+7.0,17f6e177570bfb5cf179,train,Calculus
+7.0,1d54c0900bd8da04c461,train,Calculus
+7.0,20bc9e318401c848742f,train,Calculus
+7.0,212617a60cbc405ffe12,train,Calculus
+7.0,24562a51a5ad2f0ec812,train,Calculus
+7.0,2530f65c86add7ba3f92,train,Calculus
+7.0,25b3cbdfa065e725deba,train,Calculus
+7.0,2827185a81f1a9af99b8,train,Calculus
+7.0,2901be325195a522fe3f,train,Calculus
+7.0,29a1cc0c1d75f493fffc,train,Calculus
+7.0,2a35c7faf8e459becf88,train,Calculus
+7.0,2c72be4d0c9424df37e0,train,Calculus
+7.0,2d3647ddcb14069ac9e1,train,Calculus
+7.0,2d73dee848f3648b50ee,train,Calculus
+7.0,2fa25fd2490f1bd80163,train,Calculus
+7.0,346d13b76b99574ae0a9,train,Calculus
+7.0,357ffb511585ee83c0a8,train,Calculus
+7.0,3f94d9676541f000fe5a,train,Calculus
+7.0,4048672060d6f6e203d6,train,Calculus
+7.0,424984089ded5179571c,train,Calculus
+7.0,460c36c6435377b3aa8f,train,Calculus
+7.0,46e2cabcf1d5b88bfcd8,train,Calculus
+7.0,4775c9f0e6400e0a9dca,train,Calculus
+7.0,4b2f4f0a3ced325db7f5,train,Calculus
+7.0,4b43ecaf1f5e42f61192,train,Calculus
+7.0,4cebcee93c589e33f7f0,train,Calculus
+7.0,4dc55152969bb610344e,train,Calculus
+7.0,4e8bf99987b0f3208889,train,Calculus
+7.0,4fa0433e06db04118f7c,train,Calculus
+7.0,5543af46459a35061741,train,Calculus
+7.0,56013503ad8130a1b2cb,train,Calculus
+7.0,5671a873a74da3491c34,train,Calculus
+7.0,5b64050de8ec60de1376,train,Calculus
+7.0,5d5ab398d35a8a22056a,train,Calculus
+7.0,5d8ee4d900960ec024c2,train,Calculus
+7.0,5e68d83766d7b6a51882,train,Calculus
+7.0,5ed4a58ed559a30b673f,train,Calculus
+7.0,5f27a802b0a17508c41f,train,Calculus
+7.0,6078994bdb8f6792e371,train,Calculus
+7.0,623e1b2814c17f449a6f,train,Calculus
+7.0,646bbe7b1d1dfa6a61e2,train,Calculus
+7.0,661e62aa7ad26000ac3c,train,Calculus
+7.0,668923ab3ddb1b464ffe,train,Calculus
+7.0,68f7ad72eede83306fbd,train,Calculus
+7.0,694477e1582663ce8007,train,Calculus
+7.0,69909c1d14bd05d1fc5b,train,Calculus
+7.0,6c253650693dc183c196,train,Calculus
+7.0,6f8ae027e142b540cabb,train,Calculus
+7.0,71648d859a9aebcd5e19,train,Calculus
+7.0,721e4fcc4111e3472275,train,Calculus
+7.0,728d9e3358a146414bdb,train,Calculus
+7.0,741342eb6adabc415d7a,train,Calculus
+7.0,74376057b286a57dba2e,train,Calculus
+7.0,753e56c19089d6c81310,train,Calculus
+7.0,75d882d844d332ddfca2,train,Calculus
+7.0,7b1f2c62f4cf4c209039,train,Calculus
+7.0,7c1af4c1aba4f3db42ec,train,Calculus
+7.0,7d40de5369ab409090f9,train,Calculus
+7.0,7e4f5c090bd81115c3fc,train,Calculus
+7.0,7f80bc4767714a4b1306,train,Calculus
+7.0,823ec45239b9a604ce73,train,Calculus
+7.0,83eee3ead1e34bd9ee7a,train,Calculus
+7.0,89561e26edb47934c842,train,Calculus
+7.0,8aadfcbc57cb59694bd6,train,Calculus
+7.0,8f22a6a850a319ae4ae2,train,Calculus
+7.0,934191ffc6e96f39da54,train,Calculus
+7.0,9473996b7fef8b52375d,train,Calculus
+7.0,96392237bb2b18037e63,train,Calculus
+7.0,9c31b5aafe38896a57ab,train,Calculus
+7.0,9e92532bc8124cc503fc,train,Calculus
+7.0,9f32a6b88e50a37dcbf1,train,Calculus
+7.0,a141a7e0eb37d27a92ef,train,Calculus
+7.0,a177b9c3f415fe6cbc35,train,Calculus
+7.0,a17e0e4457540213cbb6,train,Calculus
+7.0,a2dc3e09faf13dbd51c7,train,Calculus
+7.0,a7e076ce6bc75a8c72a0,train,Calculus
+7.0,aac1298315cfa94c4864,train,Calculus
+7.0,acdac921bbc177715d96,train,Calculus
+7.0,acff0afdc813bad04e3a,train,Calculus
+7.0,ad75799fa9cf5e8af6cc,train,Calculus
+7.0,aebcbbd02a5c2b618ee5,train,Calculus
+7.0,af5a0bec02557d622b08,train,Calculus
+7.0,b54454dbda1b49545e28,train,Calculus
+7.0,b84b24b06de9e0f6d976,train,Calculus
+7.0,b8d9b0d78922c4ff4f0e,train,Calculus
+7.0,bb2167c02eaa16fffa35,train,Calculus
+7.0,bb4e8d959f4cd6c08c51,train,Calculus
+7.0,bbc50f6dac4c8013c563,train,Calculus
+7.0,bcd76fe46d745b29ca66,train,Calculus
+7.0,c1da577f59f263bf975c,train,Calculus
+7.0,c2f096bd16ce81ad00da,train,Calculus
+7.0,c4f9c7c2d65797183bb9,train,Calculus
+7.0,c61a733f7c91bd9cd8ad,train,Calculus
+7.0,c83e08ddbb56eb6c76f1,train,Calculus
+7.0,c9175267e19b3ca633ff,train,Calculus
+7.0,ca073668221abc36415c,train,Calculus
+7.0,cdc3b39d1803818bd7a2,train,Calculus
+7.0,cf81f2853f08e57eff69,train,Calculus
+7.0,cffccd58f3fe857a99aa,train,Calculus
+7.0,d4994c421468a704ae09,train,Calculus
+7.0,d8de551ebfd2f0eebeb4,train,Calculus
+7.0,da55da385c813f8fcc3f,train,Calculus
+7.0,dc7d1e16be6ddf442653,train,Calculus
+7.0,ded9b675bd61786fab3a,train,Calculus
+7.0,deef69629f08c3763483,train,Calculus
+7.0,df7ebe34cce0bcb4faf3,train,Calculus
+7.0,e0e1a1cfdb2b3ecd68ce,train,Calculus
+7.0,e1168a2e2ed1db12643c,train,Calculus
+7.0,e1905a2f16c28870b49f,train,Calculus
+7.0,e57ab1f5a2f9da468a23,train,Calculus
+7.0,e65c270bb9b6b719cd8c,train,Calculus
+7.0,e686628dc3813775bcca,train,Calculus
+7.0,e6c61570d8025377daae,train,Calculus
+7.0,e723fc376c0227ad20b4,train,Calculus
+7.0,e96a874cc2e30f26a07e,train,Calculus
+7.0,e9d938c86fc35319c220,train,Calculus
+7.0,eaffcba3ce1233873051,train,Calculus
+7.0,eb15f6ebb8dff1175e9a,train,Calculus
+7.0,eb16d1f93ee81eb41f50,train,Calculus
+7.0,eba902ee36255c4edf93,train,Calculus
+7.0,f041802778ccc598545b,train,Calculus
+7.0,f05f48331103d954939b,train,Calculus
+7.0,f49a8c52c29d2700f6c0,train,Calculus
+7.0,f7ac95254731d66529ef,train,Calculus
+7.0,f7bf0d85592a5392e7e7,train,Calculus
+7.0,f8a16fc1ecab3a3c9587,train,Calculus
+7.0,f94ebe4950dbb7e8c21d,train,Calculus
+7.0,fc6f71cbc7182568f16a,train,Calculus
+7.0,fe477c5d64e3b2389c66,train,Calculus
+7.0,fef450ae764b3883a523,train,Calculus
+5.0,577dd9d8c8e61539104b,train,Differential Equations
+5.0,76b38f4f1808c95f5793,train,Differential Equations
+5.0,799e7dee81bfdd73b34a,train,Differential Equations
+5.0,7d714748c645f40c1195,train,Differential Equations
+5.0,84abb7858a201f9a67d0,train,Differential Equations
+5.0,92492db091d3d729a3c7,train,Differential Equations
+5.0,a09a67e8d574ebc4d37b,train,Differential Equations
+5.0,b288440dd9f3e40e2ea2,train,Differential Equations
+5.0,f7b2f38f124de4d87c24,train,Differential Equations
+5.5,1b8bcede96a624071745,train,Differential Equations
+5.5,5abc996f21da9caa8fcd,train,Differential Equations
+5.5,921d95655b15009e13d6,train,Differential Equations
+5.5,a3ae420638ca8292eec6,train,Differential Equations
+6.0,4cb45596a56eba7b04d2,train,Differential Equations
+6.0,5d3eebdff3fc7d6c2581,train,Differential Equations
+6.0,5fe8172a505d44dea039,train,Differential Equations
+6.0,60616ce83cedde65d93d,train,Differential Equations
+6.0,9ffb68470f2295832305,train,Differential Equations
+6.0,b1a36a72ea976571f8eb,train,Differential Equations
+6.0,c89b1a0017ad90960201,train,Differential Equations
+6.5,4711cc89a98667dd6aed,train,Differential Equations
+6.5,763c2f22a2bd6eaa009e,train,Differential Equations
+6.5,7bae0a3fb69d1ffc7505,train,Differential Equations
+6.5,8f16c1badac3c09fc000,train,Differential Equations
+6.5,fc124045e4922ab9d0f1,train,Differential Equations
+7.0,784cdd62b19d4ad41af3,train,Differential Equations
+5.0,032aa9d9386b3e72ff47,train,Discrete Mathematics
+5.0,038d900ce23f922c4130,train,Discrete Mathematics
+5.0,03bab012cbc64f73dd30,train,Discrete Mathematics
+5.0,0ed8dec2427a8a34d40c,train,Discrete Mathematics
+5.0,114eccec74db2886abe7,train,Discrete Mathematics
+5.0,167da078c992f3087648,train,Discrete Mathematics
+5.0,1aefe994d6d5c8f32150,train,Discrete Mathematics
+5.0,1b140e47925bfb2acc8b,train,Discrete Mathematics
+5.0,26f8ed5ed1088cea2beb,train,Discrete Mathematics
+5.0,305268d068742708711e,train,Discrete Mathematics
+5.0,32f4d21e4c945fa5c54c,train,Discrete Mathematics
+5.0,35336ea52b7c968e2308,train,Discrete Mathematics
+5.0,3a2505f65807ed34ad97,train,Discrete Mathematics
+5.0,3d5daac9035fd1adfccf,train,Discrete Mathematics
+5.0,416120bb84dc98db4f12,train,Discrete Mathematics
+5.0,44a69ac7e22b0eb92685,train,Discrete Mathematics
+5.0,484c262b59db68e2e9f9,train,Discrete Mathematics
+5.0,50d24260ea67a6778706,train,Discrete Mathematics
+5.0,52dd99cb78520d5ad212,train,Discrete Mathematics
+5.0,58061e214bfdb6b1fca0,train,Discrete Mathematics
+5.0,5e64ab18c6ab14d1b16b,train,Discrete Mathematics
+5.0,614287d2d9d3004ca168,train,Discrete Mathematics
+5.0,6423b4963dfa5cbead75,train,Discrete Mathematics
+5.0,6b0c99bbe2f351b14a59,train,Discrete Mathematics
+5.0,716748557ba15d5bdcc3,train,Discrete Mathematics
+5.0,7da55b8576c2f3c9441a,train,Discrete Mathematics
+5.0,7ffddc5037c00f067e2a,train,Discrete Mathematics
+5.0,875d695dd5bb94a2cf3b,train,Discrete Mathematics
+5.0,9320cb58e78b657055d6,train,Discrete Mathematics
+5.0,96d388bc13b43239ac89,train,Discrete Mathematics
+5.0,9734e160bb2091d3187f,train,Discrete Mathematics
+5.0,9b4ca581c11aaeb95584,train,Discrete Mathematics
+5.0,a711a1d873554dac05e7,train,Discrete Mathematics
+5.0,a9aada11d275b514545f,train,Discrete Mathematics
+5.0,aaeaa55e013d47949419,train,Discrete Mathematics
+5.0,b421f6e91e726b3fc697,train,Discrete Mathematics
+5.0,c0d7beb85964a521f0b2,train,Discrete Mathematics
+5.0,c16452d6e850bd3e25bc,train,Discrete Mathematics
+5.0,c941460bf457d7e35735,train,Discrete Mathematics
+5.0,d03c86f6a5c966e753a5,train,Discrete Mathematics
+5.0,dc702b78331d2547e93f,train,Discrete Mathematics
+5.0,ddc5cad7a2ae8a2aa3a3,train,Discrete Mathematics
+5.0,de4d34a621969d0be25c,train,Discrete Mathematics
+5.0,e66e26d0746b2bc6b8be,train,Discrete Mathematics
+5.0,e6a865255958cb53f7fb,train,Discrete Mathematics
+5.0,f1f2bbf93da972c79da0,train,Discrete Mathematics
+5.0,f3733bcd02a2200294c2,train,Discrete Mathematics
+5.5,060ed660b9c8db3e2f64,train,Discrete Mathematics
+5.5,1967301147ce0a7b9372,train,Discrete Mathematics
+5.5,1a7efd1332803c8849f5,train,Discrete Mathematics
+5.5,2279645c0f0532d3a8c4,train,Discrete Mathematics
+5.5,2dd290d584d034dc5fd4,train,Discrete Mathematics
+5.5,36176a306b4518bb1654,train,Discrete Mathematics
+5.5,37e28a8ceb80cf2d3b95,train,Discrete Mathematics
+5.5,40be4fe58156b53bfda9,train,Discrete Mathematics
+5.5,4a5ba6f2a41245d251d2,train,Discrete Mathematics
+5.5,521f94033705d1a2de7f,train,Discrete Mathematics
+5.5,57c1f5a24ef97c10edbf,train,Discrete Mathematics
+5.5,5954bfd90d91775655e3,train,Discrete Mathematics
+5.5,5a4775879fe4e1c9af61,train,Discrete Mathematics
+5.5,61758900069255e55821,train,Discrete Mathematics
+5.5,66aea2e7a66f9bc63e95,train,Discrete Mathematics
+5.5,69fdea4e222733df23da,train,Discrete Mathematics
+5.5,700b4909d4f20ddcfbfa,train,Discrete Mathematics
+5.5,76d14073732da4001b17,train,Discrete Mathematics
+5.5,7b987099e037559abd00,train,Discrete Mathematics
+5.5,91f891b0bccfb96dc07e,train,Discrete Mathematics
+5.5,937b17cd780fc9019dd1,train,Discrete Mathematics
+5.5,944326052f6a4420b9b0,train,Discrete Mathematics
+5.5,a024f72d60999e47df0b,train,Discrete Mathematics
+5.5,a2cd2061605c84fc2add,train,Discrete Mathematics
+5.5,a3fe995aaed6fc70734c,train,Discrete Mathematics
+5.5,bd16a48262fb0461e0f0,train,Discrete Mathematics
+5.5,c1bb55348033efa213d5,train,Discrete Mathematics
+5.5,c5f0385a9fc1ce6fcb08,train,Discrete Mathematics
+5.5,d1ffcac68d548ca4fe30,train,Discrete Mathematics
+5.5,de4fd0046233066ff405,train,Discrete Mathematics
+5.5,eb0249ac278ff6497e1a,train,Discrete Mathematics
+5.5,f7c10dc5fe8802b55a10,train,Discrete Mathematics
+5.5,faa32d35a7212bd65167,train,Discrete Mathematics
+6.0,0240d2c4c036290722e8,train,Discrete Mathematics
+6.0,02fc5beebdd3ff68a4a5,train,Discrete Mathematics
+6.0,0dc56ee4778c873225ec,train,Discrete Mathematics
+6.0,1597b1e33f59a486381b,train,Discrete Mathematics
+6.0,18d729a1cb0154da1bae,train,Discrete Mathematics
+6.0,1fba8db61179cae880f9,train,Discrete Mathematics
+6.0,3aedc524876901eb005e,train,Discrete Mathematics
+6.0,3cf32a1e5059363cf48d,train,Discrete Mathematics
+6.0,40ea970b68f615fad7a8,train,Discrete Mathematics
+6.0,41afc74cf3bd020cfce0,train,Discrete Mathematics
+6.0,4db5115295d637abb958,train,Discrete Mathematics
+6.0,63955e1a3a54c2e0b22c,train,Discrete Mathematics
+6.0,71632cd7018d0a09b9a7,train,Discrete Mathematics
+6.0,798cc47b8c49aafb7456,train,Discrete Mathematics
+6.0,7c9dd5beefd8d69f3044,train,Discrete Mathematics
+6.0,88bce1f43d892268751b,train,Discrete Mathematics
+6.0,8d33585e85f3adccfba5,train,Discrete Mathematics
+6.0,91ed9e7de17b924b3ba6,train,Discrete Mathematics
+6.0,a3dfd5628be25a58a7ac,train,Discrete Mathematics
+6.0,b16649df55b4a22fd0c6,train,Discrete Mathematics
+6.0,bb9d6e8f6a4936f38eed,train,Discrete Mathematics
+6.0,bc64b00262877fe4321b,train,Discrete Mathematics
+6.0,c517c9c413271bde598c,train,Discrete Mathematics
+6.0,d0afee3f03391091b08d,train,Discrete Mathematics
+6.0,d3fa055b756627b7fd94,train,Discrete Mathematics
+6.0,df3f3aaeebba8b15d269,train,Discrete Mathematics
+6.0,e5a94980bcb8b77a33f0,train,Discrete Mathematics
+6.0,ec49883584104b32538c,train,Discrete Mathematics
+6.0,f6dd79b5e950900e1531,train,Discrete Mathematics
+6.5,3bbb48967e8582c7b8c1,train,Discrete Mathematics
+6.5,5559fbb0751f7210aa43,train,Discrete Mathematics
+6.5,725673b463d0950995b4,train,Discrete Mathematics
+6.5,72f96d96944a74eeada8,train,Discrete Mathematics
+6.5,8b7026518518ed378ff8,train,Discrete Mathematics
+6.5,90b4ed6d3351e049a32c,train,Discrete Mathematics
+6.5,a103b3d86b9234970f30,train,Discrete Mathematics
+6.5,aa980658f9c9036028c7,train,Discrete Mathematics
+6.5,b9c6af0314750e25315c,train,Discrete Mathematics
+6.5,c3518101fbe0e8164893,train,Discrete Mathematics
+6.5,cd0a9c6846fd73e6457b,train,Discrete Mathematics
+6.5,cd806e63a2e275c852b3,train,Discrete Mathematics
+6.5,d56eeebe1a3c43bcdf04,train,Discrete Mathematics
+6.5,ef53873dd94c0fac0dd1,train,Discrete Mathematics
+7.0,0a80440f4086bf6dcfb1,train,Discrete Mathematics
+7.0,208f146ee4df555ba423,train,Discrete Mathematics
+7.0,77a73ef0d30a8f25b268,train,Discrete Mathematics
+7.0,793d2b64d8979732c771,train,Discrete Mathematics
+7.0,7bea08652596d220b5a2,train,Discrete Mathematics
+7.0,8b22d6d929bad7c0c528,train,Discrete Mathematics
+7.0,93d558a693d811196c20,train,Discrete Mathematics
+7.0,c4c8da8c79675674a4d5,train,Discrete Mathematics
+7.0,f15e8d397f2c57aa4389,train,Discrete Mathematics
+5.0,02a2aa951e322ed92450,train,Geometry
+5.0,0446620f6927b0e080f3,train,Geometry
+5.0,0a6cdec41361afc9b53d,train,Geometry
+5.0,0b631e7694f430602ed3,train,Geometry
+5.0,10ed341cc117e87f1198,train,Geometry
+5.0,20d7919d72e466456c1c,train,Geometry
+5.0,217834b093143295798d,train,Geometry
+5.0,262a05152775c7f3aaa3,train,Geometry
+5.0,26dd00b1ef4f4baab396,train,Geometry
+5.0,29a1d656168cf888c595,train,Geometry
+5.0,2eed7f14858fa2e0213c,train,Geometry
+5.0,2f7eeb0d3337f2228298,train,Geometry
+5.0,35a78d8b03495ad75f9a,train,Geometry
+5.0,35af0d3869e2283212b8,train,Geometry
+5.0,385f2cfa2393c3b81bb7,train,Geometry
+5.0,3864c04ac05c72668ca9,train,Geometry
+5.0,38f15c92cff530216953,train,Geometry
+5.0,39767a27fd3507934552,train,Geometry
+5.0,4012cb145d5fc5c4908f,train,Geometry
+5.0,4594545ab25bad54e202,train,Geometry
+5.0,47b4b259587a574d6f1f,train,Geometry
+5.0,4e35150da0dc718c25cd,train,Geometry
+5.0,50a1c712f716916181ed,train,Geometry
+5.0,550de40592400abc0fe0,train,Geometry
+5.0,5524b1c26d4afe054cce,train,Geometry
+5.0,5532f5d914944a329397,train,Geometry
+5.0,5eb93a6674282680234b,train,Geometry
+5.0,654f80680377ecfded26,train,Geometry
+5.0,6687d5d92901e08287dd,train,Geometry
+5.0,6ac5426501534b1d9c1b,train,Geometry
+5.0,6acf6a7d1082764512c0,train,Geometry
+5.0,6adc11dfd5029f2dd4bc,train,Geometry
+5.0,6b4a767de36338cb902f,train,Geometry
+5.0,6be6896556d7d2439ac1,train,Geometry
+5.0,6ec9caecb98a57791e75,train,Geometry
+5.0,6ffdcad0aac67dc09da6,train,Geometry
+5.0,73ad763b022fce02f8cb,train,Geometry
+5.0,73fbca7add7f4b66beda,train,Geometry
+5.0,743677f517d1528eeaba,train,Geometry
+5.0,75341020c59ebe833b8c,train,Geometry
+5.0,767973911c1397f2c4d8,train,Geometry
+5.0,78fb53dfb4c794bee22b,train,Geometry
+5.0,80b875857be1983d69a2,train,Geometry
+5.0,80d6d9ffe4e7f13fad40,train,Geometry
+5.0,84d9250b789b1a94449c,train,Geometry
+5.0,86f8883c2c12a8eb5308,train,Geometry
+5.0,87493240641ad440967b,train,Geometry
+5.0,879c63ee7be816c7a16d,train,Geometry
+5.0,8b851ceb2f3003a0a63d,train,Geometry
+5.0,8c2bdbf775d900afd534,train,Geometry
+5.0,8ca01ae62ce5386b676b,train,Geometry
+5.0,8e04ce20d8844923a5d8,train,Geometry
+5.0,9099ae41c4b84c2e8cf2,train,Geometry
+5.0,917841a84b45e1e7fbd9,train,Geometry
+5.0,9cd802c14225ef14a80c,train,Geometry
+5.0,9db3ec656fbe30917f24,train,Geometry
+5.0,a440e4e17809de0ee6a5,train,Geometry
+5.0,ae7e1ad4291eb772989c,train,Geometry
+5.0,b06d5afe674acdda6ee0,train,Geometry
+5.0,b5778bbae7535bd91e36,train,Geometry
+5.0,b9f0a8597b24c662e427,train,Geometry
+5.0,bb2376d86f27292805a4,train,Geometry
+5.0,bc23609f125f998015fb,train,Geometry
+5.0,bcc9a1ef25cad39cefe0,train,Geometry
+5.0,c09cab533e2fef72487f,train,Geometry
+5.0,c13376351224ce40e48d,train,Geometry
+5.0,c9af6dac55c40889787f,train,Geometry
+5.0,cc17bc2dc1594c775b3e,train,Geometry
+5.0,cf3c37567b639b7a05ce,train,Geometry
+5.0,cfde6707ddc3c91e2ac4,train,Geometry
+5.0,d1a6474aa2f765341090,train,Geometry
+5.0,d2e935534ce18d7abefe,train,Geometry
+5.0,d2eaac0aa1385980ba16,train,Geometry
+5.0,d3e81b93f2bf43ace779,train,Geometry
+5.0,d7acc6768a4435101f88,train,Geometry
+5.0,dd0e624ae4fa0f1b99ff,train,Geometry
+5.0,de46a48b14ad5a55d1ee,train,Geometry
+5.0,df43e77358e7f8c154c4,train,Geometry
+5.0,e1e742d43e1bf917bd9d,train,Geometry
+5.0,e49ee0b5645e4b58179d,train,Geometry
+5.0,e83288fdf2f9ffa924cb,train,Geometry
+5.0,fac728f041db376172ff,train,Geometry
+5.0,fdf5a49ba39fe36a5246,train,Geometry
+5.5,180f219950da266d4611,train,Geometry
+5.5,43041c8eebaa56544a06,train,Geometry
+5.5,58363694a1776e952853,train,Geometry
+5.5,5e93eebf5deb6c3a2d17,train,Geometry
+5.5,75448441d2f631b8832b,train,Geometry
+5.5,7c5083f6b7636b45985f,train,Geometry
+5.5,94aca4b66027b2ec4bcd,train,Geometry
+5.5,9fd4881127d50416edb1,train,Geometry
+5.5,af5a56d8ff05f04fd495,train,Geometry
+5.5,c1bd5170f923d9073419,train,Geometry
+5.5,cc64807889ee5dd3ab1f,train,Geometry
+5.5,e8e116c086b75aca1ba6,train,Geometry
+5.5,ed3eef82d482de15e57a,train,Geometry
+5.5,f48863f8d1961a003f9a,train,Geometry
+6.0,15457d8cd220db386ae0,train,Geometry
+6.0,1842901535b26a0dbdf8,train,Geometry
+6.0,2cf80faf47f7eb59c211,train,Geometry
+6.0,4124cd14b7ad53f868e0,train,Geometry
+6.0,538686c1820d2b9e1bd4,train,Geometry
+6.0,543a743989c1ae6ed94f,train,Geometry
+6.0,5d5f244e54fd9a2e65a7,train,Geometry
+6.0,7c3d3d3a7cc96ed33012,train,Geometry
+6.0,83554262dd04488bbd32,train,Geometry
+6.0,8b09bffcd7b62c22be10,train,Geometry
+6.0,ac6f9c9ea46d86cdc6ec,train,Geometry
+6.0,aeb67673ca4623138315,train,Geometry
+6.0,dc7b6792ad9acd7929ad,train,Geometry
+6.0,ea57c9ce9ea3bc484dff,train,Geometry
+6.0,ef31e6405f69d0778c57,train,Geometry
+6.0,f502d9f5839fb4f8de1f,train,Geometry
+6.5,2ab6536634bfbeb99587,train,Geometry
+6.5,37d9b06f187a931a0486,train,Geometry
+6.5,4fe31f3b2122e865990e,train,Geometry
+6.5,7e9335662f8af030a71f,train,Geometry
+6.5,b8e72ee0dda4732c7c0d,train,Geometry
+6.5,fceafa0fe49d280d0cd8,train,Geometry
+5.0,0291234fab995f6cc387,train,Number Theory
+5.0,0aad1bbb958101ba97c4,train,Number Theory
+5.0,0bc8782b9fad178d3b39,train,Number Theory
+5.0,23dc1107732a013a6c84,train,Number Theory
+5.0,257a8f827dc7cab0d92a,train,Number Theory
+5.0,49e4f2bca5bf85dab3ff,train,Number Theory
+5.0,5d0b550a77214354b054,train,Number Theory
+5.0,5d467548899a136f1451,train,Number Theory
+5.0,7d5b7d1b9a4759298708,train,Number Theory
+5.0,7dea0d7d29378a94820c,train,Number Theory
+5.0,82b7fd6e17610fb325b4,train,Number Theory
+5.0,845fb2d59af60f253695,train,Number Theory
+5.0,869dee57ec5d30748ee0,train,Number Theory
+5.0,89ad5f31fbb22b4feef0,train,Number Theory
+5.0,8c5ad7fd9485fb7cf2fe,train,Number Theory
+5.0,93e7f10dfe6ea9b8ddc0,train,Number Theory
+5.0,95382d0687e99080eb03,train,Number Theory
+5.0,ac452379d1673c4b4b5a,train,Number Theory
+5.0,b3ae4a06b7df3bcb1d5e,train,Number Theory
+5.0,c81eed056075945f7a63,train,Number Theory
+5.0,d2677cba5a9101586df8,train,Number Theory
+5.0,f703b83689d68c942ce1,train,Number Theory
+5.0,f86c9c1372d18a70290b,train,Number Theory
+5.5,5ea0007e01c43ba2336f,train,Number Theory
+5.5,86f0fc1a9292d5764470,train,Number Theory
+5.5,9ca09cec2c65552fccf8,train,Number Theory
+5.5,c9d59ee5d45b5e4f01fa,train,Number Theory
+5.5,dc606b2fe310daaa922c,train,Number Theory
+5.5,fc4afa1b73d7cc08eaec,train,Number Theory
+6.0,354438fe2b60d5a41c96,train,Number Theory
+6.0,6e9baf71de41d3fe0e59,train,Number Theory
+6.0,b2d871e81f967baec495,train,Number Theory
+6.0,e33758278a37e9e3bf6a,train,Number Theory
+6.5,2cfc912450b0d02d3c20,train,Number Theory
+6.5,600864b2d16ac5d87914,train,Number Theory
+6.5,7dd8cfbea58da16584c1,train,Number Theory
+6.5,97cf566e59a9ac1cb1e0,train,Number Theory
+6.5,ede74ef953abac531053,train,Number Theory
+7.0,701f6e463e935e5f1b75,train,Number Theory
+5.0,5880c8c1ac333910b680,train,Other
+5.0,744430008b16c95a4402,train,Other
+5.0,8e7241ae7535e0d0eeaf,train,Other
+5.0,b775da537e86b059568c,train,Other
+5.0,c780f9ce21007e9b54e2,train,Other
+5.0,e210e446a63a11396dee,train,Other
+5.0,fbe3e434cba3f7e7c452,train,Other
+5.5,0c98ba3eee8853844879,train,Other
+5.5,2a0f7c253f9d5748430c,train,Other
+5.5,2f8b88219a7ae0eb15a3,train,Other
+5.5,30557d6a77c4a8b83241,train,Other
+5.5,3475302e2e398969ca19,train,Other
+5.5,36eb3c85852b6a7ad682,train,Other
+5.5,43404cb941b152e96bf7,train,Other
+5.5,5334c2f56c28764ac414,train,Other
+5.5,56cad43e95bb4714dba5,train,Other
+5.5,5f940db1512df466d365,train,Other
+5.5,617f0ffe88765975fd04,train,Other
+5.5,655ea325cffd15726e33,train,Other
+5.5,7af0743f36eea701fd88,train,Other
+5.5,88b9767fe38bc62336bf,train,Other
+5.5,9898f9f0ec4d3efa46e6,train,Other
+5.5,9dfc7f055b150a47cc6b,train,Other
+5.5,a2d7783de3e484c6a8bc,train,Other
+5.5,a49115ae8b31db642f87,train,Other
+5.5,bd3eaf5db3e89c68eba0,train,Other
+5.5,c3d5ee3ed5bf8d86bec5,train,Other
+5.5,cb91b5f80c464c51069c,train,Other
+5.5,d2e9dd68614dd486eaa5,train,Other
+5.5,e72ee57203fd13c671dc,train,Other
+5.5,ff9208ba9ae5f497a435,train,Other
+6.0,0c22453079f82eafa132,train,Other
+6.0,11cd9b5c854b5fd6c18a,train,Other
+6.0,1783cec59c15f81fe70b,train,Other
+6.0,2566bda327093504bddc,train,Other
+6.0,2d3e668d9c4dfbb44c49,train,Other
+6.0,3fc383fdfcb3c3a30505,train,Other
+6.0,b9ccb3f0437d001682b5,train,Other
+6.0,ba20d6c7c4e98e71af05,train,Other
+6.0,c98ea636e2ef7122a165,train,Other
+6.0,ca3cfc3fb13b0a68cf30,train,Other
+6.0,d2c2e3a96e84cb61f46c,train,Other
+6.5,0e5dd1cf55aa3e72dcf8,train,Other
+6.5,1b70b5a7c5d27a1814d5,train,Other
+6.5,2460b41e1707e5d9e06a,train,Other
+6.5,29e471390c50993c170e,train,Other
+6.5,48c2d41a261cf754c618,train,Other
+6.5,49f232cc06e25a0ad2c1,train,Other
+6.5,5a10b006a46ce5610f59,train,Other
+6.5,8700583fab7a9ebf4e7a,train,Other
+6.5,af5c03d245d063bfb0fe,train,Other
+6.5,cb551cd63d53ea3ccae5,train,Other
+6.5,d016b700b5c044ab1a1f,train,Other
+6.5,dfeb26fc2b95488ef66e,train,Other
+6.5,e45e8d071c24e73e32f4,train,Other
+6.5,e70f887e740d41aedec7,train,Other
+6.5,ec66a380d718820999b3,train,Other
+6.5,ef9f06e92604379a884b,train,Other
+7.0,0164985415a5f830aba1,train,Other
+7.0,0a968592b5ef79bdd0a5,train,Other
+7.0,0bd89931755796ed3bab,train,Other
+7.0,3e8d88e5a60525060a30,train,Other
+7.0,45837de060a3d425579d,train,Other
+7.0,50ce2b7ce8afae53782c,train,Other
+7.0,62928b3bd912d0426544,train,Other
+7.0,6517fd9a9dded63de6ea,train,Other
+7.0,6581fb035f22f28660bf,train,Other
+7.0,6b8c4239b60f7e3ed0a9,train,Other
+7.0,748cfb0b710d59e14e8d,train,Other
+7.0,778365eefc27b6a7dfca,train,Other
+7.0,7a5a6ed763f7a0a47be8,train,Other
+7.0,9ed5db4cf104c9c9a846,train,Other
+7.0,b0310d9f1df6bd8e643f,train,Other
+7.0,c30e2b62c63a67b0458c,train,Other
+7.0,e14a5fd320eb766af7b2,train,Other
+7.0,e5a3ca6b8630880b202b,train,Other
+7.0,e7c2b917bfade123ec22,train,Other
+7.0,e9ebe010fbc605a54271,train,Other
+7.0,f486a07c727550919ac7,train,Other
+5.0,03fd45ee1880886c8cc0,train,Precalculus
+5.0,04e5fed9f49e6e641847,train,Precalculus
+5.0,0b6d28f178ab73965749,train,Precalculus
+5.0,0dad146b220f4111eea2,train,Precalculus
+5.0,27df23c6111f00c59594,train,Precalculus
+5.0,2b1410b00cd6f1f7da1d,train,Precalculus
+5.0,3cdfcff3ce63f3a7c1cc,train,Precalculus
+5.0,46695c030d7e5c7c60f6,train,Precalculus
+5.0,54ff27d75f7d2158b8a0,train,Precalculus
+5.0,5a833606993359af09d8,train,Precalculus
+5.0,644849fb161feef0c47c,train,Precalculus
+5.0,73549be54181ed4875d9,train,Precalculus
+5.0,745080b725178a1cf1de,train,Precalculus
+5.0,7567ec8f4ba8394fdbfa,train,Precalculus
+5.0,782f769834d9e22c03b6,train,Precalculus
+5.0,78e667a2958c0b2a58c1,train,Precalculus
+5.0,7a4befabb35080ef7833,train,Precalculus
+5.0,7c548c50b43451002a42,train,Precalculus
+5.0,86b5d5d4a2a8f6460502,train,Precalculus
+5.0,877f817c5c950a973ab4,train,Precalculus
+5.0,8ec5f8ac438cbb2c7ade,train,Precalculus
+5.0,92124aa42c267b1b2901,train,Precalculus
+5.0,9711928156ce85d7f7d2,train,Precalculus
+5.0,9db8e6dbbcd54e1578df,train,Precalculus
+5.0,b48d3d65c071f461da67,train,Precalculus
+5.0,bfdbddb3867985eceda3,train,Precalculus
+5.0,c70386627c4582f4d1de,train,Precalculus
+5.0,c86cd5342d9e8f11d8cc,train,Precalculus
+5.0,ca83aaf44aa5cc705987,train,Precalculus
+5.0,cd217dec0ca2c6ec4b5d,train,Precalculus
+5.0,cfaf074b09b9a4b3c625,train,Precalculus
+5.0,d3f0d514ceca40ba18b5,train,Precalculus
+5.0,d432ea8fe4aa8d8cc740,train,Precalculus
+5.0,de93c642d7ff614c1777,train,Precalculus
+5.0,eb15225e3cd8bac777bc,train,Precalculus
+5.0,ed2ec02ad237ed6a13db,train,Precalculus
+5.0,f03b672d6628621fc87d,train,Precalculus
+5.0,f9b01bfdbae491d907ad,train,Precalculus
+5.5,033322a3af8a32757c26,train,Precalculus
+5.5,06ad700e427a53846b91,train,Precalculus
+5.5,083031dcd63059f3e560,train,Precalculus
+5.5,08a2324638fa8957306f,train,Precalculus
+5.5,0ae5336a740f771d4236,train,Precalculus
+5.5,0e9996e40762b26fac80,train,Precalculus
+5.5,17f3d79ab0d413b4dd12,train,Precalculus
+5.5,237ea851511752187483,train,Precalculus
+5.5,2d0158eb593b4e138df8,train,Precalculus
+5.5,354a2b19b4be69b5064e,train,Precalculus
+5.5,3734e426535901d25673,train,Precalculus
+5.5,37ac5edc7406bbda8221,train,Precalculus
+5.5,3fc176950f14567eb9ae,train,Precalculus
+5.5,51fb573fe9dbef039118,train,Precalculus
+5.5,5735801bf270b7f2e3b7,train,Precalculus
+5.5,5f883b8cbcbbffc1ca1c,train,Precalculus
+5.5,60eafbb4b08d0258b56d,train,Precalculus
+5.5,73f38e8e1f68df51de06,train,Precalculus
+5.5,78d1b4ef87de16bd60ad,train,Precalculus
+5.5,7c036038d786939f7a7e,train,Precalculus
+5.5,820e0c3431f27b12a6e8,train,Precalculus
+5.5,94ae34af833711bb6871,train,Precalculus
+5.5,99a57794a131e8dc3712,train,Precalculus
+5.5,9bf86f7cfe5da04b4ba6,train,Precalculus
+5.5,a33a702731b6d9a19ebd,train,Precalculus
+5.5,a653972ff1858cda042a,train,Precalculus
+5.5,c9905ec4729725633fe8,train,Precalculus
+5.5,cffc2c938d5dd45e3575,train,Precalculus
+5.5,da0e75e52f8e0c2c6874,train,Precalculus
+5.5,db2ac5f1a344047ec73a,train,Precalculus
+5.5,f08ecadae29874551d50,train,Precalculus
+5.5,f260b86e8e2632e12d26,train,Precalculus
+5.5,f48250db17a9ee07ecc0,train,Precalculus
+5.5,f6822870bf4c16ac266b,train,Precalculus
+5.5,f7a13e8d23c57d08996d,train,Precalculus
+5.5,fb829785da2403af28bd,train,Precalculus
+6.0,195ec18981e0ec9681d0,train,Precalculus
+6.0,43d3392202b02e1b771f,train,Precalculus
+6.0,5b89e63a0c17c65f1725,train,Precalculus
+6.0,98c997405dd3a8ccafac,train,Precalculus
+6.0,ac6615cbbed1845b8257,train,Precalculus
+6.0,bb121d9f34109727ca01,train,Precalculus
+6.0,d18dc477115177aa77ae,train,Precalculus
+6.0,d4d50e051b9095dd8649,train,Precalculus
+6.0,d83e8c84811519eaafa8,train,Precalculus
+6.0,dbe24a3c9b208a4b0d53,train,Precalculus
+6.0,e5cc457206e758033644,train,Precalculus
+6.0,fd66136a80f6d03508cc,train,Precalculus
+6.5,4112e419c04b83a03f5a,train,Precalculus
+6.5,7b5dcfb304ea7bde2bb8,train,Precalculus
+6.5,dfc730eb5668b9958f9b,train,Precalculus
+6.5,febd2f341d6cd9603880,train,Precalculus
+5.0,12fcf6dbd2734fdf5a65,validation,Algebra
+5.0,25a3e5f3f0a971c9f4c3,validation,Algebra
+5.0,2f550d32fe2cfd6cb3be,validation,Algebra
+5.0,534ba06bcc87a0a59a28,validation,Algebra
+5.0,5bb0e34e0cb0af70e90f,validation,Algebra
+5.0,c403076d206f7d2e0a49,validation,Algebra
+5.0,d54e3b8770613a592244,validation,Algebra
+5.0,f1ee7d5ef26355b56001,validation,Algebra
+5.0,faa0a1c36273aeb32d5b,validation,Algebra
+5.5,168661976725b0a08386,validation,Algebra
+5.5,3e0f94e21d5e9ab021fc,validation,Algebra
+5.5,3ec3995270c1e010fabf,validation,Algebra
+5.5,40453119e41257f34523,validation,Algebra
+5.5,523f54920aefc8bfeb3f,validation,Algebra
+5.5,858db911dfb9c29eb9ce,validation,Algebra
+5.5,ad757821713b481edf7f,validation,Algebra
+5.5,bce971f3225f4897be85,validation,Algebra
+5.5,cb9e6f80b8cb0e4705be,validation,Algebra
+5.5,f6f5088dea7e86169f85,validation,Algebra
+5.5,fdaae3c9cdb7f98da2d2,validation,Algebra
+6.0,03e88fd0d84a2b4cc748,validation,Algebra
+6.0,17df2c07fb64f2c67dfb,validation,Algebra
+6.0,2135509ccfca20e40343,validation,Algebra
+6.0,23e67c47c829e5719d42,validation,Algebra
+6.0,391c2e30bca65c53ba0c,validation,Algebra
+6.0,3c32fc89e6d148653400,validation,Algebra
+6.0,49efa54a3968aab82d2d,validation,Algebra
+6.0,56a977aa87eedf0b323c,validation,Algebra
+6.0,6b75027c527f6f821192,validation,Algebra
+6.0,805798c99aaffe4d9924,validation,Algebra
+6.0,ad46ca414ac774239b36,validation,Algebra
+6.0,cfa21411ccee1f89be46,validation,Algebra
+6.0,d5725fa3f097bb27540b,validation,Algebra
+6.0,e0b5641f5eccd6829bdc,validation,Algebra
+6.0,ebc0bc727c98ac58bdb2,validation,Algebra
+6.0,f32f0ac5f7bf2627ee9f,validation,Algebra
+6.5,4769bfbdd47164d25629,validation,Algebra
+6.5,597cdcf9377acbdc2437,validation,Algebra
+6.5,618b012235f848784cfa,validation,Algebra
+6.5,f5686bbbc30172c7ec4d,validation,Algebra
+7.0,0ca87b5bc68527c7959a,validation,Algebra
+7.0,0eead99f5e9af4634700,validation,Algebra
+7.0,494d89e4bee28b3cebc8,validation,Algebra
+7.0,4c0668f04ef619f3de74,validation,Algebra
+7.0,5886257ad179f2d6c246,validation,Algebra
+7.0,6817cd6d124b810fc78f,validation,Algebra
+7.0,7761b4cd3693b937c94d,validation,Algebra
+7.0,7d64a56ddc61e1f21ed8,validation,Algebra
+7.0,839819826d0b7177755b,validation,Algebra
+7.0,86a3c32053b4b3c115b5,validation,Algebra
+7.0,9585bffb859b5fbd5395,validation,Algebra
+7.0,a691f33842c09234acca,validation,Algebra
+7.0,b50f15ef705b10a23f1a,validation,Algebra
+7.0,b9c36603432ba0661617,validation,Algebra
+7.0,bb85500c51cb7e59b3d2,validation,Algebra
+7.0,cab15d06a2e3b5a2c61c,validation,Algebra
+7.0,d3b6ed092b6aa844f42d,validation,Algebra
+7.0,e7dc76bf30db9ec3819b,validation,Algebra
+7.0,f374f1b38f9db67b96f0,validation,Algebra
+7.0,f7b260fabe6c810a77df,validation,Algebra
+7.0,fba374f91c33b5dbf62e,validation,Algebra
+7.0,fdeda08069ecfaf7a73a,validation,Algebra
+5.0,1a930dae6ab8e4f52df3,validation,Applied Mathematics
+5.0,1f7ab1cf6675aa244c81,validation,Applied Mathematics
+5.0,20ae82a6b23590409ee2,validation,Applied Mathematics
+5.0,3898ff4c10ba0addb0ae,validation,Applied Mathematics
+5.0,5aa94925fedc8f243513,validation,Applied Mathematics
+5.0,614d497c4bbc6e0fa4ce,validation,Applied Mathematics
+5.0,6d1010318fa70aaf186c,validation,Applied Mathematics
+5.0,79bc6343c2a794d24a7c,validation,Applied Mathematics
+5.0,81fbb5b6c967f7ee7300,validation,Applied Mathematics
+5.0,8df7f6e38fc2e2d7dc43,validation,Applied Mathematics
+5.0,e0bb40665fcbe19a1cd6,validation,Applied Mathematics
+5.0,effdf3e679e5e6665a12,validation,Applied Mathematics
+5.0,fef1bdf7c54c4d65c3d3,validation,Applied Mathematics
+5.5,1b38783969a336d7dbaf,validation,Applied Mathematics
+5.5,4a5446570f959a2c4961,validation,Applied Mathematics
+5.5,b9604ac86f4851266c35,validation,Applied Mathematics
+5.5,dbfe5bfdfa69fcd59ac2,validation,Applied Mathematics
+5.5,df5f85d221977b1ec92a,validation,Applied Mathematics
+5.5,ea570c3ca8a94defdd0e,validation,Applied Mathematics
+5.5,eab63eb2975704ee6ebc,validation,Applied Mathematics
+6.0,08f8b03f0278e4714428,validation,Applied Mathematics
+6.0,150a544c0af425597afa,validation,Applied Mathematics
+6.0,25493d8d04b2a34a0885,validation,Applied Mathematics
+6.0,362eaa12302a7cb08c37,validation,Applied Mathematics
+6.0,3e87382f10d1b7b7621a,validation,Applied Mathematics
+6.0,40e8548cd3e9b7db0668,validation,Applied Mathematics
+6.0,571f4919ff94f86b04e1,validation,Applied Mathematics
+6.0,589da236d78a421e992e,validation,Applied Mathematics
+6.0,6689f0a7feec2bd1ab4c,validation,Applied Mathematics
+6.0,6a338ba0b05b78dbbaec,validation,Applied Mathematics
+6.0,98ddcbfb6a1407731156,validation,Applied Mathematics
+6.0,bdfc4647eb908724c998,validation,Applied Mathematics
+6.5,510fb6aeaf66550dd470,validation,Applied Mathematics
+6.5,5269b9e9549684a80e0f,validation,Applied Mathematics
+6.5,832fb22a598a0ade77e9,validation,Applied Mathematics
+6.5,833a69af6ace06001e41,validation,Applied Mathematics
+6.5,8a3eec407466a5958df1,validation,Applied Mathematics
+6.5,a97676631aa07c9f48ee,validation,Applied Mathematics
+6.5,f40e4fa822d69102076d,validation,Applied Mathematics
+6.5,fcc60e2e923416b9ab88,validation,Applied Mathematics
+7.0,042a2123c891ff74dca3,validation,Applied Mathematics
+7.0,107e42212ce6a11208a2,validation,Applied Mathematics
+7.0,17bfbbeb7d56b24ea042,validation,Applied Mathematics
+7.0,2299d3847ee809572023,validation,Applied Mathematics
+7.0,2ed84b5149d8a1750b5c,validation,Applied Mathematics
+7.0,3efe6d4c3df6dfdcdbc6,validation,Applied Mathematics
+7.0,42f1ac34f2c6c085c63e,validation,Applied Mathematics
+7.0,4be899c043c672c41bb3,validation,Applied Mathematics
+7.0,4d1a25129adbe30b869e,validation,Applied Mathematics
+7.0,4f2b9528c9a6ae873ab5,validation,Applied Mathematics
+7.0,5fba88ab2556a00a17bd,validation,Applied Mathematics
+7.0,6df5743c72a422d5456b,validation,Applied Mathematics
+7.0,7a73847cbbc9eb781035,validation,Applied Mathematics
+7.0,a342a58e6e7754eea441,validation,Applied Mathematics
+7.0,c32e7fbeec1f76656025,validation,Applied Mathematics
+7.0,d004cdeb32e6cded6986,validation,Applied Mathematics
+7.0,d7dfd453d61e1cbc7eb1,validation,Applied Mathematics
+7.0,dba69d1c79cbeee13757,validation,Applied Mathematics
+7.0,e397ef695fb566e43271,validation,Applied Mathematics
+7.0,f91c98b456aaec8055a2,validation,Applied Mathematics
+7.0,fa34fa637eec29f35b56,validation,Applied Mathematics
+7.0,ff8d633d39d964ba49b3,validation,Applied Mathematics
+5.0,102b57f140b158dd48f4,validation,Calculus
+5.0,2f692103f878da6a4c62,validation,Calculus
+5.0,300ea5c27c478de5cfe6,validation,Calculus
+5.0,35f5895e458b8a06d13a,validation,Calculus
+5.0,42078ecf57b83e81e0b9,validation,Calculus
+5.0,5e385e8a6d2e19739b53,validation,Calculus
+5.0,a484b6d547a2bdf3d397,validation,Calculus
+5.0,a5462afa2c7d7b19ca8b,validation,Calculus
+5.0,ad742e3bfd77fe0fbe19,validation,Calculus
+5.0,b71909e3ef7aa2b94e8b,validation,Calculus
+5.0,db002c844afa5b7b94f1,validation,Calculus
+5.0,f43319907d5f30eac97b,validation,Calculus
+5.5,262f1cd30b4954928cc3,validation,Calculus
+5.5,282e8dda3979514fc987,validation,Calculus
+5.5,6cf47afe941f3d4d2453,validation,Calculus
+5.5,7006a8f16eaaf26d16b4,validation,Calculus
+5.5,71812e52ba49ed946a2d,validation,Calculus
+5.5,9dddc89723906265f133,validation,Calculus
+5.5,c9bb8f3790c3f98b7fba,validation,Calculus
+5.5,d296bc030d622539dcdc,validation,Calculus
+6.0,0d424d68b5cec55df4f2,validation,Calculus
+6.0,13db6daf0580c8205472,validation,Calculus
+6.0,36d853f8d599a0b704eb,validation,Calculus
+6.0,6436db9fc79abd250baa,validation,Calculus
+6.0,68238100662974640345,validation,Calculus
+6.0,6ac6801a9da1d60a5b5c,validation,Calculus
+6.0,718283035163efcafd31,validation,Calculus
+6.0,732c18b8bc8b7dfbfc88,validation,Calculus
+6.0,79b5456416d00256304b,validation,Calculus
+6.0,83dc36db98d29b70c6c5,validation,Calculus
+6.0,cd9b2cbc189f4c367e5b,validation,Calculus
+6.0,d48905708296b0982585,validation,Calculus
+6.0,f6d1b9067972c0a36ee8,validation,Calculus
+6.5,7cc5f688b6a2219f3022,validation,Calculus
+6.5,8a916108b9ef0ea4231d,validation,Calculus
+6.5,9a4f959257502964c2a3,validation,Calculus
+6.5,b9331e64607e3d2bc465,validation,Calculus
+6.5,eb78a4fb6533418a68b1,validation,Calculus
+6.5,fda16b7f36d878f3f607,validation,Calculus
+6.5,ff73f6febe8e74061902,validation,Calculus
+7.0,0b18d845cf6abcc811c9,validation,Calculus
+7.0,12aba701a610ff7ecb71,validation,Calculus
+7.0,17162748867fbc669035,validation,Calculus
+7.0,1d6e51294b9b99eb9893,validation,Calculus
+7.0,2979bc951515a6cabf91,validation,Calculus
+7.0,385342144f0d391c3374,validation,Calculus
+7.0,3abfbc3555862b922d64,validation,Calculus
+7.0,46d782624f74c949a356,validation,Calculus
+7.0,50387deff1c83f681792,validation,Calculus
+7.0,56a5be8fbf8faf8459f5,validation,Calculus
+7.0,5ad435d3d0f61ed746cd,validation,Calculus
+7.0,901f3be48afe56bfef2e,validation,Calculus
+7.0,aa14560d19486620cc37,validation,Calculus
+7.0,b889004e115c6c5ddd33,validation,Calculus
+7.0,b8d66cb281fcb0e86ee5,validation,Calculus
+7.0,c6add1f7beecf4b47a4c,validation,Calculus
+7.0,d138d727c69c265e1fce,validation,Calculus
+7.0,e412d06807f371aaf907,validation,Calculus
+7.0,e66e166fd976bba20eda,validation,Calculus
+7.0,ebca3493ad902ec82dac,validation,Calculus
+7.0,ff58dc755345a87e90e3,validation,Calculus
+5.0,18ee1a272f3a1987a210,validation,Differential Equations
+5.0,252deecc243ca5244588,validation,Differential Equations
+5.0,26e463a64bbbb6042191,validation,Differential Equations
+5.0,48ecb5b3f3838222a8a3,validation,Differential Equations
+5.0,76072750b47cfbc7b7ca,validation,Differential Equations
+5.0,a22a57848c93e3a03ff8,validation,Differential Equations
+5.0,abc5d71600abc686deba,validation,Differential Equations
+5.0,cd91673102a1533cef39,validation,Differential Equations
+5.0,cf18b3e3b3504f0c12f3,validation,Differential Equations
+5.0,e12922ede0764b4d55ff,validation,Differential Equations
+5.0,e3e930cb4eee444ad750,validation,Differential Equations
+5.5,01b0d741725680018e3b,validation,Differential Equations
+5.5,15e58dfd67e5d943cced,validation,Differential Equations
+5.5,3b88987eaa5eb63d263c,validation,Differential Equations
+5.5,40497b2080dc3215b8cb,validation,Differential Equations
+5.5,55d856315f374d084285,validation,Differential Equations
+5.5,576e975db74f2fccb266,validation,Differential Equations
+5.5,8db501bc67c04afce7d6,validation,Differential Equations
+5.5,91a0b9fa59bfe9027ce6,validation,Differential Equations
+5.5,9c100e44eb046a2f543e,validation,Differential Equations
+5.5,e2f00a3b01c63bfac024,validation,Differential Equations
+5.5,f50b0588c49a4dc302ec,validation,Differential Equations
+6.0,1f4b5964ddc380d00450,validation,Differential Equations
+6.0,22d802656f70f2813055,validation,Differential Equations
+6.0,2d26c9b19beecd6319eb,validation,Differential Equations
+6.0,3e16f6b10fae0b03911e,validation,Differential Equations
+6.0,58654fd02f8cf2e5a26b,validation,Differential Equations
+6.0,72f52a5e935dcaa6fe38,validation,Differential Equations
+6.0,78d3975c87909ec36a8e,validation,Differential Equations
+6.0,7db5e910dadb056974f8,validation,Differential Equations
+6.0,9b6a1bd7424f50641e8d,validation,Differential Equations
+6.0,a2e706087681ffb76f47,validation,Differential Equations
+6.0,b5640fe5fb69051d5716,validation,Differential Equations
+6.0,bb20ba58e0f168bc9560,validation,Differential Equations
+6.0,c3e18a4bdda488120b7b,validation,Differential Equations
+6.0,d2053974c1961b52e458,validation,Differential Equations
+6.0,d41dd4763e0211525496,validation,Differential Equations
+6.0,eb648e16c42a8dff9b2f,validation,Differential Equations
+6.0,f33263e5a748d408a274,validation,Differential Equations
+6.0,f5d1c41219ab6c6f302d,validation,Differential Equations
+6.5,154a8d273f21d47bd4ab,validation,Differential Equations
+6.5,5b279c78ef04f5f7cc96,validation,Differential Equations
+6.5,984ec3de92f3d51a6c58,validation,Differential Equations
+6.5,d4c15b2e9f4f4ddab06f,validation,Differential Equations
+7.0,10828fca6ae0b1715f9b,validation,Differential Equations
+7.0,6340ff0d090c515f70d8,validation,Differential Equations
+7.0,7cf5cef904046bf66e8f,validation,Differential Equations
+7.0,dcbe323645aa38b9547e,validation,Differential Equations
+5.0,0862585c971d8920a86a,validation,Discrete Mathematics
+5.0,19925670e3bba8eb7f64,validation,Discrete Mathematics
+5.0,19d55e4dd2d6a46f1376,validation,Discrete Mathematics
+5.0,540561d273ca50496906,validation,Discrete Mathematics
+5.0,6cd86df3045690c23781,validation,Discrete Mathematics
+5.0,74d388fb6a6c1881c92a,validation,Discrete Mathematics
+5.0,7b428c4bc8e5ea38a5e0,validation,Discrete Mathematics
+5.0,ac5e60f224dc732e4f5c,validation,Discrete Mathematics
+5.0,b13dced13c36f16f459c,validation,Discrete Mathematics
+5.0,c217e83fd62d336be625,validation,Discrete Mathematics
+5.0,e0997747a5c0516e519d,validation,Discrete Mathematics
+5.0,e3e9157da373eadfd6d0,validation,Discrete Mathematics
+5.0,e4bce79f91293ac976f2,validation,Discrete Mathematics
+5.5,12435cec7c0ca1a47faf,validation,Discrete Mathematics
+5.5,2276fd11040f8cbe171b,validation,Discrete Mathematics
+5.5,3fb4a44b4da7aa8c43f4,validation,Discrete Mathematics
+5.5,4127f8edacf6638bfbb1,validation,Discrete Mathematics
+5.5,77d571c885308a0556d1,validation,Discrete Mathematics
+5.5,a0a29cc14d5416085ed5,validation,Discrete Mathematics
+5.5,ca92b91da83c7cdec40b,validation,Discrete Mathematics
+5.5,f1b1010b23a5c87e0825,validation,Discrete Mathematics
+6.0,03ca2893b438a1336a27,validation,Discrete Mathematics
+6.0,161a3379b65d415f3c26,validation,Discrete Mathematics
+6.0,25d470c1787582481f69,validation,Discrete Mathematics
+6.0,2b5c8927199823492cd9,validation,Discrete Mathematics
+6.0,3080982f882b9f593fed,validation,Discrete Mathematics
+6.0,45aac1a9140ebbd8086a,validation,Discrete Mathematics
+6.0,90fc98951bee28e5e429,validation,Discrete Mathematics
+6.0,977acd686d60a5f75a38,validation,Discrete Mathematics
+6.0,99012b715b0e95e9bb17,validation,Discrete Mathematics
+6.0,abadaf03ea544f365d5a,validation,Discrete Mathematics
+6.0,b0f08ca6d0731090e894,validation,Discrete Mathematics
+6.0,cf440a741ac753178648,validation,Discrete Mathematics
+6.0,d6b7a475fb4711b784e1,validation,Discrete Mathematics
+6.0,daa4d57e49d5b271bd14,validation,Discrete Mathematics
+6.5,224915ec4be4f5eceb15,validation,Discrete Mathematics
+6.5,4cdfcdbdf3b1371a4593,validation,Discrete Mathematics
+6.5,9a0f07aee66359be3717,validation,Discrete Mathematics
+6.5,a027a9269b23e255099b,validation,Discrete Mathematics
+6.5,a22218ebfeba0c0c4879,validation,Discrete Mathematics
+6.5,a7cd6f7222148ee431ee,validation,Discrete Mathematics
+7.0,01f31c0fcf7c08c67f2e,validation,Discrete Mathematics
+7.0,034da652cab3d56d9a18,validation,Discrete Mathematics
+7.0,0c605a5278f582a46c52,validation,Discrete Mathematics
+7.0,11b575d4d1d89908a454,validation,Discrete Mathematics
+7.0,1ce87861c5e3c9872dab,validation,Discrete Mathematics
+7.0,23b56ff9e20bb52e5450,validation,Discrete Mathematics
+7.0,3bab246a44595c97e043,validation,Discrete Mathematics
+7.0,3f21725353db195d9b50,validation,Discrete Mathematics
+7.0,403c56dba500226123d7,validation,Discrete Mathematics
+7.0,4c4997204092593e0954,validation,Discrete Mathematics
+7.0,6cbf5a2c67a34d6bb5eb,validation,Discrete Mathematics
+7.0,74b4618023619aceae43,validation,Discrete Mathematics
+7.0,7e005ea753289be0ffec,validation,Discrete Mathematics
+7.0,943e67bb20d0c19abd0d,validation,Discrete Mathematics
+7.0,9ef0f1dc5ef9755166fe,validation,Discrete Mathematics
+7.0,a0dc20109ee2db9271c7,validation,Discrete Mathematics
+7.0,a76345d6bb2cffff9c9f,validation,Discrete Mathematics
+7.0,d0d382aa1e9a9e9f13eb,validation,Discrete Mathematics
+7.0,edeb33485870ee37001f,validation,Discrete Mathematics
+7.0,f1d5ccab1df28bb48afb,validation,Discrete Mathematics
+7.0,f90d284c662711b85c84,validation,Discrete Mathematics
+5.0,0ce66bb93f9210c61895,validation,Geometry
+5.0,356801e795bdbb3f5b9e,validation,Geometry
+5.0,3a9f489c32dc900bbc97,validation,Geometry
+5.0,3cd8a4eb773e306887e8,validation,Geometry
+5.0,4f66f12ce9c1a131ed98,validation,Geometry
+5.0,546b96c5bfe92dced93b,validation,Geometry
+5.0,54bd1430d7c812a04d59,validation,Geometry
+5.0,6e10e290cf53fa4a7c21,validation,Geometry
+5.0,89e2c45b3f5a27edcdbd,validation,Geometry
+5.0,9ed54ff2581c039d49fd,validation,Geometry
+5.0,b8324e7cd8e1e12c62df,validation,Geometry
+5.0,bbb49d19cd318944dfe0,validation,Geometry
+5.0,d759342e12530c35b589,validation,Geometry
+5.5,0cf13e25e0a0c91214df,validation,Geometry
+5.5,13f55dedaaa6e4ec23d7,validation,Geometry
+5.5,3a0c2b76b507f71e5174,validation,Geometry
+5.5,543df0013f38722a0219,validation,Geometry
+5.5,72cbd038eefe46473cb3,validation,Geometry
+5.5,99f1f7143dd213a46c35,validation,Geometry
+5.5,cb37fcffddaeac6e55b4,validation,Geometry
+6.0,0ddde29ce2e3e3a8dd5c,validation,Geometry
+6.0,13c0cd72b3cc9113d8c5,validation,Geometry
+6.0,1c279eff5dddc636bcbe,validation,Geometry
+6.0,2015e9fb3f28462cfb30,validation,Geometry
+6.0,25e1d4b33bf9c3cf51b1,validation,Geometry
+6.0,31e880fac6f22831976e,validation,Geometry
+6.0,495ef8bb4b0f929e0954,validation,Geometry
+6.0,5549e2206871a5c0633a,validation,Geometry
+6.0,8c2e6c11a344789bdf54,validation,Geometry
+6.0,ce3c3a79db4c010f7f5a,validation,Geometry
+6.0,d52989194ad5409c3b17,validation,Geometry
+6.0,f180db393a4c0a419218,validation,Geometry
+6.5,4731494135b99c38bee2,validation,Geometry
+6.5,5e03439b9645221f100d,validation,Geometry
+6.5,5f1da95fa0d75b761878,validation,Geometry
+6.5,65172ae11d1222c5cd16,validation,Geometry
+6.5,8f4c12df8f88e439cf3a,validation,Geometry
+6.5,a85e7ff14d06f202f1b0,validation,Geometry
+6.5,b174f40b196252abfb1d,validation,Geometry
+6.5,d4931557928fb29e4625,validation,Geometry
+6.5,e673f2e50171911b98e7,validation,Geometry
+7.0,018e094719c153420910,validation,Geometry
+7.0,02c653f78269204553f0,validation,Geometry
+7.0,14c4560f9697afaa1ff1,validation,Geometry
+7.0,196b74ed45c4602e4ea0,validation,Geometry
+7.0,28f34744fb9603c69358,validation,Geometry
+7.0,5892289ac9a058f07af1,validation,Geometry
+7.0,5c0a815ca6ebcd661617,validation,Geometry
+7.0,6094ee399c3fbaac12f5,validation,Geometry
+7.0,7102953310cc0ff488f6,validation,Geometry
+7.0,90da585d3943b079b21a,validation,Geometry
+7.0,9e6f81eeeca5d4d58825,validation,Geometry
+7.0,a8cc3080c1c3cfe33a7f,validation,Geometry
+7.0,b7285a85ffe48584e20e,validation,Geometry
+7.0,ba97432647740a263cea,validation,Geometry
+7.0,cbedf4fd7d5726107a4a,validation,Geometry
+7.0,d2773164ad4c70b4b1c1,validation,Geometry
+7.0,e1e8e107884bb7e6e118,validation,Geometry
+7.0,e5658689a26ae7fceee8,validation,Geometry
+7.0,e6c2b996f5d2c4213ba7,validation,Geometry
+7.0,e73dc80b4dbdf3a7e458,validation,Geometry
+5.0,018f823ac85407d1d91a,validation,Number Theory
+5.0,0c78829ae849a90bb05a,validation,Number Theory
+5.0,2c4c00df864ceb2540db,validation,Number Theory
+5.0,3d2fb3461f50227d43bd,validation,Number Theory
+5.0,451ecdce696b3ab4780c,validation,Number Theory
+5.0,5a1a056b4c919c41fc01,validation,Number Theory
+5.0,5e388c457560fb891b8d,validation,Number Theory
+5.0,6343da5532c3c54b217e,validation,Number Theory
+5.0,747ec06fc8f87abc47fb,validation,Number Theory
+5.0,8cb9267f8b5fb05e0606,validation,Number Theory
+5.0,b47112f313d2e22bb2d4,validation,Number Theory
+5.0,bac0c4748e5f6ff166a6,validation,Number Theory
+5.0,e3763196161ca23b6c57,validation,Number Theory
+5.0,ea1b99eec783fcef6a35,validation,Number Theory
+5.0,f5f8e385ac9885d64a04,validation,Number Theory
+5.5,06fa4f3fff719ba39897,validation,Number Theory
+5.5,27b97505dfbf0b1d4f21,validation,Number Theory
+5.5,373c23964312e4db7ecf,validation,Number Theory
+5.5,8b004a8bb8f51804b35b,validation,Number Theory
+5.5,abf2a807784f29edd58d,validation,Number Theory
+5.5,c94c522b21d3bb3d117f,validation,Number Theory
+5.5,f658f1fc2a07eda5cb34,validation,Number Theory
+6.0,0acc9fd19d7d30019d05,validation,Number Theory
+6.0,0c62ffed3137e615a78a,validation,Number Theory
+6.0,14307901bd452389f7f6,validation,Number Theory
+6.0,1da1c8be584708cf9bb9,validation,Number Theory
+6.0,2c94ed1207f59a021743,validation,Number Theory
+6.0,49cb514d07d031b2d3f3,validation,Number Theory
+6.0,65b13b91ce242a5e12d7,validation,Number Theory
+6.0,751f97886f021ce81198,validation,Number Theory
+6.0,925dca1a442b881e9285,validation,Number Theory
+6.0,931e8b70181f423f3038,validation,Number Theory
+6.0,b8ed1caf09cf473c38e5,validation,Number Theory
+6.0,d6d79ce48cf73413120d,validation,Number Theory
+6.0,dc01c780dc36c33002cc,validation,Number Theory
+6.0,ecf6dcc56ea40c937296,validation,Number Theory
+6.5,1ec9c0b2e98cc2c7f0d6,validation,Number Theory
+6.5,6e886d24ed1eb0441806,validation,Number Theory
+6.5,7d4c53dc46c45657607c,validation,Number Theory
+6.5,c75675eabf9e8dd46cf7,validation,Number Theory
+6.5,e4d1c9ef95040c076247,validation,Number Theory
+6.5,ff39b092ce5c6caead74,validation,Number Theory
+7.0,0c4c74c10f7ba852ec2b,validation,Number Theory
+7.0,27c719430096916e0f55,validation,Number Theory
+7.0,73ce5ec776a13c02c576,validation,Number Theory
+7.0,82c2f3970bdb6fc2610d,validation,Number Theory
+7.0,c4ff6542ddd9ed98a511,validation,Number Theory
+7.0,db2e867f3014d9c80db3,validation,Number Theory
+5.0,100d2514050ccf684b93,validation,Other
+5.0,374064b2bca3a041a304,validation,Other
+5.0,5237726cb73f4d68c32f,validation,Other
+5.0,573b109239124798bb6a,validation,Other
+5.0,688e0917ba293e356d6b,validation,Other
+5.0,7b04d85a64df3126f400,validation,Other
+5.0,7fda17fc7bbf22c3ca60,validation,Other
+5.0,b31f98a741aad127a369,validation,Other
+5.0,ec20ddec88309eec74a7,validation,Other
+5.0,efac75d1924f30e0f2c6,validation,Other
+5.5,17ef0a557f1888d78a1f,validation,Other
+5.5,3ac310390ff8cb9877c1,validation,Other
+5.5,45b441cf602545b401f9,validation,Other
+5.5,5ecb54bc9b8af487fc8c,validation,Other
+5.5,6e26f053da837595f742,validation,Other
+5.5,abe8db0f37c56ff4e01f,validation,Other
+5.5,bf4d7389d7f7b5ca5724,validation,Other
+5.5,ed17bdec168660847616,validation,Other
+5.5,f2fc42c6574beba17e28,validation,Other
+5.5,fb2fb7aeed205f7e2480,validation,Other
+6.0,234b68929055999e22dc,validation,Other
+6.0,3b10565bbf10423df8f7,validation,Other
+6.0,962a211827ef4f67a789,validation,Other
+6.0,a18e14fc7bbf2d3cfc68,validation,Other
+6.0,bdde2d567b1d93c9a3f7,validation,Other
+6.0,bea7701950b4f2a58ca9,validation,Other
+6.0,dc36f89c6201891ea9f7,validation,Other
+6.0,f1b80b83bb75f921b2ae,validation,Other
+6.5,0b32042e7c2719acf7c6,validation,Other
+6.5,2a85e20352ef32b57a86,validation,Other
+6.5,4b488d1d7be1b97e26e4,validation,Other
+6.5,56139c171cbe8c0a7467,validation,Other
+6.5,5c37168a1799ad6883e1,validation,Other
+6.5,7aadaa242346530e6475,validation,Other
+6.5,a79e34a9419640dbd83c,validation,Other
+6.5,b2b91886dad80734698d,validation,Other
+6.5,bba24e78ce0aaea38692,validation,Other
+6.5,cddf88347cc0d0d36f7d,validation,Other
+6.5,e8aede3e32e6f2880374,validation,Other
+6.5,eb6a13a33215de3fe97e,validation,Other
+6.5,f9c5b427dec93e80e365,validation,Other
+7.0,01ca68678a27369964a3,validation,Other
+7.0,0532e336c4d4c422e83e,validation,Other
+7.0,066ddca0eaac949b2c51,validation,Other
+7.0,2c752a686fe6d2321a7d,validation,Other
+7.0,31b55718364c345a0b92,validation,Other
+7.0,3faa6131ba70c03a3e9a,validation,Other
+7.0,870292e512f797f78193,validation,Other
+7.0,8b1bb13d6f1ec2e690dc,validation,Other
+7.0,91dfa310fb761cd42604,validation,Other
+7.0,93be30d7b38c2fdbd594,validation,Other
+7.0,96035c81e6b711ae8dbd,validation,Other
+7.0,9979e7f093177ae4d56f,validation,Other
+7.0,b3ae4b0f1a8183f0a3d0,validation,Other
+7.0,c3602293aa4c1aa56193,validation,Other
+7.0,c4c9fd5278d99a354a20,validation,Other
+7.0,c868afad76e58c4721c7,validation,Other
+7.0,d5b6af4b60a2edb05837,validation,Other
+7.0,de95f087beff4c49c1f0,validation,Other
+7.0,e3c3da28fbbdb61d683a,validation,Other
+7.0,ec19d814ee45eb3bb2f0,validation,Other
+7.0,f121370c4ecd7dcc6592,validation,Other
+5.0,0b99177269504ff0c66b,validation,Precalculus
+5.0,21031dd36989e138868b,validation,Precalculus
+5.0,21f3990dde0614fc19ab,validation,Precalculus
+5.0,254ca22ac03f438deda0,validation,Precalculus
+5.0,47dbc5efe789e67f5103,validation,Precalculus
+5.0,51deacc80e498da2822b,validation,Precalculus
+5.0,5603ace852ca373c3500,validation,Precalculus
+5.0,5af184622d7a666a08a3,validation,Precalculus
+5.0,5b6a9c5a30cdf0630516,validation,Precalculus
+5.0,5e290e06fbf7571b5eb3,validation,Precalculus
+5.0,745e9cfad301e1f6e45e,validation,Precalculus
+5.0,807048063286fcd29728,validation,Precalculus
+5.0,810f2bd6a2baefa9b266,validation,Precalculus
+5.0,96f15f760e28338076ee,validation,Precalculus
+5.0,98ff7b96340c3e9e2929,validation,Precalculus
+5.0,a1bfc1314e07783086a8,validation,Precalculus
+5.0,f56aec00ad8c01a6e06b,validation,Precalculus
+5.5,b22892fd6de09f38fbd6,validation,Precalculus
+5.5,bfdb3e8d09c571daf928,validation,Precalculus
+5.5,f33ae45077ba71e8688a,validation,Precalculus
+5.5,f8488ec641c7ab5f1c78,validation,Precalculus
+6.0,03ed8721c71f9cb3cfc8,validation,Precalculus
+6.0,0413fdbbb8864638f746,validation,Precalculus
+6.0,0505b86628db80df7ba9,validation,Precalculus
+6.0,1b4489720ecd7460ba08,validation,Precalculus
+6.0,3700ca9516faa05c53ed,validation,Precalculus
+6.0,538fc9af298a3d7c2e90,validation,Precalculus
+6.0,53e12de2d7ab549c1b2b,validation,Precalculus
+6.0,5d02546a0234db9eb619,validation,Precalculus
+6.0,76f227c057ff0d36626d,validation,Precalculus
+6.0,8605cb14e91c22a00cda,validation,Precalculus
+6.0,b6add471ed261ca70872,validation,Precalculus
+6.0,cc9a96f0c5305135b3b0,validation,Precalculus
+6.0,dc5e3cd6dcec25da1ab5,validation,Precalculus
+6.0,f26678894fbd262c193e,validation,Precalculus
+6.0,f7a4a565e7ddce1d9f2e,validation,Precalculus
+6.5,13dd95de6fe6a4c84bf3,validation,Precalculus
+6.5,3966dce687ee310f3d60,validation,Precalculus
+6.5,402b16045bfc3a3085dc,validation,Precalculus
+6.5,4f640ce8a05591acf8df,validation,Precalculus
+6.5,623553d97a82930b37fd,validation,Precalculus
+6.5,ed33175beb918afbfd42,validation,Precalculus
+7.0,466fed276a5b338cfdc6,validation,Precalculus
+7.0,9b79da4f66bcab0b47c8,validation,Precalculus
+7.0,aa5f70443d3da8924fe2,validation,Precalculus
+7.0,d0283a2d94899aa16175,validation,Precalculus
+5.0,187279aee887e52ef2ce,heldout_probe,Algebra
+5.0,4b9a7d0ca5d4253fed9a,heldout_probe,Algebra
+5.0,651d00a5e4fa82fc11fd,heldout_probe,Algebra
+5.0,9f6839b15f47adde07b4,heldout_probe,Algebra
+6.0,3b2ccff9786d202d665c,heldout_probe,Algebra
+6.0,840acc13d7b482ad32da,heldout_probe,Algebra
+6.0,fba20db41d8b8e331800,heldout_probe,Algebra
+6.5,a3d7c8eae89e2ad805f7,heldout_probe,Algebra
+7.0,25ef86aac811137a1d0e,heldout_probe,Algebra
+7.0,6640d42944d26c31d0a0,heldout_probe,Algebra
+7.0,9027b0f0e3b757535f3a,heldout_probe,Algebra
+7.0,9c4aa2632224accfff54,heldout_probe,Algebra
+5.0,33d47e6a1bf9edab7051,heldout_probe,Applied Mathematics
+5.0,befe6502db0aba40aba2,heldout_probe,Applied Mathematics
+5.0,e9eafda0c7ea637f4b20,heldout_probe,Applied Mathematics
+6.0,a0277063297009d4be71,heldout_probe,Applied Mathematics
+6.0,f63fc498edec4eb74e3d,heldout_probe,Applied Mathematics
+6.5,b1bc19028228eda28858,heldout_probe,Applied Mathematics
+7.0,0ae49a69e7829015d174,heldout_probe,Applied Mathematics
+7.0,5fa408ec88d4b2e67d9a,heldout_probe,Applied Mathematics
+7.0,a7eb21dfc4e77827446a,heldout_probe,Applied Mathematics
+7.0,b21c1348b46084770f1a,heldout_probe,Applied Mathematics
+5.0,1f3067f69c80762721fa,heldout_probe,Calculus
+5.0,64ec5807625a907fee3b,heldout_probe,Calculus
+5.0,9124108e3640d8225063,heldout_probe,Calculus
+5.5,e70843199d6054381fb7,heldout_probe,Calculus
+6.0,358229103a703022a053,heldout_probe,Calculus
+6.0,84e27e650328a527562e,heldout_probe,Calculus
+6.5,632f45aad462dfb0fe30,heldout_probe,Calculus
+7.0,3c2af513d27f2e7b61cc,heldout_probe,Calculus
+7.0,43aa5a1cfdc2475d6e55,heldout_probe,Calculus
+7.0,c7de3aa10fc31961377b,heldout_probe,Calculus
+7.0,e9b72cb265f0a562945d,heldout_probe,Calculus
+5.0,1d2badb9eebb00cb0073,heldout_probe,Differential Equations
+5.0,c004faf72f5697ae07a8,heldout_probe,Differential Equations
+5.5,8a71b6145a0da7fa7c0d,heldout_probe,Differential Equations
+5.5,ac450f6361b72bb9d101,heldout_probe,Differential Equations
+6.0,73cbcd6748408a81e0a2,heldout_probe,Differential Equations
+6.0,7f3a94f56621d3db9527,heldout_probe,Differential Equations
+6.5,497968f12a6d96e975f7,heldout_probe,Differential Equations
+6.5,d42abe8b707eaaac3abd,heldout_probe,Differential Equations
+7.0,7309f0414efa934800d2,heldout_probe,Differential Equations
+7.0,7852ae44006d9e0b2f4e,heldout_probe,Differential Equations
+7.0,f8d3946daa54b692ff55,heldout_probe,Differential Equations
+7.0,fde10affb2d5fa6bf5f8,heldout_probe,Differential Equations
+5.0,d12bd752de0fdf9496ad,heldout_probe,Discrete Mathematics
+5.0,e791fc950366c8bff8d7,heldout_probe,Discrete Mathematics
+5.5,9aa554b37c5b1ae4ffb4,heldout_probe,Discrete Mathematics
+6.0,2078cdc23898c93a0928,heldout_probe,Discrete Mathematics
+6.0,8888bd939e3c97b5f2cb,heldout_probe,Discrete Mathematics
+7.0,417fc7bce04ee62f0941,train_probe,Algebra
+7.0,784cdd62b19d4ad41af3,train_probe,Differential Equations
+7.0,701f6e463e935e5f1b75,train_probe,Number Theory
+6.5,dfc730eb5668b9958f9b,train_probe,Precalculus

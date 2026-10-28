@@ -1,0 +1,176 @@
+{
+  "run_id": "base_opsd_20261028_20steps_q70_reuse_pilot_train2814__opsd",
+  "model": {
+    "name_or_path": "Qwen/Qwen3-1.7B-Base",
+    "path": "/root/autodl-tmp/opsd_inputs/models/Qwen3-1.7B-Base",
+    "revision": "ea980cb0a6c2ae4b936e82123acc929f1cec04c1",
+    "dtype": "bfloat16",
+    "device": "cuda",
+    "prompt_mode": "plain_completion"
+  },
+  "dataset": {
+    "answer_protocol": "opsd_answer_v2",
+    "input": "/root/autodl-tmp/opsd_inputs/datasets/DeepMath-103K/5cf055d1fe3d7a2eb19719ac020211469736ae44/native_train.parquet",
+    "revision": "5cf055d1fe3d7a2eb19719ac020211469736ae44",
+    "difficulty_min": 5.0,
+    "difficulty_max": 7.0,
+    "reference_field": "r1_solution_1",
+    "require_verified_reference": true,
+    "topic_level": 2,
+    "train_n": 2814,
+    "dev_n": 512,
+    "preparation_cache": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/formal_selection_reuse_pilot"
+  },
+  "monitor": {
+    "optimizer_steps": [
+      0,
+      1,
+      5,
+      10,
+      20
+    ],
+    "heldout_probe_n": 50,
+    "train_probe_n": 4,
+    "seed": 20261026,
+    "max_probe_response_tokens": 256,
+    "behavior_max_response_tokens": 16384,
+    "quality_gate": {
+      "enabled": true,
+      "max_extraction_failure_rate": 0.3,
+      "splits": [
+        "heldout_probe"
+      ]
+    },
+    "anchors": [
+      "prompt_last",
+      "response_32",
+      "response_128"
+    ],
+    "knn_k": [
+      8,
+      16,
+      32
+    ],
+    "curvature_eps": 1e-08,
+    "distribution_metrics": true,
+    "token_top_ks": [
+      10,
+      16,
+      50,
+      100
+    ],
+    "state_chunk_size": 16,
+    "teacher_geometry_steps": [
+      0,
+      1,
+      5,
+      10,
+      20
+    ],
+    "additional_fixed_reference": false,
+    "live_generation": true,
+    "live_greedy": true,
+    "linear_cka": true,
+    "rsa_max_pairs": 1000000,
+    "plot_full_rsm_steps": [
+      0,
+      20
+    ],
+    "plot_relative_depths": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "heavy_metrics": [],
+    "distribution_scope": "all_valid_tokens",
+    "compare_to_initial": true,
+    "overlap_top_k": 16,
+    "distribution_prefill_chunk_size": 256,
+    "distribution_forward_chunk_size": 256,
+    "compare_student_teacher": true,
+    "heldout_selection": {
+      "policy": "first_50_of_previously_frozen_100",
+      "source_heldout_sha256": "268a7274aa8e494674afbcceb031dff962d9a25afafb52ba86fd4038ee2e32ba",
+      "note": "User reduced baseline size during evaluation; selection uses frozen order and includes failures."
+    },
+    "reuse_pilot_inputs": {
+      "source_probe_sha256": "496a49c5258a79b5a2840fca1c54b4b45c251806ca9bf5bc5fb04ba5946681d1",
+      "policy": "identical heldout/train_probe/fixed_pool/baseline; larger training subset from the same screened pool"
+    }
+  },
+  "training": {
+    "tier": "pilot",
+    "group": "exp_base_geometry",
+    "student": "qwen3_1p7b_base",
+    "size": "1.7B",
+    "initialization": "base",
+    "method": "opsd",
+    "reference_source": "deepmath_dataset",
+    "privilege_type": "solution",
+    "teacher_update_policy": "current_batch_stop_gradient",
+    "external_teacher": null,
+    "seed": 42,
+    "registry": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/models.json",
+    "train_data": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/train.jsonl",
+    "validation_data": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe/validation.jsonl",
+    "output": "research_runs",
+    "gpus": 1,
+    "batch": 8,
+    "microbatch": 1,
+    "rollouts": 8,
+    "steps": 20,
+    "save_every": 20,
+    "epochs": 1,
+    "learning_rate": 1e-06,
+    "max_prompt_length": 2048,
+    "max_response_length": 16384,
+    "max_teacher_prompt_length": 2048,
+    "sampling_temperature": 1.0,
+    "teacher_temperature": 1.0,
+    "diagnostic_temperature": 1.0,
+    "top_k": 16,
+    "diagnostic_ks": [
+      8,
+      16,
+      32
+    ],
+    "enable_thinking": false,
+    "activation_checkpointing": true,
+    "optimizer_offload": true,
+    "budget_optimized_tokens": null,
+    "budget_rollout_tokens": null,
+    "budget_wall_seconds": null,
+    "supervision": "unprivileged student rollout; full-vocabulary KL(stopgrad(current actor + offline reference) || student); LoRA only",
+    "notes": "Base OPSD/GRPO comparison. LoRA r16/alpha32, lr1e-6, batch8*n8, 50 optimizer updates; share data and fixed probes. OPSD only by default. Not a paper reproduction.",
+    "dataset_id": "zwhe99/DeepMath-103K",
+    "dataset_revision": "5cf055d1fe3d7a2eb19719ac020211469736ae44",
+    "difficulty_min": 5.0,
+    "difficulty_max": 7.0,
+    "reference_field": "r1_solution_1",
+    "required_training_metrics": [
+      "opd/overlap_ratio",
+      "opd/overlap_token_advantage",
+      "opd/student_entropy",
+      "opd/teacher_entropy",
+      "opd/entropy_gap"
+    ],
+    "plot_after_training": true,
+    "training_mode": "lora",
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "lora_target_modules": "all-linear",
+    "loss_type": "forward_kl",
+    "forward_kl_chunk_size": 16,
+    "prompt_mode": "plain_completion",
+    "chat_template_path": "configs/research/plain_completion.jinja",
+    "checkpoint_retention": "latest",
+    "pipeline_workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd"
+  },
+  "table_format": "parquet",
+  "output_root": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/opsd/analysis",
+  "workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814",
+  "method": "opsd",
+  "probe_root": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe"
+}

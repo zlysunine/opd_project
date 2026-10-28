@@ -1,0 +1,21 @@
+{
+  "pilot_workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n50",
+  "source_baseline_workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_acceptance_2step_q70_n100",
+  "formal_planned_workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814",
+  "coordinator_workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/server_handoff_20261028/pipeline_q70_n50",
+  "minimum_extraction_success_rate": 0.7,
+  "acceptance_heldout_n": 50,
+  "acceptance_train_probe_n": 4,
+  "formal_heldout_n": 50,
+  "formal_steps": 20,
+  "formal_train_n": 2814,
+  "screening_reused": true,
+  "baseline_answers_reused": true,
+  "subset_policy": "fixed first50; includes all failures",
+  "formal_train_probe_n": 4,
+  "formal_validation_n": 512,
+  "formal_preparation_complete": true,
+  "dataset_regeneration": false,
+  "baseline_regeneration": false,
+  "fixed_pool_regeneration": false
+}
