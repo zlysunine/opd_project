@@ -876,12 +876,32 @@ class DataParallelPPOActor(BasePPOActor):
         # Split to make minibatch iterator for updating the actor
         # See PPO paper for details. https://arxiv.org/abs/1707.06347
         mini_batches = data.split(self.config.ppo_mini_batch_size)
+        if self.config.get("research_global_token_mean", False) and (
+            len(mini_batches) != 1 or self.config.ppo_epochs != 1
+        ):
+            raise ValueError("Controlled GRPO requires one optimizer update per rollout batch")
 
         on_policy = len(mini_batches) == 1 and self.config.ppo_epochs == 1
 
         metrics = {}
         for _ in range(self.config.ppo_epochs):
             for batch_idx, mini_batch in enumerate(mini_batches):
+                global_loss_tokens = None
+                if self.config.get("research_global_token_mean", False):
+                    if (
+                        self.config.loss_agg_mode != "token-mean"
+                        or self.config.use_kl_loss
+                        or self.config.entropy_coeff != 0
+                    ):
+                        raise ValueError("Controlled global token mean requires pure token-mean policy loss")
+                    global_loss_tokens = mini_batch.batch["response_mask"].sum().to(
+                        get_device_id(), dtype=torch.float32
+                    )
+                    dp_world = torch.distributed.get_world_size() if torch.distributed.is_initialized() else 1
+                    if torch.distributed.is_initialized():
+                        torch.distributed.all_reduce(global_loss_tokens)
+                    if global_loss_tokens <= 0:
+                        raise ValueError("No valid GRPO loss tokens")
                 if self.config.use_dynamic_bsz:
                     max_token_len = self.config.ppo_max_token_len_per_gpu * self.ulysses_sequence_parallel_size
                     micro_batches, _ = prepare_dynamic_batch(mini_batch, max_token_len=max_token_len)
@@ -904,7 +924,9 @@ class DataParallelPPOActor(BasePPOActor):
                     entropy_coeff = self.config.entropy_coeff
                     loss_agg_mode = self.config.loss_agg_mode
 
-                    if self.config.use_dynamic_bsz:
+                    if global_loss_tokens is not None:
+                        loss_scale_factor = (response_mask.sum() * dp_world / global_loss_tokens).item()
+                    elif self.config.use_dynamic_bsz:
                         loss_scale_factor = response_mask.shape[0] / self.config.ppo_mini_batch_size
                     else:
                         loss_scale_factor = 1 / self.gradient_accumulation
@@ -1028,4 +1050,10 @@ class DataParallelPPOActor(BasePPOActor):
                 mini_batch_metrics = {"actor/grad_norm": grad_norm.detach().item()}
                 append_to_dict(metrics, mini_batch_metrics)
         self.actor_optimizer.zero_grad()
+        if self.config.get("research_global_token_mean", False):
+            # These values already carry token weights. The driver averages a
+            # list of worker metrics, so collapse microbatches before returning.
+            total_pg_loss = sum(metrics["actor/pg_loss"])
+            metrics["actor/pg_loss"] = [total_pg_loss]
+            metrics["actor/loss"] = [total_pg_loss]
         return metrics

@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import types
 import unittest
@@ -115,13 +116,18 @@ class PipelineTests(unittest.TestCase):
     def test_shell_entrypoints_resolve_project_scripts_package(self):
         env=os.environ.copy()
         env['PYTHONPATH']=str(ROOT/'verl')
-        for script in ('opsd_pipeline.sh','run_opsd_experiment.sh'):
+        for script in ('run_controlled_comparison.sh','run_base_comparison.sh'):
             result=subprocess.run(['bash',str(ROOT/script),'--help'],cwd='/tmp',env=env,capture_output=True,text=True)
             self.assertEqual(result.returncode,0,result.stderr)
             self.assertIn('usage:',result.stdout)
         for script in ('on_policy_distillation.sh','grpo.sh'):
             original=subprocess.check_output(['git','show',f'HEAD:Rethinking-OPD-main/{script}'],cwd=ROOT)
             self.assertEqual((ROOT/script).read_bytes(),original)
+        from scripts.research.common import provenance
+        sources=provenance({'test':'current_entrypoints'})['source_hashes']
+        self.assertIn('run_controlled_comparison.sh',sources)
+        self.assertNotIn('opsd_pipeline.sh',sources)
+        self.assertNotIn('run_opsd_experiment.sh',sources)
 
     def workflow_args(self,c,*extra):
         info=json.loads(Path(c['registry']).read_text())[c['student']]
@@ -133,10 +139,12 @@ class PipelineTests(unittest.TestCase):
     def test_one_click_plan_does_not_write_or_start_processes(self):
         with tempfile.TemporaryDirectory() as tmp:
             work=Path(tmp)/'not_created'
-            result=subprocess.run(['bash',str(ROOT/'run_opsd_experiment.sh'),'--workdir',str(work),
+            env=os.environ.copy()
+            env['PYTHONPATH']=os.pathsep.join([str(ROOT),str(ROOT/'verl'),env.get('PYTHONPATH','')])
+            result=subprocess.run([sys.executable,'-m','scripts.research.pipeline','run','--workdir',str(work),
                 '--model-dir',str(Path(tmp)/'absent_model'),'--model-revision','fixture:rev',
                 '--input',str(Path(tmp)/'absent_data'),'--dataset-revision','fixture:data'],
-                cwd='/tmp',capture_output=True,text=True)
+                cwd='/tmp',env=env,capture_output=True,text=True)
             self.assertEqual(result.returncode,0,result.stderr)
             self.assertIn('plan_only',result.stdout)
             self.assertFalse(work.exists())

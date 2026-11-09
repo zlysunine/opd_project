@@ -105,6 +105,7 @@ class ActorConfig(BaseConfig):
     policy_loss: PolicyLossConfig = field(default_factory=PolicyLossConfig)
     clip_ratio_c: float = 3.0
     loss_agg_mode: str = "token-mean"
+    research_global_token_mean: bool = False
     entropy_coeff: float = 0
     use_kl_loss: bool = False
     use_torch_compile: bool = True

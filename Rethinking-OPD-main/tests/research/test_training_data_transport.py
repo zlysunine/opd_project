@@ -11,7 +11,7 @@ from scripts.research.answer_protocol import evaluate_answer
 class TrainingDataTransportTests(unittest.TestCase):
     def test_empty_and_different_option_maps_round_trip_exactly(self):
         import pyarrow.parquet as pq
-        from verl.utils.dataset.rl_dataset import decode_extra_info
+        from scripts.research.training_data import decode_extra_info
         rows=[]
         for i,mapping in enumerate([{}, {'A':'True','B':'False'}, {'A':'1','B':'2','C':'3'}]):
             rows.append(dict(problem_id=str(i),question='True or false?',ground_truth='A' if mapping else '2',

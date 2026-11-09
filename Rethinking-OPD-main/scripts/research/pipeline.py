@@ -22,7 +22,7 @@ from .launch import resolve, plan, validate_experiment, validate_dataset
 def config_at(workdir):
     path=Path(workdir).resolve()/'config.json'
     if not path.is_file():
-        raise FileNotFoundError(f'{path} missing; run opsd_pipeline.sh configure first')
+        raise FileNotFoundError(f'{path} missing; run python -m scripts.research.pipeline configure first')
     c=json.loads(path.read_text())
     validate_experiment(c)
     return c
@@ -167,6 +167,11 @@ def checkpoint_actor(c, condition, step=None):
     if step<1 or step>last: raise ValueError('Requested step is not a completed checkpoint')
     actor=checkpoints/f'global_step_{step}/actor'
     if not (actor/'huggingface/config.json').is_file(): raise FileNotFoundError(f'Missing HF config: {actor}')
+    if c.get('method')=='sft' and c.get('controlled_comparison'):
+        from .controlled_sft import verify_checkpoint
+        marker=verify_checkpoint(actor.parent)
+        if marker['step']!=step:raise ValueError('Native SFT step mismatch')
+        return step,actor
     for rank in range(c['gpus']):
         if not (actor/f'model_world_size_{c["gpus"]}_rank_{rank}.pt').is_file():
             raise FileNotFoundError(f'Incomplete FSDP checkpoint at {actor}, rank {rank}')

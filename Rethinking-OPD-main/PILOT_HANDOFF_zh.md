@@ -1,4 +1,10 @@
-# 最新实验交接入口 · 2026-10-28
+# 最新实验交接入口 · 2026-11-09
+
+新任务为 **OPSD / SFT / GRPO 三组配对对照，各20步**。执行 [新交接文档](CONTROLLED_COMPARISON_HANDOFF_zh.md)，使用 `run_controlled_comparison.sh` 和 `configs/controlled_deepmath20.json`。本地已完成源码与CPU检查，新的1.7B三组GPU训练尚未执行。
+
+第二次OPSD的能力变化及实现检查见 [审查报告](docs/research/OPSD_SECOND_RUN_AUDIT_zh.md)。新对照需固定实际训练题序，并重新运行OPSD；历史运行没有逐步题目ID收据，不能冒称已与新方法完全匹配。
+
+## 2026-10-28 已完成实验（历史结果）
 
 本轮两步验收及正式20步训练均已完成。请以 [最终交接文档](results/20261028_qwen17b_opsd20/HANDOFF_zh.md) 和 [结果入口](FINAL_RESULTS_zh.md) 为准。
 

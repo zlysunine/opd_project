@@ -2,7 +2,9 @@
 
 目标：Qwen3-1.7B 无特权学生，对比同一当前模型加离线参考解答的 stop-gradient 自教师；DeepMath-103K 的 `5 <= difficulty <= 7`。使用 non-thinking 模板，`enable_thinking=False`。不启动独立 4B teacher，不运行已取消的 §3.2 迁移。以下命令均从 `Rethinking-OPD-main/` 执行。
 
-若希望一条命令串联以下阶段，使用 `run_opsd_experiment.sh`，完整参数示例见 [服务器交接文档](../../PILOT_HANDOFF_zh.md)。默认只打印计划，`--execute` 才执行；原仓库的 `on_policy_distillation.sh`、`grpo.sh` 保留原用途。
+2026-11-09：旧shell包装已删除。本页保留历史单组工作流，直接使用 `python -m scripts.research.pipeline run`；当前Base三组对照请使用 [新交接文档](../../CONTROLLED_COMPARISON_HANDOFF_zh.md) 中的 `run_controlled_comparison.sh`。默认只打印计划，`--execute` 才执行；原 `on_policy_distillation.sh`、`grpo.sh` 保留。
+
+以下命令均从项目根目录执行，先设置 `export PYTHONPATH="$PWD:$PWD/verl${PYTHONPATH:+:$PYTHONPATH}"`。
 
 ## 0. 准备环境与输入（一次）
 
@@ -27,7 +29,7 @@ python -m pip install "numpy<2" "transformers==4.56.1" "pyarrow>=19" \
 
 ```bash
 python -m unittest discover -s tests/research -v
-bash opsd_pipeline.sh smoke --workdir research_runs/my_cpu_smoke
+python -m scripts.research.pipeline smoke --workdir research_runs/my_cpu_smoke
 ```
 
 ## 1. 生成本次运行的独立配置
@@ -38,7 +40,7 @@ bash opsd_pipeline.sh smoke --workdir research_runs/my_cpu_smoke
 export CUDA_VISIBLE_DEVICES=0
 export OPSD_WORKDIR="$PWD/research_runs/consistency_lora_fkl_500"
 
-bash opsd_pipeline.sh configure \
+python -m scripts.research.pipeline configure \
   --model-dir /actual/local/Qwen3-1.7B \
   --model-revision ACTUAL_MODEL_COMMIT \
   --input /actual/local/DeepMath-103K/data \
@@ -53,7 +55,7 @@ bash opsd_pipeline.sh configure \
 ## 2. 检查环境和实际训练配置
 
 ```bash
-bash opsd_pipeline.sh check
+python -m scripts.research.pipeline check
 ```
 
 执行 `scripts/research/preflight.py`：检查训练依赖、Qwen3 所需 Transformers 版本、NumPy 约束、可见 CUDA 数量、tokenizer，以及实际 Hydra overrides 与 rollout dataclass。报告写入 `preflight.json` 和 `check_plan/*preflight.log`，这一步不启动 Ray 训练。失败时先修复报告中的具体问题。`--cpu-only` 仅跳过 CUDA 检查，仍检查完整训练依赖；CPU smoke 使用第 0 步的独立命令。
@@ -61,7 +63,7 @@ bash opsd_pipeline.sh check
 ## 3. 过滤 level、检查长度、生成配对划分
 
 ```bash
-bash opsd_pipeline.sh prepare --overlength drop --max-problems 5000
+python -m scripts.research.pipeline prepare --overlength drop --max-problems 5000
 ```
 
 执行 `pipeline.py → data.py`，先按 difficulty 5–7 过滤，再用真实 tokenizer 检查学生和完整特权 prompt 长度。这里显式选择丢弃超长题，再固定抽取至多 5000 题；不截断 reference。`data/prepare_manifest.json` 保存各步覆盖率、输入/输出哈希和选中 ID，`data/lengths.jsonl` 保存实际长度。solution 和 empty 的 train/validation/test 使用完全相同的问题 ID。划分由独立 `data_seed=42` 控制，改变训练 seed 不改变题集。
@@ -71,7 +73,7 @@ bash opsd_pipeline.sh prepare --overlength drop --max-problems 5000
 ## 4. 评测未训练基线 A
 
 ```bash
-bash opsd_pipeline.sh evaluate --which initial --split validation --samples 16
+python -m scripts.research.pipeline evaluate --which initial --split validation --samples 16
 ```
 
 执行 `run.py → models.py`，不向模型传 reference。默认 response 上限沿用训练配置；初始和训练后评测保持同题集、采样次数、长度和温度。保存 `eval/solution_initial_0_validation.jsonl`、对应 summary，以及 `train/evaluations.jsonl` 的 step 0。每题 16 次采样，分别记录 avg@16 与 pass@k。
@@ -79,13 +81,13 @@ bash opsd_pipeline.sh evaluate --which initial --split validation --samples 16
 ## 5. 预览并启动主实验 C
 
 ```bash
-bash opsd_pipeline.sh train
-bash opsd_pipeline.sh train --execute
+python -m scripts.research.pipeline train
+python -m scripts.research.pipeline train --execute
 ```
 
 第一条只写计划；第二条才训练。一键入口已包含该阶段，使用一键流程时无需额外执行。
 
-实际调用顺序：`opsd_pipeline.sh train → pipeline.py → launch.py → verl.trainer.main_ppo → RayPPOTrainer → ActorRolloutRefWorker.compute_opsd_teacher → actor 的 full-vocabulary forward-KL loss/backward`。
+实际调用顺序：`python -m scripts.research.pipeline train → pipeline.py → launch.py → verl.trainer.main_ppo → RayPPOTrainer → ActorRolloutRefWorker.compute_opsd_teacher → actor 的 full-vocabulary forward-KL loss/backward`。
 
 学生 rollout 只读取题目；自教师在本 batch 更新前，以当前 actor 和相同 response prefix 加固定 reference 计算 logits，并停止梯度。训练前再次检查环境、精确长度、模型 context 和完整 batch 数。当前目标已改为全词表前向 KL，直接对学生求梯度；原 OPD loss 分支仍用于其他历史配置。完整训练输出写入 `train/train.log`，另一个终端可执行：
 
@@ -100,7 +102,7 @@ tail -f "$OPSD_WORKDIR/train/train.log"
 训练成功结束时自动出图；训练过程中或结束后也可重画：
 
 ```bash
-bash opsd_pipeline.sh plot
+python -m scripts.research.pipeline plot
 ```
 
 原始标量为 `train/metrics.jsonl`；`train/plots/thinking_consistency.csv` 和 `.png` 保存 overlap ratio、Overlap-Token Advantage、student entropy、teacher entropy、absolute entropy gap 五项曲线。它们均来自优化前的 rollout batch；entropy 为 full-vocabulary entropy，空交集 advantage 缺失而不是伪记零。参数版本和预算计数也随日志保存。精确定义见 [METRICS_zh.md](METRICS_zh.md)。
@@ -108,7 +110,7 @@ bash opsd_pipeline.sh plot
 ## 7. 合并训练 checkpoint
 
 ```bash
-bash opsd_pipeline.sh merge
+python -m scripts.research.pipeline merge
 ```
 
 执行 `python -m verl.model_merger merge --backend fsdp`，默认选择 tracker 中最新完整 checkpoint，先检查各 rank 权重及 HF config。输出为 `hf/solution/global_step_N/`。选中间阶段可用 `--step 50`，前提是该步已保存完整 checkpoint。
@@ -116,8 +118,8 @@ bash opsd_pipeline.sh merge
 ## 8. 评测训练后学生，更新性能图
 
 ```bash
-bash opsd_pipeline.sh evaluate --which trained --split validation --samples 16
-bash opsd_pipeline.sh plot
+python -m scripts.research.pipeline evaluate --which trained --split validation --samples 16
+python -m scripts.research.pipeline plot
 ```
 
 需先完成第 7 步合并。默认选择与合并相同的最新 checkpoint；使用 `--step 50` 时 merge 和 evaluate 都要指定该步。validation 分数关联到实际训练 step 和预算，保存于 `train/evaluations.jsonl`。LoRA 合并时自动恢复训练 alpha，并将 adapter 合入完整模型；未确认合入时拒绝评测基座。若要阶段性能曲线，针对每个已保存 checkpoint 重复“merge --step N → evaluate --step N”，最后 plot。
@@ -125,7 +127,7 @@ bash opsd_pipeline.sh plot
 完成 checkpoint 选择后再做最终 test：
 
 ```bash
-bash opsd_pipeline.sh evaluate --which trained --split test --samples 16
+python -m scripts.research.pipeline evaluate --which trained --split test --samples 16
 ```
 
 test 分数单独保存，不放入 validation 学习曲线。所有这些评测均为无特权学生评测。
@@ -135,10 +137,10 @@ test 分数单独保存，不放入 validation 学习曲线。所有这些评测
 沿用同一工作目录和第 3 步的配对数据，在同一张卡依次运行：
 
 ```bash
-bash opsd_pipeline.sh train --condition empty --execute
-bash opsd_pipeline.sh merge --condition empty
-bash opsd_pipeline.sh evaluate --condition empty --which trained --split validation --samples 16
-bash opsd_pipeline.sh plot --condition empty
+python -m scripts.research.pipeline train --condition empty --execute
+python -m scripts.research.pipeline merge --condition empty
+python -m scripts.research.pipeline evaluate --condition empty --which trained --split validation --samples 16
+python -m scripts.research.pipeline plot --condition empty
 ```
 
 该对照使用独立 `train_empty/`、`hf/empty/`、`eval/empty_*`，不覆盖主实验。若需要它自己的 step 0 曲线，在训练前另执行 `evaluate --condition empty --which initial`。

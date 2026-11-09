@@ -1,0 +1,977 @@
+{
+  "date": "2026-11-09",
+  "scope": "/home/sunshine/ZhangLiyang/opd/Rethinking-OPD-main",
+  "baseline_initial_commit": "e14c811",
+  "head_commit": "929ac85961333fa6ea419422de09483ef4d93128",
+  "size_unit": "bytes; MiB=bytes/1048576; allocated_file_bytes excludes directory allocation",
+  "snapshot_before_this_inventory_written": true,
+  "top_directories": {
+    "LlamaFactory": {
+      "files": 526,
+      "bytes": 12984026,
+      "allocated_file_bytes": 14254080,
+      "tracked_files": 526
+    },
+    "analysis": {
+      "files": 35,
+      "bytes": 354649,
+      "allocated_file_bytes": 434176,
+      "tracked_files": 18
+    },
+    "configs": {
+      "files": 10,
+      "bytes": 11586,
+      "allocated_file_bytes": 40960,
+      "tracked_files": 9
+    },
+    "datasets": {
+      "files": 51,
+      "bytes": 113743975,
+      "allocated_file_bytes": 113872896,
+      "tracked_files": 51
+    },
+    "docs": {
+      "files": 21,
+      "bytes": 250133,
+      "allocated_file_bytes": 290816,
+      "tracked_files": 17
+    },
+    "figs": {
+      "files": 1,
+      "bytes": 244980,
+      "allocated_file_bytes": 245760,
+      "tracked_files": 1
+    },
+    "research_runs": {
+      "files": 2432,
+      "bytes": 141315848,
+      "allocated_file_bytes": 146624512,
+      "tracked_files": 0
+    },
+    "results": {
+      "files": 367,
+      "bytes": 74784905,
+      "allocated_file_bytes": 75558912,
+      "tracked_files": 367
+    },
+    "scripts": {
+      "files": 96,
+      "bytes": 1610506,
+      "allocated_file_bytes": 1818624,
+      "tracked_files": 43
+    },
+    "tests": {
+      "files": 37,
+      "bytes": 579380,
+      "allocated_file_bytes": 647168,
+      "tracked_files": 17
+    },
+    "verl": {
+      "files": 1144,
+      "bytes": 9240835,
+      "allocated_file_bytes": 11788288,
+      "tracked_files": 1129
+    },
+    "verl_example": {
+      "files": 2,
+      "bytes": 7524,
+      "allocated_file_bytes": 12288,
+      "tracked_files": 2
+    }
+  },
+  "research_run_directories": {
+    "20261028_second_analysis": {
+      "files": 33,
+      "bytes": 8040804,
+      "allocated_file_bytes": 8118272,
+      "tracked_files": 0,
+      "purpose": "第二次真实实验中文报告/编辑稿/图片",
+      "recommendation": "保留，MD与图片成套"
+    },
+    "base_geometry_cpu_smoke": {
+      "files": 321,
+      "bytes": 9364320,
+      "allocated_file_bytes": 10063872,
+      "tracked_files": 0,
+      "purpose": "几何分析CPU smoke，人为权重扰动",
+      "recommendation": "第一批候选"
+    },
+    "base_geometry_cpu_validated": {
+      "files": 321,
+      "bytes": 9386483,
+      "allocated_file_bytes": 10084352,
+      "tracked_files": 0,
+      "purpose": "几何分析CPU验证副本",
+      "recommendation": "第一批候选"
+    },
+    "base_geometry_release_cpu": {
+      "files": 321,
+      "bytes": 9386459,
+      "allocated_file_bytes": 10084352,
+      "tracked_files": 0,
+      "purpose": "几何分析CPU交付副本",
+      "recommendation": "第一批候选"
+    },
+    "controlled_cpu_validation": {
+      "files": 3,
+      "bytes": 43944,
+      "allocated_file_bytes": 49152,
+      "tracked_files": 0,
+      "purpose": "当前三方法开发的CPU日志与计划",
+      "recommendation": "建议保留"
+    },
+    "pipeline_validation": {
+      "files": 296,
+      "bytes": 7684237,
+      "allocated_file_bytes": 8404992,
+      "tracked_files": 0,
+      "purpose": "早期通用管线CPU端到端验证",
+      "recommendation": "第一批候选"
+    },
+    "smoke_cpu": {
+      "files": 232,
+      "bytes": 6077736,
+      "allocated_file_bytes": 6553600,
+      "tracked_files": 0,
+      "purpose": "早期tiny训练/诊断测试",
+      "recommendation": "第一批候选"
+    },
+    "smoke_cpu_verified": {
+      "files": 294,
+      "bytes": 7389759,
+      "allocated_file_bytes": 7979008,
+      "tracked_files": 0,
+      "purpose": "旧版CPU验证副本",
+      "recommendation": "第一批候选"
+    },
+    "smoke_delivery": {
+      "files": 294,
+      "bytes": 7561153,
+      "allocated_file_bytes": 8282112,
+      "tracked_files": 0,
+      "purpose": "旧版交付CPU验证副本",
+      "recommendation": "第一批候选"
+    },
+    "smoke_final": {
+      "files": 294,
+      "bytes": 7485202,
+      "allocated_file_bytes": 8052736,
+      "tracked_files": 0,
+      "purpose": "旧版最终CPU验证副本",
+      "recommendation": "第一批候选"
+    },
+    "step20_local_analysis": {
+      "files": 19,
+      "bytes": 51889585,
+      "allocated_file_bytes": 51933184,
+      "tracked_files": 0,
+      "purpose": "第一次真实实验本地复算/中文报告/重建代码",
+      "recommendation": "保留主体；可清重复完整HTML"
+    }
+  },
+  "result_archives": {
+    "20261028_qwen17b_opsd20": {
+      "files": 60,
+      "bytes": 30430659,
+      "allocated_file_bytes": 30568448,
+      "tracked_files": 60
+    },
+    "step20_all_metrics": {
+      "files": 307,
+      "bytes": 44354246,
+      "allocated_file_bytes": 44990464,
+      "tracked_files": 307
+    }
+  },
+  "code_files": [
+    {
+      "path": "analysis/__init__.py",
+      "origin": "later_tracked",
+      "docstring": "Independent, checkpoint-only representation monitoring; never imported by GPU training workers.",
+      "definitions": []
+    },
+    {
+      "path": "analysis/checkpoints.py",
+      "origin": "later_tracked",
+      "docstring": "Supported FSDP export into an atomic staging directory, independent of training state.",
+      "definitions": [
+        "verify_initial_adapter",
+        "export_checkpoint"
+      ]
+    },
+    {
+      "path": "analysis/common.py",
+      "origin": "later_tracked",
+      "docstring": "Content-addressed manifests and strict, recoverable analysis tables.",
+      "definitions": [
+        "clean",
+        "table",
+        "csv_table",
+        "load_config",
+        "config_argument",
+        "source_hashes",
+        "step_dir",
+        "finite_mean"
+      ]
+    },
+    {
+      "path": "analysis/distributions.py",
+      "origin": "later_tracked",
+      "docstring": "Full-vocabulary diagnostics; sequence statistics use all masked response tokens.",
+      "definitions": [
+        "selected_log_probs",
+        "nll_bits",
+        "distribution_metrics",
+        "pair_token_metrics",
+        "TokenAccumulator"
+      ]
+    },
+    {
+      "path": "analysis/evaluate.py",
+      "origin": "later_tracked",
+      "docstring": "Live behavior is kept separate from teacher-forced geometry and token confidence.",
+      "definitions": [
+        "answer_status",
+        "generation_limit",
+        "score_row",
+        "generation_record",
+        "rollout",
+        "rollout_many",
+        "behavior",
+        "enforce_quality"
+      ]
+    },
+    {
+      "path": "analysis/extract.py",
+      "origin": "later_tracked",
+      "docstring": "Independent checkpoint extraction: raw block hooks, fixed text geometry and live behavior.",
+      "definitions": [
+        "response_positions",
+        "backbone",
+        "collect",
+        "extract",
+        "summarize_distributions",
+        "summarize_curvature",
+        "main"
+      ]
+    },
+    {
+      "path": "analysis/html_report.py",
+      "origin": "later_tracked",
+      "docstring": "Portable HTML reports for current checkpoint outputs and archived report exports.\n\nNo model is loaded. Token-weighted aggregates stay separate from per-question\nsummaries; missing newly introduced measurements are never reconstructed from\nold selected-position statistics.",
+      "definitions": [
+        "Scripts",
+        "plotly_bundle",
+        "rows",
+        "context",
+        "read_run",
+        "is_direct",
+        "enrich",
+        "metric_plan",
+        "label",
+        "coverage",
+        "image_data",
+        "write_html",
+        "build",
+        "main"
+      ]
+    },
+    {
+      "path": "analysis/metrics/__init__.py",
+      "origin": "later_tracked",
+      "docstring": "Scientific definitions for fixed-pool representation monitoring.",
+      "definitions": []
+    },
+    {
+      "path": "analysis/metrics/neighbors.py",
+      "origin": "later_tracked",
+      "docstring": "Raw Euclidean kNN, excluding self; distance ties use sample ID order.",
+      "definitions": [
+        "knn",
+        "neighbor_overlap"
+      ]
+    },
+    {
+      "path": "analysis/metrics/paired.py",
+      "origin": "later_tracked",
+      "docstring": "Same-checkpoint student/privileged-teacher geometry on aligned fixed inputs.",
+      "definitions": [
+        "paired_geometry",
+        "summarize_student_teacher"
+      ]
+    },
+    {
+      "path": "analysis/metrics/rsa.py",
+      "origin": "later_tracked",
+      "docstring": "Cosine representational similarity, with explicit invalid vectors and paired IDs.",
+      "definitions": [
+        "align_rows",
+        "cosine_rsm",
+        "rsm_summary",
+        "compare_rsms",
+        "rsa_to_initial"
+      ]
+    },
+    {
+      "path": "analysis/metrics/spectrum.py",
+      "origin": "later_tracked",
+      "docstring": "Participation ratio is a variance statistic, not Gride intrinsic dimension.",
+      "definitions": [
+        "spectrum",
+        "linear_cka"
+      ]
+    },
+    {
+      "path": "analysis/metrics/trajectory.py",
+      "origin": "later_tracked",
+      "docstring": "Response-local curvature in degrees; no fabricated angles across special tokens.",
+      "definitions": [
+        "curvature",
+        "pearson",
+        "paired_difference"
+      ]
+    },
+    {
+      "path": "analysis/prepare_probe.py",
+      "origin": "later_tracked",
+      "docstring": "Freeze normalized-question splits, raw prompt/response IDs and anchor membership.",
+      "definitions": [
+        "normalized_question",
+        "stratified_take",
+        "split_rows",
+        "freeze",
+        "main"
+      ]
+    },
+    {
+      "path": "analysis/report.py",
+      "origin": "later_tracked",
+      "docstring": "Rebuild all figures and comparison tables from caches, without loading models.",
+      "definitions": [
+        "report",
+        "main"
+      ]
+    },
+    {
+      "path": "analysis/smoke.py",
+      "origin": "later_tracked",
+      "docstring": "CPU-only tiny GPT-2 extraction fixture. No Qwen, DeepMath, LoRA or training evidence.",
+      "definitions": [
+        "smoke",
+        "main"
+      ]
+    },
+    {
+      "path": "analysis/trajectory_distributions.py",
+      "origin": "later_tracked",
+      "docstring": "All-token diagnostics with bounded LM-head blocks and incremental KV caches.\n\nNo [response_length, vocabulary] arrays are materialized or cached. The initial\npolicy is rescored on the SAME current trajectory, including live trajectories.",
+      "definitions": [
+        "backbone",
+        "PredictionStream",
+        "response_mask",
+        "trajectory_metrics"
+      ]
+    },
+    {
+      "path": "scripts/research/__init__.py",
+      "origin": "later_tracked",
+      "docstring": "Reproducible diagnostics around the repository's verl training infrastructure.",
+      "definitions": []
+    },
+    {
+      "path": "scripts/research/answer_protocol.py",
+      "origin": "later_tracked",
+      "docstring": "One answer contract for Base prompts, dataset labels, rewards and evaluation.\n\nExtraction never reads ground truth. Legacy math equivalence is reused only on\nalready-extracted answers; its boxed-only response extractor is not called.",
+      "definitions": [
+        "build_student_prompt",
+        "_clean",
+        "_comparison_text",
+        "_boolean",
+        "_boxes",
+        "extract_final_answer",
+        "answer_metadata",
+        "_math_verifier",
+        "grade_extracted_answer",
+        "evaluate_answer"
+      ]
+    },
+    {
+      "path": "scripts/research/artifacts.py",
+      "origin": "later_tracked",
+      "docstring": "Resumable extraction of aligned response positions, one problem per disk shard.",
+      "definitions": [
+        "position_selection",
+        "extract",
+        "load_activations",
+        "alignment_key",
+        "align",
+        "analyze"
+      ]
+    },
+    {
+      "path": "scripts/research/audit_adapter_roundtrip.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "Measure Base/active-LoRA/serialized-merged logits on identical fixed inputs.\n\nRun for step0 AND a trained adapter. This measures HF merge/precision effects;\nit does not validate the FSDP/vLLM worker synchronization path.",
+      "definitions": [
+        "score",
+        "difference",
+        "audit",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/build_experiment_reading.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "Audit an exported experiment and build a narrative report in the first-run style.\n\nOnly published scalar tables are read. Bootstrap units are questions; distribution\ndraws retain each metric's own token denominator. Source reports are immutable.",
+      "definitions": [
+        "sha",
+        "read_table",
+        "num",
+        "truth",
+        "clean",
+        "write_json",
+        "paired_ids",
+        "bootstrap_change",
+        "exact_mcnemar",
+        "wilson",
+        "aggregate_key",
+        "audit",
+        "markdown",
+        "build",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/build_metric_report.py",
+      "origin": "later_tracked",
+      "docstring": "Build a portable, audited browser for every recorded metric through a selected checkpoint.\n\nOnly scalar measurements and summaries are exported. Model weights, reference\nsolutions, question text, token-ID sequences and large hidden-state arrays stay\non the server. Plotly is needed only to build the offline HTML bundle.",
+      "definitions": [
+        "read_rows",
+        "sha",
+        "finite",
+        "check_measurement_fields",
+        "csv_file",
+        "info",
+        "category",
+        "metric_entry",
+        "variant_label",
+        "default_variant",
+        "scalar_point",
+        "sample_entries",
+        "static_plot",
+        "build",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/build_mobile_comparison.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "Build a small, static phone report and a Chinese-font-embedded PDF.\n\nThe source is the two audited local summary.json files. Set OPSD_PDF_FONT to a\nlocally available Chinese font before running; the released PDF embeds it.",
+      "definitions": [
+        "chart",
+        "save_mobile"
+      ]
+    },
+    {
+      "path": "scripts/research/build_offline_comparison.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "Embed the two self-contained reading reports in a portable comparison HTML.\n\nRun from the repository root: python -m scripts.research.build_offline_comparison",
+      "definitions": [
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/common.py",
+      "origin": "later_tracked",
+      "docstring": "Artifact identity, provenance and dependency-light imports of shared verl utilities.",
+      "definitions": [
+        "load_verl_utility",
+        "digest",
+        "file_hash",
+        "read_jsonl",
+        "write_json",
+        "write_jsonl",
+        "seed_all",
+        "provenance",
+        "checkpoint_identity"
+      ]
+    },
+    {
+      "path": "scripts/research/compare.py",
+      "origin": "later_tracked",
+      "docstring": "OPSD training and checkpoint monitoring by default; explicit GRPO comparison remains available.",
+      "definitions": [
+        "configure",
+        "load",
+        "prepare",
+        "train",
+        "analyze",
+        "parser",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/controlled_data.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "One frozen question order and lossless probe adoption for three training methods.",
+      "definitions": [
+        "validate_controlled",
+        "schedule",
+        "record_exposure",
+        "grpo_signal",
+        "adopt_probe",
+        "prepare_shared"
+      ]
+    },
+    {
+      "path": "scripts/research/controlled_report.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "Paired question-level accuracy and exposure audit for the three-method run.",
+      "definitions": [
+        "paired",
+        "build"
+      ]
+    },
+    {
+      "path": "scripts/research/controlled_sft.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "Plain-completion, response-only LoRA SFT for the controlled DeepMath comparison.\n\nOne optimizer update per shared group of questions. Each offline target is repeated\nrollouts times; these are identical references, never sampled model trajectories.",
+      "definitions": [
+        "encode_target",
+        "response_ce_sum",
+        "initialize",
+        "verify_checkpoint",
+        "save_checkpoint",
+        "restore",
+        "train",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/data.py",
+      "origin": "later_tracked",
+      "docstring": "Canonical question/reference schema, controlled modular skill and fair intersections.",
+      "definitions": [
+        "canonical",
+        "load_questions",
+        "controlled_dataset",
+        "verify",
+        "reference_intersection",
+        "export_verl",
+        "partition_questions",
+        "prepare_deepmath"
+      ]
+    },
+    {
+      "path": "scripts/research/distributions.py",
+      "origin": "later_tracked",
+      "docstring": "Full-vocabulary diagnostics, computed in response-position chunks only.",
+      "definitions": [
+        "distribution_metrics",
+        "aggregate",
+        "pass_at_k",
+        "evaluate_samples",
+        "gap_recovery"
+      ]
+    },
+    {
+      "path": "scripts/research/export_run_handoff.py",
+      "origin": "later_tracked",
+      "docstring": "Export a completed, verified OPSD run without weights or raw question text.\n\nThe source run is read-only. The exported detailed HTML is self-contained.",
+      "definitions": [
+        "read_json",
+        "rows",
+        "sha",
+        "write_json",
+        "write_csv",
+        "seal",
+        "plot",
+        "overview",
+        "export",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/export_second_analysis_md.py",
+      "origin": "local_untracked_or_ignored",
+      "docstring": "Export the second reading report as editable Markdown plus 27 static figures.\n\nThe HTML's embedded, audited data and original Markdown are the sole inputs.\nOnly the default HTML view is rendered: heldout_probe, student-teacher RSA at\nprompt_last, student curvature. The Markdown keeps all original narrative.",
+      "definitions": [
+        "DataScript",
+        "load",
+        "scalar",
+        "layered",
+        "setup",
+        "line",
+        "finish",
+        "draw_lines",
+        "export_figures",
+        "write_markdown",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/job_control.py",
+      "origin": "later_tracked",
+      "docstring": "Detached training sessions and read-only progress/log inspection (Linux).",
+      "definitions": [
+        "_json",
+        "_read",
+        "_now",
+        "_identity",
+        "_alive",
+        "_current",
+        "record_progress",
+        "start_session",
+        "_worker",
+        "_last_metric",
+        "training_target",
+        "status",
+        "render",
+        "show_logs",
+        "stop_session",
+        "parser",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/launch.py",
+      "origin": "later_tracked",
+      "docstring": "Config-driven launch of existing verl OPD/GRPO and LLaMA-Factory SFT.",
+      "definitions": [
+        "hydra_value",
+        "resolve",
+        "experiment_id",
+        "registry_entry",
+        "hydra_options",
+        "reference_source_info",
+        "validate_experiment",
+        "validate_dataset",
+        "plan",
+        "matrix"
+      ]
+    },
+    {
+      "path": "scripts/research/lora.py",
+      "origin": "later_tracked",
+      "docstring": "Turn the vendored FSDP merger's base+adapter output into an evaluable HF model.",
+      "definitions": [
+        "finalize_lora_merge"
+      ]
+    },
+    {
+      "path": "scripts/research/models.py",
+      "origin": "later_tracked",
+      "docstring": "Offline model adapter used for reference generation, evaluation and extraction.\n\nProduction optimization stays in verl/LLaMA-Factory. Tiny GPT-2 is only a local\nwiring test; it is never presented as Qwen experimental evidence.",
+      "definitions": [
+        "ByteTokenizer",
+        "trajectory_ids",
+        "create_tiny",
+        "Model"
+      ]
+    },
+    {
+      "path": "scripts/research/performance_resume.py",
+      "origin": "later_tracked",
+      "docstring": "Audited execution-only overrides for resuming an existing, frozen OPSD experiment.\n\nAnalysis identities and scientific configuration stay immutable. Effective Hydra\nconfiguration and an explicit execution profile record the actual microbatch and\nmemory settings. No launch/config hash guards are disabled or rewritten.",
+      "definitions": [
+        "build_command",
+        "verify_files",
+        "run",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/pipeline.py",
+      "origin": "later_tracked",
+      "docstring": "Ordered entry points for the Qwen3-1.7B / DeepMath OPSD experiment.\n\nconfigure -> check -> prepare -> evaluate(initial) -> train -> plot -> merge -> evaluate(trained)\nEach command does one explicit stage. It never downloads models or starts a matrix.\nThe run stage performs the full sequence; without --execute it only prints the plan.",
+      "definitions": [
+        "config_at",
+        "configure",
+        "tokenizer_for",
+        "source_files",
+        "prepare",
+        "selected_config",
+        "train_directory",
+        "checkpoint_actor",
+        "merge",
+        "evaluate",
+        "workflow_plan",
+        "run_workflow",
+        "parser",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/plots.py",
+      "origin": "later_tracked",
+      "docstring": "Offline plots from scalar artifacts. No interpolation or invented missing results.",
+      "definitions": [
+        "plot_directory"
+      ]
+    },
+    {
+      "path": "scripts/research/preflight.py",
+      "origin": "later_tracked",
+      "docstring": "Checks before Ray/GPU allocation. No installation, downloads or cluster mutation.",
+      "definitions": [
+        "check_environment",
+        "compose_training_config",
+        "validate_training_inputs"
+      ]
+    },
+    {
+      "path": "scripts/research/preparation_cache.py",
+      "origin": "later_tracked",
+      "docstring": "Verify and reuse completed data selection without redoing model generation.",
+      "definitions": [
+        "selection_sources",
+        "selection_identity",
+        "validate_splits",
+        "seal_snapshot",
+        "restore",
+        "save_selection"
+      ]
+    },
+    {
+      "path": "scripts/research/preparation_progress.py",
+      "origin": "later_tracked",
+      "docstring": "Observable preparation stages; only measured counts produce rates and ETAs.",
+      "definitions": [
+        "write_json",
+        "PreparationProgress",
+        "preparation_workspace",
+        "_audit_counts",
+        "read_preparation"
+      ]
+    },
+    {
+      "path": "scripts/research/representations.py",
+      "origin": "later_tracked",
+      "docstring": "Within-scale aligned activation diagnostics; cross-dimensional CKA/RSA are explicit.",
+      "definitions": [
+        "normalize",
+        "cosine",
+        "rsa",
+        "rsa_correlations",
+        "neighborhood_overlap",
+        "linear_cka",
+        "subspace_overlap",
+        "clustering_ari",
+        "effective_rank",
+        "state_probe"
+      ]
+    },
+    {
+      "path": "scripts/research/retention.py",
+      "origin": "later_tracked",
+      "docstring": "Analyze saved states before rotating run-owned checkpoints; keep result tables.",
+      "definitions": [
+        "latest_only",
+        "completed_analysis",
+        "record_analysis",
+        "discard_export",
+        "_saved_checkpoint",
+        "process_checkpoint",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/reward.py",
+      "origin": "later_tracked",
+      "docstring": "Verl rule reward adapter, shared with standalone evaluation.",
+      "definitions": [
+        "compute_score",
+        "compute_score_details"
+      ]
+    },
+    {
+      "path": "scripts/research/run.py",
+      "origin": "later_tracked",
+      "docstring": "Unified CLI. Run from repository root: python -m scripts.research.run --help.",
+      "definitions": [
+        "model_args",
+        "get_model",
+        "generate_references",
+        "evaluate",
+        "diagnose",
+        "select_checkpoint",
+        "parser",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/research/sft_train.py",
+      "origin": "later_tracked",
+      "docstring": "Use the vendored LLaMA-Factory trainer with actual label-token accounting.",
+      "definitions": [
+        "Accounting"
+      ]
+    },
+    {
+      "path": "scripts/research/smoke.py",
+      "origin": "later_tracked",
+      "docstring": "CPU end-to-end wiring check using actual HF generation and shared verl OPD terms.",
+      "definitions": [
+        "smoke"
+      ]
+    },
+    {
+      "path": "scripts/research/training_data.py",
+      "origin": "later_tracked",
+      "docstring": "Lossless training metadata transport, including empty option dictionaries.",
+      "definitions": [
+        "decode_extra_info",
+        "export_verl_training"
+      ]
+    },
+    {
+      "path": "scripts/infer/dedup_deepmath.py",
+      "origin": "present_in_initial_upload",
+      "docstring": null,
+      "definitions": [
+        "extract_dapo_question",
+        "extract_deepmath_question",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/infer/vllm_rollout.py",
+      "origin": "present_in_initial_upload",
+      "docstring": null,
+      "definitions": [
+        "has_boxed",
+        "detect_repeated_lines",
+        "detect_ngram_repetition",
+        "detect_consecutive_repeat",
+        "is_valid_output",
+        "extract_instruction",
+        "parse_bool",
+        "parse_gpu_ids",
+        "build_arg_parser",
+        "worker",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/val/eval/gen_vllm.py",
+      "origin": "present_in_initial_upload",
+      "docstring": null,
+      "definitions": [
+        "extract_max_number",
+        "load_samples",
+        "split_rollout_ids",
+        "worker_process",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/val/eval/grade.py",
+      "origin": "present_in_initial_upload",
+      "docstring": null,
+      "definitions": [
+        "get_len",
+        "get_diverse_score",
+        "process_jsonl_file",
+        "parse_hyperparameters_from_filename",
+        "grade_file",
+        "main"
+      ]
+    },
+    {
+      "path": "scripts/val/eval/utils.py",
+      "origin": "present_in_initial_upload",
+      "docstring": "Answer checker API that uses sympy to simplify expressions and check for equality.\n\nCall grade_answer(given_answer: str, ground_truth: str).",
+      "definitions": [
+        "mathd_normalize_answer",
+        "_strip_string",
+        "_sympy_parse",
+        "_parse_latex",
+        "_is_float",
+        "_is_int",
+        "_is_frac",
+        "_str_is_int",
+        "_str_to_int",
+        "_inject_implicit_mixed_number",
+        "_strip_properly_formatted_commas",
+        "_normalize",
+        "count_unknown_letters_in_expr",
+        "should_allow_eval",
+        "are_equal_under_sympy",
+        "split_tuple",
+        "last_boxed_only_string",
+        "remove_boxed",
+        "extract_boxed_answer",
+        "grade_answer_sympy",
+        "grade_answer_mathd",
+        "extract_answer",
+        "grade_answer_verl",
+        "main"
+      ]
+    }
+  ],
+  "text_logs": [
+    {
+      "path": "research_runs/controlled_cpu_validation/online_tests.log",
+      "role": "当前在线动态指标CPU检查",
+      "origin": "local_untracked_or_ignored",
+      "files": 1,
+      "bytes": 2112,
+      "allocated_file_bytes": 4096,
+      "tracked_files": 0
+    },
+    {
+      "path": "research_runs/controlled_cpu_validation/research_tests.log",
+      "role": "当前研究CPU回归输出",
+      "origin": "local_untracked_or_ignored",
+      "files": 1,
+      "bytes": 40353,
+      "allocated_file_bytes": 40960,
+      "tracked_files": 0
+    },
+    {
+      "path": "results/20261028_qwen17b_opsd20/provenance/final_code_validation.log",
+      "role": "第二次服务器代码验证归档",
+      "origin": "later_tracked",
+      "files": 1,
+      "bytes": 11855,
+      "allocated_file_bytes": 12288,
+      "tracked_files": 1
+    },
+    {
+      "path": "results/20261028_qwen17b_opsd20/provenance/training_teardown.log",
+      "role": "第二次训练收尾/worker告警归档",
+      "origin": "later_tracked",
+      "files": 1,
+      "bytes": 3540,
+      "allocated_file_bytes": 4096,
+      "tracked_files": 1
+    }
+  ],
+  "old_cpu_candidate_summary": {
+    "files": 2373,
+    "bytes": 64335349,
+    "allocated_file_bytes": 69505024
+  },
+  "cleanup_executed": true,
+  "candidate_groups": {
+    "A": "旧CPU输出/字节码缓存",
+    "B": "可重建展示副本",
+    "C": "须先拆分依赖的旧源码",
+    "D": "研究归档/原数据/可选框架，先备份再决定"
+  },
+  "notes": [
+    "只盘点项目子目录，未盘点服务器真实训练run、外部模型/数据、上级SP2026_pre或Git对象库",
+    "首次上传已有不等于官方原版；verl含本地补丁",
+    "当前新对照文件含未跟踪源码，不能通配git clean"
+  ],
+  "subsequent_cleanup": {
+    "date": "2026-11-09",
+    "deleted_by_user": [
+      "opsd_pipeline.sh",
+      "run_opsd_experiment.sh"
+    ],
+    "runtime_dependencies_removed": true,
+    "other_candidates_deleted": false
+  },
+  "cleanup_scope": "Only the two wrappers explicitly deleted by the user; all other candidates remain"
+}

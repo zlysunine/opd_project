@@ -1,0 +1,93 @@
+{
+  "date": "2026-11-09",
+  "historical_training_commit": "032d647e7b61e16e4b18dc7cb0cb7918f7dd092e",
+  "review_base_commit": "929ac85961333fa6ea419422de09483ef4d93128",
+  "source_checks": {
+    "verl/verl/utils/opsd.py": {
+      "archived_sha256": "c1ebd569e5f999bbe0fa5987d2f45231e29206e56deb3e6bbebeb88eb46abfa0",
+      "head_before_changes_sha256": "c1ebd569e5f999bbe0fa5987d2f45231e29206e56deb3e6bbebeb88eb46abfa0",
+      "match": true
+    },
+    "verl/verl/workers/actor/dp_actor.py": {
+      "archived_sha256": "e02f825de1956efdcf1629dd4a59e67f4f8ad991e6c490ca0b2baf84a3599478",
+      "head_before_changes_sha256": "e02f825de1956efdcf1629dd4a59e67f4f8ad991e6c490ca0b2baf84a3599478",
+      "match": true
+    },
+    "verl/verl/workers/fsdp_workers.py": {
+      "archived_sha256": "5a959bb01e9807257d4d75cbc075144ded568ec579d0bc262ee3dee8e98ec4fd",
+      "head_before_changes_sha256": "5a959bb01e9807257d4d75cbc075144ded568ec579d0bc262ee3dee8e98ec4fd",
+      "match": true
+    },
+    "verl/verl/trainer/ppo/ray_trainer.py": {
+      "archived_sha256": "e18a393a2cf3da0f1bdf4cbb475b8ba8fb29769ed49fae5e8ded0a8bfeb04022",
+      "head_before_changes_sha256": "e18a393a2cf3da0f1bdf4cbb475b8ba8fb29769ed49fae5e8ded0a8bfeb04022",
+      "match": true
+    },
+    "scripts/research/lora.py": {
+      "archived_sha256": "fd9f90b6deb3e0b57be9f0a2fab8a69ca6fbbecbaa916cbe4ba8a9ebf20a1ffd",
+      "head_before_changes_sha256": "fd9f90b6deb3e0b57be9f0a2fab8a69ca6fbbecbaa916cbe4ba8a9ebf20a1ffd",
+      "match": true
+    },
+    "scripts/research/answer_protocol.py": {
+      "archived_sha256": "4fff4feaed2e7bd35af9e15a5ebe79f84d54f62c4401b83417669225a9a66d71",
+      "head_before_changes_sha256": "4fff4feaed2e7bd35af9e15a5ebe79f84d54f62c4401b83417669225a9a66d71",
+      "match": true
+    }
+  },
+  "heldout": {
+    "initial_correct": 25,
+    "final_correct": 23,
+    "paired": {
+      "delta": -0.04,
+      "ci95": [
+        -0.16,
+        0.08
+      ],
+      "gained": 4,
+      "lost": 6,
+      "exact_mcnemar_p": 0.75390625,
+      "n": 50,
+      "bootstrap_seed": 20261028,
+      "replicates": 2000
+    },
+    "lost": [
+      {
+        "problem_id": "e9eafda0c7ea637f4b20",
+        "parse_status": "extracted",
+        "truncated": false,
+        "response_length": 521
+      },
+      {
+        "problem_id": "a7eb21dfc4e77827446a",
+        "parse_status": "extracted",
+        "truncated": false,
+        "response_length": 152
+      },
+      {
+        "problem_id": "64ec5807625a907fee3b",
+        "parse_status": "extracted",
+        "truncated": false,
+        "response_length": 374
+      },
+      {
+        "problem_id": "c7de3aa10fc31961377b",
+        "parse_status": "extracted",
+        "truncated": false,
+        "response_length": 679
+      },
+      {
+        "problem_id": "7f3a94f56621d3db9527",
+        "parse_status": "extracted",
+        "truncated": false,
+        "response_length": 264
+      },
+      {
+        "problem_id": "d12bd752de0fdf9496ad",
+        "parse_status": "extracted",
+        "truncated": false,
+        "response_length": 666
+      }
+    ]
+  },
+  "scope": "Archived source fingerprints and exported scalar/behavior evidence; no original 1.7B weights or raw answers were rerun locally"
+}

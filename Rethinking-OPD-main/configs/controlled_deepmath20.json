@@ -1,0 +1,130 @@
+{
+  "run_id": "controlled_deepmath20",
+  "model": {
+    "name_or_path": "Qwen/Qwen3-1.7B-Base",
+    "path": null,
+    "revision": "ea980cb0a6c2ae4b936e82123acc929f1cec04c1",
+    "dtype": "bfloat16",
+    "device": "cuda",
+    "prompt_mode": "plain_completion"
+  },
+  "dataset": {
+    "answer_protocol": "opsd_answer_v2",
+    "input": null,
+    "revision": "5cf055d1fe3d7a2eb19719ac020211469736ae44",
+    "difficulty_min": 5.0,
+    "difficulty_max": 7.0,
+    "reference_field": "r1_solution_1",
+    "require_verified_reference": true,
+    "topic_level": 2,
+    "train_n": 2814,
+    "dev_n": 512
+  },
+  "monitor": {
+    "optimizer_steps": [
+      0,
+      1,
+      5,
+      10,
+      20
+    ],
+    "heldout_probe_n": 50,
+    "train_probe_n": 4,
+    "seed": 20261026,
+    "max_probe_response_tokens": 256,
+    "behavior_max_response_tokens": 16384,
+    "quality_gate": {
+      "enabled": true,
+      "max_extraction_failure_rate": 0.3,
+      "splits": [
+        "heldout_probe"
+      ],
+      "scope": "baseline_only"
+    },
+    "anchors": [
+      "prompt_last",
+      "response_32",
+      "response_128"
+    ],
+    "knn_k": [
+      8,
+      16,
+      32
+    ],
+    "curvature_eps": 1e-08,
+    "distribution_metrics": true,
+    "token_top_ks": [
+      10,
+      16,
+      50,
+      100
+    ],
+    "state_chunk_size": 16,
+    "teacher_geometry_steps": [
+      0,
+      1,
+      5,
+      10,
+      20
+    ],
+    "additional_fixed_reference": false,
+    "live_generation": true,
+    "live_greedy": true,
+    "linear_cka": true,
+    "rsa_max_pairs": 1000000,
+    "plot_full_rsm_steps": [
+      0,
+      20
+    ],
+    "plot_relative_depths": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "heavy_metrics": [],
+    "distribution_scope": "all_valid_tokens",
+    "compare_to_initial": true,
+    "overlap_top_k": 16,
+    "distribution_prefill_chunk_size": 256,
+    "distribution_forward_chunk_size": 256,
+    "compare_student_teacher": true,
+    "diagnostic_privileged_teacher": true
+  },
+  "training": {
+    "profile": "configs/research/base_geometry.json",
+    "training_mode": "lora",
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "lora_target_modules": "all-linear",
+    "learning_rate": 1e-06,
+    "batch": 8,
+    "rollouts": 8,
+    "microbatch": 1,
+    "steps": 20,
+    "epochs": 1,
+    "save_every": 20,
+    "checkpoint_retention": "all",
+    "seed": 42,
+    "gpus": 1,
+    "max_prompt_length": 2048,
+    "max_response_length": 16384,
+    "max_teacher_prompt_length": 2048,
+    "sampling_temperature": 1.0,
+    "teacher_temperature": 1.0,
+    "loss_type": "forward_kl",
+    "teacher_update_policy": "current_batch_stop_gradient",
+    "weight_decay": 0.01,
+    "adam_betas": [
+      0.9,
+      0.999
+    ],
+    "adam_eps": 1e-08,
+    "grad_clip": 1.0,
+    "lr_scheduler": "constant"
+  },
+  "table_format": "parquet",
+  "output_root": "research_runs/controlled_deepmath20/shared",
+  "controlled_comparison": true
+}

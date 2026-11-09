@@ -72,6 +72,8 @@ def load_config(path):
     if not isinstance(gate,dict) or not isinstance(gate.get('enabled',False),bool):
         raise ValueError('quality_gate must specify a boolean enabled flag')
     if gate.get('enabled',False):
+        if gate.get('scope','all') not in ('all','baseline_only'):
+            raise ValueError('Quality gate scope must be all or baseline_only')
         limit=gate.get('max_extraction_failure_rate',.01)
         if isinstance(limit,bool) or not isinstance(limit,(int,float)) or not np.isfinite(limit) or not 0<=limit<=1:
             raise ValueError('Quality failure-rate limit must be finite and in [0,1]')
@@ -104,7 +106,7 @@ def load_config(path):
     if not 0 < monitor['train_probe_n'] <= c['dataset']['train_n'] or monitor['heldout_probe_n']<1:
         raise ValueError('Require a nonempty heldout probe and train_probe within the train set')
     training=c['training']
-    expected=('grpo','none') if c.get('method')=='grpo' else ('forward_kl','current_batch_stop_gradient')
+    expected={'grpo':('grpo','none'),'sft':('sft','none')}.get(c.get('method'),('forward_kl','current_batch_stop_gradient'))
     if (training['loss_type'],training['teacher_update_policy'])!=expected:
         raise ValueError('Preserve OPSD forward KL/current-batch teacher, or outcome-only GRPO/no training teacher')
     if training['training_mode']!='lora' or training['lora_rank']<1 or training['lora_alpha']<=0:

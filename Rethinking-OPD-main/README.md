@@ -84,11 +84,11 @@ and one-command execution, use the [server handoff (中文)](PILOT_HANDOFF_zh.md
 The default workflow runs OPSD and its metrics/representation analysis only.
 GRPO remains available explicitly via `--method grpo` or `--method both`.
 
-For the retained Qwen3-1.7B non-thinking / DeepMath level 5–7 OPSD experiment, use the separate
-`run_opsd_experiment.sh` one-command workflow. Its required inputs and commands
-are documented in the [legacy stage-by-stage guide](docs/research/PIPELINE_zh.md). This workflow checks the
-environment, prepares paired splits, trains, merges and evaluates checkpoints;
-it prints a plan unless `--execute` is supplied.
+For the paired Qwen3-1.7B-Base OPSD / SFT / GRPO comparison, use
+`run_controlled_comparison.sh` and the [current server handoff (中文)](CONTROLLED_COMPARISON_HANDOFF_zh.md).
+All three methods share frozen data, question order, LoRA initialization and a 20-update budget.
+The legacy shell wrappers were retired on 2026-11-09. The older stage CLI remains
+available as `python -m scripts.research.pipeline`; see its [stage guide](docs/research/PIPELINE_zh.md).
 
 <details>
 <summary><b>Key Parameters</b></summary>

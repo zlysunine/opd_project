@@ -90,7 +90,11 @@ class NaiveRewardManager(AbstractRewardManager):
 
             ground_truth = data_item.non_tensor_batch["reward_model"]["ground_truth"]
             data_source = data_item.non_tensor_batch[self.reward_fn_key]
-            extra_info = data_item.non_tensor_batch.get("extra_info", {})
+            extra_info = dict(data_item.non_tensor_batch.get("extra_info", {}))
+            # Controlled outcome reward uses the same no-truncation rule as evaluation.
+            extra_info["_research_truncated"] = (
+                len(valid_response_ids) == 0 or int(valid_response_ids[-1]) != self.tokenizer.eos_token_id
+            )
             num_turns = data_item.non_tensor_batch.get("__num_turns__", None)
             rollout_reward_scores = data_item.non_tensor_batch.get("reward_scores", {})
             extra_info["num_turns"] = num_turns

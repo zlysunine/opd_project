@@ -60,7 +60,7 @@ def hydra_options(c, out, student, teacher=None):
         'algorithm.adv_estimator': 'grpo' if method=='rl' else 'token_reward_direct',
         'algorithm.use_kl_in_reward': False,
         'data.train_files': str(out/'train.parquet'), 'data.val_files': str(out/'validation.parquet'),
-        'data.train_batch_size': c['batch'], 'data.shuffle': True, 'data.seed': c['seed'],
+        'data.train_batch_size': c['batch'], 'data.shuffle': c.get('shuffle',True), 'data.seed': c['seed'],
         'data.max_prompt_length':c['max_prompt_length'], 'data.max_response_length':c['max_response_length'],
         'data.filter_overlong_prompts':False, 'data.truncation':'error', 'data.return_raw_chat':True,
         '+data.apply_chat_template_kwargs.enable_thinking':c['enable_thinking'],
@@ -118,6 +118,27 @@ def hydra_options(c, out, student, teacher=None):
     }
     if c.get('steps') is not None:
         options['trainer.total_training_steps'] = c['steps']
+    if c.get('controlled_comparison'):
+        options.update({
+            'actor_rollout_ref.actor.optim.optimizer':'AdamW',
+            'actor_rollout_ref.actor.optim.weight_decay':c['weight_decay'],
+            'actor_rollout_ref.actor.optim.betas':c['adam_betas'],
+            'actor_rollout_ref.actor.optim.override_optimizer_config':{'eps':c['adam_eps']},
+            'actor_rollout_ref.actor.optim.lr_scheduler_type':'constant',
+            'actor_rollout_ref.actor.optim.lr_warmup_steps':0,
+            'actor_rollout_ref.actor.grad_clip':c['grad_clip'],
+            'actor_rollout_ref.actor.entropy_coeff':0.,
+            'actor_rollout_ref.actor.use_dynamic_bsz':False,
+            'actor_rollout_ref.model.use_fused_kernels':False,
+            'trainer.balance_batch':False,
+            'actor_rollout_ref.rollout.top_k':-1,
+            'algorithm.norm_adv_by_std_in_grpo':True,
+            '+trainer.research_question_schedule':c['question_schedule'],
+            '+trainer.research_exposure_dir':str(out/'exposures'),
+        })
+        if method=='rl':
+            options['+actor_rollout_ref.actor.research_global_token_mean']=True
+            options['custom_reward_function.name']='compute_score_details'
     if method in ('opsd','rl') and c.get('training_mode')=='lora':
         options.update({'actor_rollout_ref.model.lora_rank':c['lora_rank'],
                         'actor_rollout_ref.model.lora_alpha':c['lora_alpha'],
@@ -163,7 +184,8 @@ def validate_experiment(c):
         raise ValueError('checkpoint_retention must be all or latest')
     if c.get('group')=='exp_base_geometry':
         if (c['student']!='qwen3_1p7b_base' or c['initialization']!='base'
-                or c.get('prompt_mode')!='plain_completion' or c['method'] not in ('opsd','rl')):
+                or c.get('prompt_mode')!='plain_completion'
+                or c['method'] not in (('opsd','rl','sft') if c.get('controlled_comparison') else ('opsd','rl'))):
             raise ValueError('Base geometry comparison requires Qwen3-1.7B-Base, plain completion and OPSD/GRPO')
         if c['method']=='opsd' and (c.get('loss_type')!='forward_kl'
                 or c['teacher_update_policy']!='current_batch_stop_gradient'):
@@ -204,7 +226,7 @@ def validate_dataset(rows, c):
                     or isinstance(value,bool) or not isinstance(value,(int,float)) or not math.isfinite(value)
                     or not 5<=value<=7):
                 raise ValueError('DeepMath identity/revision/difficulty mismatch; run prepare-deepmath for levels 5-7')
-    if c['method']=='opsd':
+    if c['method']=='opsd' or (c['method']=='sft' and c.get('controlled_comparison')):
         expected=reference_source_info(c) or {}
         for row in rows:
             if row['privilege_type']!=c['privilege_type']:
@@ -231,7 +253,7 @@ def plan(c, output=None, execute=False):
     environment_report=None
     input_lengths=[]
     if execute:
-        if c['method'] in ('opd','opsd','rl'):
+        if c['method'] in ('opd','opsd','rl') or (c['method']=='sft' and c.get('controlled_comparison')):
             from .preflight import check_environment
             environment_report=check_environment(c['gpus'])
             if not environment_report['ok']:
@@ -261,7 +283,7 @@ def plan(c, output=None, execute=False):
             raise ValueError('Training requires train split; checkpoint selection requires a separate validation split')
         if {r['problem_id'] for r in train} & {r['problem_id'] for r in val}:
             raise ValueError('Training/validation problem leakage')
-        if c['method'] in ('opd','opsd','rl'):
+        if c['method'] in ('opd','opsd','rl') or (c['method']=='sft' and c.get('controlled_comparison')):
             from .preflight import validate_training_inputs
             architecture=AutoConfig.from_pretrained(student_path,local_files_only=True)
             input_lengths=validate_training_inputs(c,train,val,tokenizer,architecture.max_position_embeddings)
@@ -302,7 +324,9 @@ def plan(c, output=None, execute=False):
             raise ValueError('Run directory config changed; use a new output directory')
     write_json(resolved_path,resolved)
     write_json(out/('provenance.json' if execute else 'plan_provenance.json'),provenance(resolved,files))
-    if c['method']=='sft':
+    if c['method']=='sft' and c.get('controlled_comparison'):
+        command=[sys.executable,'-m','scripts.research.controlled_sft','--config',str(resolved_path),'--output',str(out)]
+    elif c['method']=='sft':
         if execute:
             targets = []
             for r in train:

@@ -32,8 +32,24 @@ def write_analysis_job(config, checkpoint, step):
     if actual != config["probe_manifest_hash"]:
         raise ValueError("Probe manifest changed during training")
     checkpoint = Path(checkpoint).resolve()
-    if not (checkpoint / "data.pt").is_file() or not list((checkpoint / "actor").glob("model_*.pt")):
+    native = config.get("method") == "sft" and (checkpoint / "native_sft.json").is_file()
+    if not (checkpoint / "data.pt").is_file() or (not native and not list((checkpoint / "actor").glob("model_*.pt"))):
         raise ValueError("Analysis job requires a successfully saved training checkpoint")
+    if native:
+        from scripts.research.controlled_sft import verify_checkpoint
+        if verify_checkpoint(checkpoint)["step"] != step:
+            raise ValueError("Native SFT checkpoint step mismatch")
+    if step == 0 and config.get("controlled_comparison", False):
+        from analysis.checkpoints import verify_initial_adapter
+        directory = Path(config["analysis_config"]).parent
+        training = json.loads((directory / "training_config.json").read_text())
+        fingerprint = verify_initial_adapter(checkpoint, training)
+        for method in ("opsd", "sft", "grpo"):
+            other = directory.parent / method / "initial_adapter.json"
+            if other.is_file() and json.loads(other.read_text()) != fingerprint:
+                raise ValueError("Initial LoRA differs across methods; refusing the first update")
+        from scripts.research.common import write_json
+        write_json(directory / "initial_adapter.json", fingerprint)
     job = {"optimizer_step": step, "checkpoint_path": str(checkpoint), "probe_manifest_hash": actual,
            "analysis_config": config["analysis_config"], "method": config["method"], "status": "pending"}
     out = Path(config["job_dir"]) / f"step_{step:06d}.json"

@@ -152,7 +152,10 @@ def extract(c, checkpoint, revision, step, model=None):
                 live = rollout_many(model, read_jsonl(probe/'heldout_probe.jsonl')+read_jsonl(probe/'train_probe.jsonl'),
                                     monitor, 'live_rollout', step,
                                     root/'generation_cache'/f'step_{step:06d}', root/'generation_progress.json')
-            enforce_quality(live,monitor,root/'quality'/f'step_{step:06d}')
+            # A poor trained checkpoint is an experimental result, not a reason to
+            # suppress an arm of the controlled comparison after training.
+            if step==0 or monitor.get('quality_gate',{}).get('scope','all')!='baseline_only':
+                enforce_quality(live,monitor,root/'quality'/f'step_{step:06d}')
         table(out/'live_rollouts', live, 'jsonl')
         arrays, metadata, curve_rows, dist_rows, metric_rows = {}, {}, [], [], []
         groups = defaultdict(list)
@@ -196,7 +199,8 @@ def extract(c, checkpoint, revision, step, model=None):
                 values=trajectory_metrics(model,row,monitor,initial_model)
                 dist_rows.append({**base_meta,'pool':row['pool'],'split':row['split'],
                                   'problem_id':row['problem_id'],**values})
-            teacher_geometry = (row['pool']!='live_rollout' and c.get('method')=='opsd'
+            teacher_geometry = (row['pool']!='live_rollout'
+                                and (c.get('method')=='opsd' or monitor.get('diagnostic_privileged_teacher',False))
                                 and (monitor.get('compare_student_teacher',False)
                                      or step in monitor.get('teacher_geometry_steps', [])))
             if teacher_geometry:
@@ -256,7 +260,7 @@ def extract(c, checkpoint, revision, step, model=None):
                              chance_level=k/(len(ids)-1))
         if initial_arrays is not None:
             initial_arrays.close()
-        if monitor.get('compare_student_teacher',False) and c.get('method')=='opsd':
+        if monitor.get('compare_student_teacher',False) and (c.get('method')=='opsd' or monitor.get('diagnostic_privileged_teacher',False)):
             cohorts=[(pool,split,layer,anchor) for role,pool,split in groups if role=='student'
                      for layer in range(1,len(model.layers())+1) for anchor in monitor['anchors']]
             paired_manifest,paired_neighbors=summarize_student_teacher(arrays,metadata,monitor,emit,cohorts)

@@ -35,6 +35,10 @@ def export_checkpoint(training, step):
     _, actor = checkpoint_actor(training,'solution',step)
     identity = dict(step=step,source=str(actor),shards={p.name:file_hash(p) for p in sorted(actor.glob('model_*.pt'))},
                     training_mode=training['training_mode'],rank=training['lora_rank'],alpha=training['lora_alpha'])
+    native_sft=training.get('method')=='sft' and training.get('controlled_comparison')
+    if native_sft:
+        from scripts.research.controlled_sft import verify_checkpoint
+        identity['native_sft']=verify_checkpoint(actor.parent)
     target = Path(training['pipeline_workdir'])/'hf/solution'/f'global_step_{step}'
     if (target/'export_complete.json').is_file():
         saved=json.loads((target/'export_complete.json').read_text())
@@ -53,8 +57,25 @@ def export_checkpoint(training, step):
                  '--target_dir',str(staging)]
         env=os.environ.copy()
         env['PYTHONPATH']=os.pathsep.join([str(ROOT),str(ROOT/'verl'),env.get('PYTHONPATH','')])
-        subprocess.run(command,cwd=ROOT,env=env,check=True)
-        if training['training_mode']=='lora':
+        if native_sft:
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+            from peft import PeftModel
+            import torch
+            registry=json.loads(Path(training['registry']).read_text())
+            base_path=registry[training['student']]['path']
+            base=AutoModelForCausalLM.from_pretrained(base_path,local_files_only=True,
+                    torch_dtype=torch.float32,attn_implementation='eager')
+            adapted=PeftModel.from_pretrained(base,actor/'lora_adapter',local_files_only=True)
+            merged=adapted.merge_and_unload(safe_merge=True).to(torch.bfloat16)
+            merged.save_pretrained(staging,safe_serialization=True)
+            if (Path(base_path)/'byte_tokenizer.json').is_file():
+                import shutil
+                shutil.copy2(Path(base_path)/'byte_tokenizer.json',staging/'byte_tokenizer.json')
+            else:
+                AutoTokenizer.from_pretrained(base_path,local_files_only=True).save_pretrained(staging)
+        else:
+            subprocess.run(command,cwd=ROOT,env=env,check=True)
+        if training['training_mode']=='lora' and not native_sft:
             finalize_lora_merge(staging,training)
             marker=staging/'lora_merge.json'
             if marker.is_file():

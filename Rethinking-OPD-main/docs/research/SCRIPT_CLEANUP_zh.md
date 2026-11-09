@@ -1,5 +1,7 @@
 # 旧版本实验脚本清理记录
 
+> 本页记录2026-10-21的历史操作。2026-11-09用户又删除了 `opsd_pipeline.sh`、`run_opsd_experiment.sh`，相关运行依赖与测试已解除；最新入口为 `run_controlled_comparison.sh`。下文“必须保留”等描述为当时记录。
+
 日期：2026-10-21。**状态：用户回复“清理”后已执行；以下 9 个文件均已删除。** 删除前逐项核对内容 SHA256，与获批清单一致。
 
 本次先完成服务器交接与入口调整：根 `on_policy_distillation.sh` 已恢复为 HEAD 原版，`grpo.sh` 未改，两者逐字校验一致。最新实验一键入口为 `run_opsd_experiment.sh`，分阶段入口为 `opsd_pipeline.sh`。

@@ -1,6 +1,8 @@
 # OPD / OPSD / SFT / GRPO 研究管线
 
-**2026-10-28服务器重跑：** 以重写的[服务器交接](../../PILOT_HANDOFF_zh.md)为执行依据，先校验`SERVER_HANDOFF_MANIFEST.json`，再做独立2步工程验收和50步正式运行。旧版交接已归档，不再复制旧200/500步命令。
+**2026-11-09 当前对照任务：** [OPSD/SFT/GRPO服务器交接](../../CONTROLLED_COMPARISON_HANDOFF_zh.md)，公共配置 `configs/controlled_deepmath20.json`，新入口 `run_controlled_comparison.sh`。三组各20步、共享实际题序、LoRA和评测；先做三组各2步验收。本地仅CPU验证，新的GPU结果待服务器生成。实现审查见 [第二次结果审查](OPSD_SECOND_RUN_AUDIT_zh.md)。
+
+**2026-10-28 已完成历史实验：** 实际为20步、heldout50、train_probe4、抽取成功率门槛70%；见[历史最终交接](../../results/20261028_qwen17b_opsd20/HANDOFF_zh.md)。下方的50/200/500步与1%失败率描述属于之前的设计记录，不是当前执行参数。历史 `SERVER_HANDOFF_MANIFEST.json` 保留，新开发另有 `CONTROLLED_COMPARISON_MANIFEST.json`。
 
 **2026-10-27 指标清单与HTML：** 按“当前学生—初始学生”和“当前学生—当前教师”梳理记录项，并区分单模型统计。报告流程自动生成单文件离线HTML，涵盖新旧统计口径、直接RSA/CKA、曲线、热图与RSM图库。见[实验指标清单与完整HTML](METRIC_RECORDING_zh.md)。
 
@@ -20,7 +22,7 @@
 
 **服务器交接与可复制给 Codex 的任务说明见 [PILOT_HANDOFF_zh.md](../../PILOT_HANDOFF_zh.md)**。本轮入口为 `run_base_comparison.sh`，默认OPSD only：环境检查 → 冻结数据与probe → OPSD训练及在线指标 → checkpoint表征分析 → 报告；文档提供2-step验收和200-step一键命令、产物核对与失败恢复。不传 `--execute` 只写配置和打印计划。
 
-旧版non-thinking实验仍由 `run_opsd_experiment.sh` / `opsd_pipeline.sh` 执行，其分阶段记录见 [PIPELINE_zh.md](PIPELINE_zh.md)。根 `on_policy_distillation.sh` / `grpo.sh` 保留原仓库用途。下面保留其他研究接口，不能将旧模型/旧CLI参数混入本轮Base入口。
+旧版两个shell包装已于2026-11-09退役；non-thinking历史阶段CLI仍可通过 `python -m scripts.research.pipeline` 调用，见 [PIPELINE_zh.md](PIPELINE_zh.md)。根 `on_policy_distillation.sh` / `grpo.sh` 保留原仓库用途。下面保留其他研究接口，不能将旧模型/旧CLI参数混入本轮Base入口。
 
 ```bash
 python -m scripts.research.run --help

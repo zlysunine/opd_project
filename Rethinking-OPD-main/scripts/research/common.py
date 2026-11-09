@@ -88,8 +88,8 @@ def provenance(config, files=()):
     def git(*args):
         return subprocess.check_output(['git', *args], cwd=ROOT, text=True).strip()
     source_files = list((ROOT/'scripts/research').glob('*.py')) + list((ROOT/'configs/research').glob('*.json'))
-    source_files += [ROOT/p for p in ['scripts/__init__.py','opsd_pipeline.sh','run_opsd_experiment.sh',
-                                     'on_policy_distillation.sh']]
+    source_files += [ROOT/p for p in ['scripts/__init__.py','run_controlled_comparison.sh',
+                                     'on_policy_distillation.sh','grpo.sh','configs/controlled_deepmath20.json']]
     source_files += [ROOT/'verl/verl'/p for p in ['utils/opsd.py','utils/opd_metrics.py','utils/research_budget.py',
                       'trainer/main_ppo.py','trainer/ppo/core_algos.py','trainer/ppo/ray_trainer.py',
                       'workers/actor/dp_actor.py','workers/fsdp_workers.py','workers/config/rollout.py']]

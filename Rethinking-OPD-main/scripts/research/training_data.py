@@ -3,6 +3,15 @@ import json
 from pathlib import Path
 
 
+def decode_extra_info(value):
+    """Read JSON metadata without Arrow struct coercion; retain legacy dicts."""
+    if isinstance(value,str):
+        value=json.loads(value)
+        if not isinstance(value,dict):
+            raise ValueError('Serialized extra_info must contain a JSON object')
+    return value
+
+
 def export_verl_training(rows, path):
     import pandas as pd
 

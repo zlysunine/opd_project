@@ -446,7 +446,7 @@ def parser():
             command.add_argument('--interval',type=float,default=5)
         elif name=='logs':
             command.add_argument('--stream',choices=['console','train'],default='console')
-            command.add_argument('--method',choices=['opsd','grpo'],default='opsd')
+            command.add_argument('--method',choices=['opsd','sft','grpo'],default='opsd')
             command.add_argument('--lines',type=int,default=50)
             command.add_argument('--follow',action='store_true')
     worker = sub.add_parser('_worker')

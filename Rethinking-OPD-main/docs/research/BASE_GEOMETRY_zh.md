@@ -29,7 +29,7 @@
 
 当前采用 LoRA / 前向 KL / 200 step 设置，没有采用附件第 10 节的“另建最小训练”建议替换现有目标。Base 使用纯文本续写；通过一个只返回 user content 的 Jinja 适配器接入 verl 的数据接口，不添加 Instruct 的角色 token 或 thinking 开关。模型维度从真实 config 读取，不硬编码 28×2048。官方来源：[Base 模型配置](https://huggingface.co/Qwen/Qwen3-1.7B-Base/blob/main/config.json)、[DeepMath schema](https://huggingface.co/datasets/zwhe99/DeepMath-103K)。本地权重不会自动下载或替换；调用方必须提供真实来源 revision，manifest 另记录文件内容 hash，不能仅凭尺寸证明 Base 来源。
 
-OPSD 与 GRPO 的监督与计算成本不同；同 step 不是同计算预算。分析表同时携带可用的训练 optimized tokens / rollout tokens / teacher forward tokens / wall seconds，分析耗时独立记录。原始 `grpo.sh`、`on_policy_distillation.sh` 不变。旧 non-thinking 实验仍可由 `run_opsd_experiment.sh` 执行；本实验使用新的 `run_base_comparison.sh`。
+OPSD 与 GRPO 的监督与计算成本不同；同 step 不是同计算预算。分析表同时携带可用的训练 optimized tokens / rollout tokens / teacher forward tokens / wall seconds，分析耗时独立记录。原始 `grpo.sh`、`on_policy_distillation.sh` 不变。旧shell包装已于2026-11-09退役；历史 non-thinking CLI可通过 `python -m scripts.research.pipeline run` 调用。本阶段使用 `run_base_comparison.sh`，当前三组对照使用 `run_controlled_comparison.sh`。
 
 ## 2. 配置与数据冻结
 

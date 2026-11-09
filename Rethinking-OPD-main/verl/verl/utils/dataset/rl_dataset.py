@@ -15,7 +15,6 @@
 # limitations under the License.
 
 import copy
-import json
 import logging
 import os
 import re
@@ -30,19 +29,12 @@ from omegaconf import DictConfig, ListConfig
 from torch.utils.data import Dataset
 from transformers import PreTrainedTokenizer, ProcessorMixin
 
+from scripts.research.training_data import decode_extra_info
+
 import verl.utils.torch_functional as verl_F
 from verl.utils.model import compute_position_id_with_mask
 
 logger = logging.getLogger(__name__)
-
-
-def decode_extra_info(value):
-    """Read JSON metadata without Arrow struct coercion; retain legacy dicts."""
-    if isinstance(value, str):
-        value = json.loads(value)
-        if not isinstance(value, dict):
-            raise ValueError("Serialized extra_info must contain a JSON object")
-    return value
 
 
 def collate_fn(data_list: list[dict]) -> dict:

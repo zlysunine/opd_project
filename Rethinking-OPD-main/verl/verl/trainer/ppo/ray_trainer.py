@@ -1055,6 +1055,11 @@ class RayPPOTrainer:
                         else curr_step_profile
                     )
                 batch: DataProto = DataProto.from_single_dict(batch_dict)
+                if self.config.trainer.get("research_question_schedule"):
+                    from scripts.research.controlled_data import record_exposure
+                    record_exposure(self.config.trainer.research_question_schedule, self.global_steps,
+                                    [info["problem_id"] for info in batch.non_tensor_batch["extra_info"]],
+                                    self.config.trainer.research_exposure_dir)
 
                 # add uid to batch
                 batch.non_tensor_batch["uid"] = np.array(
@@ -1413,6 +1418,11 @@ class RayPPOTrainer:
                         if self.config.reward_model.launch_reward_fn_async:
                             reward_tensor, reward_extra_infos_dict = ray.get(future_reward)
                         batch.batch["token_level_scores"] = reward_tensor
+                        if (self.config.trainer.get("research_question_schedule")
+                                and self.config.algorithm.adv_estimator == AdvantageEstimator.GRPO):
+                            from scripts.research.controlled_data import grpo_signal
+                            metrics.update(grpo_signal(reward_tensor.sum(-1).detach().cpu().tolist(),
+                                                       batch.non_tensor_batch["uid"]))
 
                         if "true_reward_score" in reward_extra_infos_dict:
                             true_reward_val = reward_extra_infos_dict["true_reward_score"]
