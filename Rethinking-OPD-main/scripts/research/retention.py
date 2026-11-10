@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import re
 import shutil
+import tempfile
 
 from .common import digest, file_hash, write_json
 
@@ -68,6 +69,10 @@ def discard_export(training, step):
 
 
 def _saved_checkpoint(checkpoint):
+    if (checkpoint/'native_sft.json').is_file():
+        from .controlled_sft import verify_checkpoint
+        verify_checkpoint(checkpoint)
+        return
     models = list((checkpoint/'actor').glob('model_*.pt'))
     if not (checkpoint/'data.pt').is_file() or not models:
         raise ValueError(f'Incomplete training checkpoint: {checkpoint}')
@@ -86,6 +91,31 @@ def _saved_checkpoint(checkpoint):
         raise ValueError(f'Incomplete checkpoint ranks: {checkpoint}')
     if not (checkpoint/'actor/lora_adapter/adapter_model.safetensors').is_file():
         raise ValueError(f'Missing LoRA adapter: {checkpoint}')
+
+
+def archive_adapter(checkpoint, method_root, step):
+    """Keep every monitored LoRA independently of rotating full recovery states."""
+    source = checkpoint/'actor/lora_adapter'
+    if source.is_symlink() or not source.is_dir():
+        raise ValueError('Adapter archive requires a real checkpoint-owned directory')
+    expected = {str(p.relative_to(source)):file_hash(p) for p in source.rglob('*') if p.is_file()}
+    root = method_root/'adapter_archive'
+    target = root/f'global_step_{step}'
+    identity = dict(step=step,source=str(checkpoint.resolve()),files=expected)
+    if target.exists():
+        marker = target/'archive_complete.json'
+        if not marker.is_file() or json.loads(marker.read_text()) != identity:
+            raise ValueError('Existing adapter archive differs; refusing to overwrite')
+        if any(not (target/name).is_file() or file_hash(target/name)!=value for name,value in expected.items()):
+            raise ValueError('Adapter archive contents changed')
+        return target
+    root.mkdir(parents=True,exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='.adapter-',dir=root) as temp:
+        staging = Path(temp)/'adapter'
+        shutil.copytree(source,staging)
+        write_json(staging/'archive_complete.json',identity)
+        staging.rename(target)
+    return target
 
 
 def process_checkpoint(config_path, checkpoint, step):
@@ -114,6 +144,8 @@ def process_checkpoint(config_path, checkpoint, step):
     run = dict(workdir=str(config_path.parent.parent), model=analysis['model'])
     if step in analysis['monitor']['optimizer_steps']:
         analyze(run, method, {step})
+        if training.get('controlled_comparison'):
+            archive_adapter(checkpoint, config_path.parent, step)
 
     record_progress(run['workdir'],'checkpoint_cleanup',method,step)
     # Inspect and validate every candidate before deleting any old checkpoint.

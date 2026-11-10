@@ -1,0 +1,54 @@
+{
+  "scope": "Same BF16 Base, eager vs FlashAttention2. Fixed-position logits and short greedy prefixes; timing uses synthetic fixed-length generation, not task outcomes.",
+  "numerical": [
+    {
+      "problem_id": "187279aee887e52ef2ce",
+      "max_logit_abs": 0.375,
+      "mean_logit_abs": 0.060139965265989304,
+      "kl_a_to_b_nats": 0.001868884326476609,
+      "argmax_agreement": 1.0
+    },
+    {
+      "problem_id": "4b9a7d0ca5d4253fed9a",
+      "max_logit_abs": 0.375,
+      "mean_logit_abs": 0.04466446489095688,
+      "kl_a_to_b_nats": 0.002464200079439145,
+      "argmax_agreement": 0.6666666865348816
+    },
+    {
+      "problem_id": "651d00a5e4fa82fc11fd",
+      "max_logit_abs": 0.375,
+      "mean_logit_abs": 0.051022645086050034,
+      "kl_a_to_b_nats": 0.0020741768755676766,
+      "argmax_agreement": 1.0
+    },
+    {
+      "problem_id": "9f6839b15f47adde07b4",
+      "max_logit_abs": 0.375,
+      "mean_logit_abs": 0.04858991503715515,
+      "kl_a_to_b_nats": 0.0006175877325094132,
+      "argmax_agreement": 1.0
+    }
+  ],
+  "short_greedy_exact": [
+    false,
+    true,
+    false
+  ],
+  "benchmark": {
+    "eager": {
+      "seconds": 2.610099084675312,
+      "generated_tokens": 192,
+      "tokens_per_second": 73.5604257812627,
+      "peak_allocated_GiB": 12.40701961517334
+    },
+    "flash_attention_2": {
+      "seconds": 1.9349906854331493,
+      "generated_tokens": 192,
+      "tokens_per_second": 99.22528384524013,
+      "peak_allocated_GiB": 5.1414875984191895
+    }
+  },
+  "speedup": 1.3488949090682776,
+  "geometry_backend_after_generation": "eager"
+}

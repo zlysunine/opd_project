@@ -17,6 +17,47 @@ from scripts.research.launch import hydra_options, hydra_value, resolve
 
 
 class CheckpointRetentionTests(unittest.TestCase):
+    def test_restore_handoff_preserves_payload_and_clears_only_unused_cuda_cache(self):
+        tree=ast.parse((ROOT/'verl/verl/utils/checkpoint/fsdp_checkpoint_manager.py').read_text())
+        node=next(n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and n.name=='load_checkpoint')
+        for cuda_enabled in (False,True):
+            calls=[];payload=object()
+            def restore(*args):calls.append(args);return payload
+            cuda=types.SimpleNamespace(synchronize=lambda:calls.append('sync'),empty_cache=lambda:calls.append('cache'))
+            env=dict(torch=types.SimpleNamespace(cuda=cuda),is_cuda_available=cuda_enabled,
+                     gc=types.SimpleNamespace(collect=lambda:None))
+            exec(compile(ast.fix_missing_locations(ast.Module(body=[node],type_ignores=[])),'production_load','exec'),env)
+            owner=types.SimpleNamespace(_load_checkpoint_impl=restore)
+            self.assertIs(env['load_checkpoint'](owner,'step1',None,False),payload)
+            self.assertEqual(calls,[('step1',None,False),'sync','cache'] if cuda_enabled else [('step1',None,False)])
+
+    def test_cuda_snapshot_cache_is_released_after_save_scope_on_success_and_failure(self):
+        tree=ast.parse((ROOT/'verl/verl/utils/checkpoint/fsdp_checkpoint_manager.py').read_text())
+        node=next(n for n in ast.walk(tree) if isinstance(n,ast.FunctionDef) and n.name=='save_checkpoint')
+        for fail in (False,True):
+            events=[]
+            class TemporarySnapshot:
+                def __del__(self):events.append('snapshot_released')
+            def save(*args):
+                snapshot=TemporarySnapshot()
+                events.append('saved')
+                if fail:raise RuntimeError('save failed')
+                return 'published'
+            cuda=types.SimpleNamespace(synchronize=lambda:events.append('synchronize'),
+                                       empty_cache=lambda:events.append('empty_cache'))
+            env=dict(torch=types.SimpleNamespace(cuda=cuda),is_cuda_available=True,
+                     gc=types.SimpleNamespace(collect=__import__('gc').collect))
+            exec(compile(ast.fix_missing_locations(ast.Module(body=[node],type_ignores=[])),'production_save','exec'),env)
+            owner=types.SimpleNamespace(_save_checkpoint_impl=save)
+            if fail:
+                with self.assertRaisesRegex(RuntimeError,'save failed'):env['save_checkpoint'](owner,'checkpoint')
+                # Exception traceback retains the implementation frame until handled;
+                # the cache release still runs, and the exception is never suppressed.
+                self.assertEqual(events[-2:],['empty_cache','snapshot_released'])
+            else:
+                self.assertEqual(env['save_checkpoint'](owner,'checkpoint'),'published')
+                self.assertEqual(events,['saved','snapshot_released','synchronize','empty_cache'])
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
@@ -129,6 +170,31 @@ class CheckpointRetentionTests(unittest.TestCase):
             path.rename(path.with_name(path.name.replace('world_size_1','world_size_2')))
         with self.assertRaisesRegex(ValueError,'Incomplete checkpoint ranks'):
             retention.process_checkpoint(self.config,new,0)
+
+    def test_controlled_rotation_keeps_each_adapter_and_rejects_tampering(self):
+        self.training['controlled_comparison']=True
+        write_json(self.method/'training_config.json',self.training)
+        old=self.process(0)
+        self.process(1)
+        self.assertFalse(old.exists())
+        for step in (0,1):
+            archive=self.method/'adapter_archive'/f'global_step_{step}'
+            self.assertEqual((archive/'adapter_model.safetensors').read_bytes(),b'complete fixture')
+            self.assertTrue((archive/'archive_complete.json').is_file())
+        current=self.root/'global_step_1'
+        (self.method/'adapter_archive/global_step_1/adapter_model.safetensors').write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError,'archive contents changed'):
+            retention.archive_adapter(current,self.method,1)
+
+    def test_native_sft_checkpoint_is_validated_before_rotation(self):
+        checkpoint=self.root/'global_step_0'
+        checkpoint.mkdir(parents=True)
+        (checkpoint/'data.pt').write_bytes(b'state')
+        write_json(checkpoint/'native_sft.json',dict(step=0,files={'data.pt':file_hash(checkpoint/'data.pt')}))
+        retention._saved_checkpoint(checkpoint)
+        (checkpoint/'data.pt').write_bytes(b'changed')
+        with self.assertRaisesRegex(ValueError,'checkpoint file changed'):
+            retention._saved_checkpoint(checkpoint)
 
     def test_changed_analysis_results_block_cleanup(self):
         old = self.process(0)

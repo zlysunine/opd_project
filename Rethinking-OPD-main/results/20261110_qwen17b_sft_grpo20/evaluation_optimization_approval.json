@@ -1,0 +1,13 @@
+{
+  "user_approved": true,
+  "answer": "优化评测并重新验收（推荐）",
+  "training_model_dataset_unchanged": true,
+  "changes": {
+    "generation_attention_backend": "flash_attention_2",
+    "generation_length_bucketing": true,
+    "regenerate_baseline": true
+  },
+  "old_acceptance_preserved": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo_acceptance_20261110",
+  "new_acceptance": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo_acceptance_fast_20261110",
+  "updated_unix": 1794284734.5616195
+}

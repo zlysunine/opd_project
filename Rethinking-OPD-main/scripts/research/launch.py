@@ -67,7 +67,7 @@ def hydra_options(c, out, student, teacher=None):
         'actor_rollout_ref.model.path':student,
         'actor_rollout_ref.model.use_remove_padding':True,
         'actor_rollout_ref.model.enable_gradient_checkpointing':c['activation_checkpointing'],
-        'actor_rollout_ref.model.enable_activation_offload':True,
+        'actor_rollout_ref.model.enable_activation_offload':c.get('activation_offload',True),
         'actor_rollout_ref.actor.optim.lr':c['learning_rate'],
         'actor_rollout_ref.actor.ppo_mini_batch_size':c['batch'],
         'actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu':c['microbatch'],
@@ -83,8 +83,8 @@ def hydra_options(c, out, student, teacher=None):
         'actor_rollout_ref.rollout.name':'vllm', 'actor_rollout_ref.rollout.temperature':c['sampling_temperature'],
         'actor_rollout_ref.rollout.top_p':1., 'actor_rollout_ref.rollout.n':c['rollouts'],
         'actor_rollout_ref.rollout.tensor_model_parallel_size':1,
-        'actor_rollout_ref.rollout.gpu_memory_utilization':0.25,
-        'actor_rollout_ref.rollout.enforce_eager':True,
+        'actor_rollout_ref.rollout.gpu_memory_utilization':c.get('rollout_gpu_memory_utilization',0.25),
+        'actor_rollout_ref.rollout.enforce_eager':c.get('rollout_enforce_eager',True),
         'actor_rollout_ref.rollout.max_num_seqs':max(8,c['batch']*c['rollouts']),
         'actor_rollout_ref.rollout.max_model_len':length,
         'actor_rollout_ref.rollout.max_num_batched_tokens':length,
@@ -118,6 +118,8 @@ def hydra_options(c, out, student, teacher=None):
     }
     if c.get('steps') is not None:
         options['trainer.total_training_steps'] = c['steps']
+    if c.get('rollout_compilation_config') is not None:
+        options['+actor_rollout_ref.rollout.engine_kwargs.vllm.compilation_config'] = c['rollout_compilation_config']
     if c.get('controlled_comparison'):
         options.update({
             'actor_rollout_ref.actor.optim.optimizer':'AdamW',
@@ -139,6 +141,9 @@ def hydra_options(c, out, student, teacher=None):
         if method=='rl':
             options['+actor_rollout_ref.actor.research_global_token_mean']=True
             options['custom_reward_function.name']='compute_score_details'
+            options['actor_rollout_ref.actor.use_dynamic_bsz']=c.get('grpo_dynamic_bsz',False)
+            options['actor_rollout_ref.actor.ppo_max_token_len_per_gpu']=c.get('grpo_max_tokens_per_gpu',length)
+            options['actor_rollout_ref.rollout.log_prob_max_token_len_per_gpu']=c.get('grpo_max_tokens_per_gpu',length)
     if method in ('opsd','rl') and c.get('training_mode')=='lora':
         options.update({'actor_rollout_ref.model.lora_rank':c['lora_rank'],
                         'actor_rollout_ref.model.lora_alpha':c['lora_alpha'],

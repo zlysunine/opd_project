@@ -1,0 +1,20 @@
+{
+  "sft": {
+    "steps": 20,
+    "metrics_rows": 20,
+    "baseline_correct": 24,
+    "final_correct": 25,
+    "heldout_n": 50,
+    "checkpoint": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/sft/train/checkpoints/global_step_20",
+    "schedule_sha256": "fdf3e1523070d6735cbc2ad3d8a4c4c541f3f2af25842e3fe44de75c08681410"
+  },
+  "grpo": {
+    "steps": 20,
+    "metrics_rows": 20,
+    "baseline_correct": 24,
+    "final_correct": 26,
+    "heldout_n": 50,
+    "checkpoint": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/grpo/train/checkpoints/global_step_20",
+    "schedule_sha256": "fdf3e1523070d6735cbc2ad3d8a4c4c541f3f2af25842e3fe44de75c08681410"
+  }
+}

@@ -64,6 +64,13 @@ def load_config(path):
     if c['monitor'].get('heavy_metrics'):
         raise ValueError('Gride/ADP/ARI are not implemented; leave heavy_metrics empty')
     monitor=c['monitor']
+    if monitor.get('generation_engine','hf') not in ('hf','vllm'):
+        raise ValueError('Unsupported monitoring generation engine')
+    if monitor.get('generation_attention_backend') not in (None,'eager','sdpa','flash_attention_2'):
+        raise ValueError('Unsupported monitoring generation attention backend')
+    for field in ('generation_length_bucketing','regenerate_baseline'):
+        if not isinstance(monitor.get(field,False),bool):
+            raise ValueError(f'monitor.{field} must be a boolean')
     for field in ('max_probe_response_tokens','behavior_max_response_tokens'):
         value=monitor.get(field,monitor['max_probe_response_tokens'])
         if isinstance(value,bool) or not isinstance(value,int) or value<1:

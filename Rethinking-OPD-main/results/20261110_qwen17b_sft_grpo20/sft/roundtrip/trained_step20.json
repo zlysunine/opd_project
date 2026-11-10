@@ -1,0 +1,148 @@
+{
+  "zero_b": false,
+  "base_path": "/root/autodl-tmp/opsd_inputs/models/Qwen3-1.7B-Base",
+  "adapter_path": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/sft/adapter_archive/global_step_20",
+  "merged_path": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/sft/hf/solution/global_step_20",
+  "adapter_sha256": "9b8f2bdf93b4e25c0c9d47ae1561ce1e036427c4b542f1c8a3402c7ee7899ecf",
+  "adapter_config_sha256": "f2fcb9a0709f501371e984701d7d096410bc656ffb68df7ec27a91323489afe8",
+  "scope": "HF eager; active FP32 parameters with CUDA BF16 autocast vs serialized BF16 merge; no FSDP/vLLM claim",
+  "comparisons": [
+    {
+      "problem_id": "187279aee887e52ef2ce",
+      "privileged": false,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.05077085644006729,
+        "kl_a_to_b_nats": 0.0009692251240529158,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.06354155391454697,
+        "kl_a_to_b_nats": 0.0027725825857474093,
+        "argmax_agreement": 1.0
+      }
+    },
+    {
+      "problem_id": "187279aee887e52ef2ce",
+      "privileged": true,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.4375,
+        "mean_logit_abs": 0.0569564625620842,
+        "kl_a_to_b_nats": 0.001048899082353353,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.625,
+        "mean_logit_abs": 0.06965446472167969,
+        "kl_a_to_b_nats": 0.003958083113611498,
+        "argmax_agreement": 1.0
+      }
+    },
+    {
+      "problem_id": "4b9a7d0ca5d4253fed9a",
+      "privileged": false,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.06866016238927841,
+        "kl_a_to_b_nats": 0.006607833997804968,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.05740954354405403,
+        "kl_a_to_b_nats": 0.005654832592677954,
+        "argmax_agreement": 1.0
+      }
+    },
+    {
+      "problem_id": "4b9a7d0ca5d4253fed9a",
+      "privileged": true,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.06265009194612503,
+        "kl_a_to_b_nats": 0.004556789345460375,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.07209014892578125,
+        "kl_a_to_b_nats": 0.0017524075514021218,
+        "argmax_agreement": 1.0
+      }
+    },
+    {
+      "problem_id": "651d00a5e4fa82fc11fd",
+      "privileged": false,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.04658975452184677,
+        "kl_a_to_b_nats": 0.001199644256324435,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.06002983823418617,
+        "kl_a_to_b_nats": 0.0011648106337881095,
+        "argmax_agreement": 1.0
+      }
+    },
+    {
+      "problem_id": "651d00a5e4fa82fc11fd",
+      "privileged": true,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.3125,
+        "mean_logit_abs": 0.05065572261810303,
+        "kl_a_to_b_nats": 0.0007774528182397385,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.5,
+        "mean_logit_abs": 0.06273750215768814,
+        "kl_a_to_b_nats": 0.0011649028748081166,
+        "argmax_agreement": 1.0
+      }
+    },
+    {
+      "problem_id": "9f6839b15f47adde07b4",
+      "privileged": false,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.06262482702732086,
+        "kl_a_to_b_nats": 0.0029775529152183578,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.390625,
+        "mean_logit_abs": 0.08621025830507278,
+        "kl_a_to_b_nats": 0.007290668322827981,
+        "argmax_agreement": 1.0
+      }
+    },
+    {
+      "problem_id": "9f6839b15f47adde07b4",
+      "privileged": true,
+      "n_positions": 3,
+      "active_vs_base": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.037273503839969635,
+        "kl_a_to_b_nats": 0.0030627561557477548,
+        "argmax_agreement": 1.0
+      },
+      "active_vs_merged_bf16": {
+        "max_logit_abs": 0.375,
+        "mean_logit_abs": 0.05829017981886864,
+        "kl_a_to_b_nats": 0.004848645209320867,
+        "argmax_agreement": 1.0
+      }
+    }
+  ],
+  "input_sha256": "e09083abddaad2d867c4d4f1eeffc8da9d58031aa56a5eb6dc5c8b21a68458de"
+}

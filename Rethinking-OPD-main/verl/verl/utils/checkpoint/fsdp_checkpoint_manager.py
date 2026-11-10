@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import gc
 import json
 import logging
 import os
@@ -96,6 +97,16 @@ class FSDPCheckpointManager(BaseCheckpointManager):
         )
 
     def load_checkpoint(self, local_path: str, hdfs_path: str = None, del_local_after_load=False):
+        """Release restore temporaries before a resumed driver starts monitoring."""
+        try:
+            return self._load_checkpoint_impl(local_path, hdfs_path, del_local_after_load)
+        finally:
+            if is_cuda_available:
+                gc.collect()
+                torch.cuda.synchronize()
+                torch.cuda.empty_cache()
+
+    def _load_checkpoint_impl(self, local_path: str, hdfs_path: str = None, del_local_after_load=False):
         """
         Load an FSDP checkpoint for this rank.
 
@@ -178,6 +189,23 @@ class FSDPCheckpointManager(BaseCheckpointManager):
         torch.distributed.barrier()
 
     def save_checkpoint(self, local_path: str, hdfs_path: str = None, global_step: int = 0, max_ckpt_to_keep=None):
+        """Publish checkpoint, then release unused CUDA storage for independent analysis.
+
+        The implementation's temporary state dictionaries must leave scope BEFORE
+        empty_cache, otherwise NO_SHARD snapshots can pin several GiB of storage.
+        Model parameters, optimizer state and RNG streams are untouched.
+        """
+        try:
+            return self._save_checkpoint_impl(local_path, hdfs_path, global_step, max_ckpt_to_keep)
+        finally:
+            if is_cuda_available:
+                gc.collect()
+                torch.cuda.synchronize()
+                torch.cuda.empty_cache()
+
+    def _save_checkpoint_impl(
+        self, local_path: str, hdfs_path: str = None, global_step: int = 0, max_ckpt_to_keep=None
+    ):
         """
         Save an FSDP checkpoint for this rank.
 

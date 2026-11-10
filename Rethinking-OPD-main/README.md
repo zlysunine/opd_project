@@ -84,6 +84,8 @@ and one-command execution, use the [server handoff (中文)](PILOT_HANDOFF_zh.md
 The default workflow runs OPSD and its metrics/representation analysis only.
 GRPO remains available explicitly via `--method grpo` or `--method both`.
 
+Latest completed server run (2026-11-10): **SFT / GRPO, 20 updates each**. Read the [experiment handoff (中文)](SFT_GRPO_HANDOFF_20261110_zh.md), [final report index](results/20261110_qwen17b_sft_grpo20/index.html), or [all 250 metric entries](results/20261110_qwen17b_sft_grpo20/report/SFT_GRPO_report.html). This run reused the frozen historical probes and did not retrain OPSD.
+
 For the paired Qwen3-1.7B-Base OPSD / SFT / GRPO comparison, use
 `run_controlled_comparison.sh` and the [current server handoff (中文)](CONTROLLED_COMPARISON_HANDOFF_zh.md).
 All three methods share frozen data, question order, LoRA initialization and a 20-update budget.
@@ -229,7 +231,7 @@ If you find this work helpful, please cite us:
 See [the reproducible experiment guide](docs/research/README_zh.md),
 [repository/paper audit](docs/research/AUDIT_zh.md), and
 [validation record](docs/research/VALIDATION_zh.md).
-The current comparison starts both methods from Qwen3-1.7B-Base with matched LoRA initialization (rank 16, alpha 32), learning rate 1e-6, 8 prompts × 8 rollouts and 200 updates. OPSD preserves full-vocabulary forward KL (teacher || student); GRPO uses verifier outcome rewards. The earlier non-thinking recipe remains available separately.
+The completed 2026-11-10 SFT/GRPO comparison starts both methods from Qwen3-1.7B-Base with matched LoRA initialization (rank 16, alpha 32), learning rate 1e-6, 8 prompts × 8 sequences and 20 updates. See the latest handoff for method-specific execution and compute budgets. Historical OPSD/GRPO configurations remain available separately. OPSD preserves full-vocabulary forward KL (teacher || student); GRPO uses verifier outcome rewards. The earlier non-thinking recipe remains available separately.
 
 The pipeline extends the existing verl OPD/GRPO and LLaMA-Factory SFT entry points,
 adds privileged-context self-teaching, and supports offline checkpoint evaluation

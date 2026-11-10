@@ -1,0 +1,16 @@
+/root/autodl-tmp/opd_project/Rethinking-OPD-main/verl/verl/utils/profiler/config.py:49: UserWarning: Torch profiler tool config is not fully supported now.
+  warnings.warn("Torch profiler tool config is not fully supported now.", stacklevel=1)
+PASS vllm:
+  compilation_config:
+    level: 0
+    cudagraph_mode: FULL_DECODE_ONLY
+    cudagraph_capture_sizes:
+    - 1
+    - 2
+    - 4
+    - 8
+    - 16
+    - 32
+    - 64
+sglang: {}
+

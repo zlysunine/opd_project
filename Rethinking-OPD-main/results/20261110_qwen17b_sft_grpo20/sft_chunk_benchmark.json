@@ -1,0 +1,34 @@
+[
+  {
+    "chunk": 512,
+    "microbatch": 32,
+    "seconds": 8.50755050033331,
+    "sequences_per_second": 3.7613646840822517,
+    "peak_allocated_gib": 30.970348358154297,
+    "loss": 0.8507223725318909
+  },
+  {
+    "chunk": 1024,
+    "microbatch": 32,
+    "seconds": 8.173070214688778,
+    "sequences_per_second": 3.9152973312879493,
+    "peak_allocated_gib": 30.970348358154297,
+    "loss": 0.8507224917411804
+  },
+  {
+    "chunk": 2048,
+    "microbatch": 32,
+    "seconds": 8.07932012528181,
+    "sequences_per_second": 3.960729306896207,
+    "peak_allocated_gib": 30.968639373779297,
+    "loss": 0.8507223129272461
+  },
+  {
+    "chunk": 1024,
+    "microbatch": 64,
+    "seconds": 16.578308079391718,
+    "sequences_per_second": 3.8604663210208754,
+    "peak_allocated_gib": 55.32842540740967,
+    "loss": 0.8507224321365356
+  }
+]

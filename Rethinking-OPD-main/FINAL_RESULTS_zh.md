@@ -1,3 +1,5 @@
+> 2026-11-10 最新独立 SFT/GRPO 实验已完成：[最终报告入口](results/20261110_qwen17b_sft_grpo20/index.html) · [交接报告](SFT_GRPO_HANDOFF_20261110_zh.md)。下文为历史OPSD结果，本轮未重训OPSD。
+
 # 2026-10-28 正式20步实验结果
 
 **训练与最终验收已完成。** 最新结果：[HTML总览](results/20261028_qwen17b_opsd20/index.html) · [完整交互报告](results/20261028_qwen17b_opsd20/OPSD_report.html) · [交接文档](results/20261028_qwen17b_opsd20/HANDOFF_zh.md)。

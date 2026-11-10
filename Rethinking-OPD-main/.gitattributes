@@ -2,3 +2,6 @@
 results/** linguist-generated=true
 results/step20_all_metrics/index.html -diff
 results/step20_all_metrics/data/report_data.json -diff
+# Preserve archived report bytes, including vendor JS, CSV CRLF and patch context.
+# The root handoff and builders remain reviewable; result integrity uses SHA256.
+results/20261110_qwen17b_sft_grpo20/** -text -diff -whitespace

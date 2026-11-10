@@ -1,0 +1,12 @@
+{
+  "probe": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research-runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe",
+  "probe_complete_sha256": "7d59891c34774fb33b22233afbde30ba50ff8e52245ab4bb59428ae3db130c8d",
+  "verified_probe_files": 14,
+  "base_content_hash": "ba288b1460aa43317f35b35e1e61cfb7f975ceaabb439c1b6d455d7bef4644ee",
+  "base_verified_match": true,
+  "dataset": "/root/autodl-tmp/opsd_inputs/datasets/DeepMath-103K/5cf055d1fe3d7a2eb19719ac020211469736ae44/native_train.parquet",
+  "dataset_sha256": "e4981f9b3f3b2840b71539a1970858f1448ea798f26b1e976031cbb1fb7780b5",
+  "dataset_rows": 103022,
+  "model_revision": "ea980cb0a6c2ae4b936e82123acc929f1cec04c1",
+  "dataset_revision": "5cf055d1fe3d7a2eb19719ac020211469736ae44"
+}

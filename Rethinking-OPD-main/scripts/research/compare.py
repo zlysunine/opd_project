@@ -32,6 +32,8 @@ def configure(args):
         raise ValueError('Model config identifies the posttrained Qwen3-1.7B; supply Qwen3-1.7B-Base')
     c['model'].update(path=str(model),revision=args.model_revision)
     c['dataset'].update(input=str(native),revision=args.dataset_revision)
+    if getattr(args,'method',None)=='sft_grpo':
+        c['requested_methods']=['sft','grpo']
     if getattr(args,'reuse_probe',None):
         c['dataset']['frozen_probe_source'] = str(Path(args.reuse_probe).resolve())
     for name in ('steps','gpus','seed'):
@@ -117,6 +119,8 @@ def prepare(c):
             current['monitor']['controlled_comparison']=True
         if current.get('checkpoint_retention')=='latest':
             current['monitor']['checkpoint_retention']='latest'
+        if method == 'sft' and current.get('defer_sft_analysis', False):
+            current['monitor']['defer_analysis_until_training_end'] = True
         validate_experiment(current)
         write_json(root/method/'training_config.json',current)
         write_json(path,analysis)
@@ -236,7 +240,7 @@ def parser():
                 s.add_argument('--'+name,type=int)
             s.add_argument('--monitor-steps')
         if stage in ('train','analyze','run'):
-            s.add_argument('--method',choices=['opsd','sft','grpo','both','all'],default='opsd',
+            s.add_argument('--method',choices=['opsd','sft','grpo','sft_grpo','both','all'],default='opsd',
                            help='Default: opsd. Choose grpo or both explicitly to run the retained RL comparison.')
         if stage in ('train','run'):
             s.add_argument('--execute',action='store_true')
@@ -251,7 +255,7 @@ def main(argv=None):
     arguments=list(sys.argv[1:] if argv is None else argv)
     args=parser().parse_args(arguments)
     method=getattr(args,'method','opsd')
-    methods=('opsd','sft','grpo') if method=='all' else (('opsd','grpo') if method=='both' else (method,))
+    methods={'all':('opsd','sft','grpo'),'both':('opsd','grpo'),'sft_grpo':('sft','grpo')}.get(method,(method,))
     c=configure(args) if args.stage in ('configure','run') else load(args.workdir)
     if ('sft' in methods) and not c.get('controlled_comparison'):
         raise ValueError('SFT in this pipeline requires configs/controlled_deepmath20.json')

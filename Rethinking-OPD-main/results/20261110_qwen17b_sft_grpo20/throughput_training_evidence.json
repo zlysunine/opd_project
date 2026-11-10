@@ -1,0 +1,32 @@
+{
+  "paired_first_steps": [
+    {
+      "step": 1,
+      "old_seconds": 31.315646436065435,
+      "new_seconds": 16.532913230359554,
+      "speedup": 1.894139647364761,
+      "old_loss": 0.7771783952797804,
+      "new_loss": 0.77743963926747
+    },
+    {
+      "step": 2,
+      "old_seconds": 29.934171859174967,
+      "new_seconds": 14.596027489751577,
+      "speedup": 2.05084375733006,
+      "old_loss": 0.7103722454056525,
+      "new_loss": 0.710101063888643
+    }
+  ],
+  "adapter_tensors_changed": 196,
+  "adapter_total": 392,
+  "largest_absolute_update": 9.999997701015673e-07,
+  "fp32_parameters_preserved": true,
+  "numerical_path_note": "BF16 batching changes rounding; same response-only global-token CE and frozen data",
+  "sft20": {
+    "completed_steps": 20,
+    "optimizer_seconds": 322.46055390685797,
+    "final_loss": 0.6981365955955817,
+    "max_allocated_gib": 55.365378856658936,
+    "max_reserved_gib": 70.90625
+  }
+}

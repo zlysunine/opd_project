@@ -1,0 +1,29 @@
+test_actual_hydra_parser_accepts_monitor_and_budget_dictionaries (test_checkpoint_retention.CheckpointRetentionTests.test_actual_hydra_parser_accepts_monitor_and_budget_dictionaries) ... ok
+test_analysis_failure_preserves_old_new_checkpoints_and_export_then_retries (test_checkpoint_retention.CheckpointRetentionTests.test_analysis_failure_preserves_old_new_checkpoints_and_export_then_retries) ... Removed analyzed checkpoint: /tmp/tmpuwsbhj9g/run/opsd/train/checkpoints/global_step_0
+ok
+test_analysis_pause_does_not_consume_training_wall_budget (test_checkpoint_retention.CheckpointRetentionTests.test_analysis_pause_does_not_consume_training_wall_budget) ... ok
+test_changed_analysis_results_block_cleanup (test_checkpoint_retention.CheckpointRetentionTests.test_changed_analysis_results_block_cleanup) ... ok
+test_controlled_rotation_keeps_each_adapter_and_rejects_tampering (test_checkpoint_retention.CheckpointRetentionTests.test_controlled_rotation_keeps_each_adapter_and_rejects_tampering) ... Removed analyzed checkpoint: /tmp/tmptpirs603/run/opsd/train/checkpoints/global_step_0
+ok
+test_default_options_disable_early_worker_rotation_and_keep_legacy_deferred_mode (test_checkpoint_retention.CheckpointRetentionTests.test_default_options_disable_early_worker_rotation_and_keep_legacy_deferred_mode) ... ok
+test_driver_restores_gpu_allocation_and_waits_for_analysis (test_checkpoint_retention.CheckpointRetentionTests.test_driver_restores_gpu_allocation_and_waits_for_analysis) ... ok
+test_failed_checkpoint_publication_preserves_previous_recovery_pointer (test_checkpoint_retention.CheckpointRetentionTests.test_failed_checkpoint_publication_preserves_previous_recovery_pointer) ... ok
+test_incomplete_new_checkpoint_never_deletes_old (test_checkpoint_retention.CheckpointRetentionTests.test_incomplete_new_checkpoint_never_deletes_old) ... ok
+test_lora_export_contains_merged_bf16_weights_without_shadowing_files (test_checkpoint_retention.CheckpointRetentionTests.test_lora_export_contains_merged_bf16_weights_without_shadowing_files) ... /root/autodl-tmp/envs/sft_grpo/lib/python3.12/site-packages/peft/utils/save_and_load.py:286: UserWarning: Could not find a config file in  - will assume that the vocabulary was not modified.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+ok
+test_missing_rank_is_rejected (test_checkpoint_retention.CheckpointRetentionTests.test_missing_rank_is_rejected) ... ok
+test_native_sft_checkpoint_is_validated_before_rotation (test_checkpoint_retention.CheckpointRetentionTests.test_native_sft_checkpoint_is_validated_before_rotation) ... ok
+test_only_latest_weights_remain_and_all_analysis_results_can_be_reused (test_checkpoint_retention.CheckpointRetentionTests.test_only_latest_weights_remain_and_all_analysis_results_can_be_reused) ... local_global_step_folder: /tmp/tmpc8o0nodk/run/opsd/train/checkpoints/global_step_1
+Removed analyzed checkpoint: /tmp/tmp8zatv9k1/run/opsd/train/checkpoints/global_step_0
+Removed analyzed checkpoint: /tmp/tmp8zatv9k1/run/opsd/train/checkpoints/global_step_1
+ok
+test_periodic_unmonitored_save_rotates_and_unmanaged_paths_are_preserved (test_checkpoint_retention.CheckpointRetentionTests.test_periodic_unmonitored_save_rotates_and_unmanaged_paths_are_preserved) ... Removed analyzed checkpoint: /tmp/tmpbyevmva5/run/opsd/train/checkpoints/global_step_0
+ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 3.669s
+
+OK

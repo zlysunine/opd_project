@@ -1,0 +1,213 @@
+{
+  "run_id": "sft_grpo20_throughput_20261110__grpo",
+  "model": {
+    "name_or_path": "Qwen/Qwen3-1.7B-Base",
+    "path": "/root/autodl-tmp/opsd_inputs/models/Qwen3-1.7B-Base",
+    "revision": "ea980cb0a6c2ae4b936e82123acc929f1cec04c1",
+    "dtype": "bfloat16",
+    "device": "cuda",
+    "prompt_mode": "plain_completion"
+  },
+  "dataset": {
+    "answer_protocol": "opsd_answer_v2",
+    "input": "/root/autodl-tmp/opsd_inputs/datasets/DeepMath-103K/5cf055d1fe3d7a2eb19719ac020211469736ae44/native_train.parquet",
+    "revision": "5cf055d1fe3d7a2eb19719ac020211469736ae44",
+    "difficulty_min": 5.0,
+    "difficulty_max": 7.0,
+    "reference_field": "r1_solution_1",
+    "require_verified_reference": true,
+    "topic_level": 2,
+    "train_n": 2814,
+    "dev_n": 512,
+    "frozen_probe_source": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research-runs/base_opsd_20261028_20steps_q70_reuse_pilot_train2814/shared/probe"
+  },
+  "monitor": {
+    "optimizer_steps": [
+      0,
+      1,
+      5,
+      10,
+      20
+    ],
+    "heldout_probe_n": 50,
+    "train_probe_n": 4,
+    "seed": 20261026,
+    "max_probe_response_tokens": 256,
+    "behavior_max_response_tokens": 16384,
+    "quality_gate": {
+      "enabled": true,
+      "max_extraction_failure_rate": 0.3,
+      "splits": [
+        "heldout_probe"
+      ],
+      "scope": "baseline_only"
+    },
+    "anchors": [
+      "prompt_last",
+      "response_32",
+      "response_128"
+    ],
+    "knn_k": [
+      8,
+      16,
+      32
+    ],
+    "curvature_eps": 1e-08,
+    "distribution_metrics": true,
+    "token_top_ks": [
+      10,
+      16,
+      50,
+      100
+    ],
+    "state_chunk_size": 16,
+    "teacher_geometry_steps": [
+      0,
+      1,
+      5,
+      10,
+      20
+    ],
+    "additional_fixed_reference": false,
+    "live_generation": true,
+    "live_greedy": true,
+    "linear_cka": true,
+    "rsa_max_pairs": 1000000,
+    "plot_full_rsm_steps": [
+      0,
+      20
+    ],
+    "plot_relative_depths": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "heavy_metrics": [],
+    "distribution_scope": "all_valid_tokens",
+    "compare_to_initial": true,
+    "overlap_top_k": 16,
+    "distribution_prefill_chunk_size": 256,
+    "distribution_forward_chunk_size": 256,
+    "compare_student_teacher": true,
+    "diagnostic_privileged_teacher": true,
+    "generation_batch_size": 64,
+    "generation_attention_backend": "flash_attention_2",
+    "generation_length_bucketing": false,
+    "regenerate_baseline": true,
+    "generation_engine": "vllm",
+    "generation_gpu_memory_utilization": 0.8
+  },
+  "training": {
+    "tier": "pilot",
+    "group": "exp_base_geometry",
+    "student": "qwen3_1p7b_base",
+    "size": "1.7B",
+    "initialization": "base",
+    "method": "rl",
+    "reference_source": null,
+    "privilege_type": "empty",
+    "teacher_update_policy": "none",
+    "external_teacher": null,
+    "seed": 42,
+    "registry": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/models.json",
+    "train_data": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/shared/probe/train_schedule.jsonl",
+    "validation_data": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/shared/probe/validation.jsonl",
+    "output": "research_runs",
+    "gpus": 1,
+    "batch": 8,
+    "microbatch": 1,
+    "rollouts": 8,
+    "steps": 20,
+    "save_every": 20,
+    "epochs": 1,
+    "learning_rate": 1e-06,
+    "max_prompt_length": 2048,
+    "max_response_length": 16384,
+    "max_teacher_prompt_length": 2048,
+    "sampling_temperature": 1.0,
+    "teacher_temperature": 1.0,
+    "diagnostic_temperature": 1.0,
+    "top_k": 16,
+    "diagnostic_ks": [
+      8,
+      16,
+      32
+    ],
+    "enable_thinking": false,
+    "activation_checkpointing": true,
+    "optimizer_offload": true,
+    "budget_optimized_tokens": null,
+    "budget_rollout_tokens": null,
+    "budget_wall_seconds": null,
+    "supervision": "unprivileged student rollout; full-vocabulary KL(stopgrad(current actor + offline reference) || student); LoRA only",
+    "notes": "Controlled grpo: 20 updates; shared prompts/LoRA/optimizer/probes/question order; method-specific supervision and compute.",
+    "dataset_id": "zwhe99/DeepMath-103K",
+    "dataset_revision": "5cf055d1fe3d7a2eb19719ac020211469736ae44",
+    "difficulty_min": 5.0,
+    "difficulty_max": 7.0,
+    "reference_field": "r1_solution_1",
+    "required_training_metrics": [
+      "opd/overlap_ratio",
+      "opd/overlap_token_advantage",
+      "opd/student_entropy",
+      "opd/teacher_entropy",
+      "opd/entropy_gap"
+    ],
+    "plot_after_training": true,
+    "training_mode": "lora",
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "lora_target_modules": "all-linear",
+    "loss_type": "grpo",
+    "forward_kl_chunk_size": 16,
+    "prompt_mode": "plain_completion",
+    "chat_template_path": "configs/research/plain_completion.jinja",
+    "checkpoint_retention": "latest",
+    "weight_decay": 0.01,
+    "adam_betas": [
+      0.9,
+      0.999
+    ],
+    "adam_eps": 1e-08,
+    "grad_clip": 1.0,
+    "lr_scheduler": "constant",
+    "sft_microbatch": 64,
+    "sft_ce_chunk_size": 1024,
+    "defer_sft_analysis": true,
+    "activation_offload": false,
+    "rollout_gpu_memory_utilization": 0.7,
+    "rollout_enforce_eager": false,
+    "grpo_dynamic_bsz": true,
+    "grpo_max_tokens_per_gpu": 32768,
+    "rollout_compilation_config": {
+      "level": 0,
+      "cudagraph_mode": "FULL_DECODE_ONLY",
+      "cudagraph_capture_sizes": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64
+      ]
+    },
+    "pipeline_workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/grpo",
+    "controlled_comparison": true,
+    "shuffle": false,
+    "question_schedule": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/shared/probe/question_schedule.json",
+    "sft_target_repeats": 8
+  },
+  "table_format": "parquet",
+  "output_root": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/grpo/analysis",
+  "controlled_comparison": true,
+  "requested_methods": [
+    "sft",
+    "grpo"
+  ],
+  "workdir": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110",
+  "method": "grpo",
+  "probe_root": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/shared/probe"
+}

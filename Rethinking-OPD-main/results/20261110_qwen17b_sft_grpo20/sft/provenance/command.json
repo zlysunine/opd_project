@@ -1,0 +1,9 @@
+[
+  "/root/autodl-tmp/envs/sft_grpo/bin/python",
+  "-m",
+  "scripts.research.controlled_sft",
+  "--config",
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/sft/train/resolved_config.json",
+  "--output",
+  "/root/autodl-tmp/opd_project/Rethinking-OPD-main/research_runs/sft_grpo20_throughput_20261110/sft/train"
+]

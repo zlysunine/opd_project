@@ -67,6 +67,21 @@ def finish_checkpoint(config, checkpoint, step):
     """Analyze while training is paused, then rotate; return non-training seconds."""
     if analysis_due(config, step):
         write_analysis_job(config, checkpoint, step)
+    if config.get("defer_analysis_until_training_end", False):
+        if not config.get("controlled_comparison") or config.get("method") != "sft":
+            raise ValueError("Deferred analysis is restricted to native controlled SFT")
+        from scripts.research.common import file_hash, write_json
+        from scripts.research.retention import _saved_checkpoint, archive_adapter
+
+        _saved_checkpoint(Path(checkpoint))
+        analysis_path = Path(config["analysis_config"])
+        write_json(Path(checkpoint) / "research_checkpoint.json", {
+            "config_sha256": file_hash(analysis_path), "method": "sft", "step": step,
+        })
+        if analysis_due(config, step):
+            archive_adapter(Path(checkpoint), analysis_path.parent, step)
+        # Keep ALL pending checkpoints; rotation is allowed only after analysis.
+        return 0.0
     if config.get("checkpoint_retention") != "latest":
         return 0.0
     project = Path(__file__).resolve().parents[3]

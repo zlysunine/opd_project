@@ -60,7 +60,23 @@ def rollout(model, row, config, pool, step):
     return generation_record(model,row,config,pool,step,seed,ids,text,truncated)
 
 
-def rollout_many(model, rows, config, pool, step, cache_dir, progress_path):
+def length_grouped_batches(rows, batch_size, length_hints):
+    """Partition every row exactly once; long answers never share short-answer buckets."""
+    buckets={}
+    for index,row in enumerate(rows):
+        length=length_hints[row['problem_id']]
+        if isinstance(length,bool) or not isinstance(length,int) or length<0:
+            raise ValueError('Generation length hints must be nonnegative integers')
+        bucket=max(512,1 << max(0,length-1).bit_length())
+        buckets.setdefault(bucket,[]).append((length,index))
+    result=[]
+    for bucket,values in sorted(buckets.items()):
+        indices=[i for _,i in sorted(values)]
+        result.extend(indices[start:start+batch_size] for start in range(0,len(indices),batch_size))
+    return result
+
+
+def rollout_many(model, rows, config, pool, step, cache_dir, progress_path, length_hints=None):
     """Recoverable batched monitoring; preserve row order, seeds and decoding metadata."""
     from scripts.research.common import write_json
     from .common import source_hashes
@@ -70,10 +86,27 @@ def rollout_many(model, rows, config, pool, step, cache_dir, progress_path):
         raise ValueError('generation_batch_size must be a positive integer')
     directory = Path(cache_dir)
     directory.mkdir(parents=True, exist_ok=True)
-    backend = 'hf_batched_independent_multinomial_v1'
+    attention_backend=config.get('generation_attention_backend')
+    engine=config.get('generation_engine','hf')
+    if engine not in ('hf','vllm'):
+        raise ValueError('Unsupported monitoring generation engine')
+    bucketed=config.get('generation_length_bucketing',False)
+    backend = ('hf_'+(attention_backend or 'eager')+'_length_buckets_v2' if bucketed or attention_backend
+               else 'hf_batched_independent_multinomial_v1')
+    if engine == 'vllm':
+        if pool == 'fixed_base_rollout' or not config.get('live_greedy',True):
+            raise ValueError('The vLLM monitoring profile supports live greedy evaluation only')
+        backend = 'vllm_continuous_greedy_v1'
     identity = dict(model=model.identity, rows_hash=digest(rows), monitor=config, pool=pool, step=step,
                     sources=source_hashes(), model_adapter_hash=file_hash(ROOT/'scripts/research/models.py'),
                     backend=backend)
+    schedule=None
+    if bucketed:
+        if length_hints is None:
+            length_hints={r['problem_id']:int(r.get('reference_token_length',len(model.prompt(r)))) for r in rows}
+        length_hints={r['problem_id']:length_hints[r['problem_id']] for r in rows}
+        schedule=length_grouped_batches(rows,batch_size,length_hints)
+        identity.update(length_hints_sha256=digest(length_hints),generation_schedule=schedule)
     manifest = directory/'identity.json'
     if manifest.exists():
         if json.loads(manifest.read_text()) != identity:
@@ -107,24 +140,49 @@ def rollout_many(model, rows, config, pool, step, cache_dir, progress_path):
               f'batch={batch_size} elapsed_seconds={elapsed:.1f}', flush=True)
 
     progress()
-    for start in range(0, len(pending), batch_size):
-        indices = pending[start:start+batch_size]
+    if engine == 'vllm' and pending:
+        from .vllm_generation import generate
+        seeds = [int(digest([config['seed'], row['problem_id'], pool])[:8], 16) for row in rows]
+        def save_vllm(i, generated):
+            if results[i] is not None:
+                return
+            ids, text, truncated = generated
+            result = generation_record(model, rows[i], config, pool, step, seeds[i], ids, text, truncated)
+            result['decoding'].update(backend=backend,batch_size=64,attention_backend='vllm_flash_attention',
+                                      continuous_batching=True)
+            write_json(directory/f'{i:06d}.json', dict(row_hash=digest(rows[i]),result_hash=digest(result),result=result))
+            results[i] = result
+            progress()
+        generate(model,rows,seeds,generation_limit(config,pool),directory,save_vllm,
+                 config.get('generation_gpu_memory_utilization',.80))
+        return results
+    if not pending:
+        return results
+    batches=schedule if schedule is not None else [pending[start:start+batch_size] for start in range(0,len(pending),batch_size)]
+    for indices in batches:
+        if all(results[i] is not None for i in indices):
+            continue
         selected = [rows[i] for i in indices]
         seeds = [int(digest([config['seed'], row['problem_id'], pool])[:8], 16) for row in selected]
         fixed = pool == 'fixed_base_rollout'
         greedy = not fixed and config.get('live_greedy', True)
-        if batch_size == 1:
+        if batch_size == 1 and attention_backend is None:
             seed_all(seeds[0])
             generated = [model.generate(selected[0], max_tokens=generation_limit(config,pool),
                                         temperature=1.,top_p=1.,greedy=greedy)]
         else:
+            kwargs={'attention_backend':attention_backend} if attention_backend is not None else {}
             generated = model.generate_batch(selected, seeds, max_tokens=generation_limit(config,pool),
-                                             temperature=1., top_p=1., greedy=greedy)
+                                             temperature=1., top_p=1., greedy=greedy,**kwargs)
         if len(generated) != len(indices):
             raise ValueError('Batched generator returned the wrong number of responses')
         for i, row, seed, (ids, text, truncated) in zip(indices, selected, seeds, generated):
             result = generation_record(model,row,config,pool,step,seed,ids,text,truncated)
-            result['decoding'].update(backend=backend,batch_size=batch_size)
+            result['decoding'].update(backend=backend,batch_size=len(indices),attention_backend=attention_backend or 'eager')
+            if results[i] is not None:
+                if digest(results[i])!=digest(result):
+                    raise ValueError('Regenerated partial-batch result differs from its cached record')
+                continue
             write_json(directory/f'{i:06d}.json',
                        dict(row_hash=digest(row), result_hash=digest(result), result=result))
             results[i] = result

@@ -1,0 +1,169 @@
+test_actual_grpo_actor_is_microbatch_invariant_and_zero_groups_have_no_signal (test_controlled_comparison.ControlledTests.test_actual_grpo_actor_is_microbatch_invariant_and_zero_groups_have_no_signal) ... ok
+test_grpo_reward_matches_evaluation_including_truncation (test_controlled_comparison.ControlledTests.test_grpo_reward_matches_evaluation_including_truncation) ... ok
+test_historical_probe_adoption_is_verified_and_lossless (test_controlled_comparison.ControlledTests.test_historical_probe_adoption_is_verified_and_lossless) ... ok
+test_paired_report_rejects_changed_exposures_and_keeps_all_methods (test_controlled_comparison.ControlledTests.test_paired_report_rejects_changed_exposures_and_keeps_all_methods) ... ok
+test_prepare_emits_three_common_configs (test_controlled_comparison.ControlledTests.test_prepare_emits_three_common_configs) ... ok
+test_schedule_is_deterministic_nonrepeating_and_runtime_enforced (test_controlled_comparison.ControlledTests.test_schedule_is_deterministic_nonrepeating_and_runtime_enforced) ... ok
+test_sft_and_grpo_collect_same_privileged_geometry_without_training_teacher (test_controlled_comparison.ControlledTests.test_sft_and_grpo_collect_same_privileged_geometry_without_training_teacher) ... `torch_dtype` is deprecated! Use `dtype` instead!
+GENERATION_PROGRESS pool=live_rollout step=0 completed=0/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=1/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=2/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=0 completed=3/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=0 completed=4/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=0 completed=5/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=6/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=7/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=8/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=9/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=0 completed=10/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=0 completed=11/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=0 completed=12/12 batch=1 elapsed_seconds=0.4
+GENERATION_PROGRESS pool=live_rollout step=1 completed=0/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=1 completed=1/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=1 completed=2/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=1 completed=3/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=1 completed=4/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=1 completed=5/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=1 completed=6/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=1 completed=7/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=1 completed=8/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=1 completed=9/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=1 completed=10/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=1 completed=11/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=1 completed=12/12 batch=1 elapsed_seconds=0.4
+GENERATION_PROGRESS pool=live_rollout step=0 completed=0/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=1/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=2/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=0 completed=3/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=0 completed=4/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=0 completed=5/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=6/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=7/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=8/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=0 completed=9/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=0 completed=10/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=0 completed=11/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=0 completed=12/12 batch=1 elapsed_seconds=0.4
+GENERATION_PROGRESS pool=live_rollout step=1 completed=0/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=1 completed=1/12 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=1 completed=2/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=1 completed=3/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=1 completed=4/12 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=live_rollout step=1 completed=5/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=1 completed=6/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=1 completed=7/12 batch=1 elapsed_seconds=0.2
+GENERATION_PROGRESS pool=live_rollout step=1 completed=8/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=1 completed=9/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=1 completed=10/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=1 completed=11/12 batch=1 elapsed_seconds=0.3
+GENERATION_PROGRESS pool=live_rollout step=1 completed=12/12 batch=1 elapsed_seconds=0.4
+ok
+test_actual_lora_sft_causal_labels_frozen_base_resume_and_export (test_controlled_comparison.NativeSFTTests.test_actual_lora_sft_causal_labels_frozen_base_resume_and_export) ... ok
+test_deferred_sft_keeps_pending_checkpoints_and_all_adapters_without_running_analysis (test_controlled_comparison.NativeSFTTests.test_deferred_sft_keeps_pending_checkpoints_and_all_adapters_without_running_analysis) ... ok
+test_initial_guard_stops_before_update_and_native_job_recovers (test_controlled_comparison.NativeSFTTests.test_initial_guard_stops_before_update_and_native_job_recovers) ... ok
+test_padded_sft_microbatches_preserve_global_token_loss_and_gradients (test_controlled_comparison.NativeSFTTests.test_padded_sft_microbatches_preserve_global_token_loss_and_gradients) ... ok
+test_real_cpu_freeze_builds_and_reuses_three_method_inputs (test_controlled_comparison.NativeSFTTests.test_real_cpu_freeze_builds_and_reuses_three_method_inputs) ... GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=0/3 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=1/3 batch=1 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=2/3 batch=1 elapsed_seconds=0.1
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=3/3 batch=1 elapsed_seconds=0.1
+ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 13.759s
+
+OK
+test_bucketed_recovery_repeats_original_batch_shape_and_keeps_output_order (test_batched_monitoring.BatchedMonitoringTests.test_bucketed_recovery_repeats_original_batch_shape_and_keeps_output_order) ... GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=0/4 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=2/4 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=4/4 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=3/4 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=4/4 batch=2 elapsed_seconds=0.0
+ok
+test_changed_generation_identity_rejected (test_batched_monitoring.BatchedMonitoringTests.test_changed_generation_identity_rejected) ... GENERATION_PROGRESS pool=live_rollout step=1 completed=0/1 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=1 completed=1/1 batch=2 elapsed_seconds=0.0
+ok
+test_generation_backend_is_restored_before_geometry_even_on_error (test_batched_monitoring.BatchedMonitoringTests.test_generation_backend_is_restored_before_geometry_even_on_error) ... `torch_dtype` is deprecated! Use `dtype` instead!
+ok
+test_interrupted_generation_resumes_only_missing_rows (test_batched_monitoring.BatchedMonitoringTests.test_interrupted_generation_resumes_only_missing_rows) ... GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=0/5 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=2/5 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=2/5 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=4/5 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=5/5 batch=2 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=fixed_base_rollout step=0 completed=5/5 batch=2 elapsed_seconds=0.0
+ok
+test_length_buckets_preserve_every_question_without_padding_long_with_short (test_batched_monitoring.BatchedMonitoringTests.test_length_buckets_preserve_every_question_without_padding_long_with_short) ... ok
+test_real_model_left_padding_matches_individual_greedy (test_batched_monitoring.BatchedMonitoringTests.test_real_model_left_padding_matches_individual_greedy) ... ok
+test_sampling_seeds_follow_questions_across_batch_order (test_batched_monitoring.BatchedMonitoringTests.test_sampling_seeds_follow_questions_across_batch_order) ... ok
+test_vllm_eos_normalization_and_continuous_results_keep_original_order (test_batched_monitoring.BatchedMonitoringTests.test_vllm_eos_normalization_and_continuous_results_keep_original_order) ... GENERATION_PROGRESS pool=live_rollout step=0 completed=0/3 batch=64 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=1/3 batch=64 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=2/3 batch=64 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=3/3 batch=64 elapsed_seconds=0.0
+GENERATION_PROGRESS pool=live_rollout step=0 completed=3/3 batch=64 elapsed_seconds=0.0
+ok
+test_changed_rules_or_files_rejected (test_batched_monitoring.PreparationReuseTests.test_changed_rules_or_files_rejected) ... ok
+test_generation_changes_reusable_but_selection_changes_rejected (test_batched_monitoring.PreparationReuseTests.test_generation_changes_reusable_but_selection_changes_rejected) ... ok
+test_reuse_preserves_ids_and_checksums (test_batched_monitoring.PreparationReuseTests.test_reuse_preserves_ids_and_checksums) ... PREPARATION_CACHE_VERIFIED {"heldout_probe": 1, "validation": 1, "train": 2, "train_probe": 1}
+ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 3.756s
+
+OK
+test_actual_hydra_parser_accepts_monitor_and_budget_dictionaries (test_checkpoint_retention.CheckpointRetentionTests.test_actual_hydra_parser_accepts_monitor_and_budget_dictionaries) ... ok
+test_analysis_failure_preserves_old_new_checkpoints_and_export_then_retries (test_checkpoint_retention.CheckpointRetentionTests.test_analysis_failure_preserves_old_new_checkpoints_and_export_then_retries) ... Removed analyzed checkpoint: /tmp/tmpfpdwfuwi/run/opsd/train/checkpoints/global_step_0
+ok
+test_analysis_pause_does_not_consume_training_wall_budget (test_checkpoint_retention.CheckpointRetentionTests.test_analysis_pause_does_not_consume_training_wall_budget) ... ok
+test_changed_analysis_results_block_cleanup (test_checkpoint_retention.CheckpointRetentionTests.test_changed_analysis_results_block_cleanup) ... ok
+test_controlled_rotation_keeps_each_adapter_and_rejects_tampering (test_checkpoint_retention.CheckpointRetentionTests.test_controlled_rotation_keeps_each_adapter_and_rejects_tampering) ... Removed analyzed checkpoint: /tmp/tmpwm93o2wv/run/opsd/train/checkpoints/global_step_0
+ok
+test_cuda_snapshot_cache_is_released_after_save_scope_on_success_and_failure (test_checkpoint_retention.CheckpointRetentionTests.test_cuda_snapshot_cache_is_released_after_save_scope_on_success_and_failure) ... ok
+test_default_options_disable_early_worker_rotation_and_keep_legacy_deferred_mode (test_checkpoint_retention.CheckpointRetentionTests.test_default_options_disable_early_worker_rotation_and_keep_legacy_deferred_mode) ... ok
+test_driver_restores_gpu_allocation_and_waits_for_analysis (test_checkpoint_retention.CheckpointRetentionTests.test_driver_restores_gpu_allocation_and_waits_for_analysis) ... ok
+test_failed_checkpoint_publication_preserves_previous_recovery_pointer (test_checkpoint_retention.CheckpointRetentionTests.test_failed_checkpoint_publication_preserves_previous_recovery_pointer) ... ok
+test_incomplete_new_checkpoint_never_deletes_old (test_checkpoint_retention.CheckpointRetentionTests.test_incomplete_new_checkpoint_never_deletes_old) ... ok
+test_lora_export_contains_merged_bf16_weights_without_shadowing_files (test_checkpoint_retention.CheckpointRetentionTests.test_lora_export_contains_merged_bf16_weights_without_shadowing_files) ... /root/autodl-tmp/envs/sft_grpo/lib/python3.12/site-packages/peft/utils/save_and_load.py:286: UserWarning: Could not find a config file in  - will assume that the vocabulary was not modified.
+  warnings.warn(
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+ok
+test_missing_rank_is_rejected (test_checkpoint_retention.CheckpointRetentionTests.test_missing_rank_is_rejected) ... ok
+test_native_sft_checkpoint_is_validated_before_rotation (test_checkpoint_retention.CheckpointRetentionTests.test_native_sft_checkpoint_is_validated_before_rotation) ... ok
+test_only_latest_weights_remain_and_all_analysis_results_can_be_reused (test_checkpoint_retention.CheckpointRetentionTests.test_only_latest_weights_remain_and_all_analysis_results_can_be_reused) ... local_global_step_folder: /tmp/tmpd1nk1l56/run/opsd/train/checkpoints/global_step_1
+Removed analyzed checkpoint: /tmp/tmpz2eg_ti0/run/opsd/train/checkpoints/global_step_0
+Removed analyzed checkpoint: /tmp/tmpz2eg_ti0/run/opsd/train/checkpoints/global_step_1
+ok
+test_periodic_unmonitored_save_rotates_and_unmanaged_paths_are_preserved (test_checkpoint_retention.CheckpointRetentionTests.test_periodic_unmonitored_save_rotates_and_unmanaged_paths_are_preserved) ... Removed analyzed checkpoint: /tmp/tmpqlmerbms/run/opsd/train/checkpoints/global_step_0
+ok
+test_restore_handoff_preserves_payload_and_clears_only_unused_cuda_cache (test_checkpoint_retention.CheckpointRetentionTests.test_restore_handoff_preserves_payload_and_clears_only_unused_cuda_cache) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 3.824s
+
+OK
+test_current_profile_and_effective_command (test_forward_kl.ForwardKLTests.test_current_profile_and_effective_command) ... ok
+test_exact_direction_mask_gradient_and_checkpoint_chunks (test_forward_kl.ForwardKLTests.test_exact_direction_mask_gradient_and_checkpoint_chunks) ... /root/autodl-tmp/opd_project/Rethinking-OPD-main/tests/research/test_forward_kl.py:70: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:835.)
+  self.assertGreater(abs(float(expected-reverse)),.01)
+ok
+test_lora_export_uses_training_alpha_and_bakes_adapter (test_forward_kl.ForwardKLTests.test_lora_export_uses_training_alpha_and_bakes_adapter) ... ok
+test_prepare_refuses_old_128_question_budget_before_evaluation (test_forward_kl.ForwardKLTests.test_prepare_refuses_old_128_question_budget_before_evaluation) ... ok
+test_production_actor_full_logits_causal_alignment (test_forward_kl.ForwardKLTests.test_production_actor_full_logits_causal_alignment) ... `torch_dtype` is deprecated! Use `dtype` instead!
+ok
+test_production_lora_update_keeps_base_frozen_and_teacher_fixed (test_forward_kl.ForwardKLTests.test_production_lora_update_keeps_base_frozen_and_teacher_fixed) ... ok
+test_temperatures_and_nonfinite_padding (test_forward_kl.ForwardKLTests.test_temperatures_and_nonfinite_padding) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 4.212s
+
+OK
+test_all_images_and_scripts_are_embedded_and_json_is_safe (test_html_report.HtmlReportTests.test_all_images_and_scripts_are_embedded_and_json_is_safe) ... ok
+test_archived_export_can_be_rendered_without_server_raw_files (test_html_report.HtmlReportTests.test_archived_export_can_be_rendered_without_server_raw_files) ... ok
+test_comparison_roles_and_scope_are_not_mislabeled (test_html_report.HtmlReportTests.test_comparison_roles_and_scope_are_not_mislabeled) ... ok
+test_historical_selected_positions_cannot_claim_new_metrics (test_html_report.HtmlReportTests.test_historical_selected_positions_cannot_claim_new_metrics) ... ok
+test_javascript_contexts_and_heatmap_controls (test_html_report.HtmlReportTests.test_javascript_contexts_and_heatmap_controls) ... skipped 'Node is needed to exercise application controls'
+test_raw_token_mean_stays_separate_from_question_summary (test_html_report.HtmlReportTests.test_raw_token_mean_stays_separate_from_question_summary) ... ok
+test_source_hash_mismatch_rejected (test_html_report.HtmlReportTests.test_source_hash_mismatch_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.019s
+
+OK (skipped=1)

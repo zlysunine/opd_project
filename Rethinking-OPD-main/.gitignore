@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 /research_runs/
+/research-runs/
 /research_data/
 /outputs/
 /models/

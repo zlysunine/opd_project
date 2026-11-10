@@ -15,7 +15,7 @@ import torch
 
 from scripts.research.common import ROOT, opsd, read_jsonl, write_json, write_jsonl
 from scripts.research.controlled_data import schedule, record_exposure, grpo_signal
-from scripts.research.controlled_sft import train, initialize, encode_target, response_ce_sum
+from scripts.research.controlled_sft import train, initialize, encode_target, response_ce_sum, response_ce_batch_sum
 from scripts.research.launch import hydra_options,resolve
 from scripts.research.reward import compute_score_details
 from scripts.research import compare
@@ -167,12 +167,15 @@ class ControlledTests(unittest.TestCase):
                 append_to_dict=lambda destination,values:[destination.setdefault(k,[]).append(v) for k,v in values.items()])
         exec(compile(ast.fix_missing_locations(ast.Module(body=[node],type_ignores=[])),'production_actor','exec'),ns)
         results=[]
-        for micro in [1,4]:
+        for micro in [1,4,'dynamic']:
             table=torch.nn.Parameter(torch.zeros(4,3));optimizer=torch.optim.SGD([table],lr=.1)
-            cfg=Config(ppo_mini_batch_size=4,ppo_epochs=1,use_dynamic_bsz=False,ppo_micro_batch_size_per_gpu=micro,
+            cfg=Config(ppo_mini_batch_size=4,ppo_epochs=1,use_dynamic_bsz=micro=='dynamic',
+                ppo_micro_batch_size_per_gpu=1 if micro=='dynamic' else micro,ppo_max_token_len_per_gpu=32,
                 research_global_token_mean=True,loss_agg_mode='token-mean',use_kl_loss=False,entropy_coeff=0.,
                 policy_loss={},clip_ratio=.2,clip_ratio_low=.2,clip_ratio_high=.2)
-            actor=types.SimpleNamespace(actor_module=torch.nn.Identity(),actor_optimizer=optimizer,config=cfg)
+            actor=types.SimpleNamespace(actor_module=torch.nn.Identity(),actor_optimizer=optimizer,config=cfg,
+                                        ulysses_sequence_parallel_size=1)
+            ns['prepare_dynamic_batch']=lambda data,**kwargs:(data.split(3),None)
             actor._forward_micro_batch=lambda inputs,**kwargs:(None,table[inputs['responses'][:,0]],None,None)
             def update():
                 norm=table.grad.norm();optimizer.step();return norm
@@ -184,11 +187,59 @@ class ControlledTests(unittest.TestCase):
             self.assertAlmostEqual(reported['actor/pg_loss'][0],float((-adv*mask).sum()/mask.sum()),places=6)
             results.append(table.detach().clone())
         torch.testing.assert_close(results[0],results[1],atol=1e-8,rtol=1e-6)
+        torch.testing.assert_close(results[0],results[2],atol=1e-8,rtol=1e-6)
         self.assertGreater(float(results[0][0,0]),0.)
         self.assertLess(float(results[0][1,0]),0.)
 
 
 class NativeSFTTests(unittest.TestCase):
+    def test_padded_sft_microbatches_preserve_global_token_loss_and_gradients(self):
+        torch.set_num_threads(1)
+        with tempfile.TemporaryDirectory() as temp:
+            config, rows = self.fixture(Path(temp))
+            model, tokenizer = initialize(config, 'cpu')
+            model.train()
+            first = encode_target(rows[0], tokenizer, config)
+            second = (first[0][:-2], first[1][:-4])
+            examples = [first, second, first]
+            denominator = sum(len(r) for _, r in examples)
+            expected = 0.
+            for p, r in examples:
+                loss = response_ce_sum(model, p, r, 'cpu') / denominator
+                expected += float(loss.detach())
+                loss.backward()
+            gradients = {n: p.grad.clone() for n, p in model.named_parameters() if p.requires_grad}
+            for microbatch in [1, 2, 3]:
+                model.zero_grad(set_to_none=True)
+                actual = 0.
+                for i in range(0, len(examples), microbatch):
+                    loss = response_ce_batch_sum(model, examples[i:i+microbatch], 'cpu', chunk=7) / denominator
+                    actual += float(loss.detach())
+                    loss.backward()
+                self.assertAlmostEqual(expected, actual, places=5)
+                for n, p in model.named_parameters():
+                    if p.requires_grad:
+                        torch.testing.assert_close(p.grad, gradients[n], atol=2e-7, rtol=2e-4)
+
+    def test_deferred_sft_keeps_pending_checkpoints_and_all_adapters_without_running_analysis(self):
+        from scripts.research.common import file_hash
+        torch.set_num_threads(1)
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);config,rows=self.fixture(root);method=root/'sft'
+            manifest=root/'probe.jsonl';write_jsonl(manifest,rows)
+            config['monitor']=dict(optimizer_steps=[0,1,2],method='sft',controlled_comparison=True,
+                checkpoint_retention='latest',defer_analysis_until_training_end=True,
+                probe_manifest=str(manifest),probe_manifest_hash=file_hash(manifest),
+                analysis_config=str(method/'analysis_config.json'),job_dir=str(method/'jobs'))
+            write_json(method/'training_config.json',config);write_json(method/'analysis_config.json',{'fixture':True})
+            module=__import__('scripts.research.common',fromlist=['load_verl_utility']).load_verl_utility('research_monitor')
+            with patch.object(module.subprocess,'run',side_effect=AssertionError('Analysis must wait')):
+                train(config,method/'train','cpu',fixture=True)
+            for step in [0,1,2]:
+                self.assertTrue((method/f'train/checkpoints/global_step_{step}/research_checkpoint.json').is_file())
+                self.assertTrue((method/f'adapter_archive/global_step_{step}/archive_complete.json').is_file())
+                self.assertTrue((method/f'jobs/step_{step:06d}.json').is_file())
+
     def fixture(self,root):
         from transformers import Qwen3Config,Qwen3ForCausalLM
         modeldir=root/'base';modeldir.mkdir()

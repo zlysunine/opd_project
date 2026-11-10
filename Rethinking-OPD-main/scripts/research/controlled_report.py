@@ -28,7 +28,11 @@ def build(workdir):
     schedule=json.loads(schedule_path.read_text())['batches']
     result=dict(methods={},comparisons={},schedule_sha256=file_hash(schedule_path))
     finals={};baseline=None
+    requested=config.get('requested_methods',['opsd','sft','grpo'])
     for method in ('opsd','sft','grpo'):
+        if method not in requested:
+            result['methods'][method]=dict(status='not_requested')
+            continue
         states={};series=[]
         for step in config['monitor']['optimizer_steps']:
             directory=root/method/'analysis/steps'/f'step_{step:06d}'
@@ -61,12 +65,15 @@ def build(workdir):
     for a,b in itertools.combinations(finals,2):result['comparisons'][f'{b}_minus_{a}']=paired(finals[a],finals[b])
     out=root/'report';out.mkdir(exist_ok=True)
     write_json(out/'controlled_summary.json',result)
-    lines=['# OPSD / SFT / GRPO 配对对照结果','',
-           '三组共享冻结题集、Base 初始参数、LoRA 初始化、逐步题目顺序、更新数和评测协议。',
+    names=' / '.join(m.upper() for m in requested)
+    lines=['# '+names+' 配对对照结果','',
+           '本轮执行的方法共享冻结题集、Base 初始参数、LoRA 初始化、逐步题目顺序、更新数和评测协议。',
            'SFT 的每题 8 份是同一离线 reference 的重复监督；OPSD/GRPO 是 8 条自主采样回答。相同更新数和序列数不代表相同 token 或计算预算。','',
            '| 方法 | 状态 | 末次 step | 初始→最终正确率 | 配对变化 95% 区间（百分点） |',
            '|---|---|---:|---|---|']
     for name,r in result['methods'].items():
+        if r['status']=='not_requested':
+            lines.append(f'| {name} | 用户指定本轮不运行 | — | — | — |');continue
         if 'series' not in r:lines.append(f'| {name} | 尚未分析 | — | — | — |');continue
         a,b=r['series'][0],r['series'][-1];ci=r['change']['ci95']
         lines.append(f"| {name} | {r['status']} | {r['final_step']} | {a['accuracy']:.1%}→{b['accuracy']:.1%} | [{100*ci[0]:.1f}, {100*ci[1]:.1f}] |")
@@ -84,6 +91,8 @@ def build(workdir):
     lines+=['','区间按问题成对重采样；单 seed、50 题且已用于验收，不能据此作跨 seed 或独立外部测试的稳定性结论。',
             '曲率/RSA/CKA、固定前缀与 live 分布、实际训练 token/耗时见同目录 OPSD_report.html。',
             'SFT/GRPO 的特权条件只用于诊断，训练时没有特权 logits 教师。三组损失函数的数值不能直接横向比较。','']
+    if 'opsd' not in requested:
+        lines+=['历史 OPSD 结果单独保留。本轮未重训 OPSD；历史运行缺少逐步训练题目 ID 收据，不能将其与本轮称为训练暴露严格配对的三组实验。','']
     target=out/'CONTROLLED_COMPARISON_zh.md';target.write_text('\n'.join(lines))
     import matplotlib
     matplotlib.use('Agg')
@@ -100,9 +109,9 @@ def build(workdir):
     fig.tight_layout();image=io.StringIO();fig.savefig(image,format='svg');plt.close(fig)
     svg='<svg'+image.getvalue().split('<svg',1)[1]
     page=('<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-          '<title>OPSD / SFT / GRPO 配对对照</title><style>body{max-width:1050px;margin:24px auto;padding:0 16px;'
+          '<title>'+names+' 配对对照</title><style>body{max-width:1050px;margin:24px auto;padding:0 16px;'
           'font:16px/1.8 system-ui;color:#203743}svg{width:100%;height:auto}pre{white-space:pre-wrap;overflow-wrap:anywhere}'
-          '</style><h1>OPSD / SFT / GRPO 配对对照</h1><p>同题、同初始参数、同训练题序。曲线为描述性比例；配对区间和预算见下文。</p>'
+          '</style><h1>'+names+' 配对对照</h1><p>同题、同初始参数、同训练题序。曲线为描述性比例；配对区间和预算见下文。</p>'
           +svg+'<pre>'+html.escape('\n'.join(lines))+'</pre><script type="application/json" id="controlled-data">'
           +json.dumps(result,ensure_ascii=False).replace('<','\\u003c')+'</script></html>')
     (out/'CONTROLLED_COMPARISON.html').write_text(page)

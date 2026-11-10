@@ -21,8 +21,8 @@ def validate_controlled(c):
         raise ValueError('Shared template must describe LoRA / forward-KL OPSD')
     if not c['monitor'].get('diagnostic_privileged_teacher'):
         raise ValueError('All methods must collect the same privileged-context diagnostics')
-    if t.get('checkpoint_retention') != 'all':
-        raise ValueError('Controlled v1 retains all monitored checkpoints for independent audit')
+    if t.get('checkpoint_retention') not in ('all','latest'):
+        raise ValueError('Controlled retention must be all, or latest with analysis before rotation and adapter archives')
     required = ('weight_decay','adam_betas','adam_eps','grad_clip','lr_scheduler')
     if any(k not in t for k in required) or t['lr_scheduler'] != 'constant':
         raise ValueError('Pin common AdamW settings and the constant learning-rate schedule')

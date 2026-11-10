@@ -4,10 +4,11 @@ from pathlib import Path
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import torch
 
-from analysis.evaluate import rollout_many
+from analysis.evaluate import rollout_many, length_grouped_batches
 from scripts.research.common import ROOT, digest, file_hash, write_json, write_jsonl
 from scripts.research.models import Model, create_tiny
 from scripts.research.preparation_cache import FILES, restore, seal_snapshot
@@ -35,6 +36,61 @@ class FakeModel:
 
 
 class BatchedMonitoringTests(unittest.TestCase):
+    def test_vllm_eos_normalization_and_continuous_results_keep_original_order(self):
+        from analysis.vllm_generation import normalize_response
+        self.assertEqual(normalize_response([7,1,8],1,'stop'),([7,1],False))
+        self.assertEqual(normalize_response([7],1,'stop'),([7,1],False))
+        self.assertEqual(normalize_response([7],1,'length'),([7],True))
+        with self.assertRaises(ValueError):normalize_response([7],1,'abort')
+        with tempfile.TemporaryDirectory() as tmp:
+            rows=[question(i) for i in range(3)]
+            config=dict(generation_engine='vllm',generation_batch_size=64,seed=42,max_probe_response_tokens=8)
+            def generated(model, selected, seeds, maximum, directory, callback, fraction):
+                for i in [2,0,1]:callback(i,([9,1],r'\boxed{2}',False))
+            with patch('analysis.vllm_generation.generate',side_effect=generated) as run:
+                out=rollout_many(FakeModel(),rows,config,'live_rollout',0,Path(tmp)/'cache',Path(tmp)/'progress.json')
+                self.assertEqual([r['problem_id'] for r in out],[r['problem_id'] for r in rows])
+                self.assertTrue(all(r['decoding']['continuous_batching'] for r in out))
+                again=rollout_many(FakeModel(),rows,config,'live_rollout',0,Path(tmp)/'cache',Path(tmp)/'progress.json')
+                self.assertEqual(out,again);self.assertEqual(run.call_count,1)
+
+    def test_length_buckets_preserve_every_question_without_padding_long_with_short(self):
+        rows=[question(i) for i in range(7)]
+        hints={row['problem_id']:n for row,n in zip(rows,[16384,10,900,400,16000,800,12])}
+        batches=length_grouped_batches(rows,8,hints)
+        self.assertEqual(sorted(i for batch in batches for i in batch),list(range(7)))
+        self.assertIn([4,0],batches)
+        self.assertTrue(all(set(batch)<=set([0,4]) or not set(batch)&set([0,4]) for batch in batches))
+
+    def test_bucketed_recovery_repeats_original_batch_shape_and_keeps_output_order(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            rows=[question(i) for i in range(4)]
+            config=dict(generation_batch_size=2,generation_length_bucketing=True,seed=42,max_probe_response_tokens=8)
+            hints={r['problem_id']:10 for r in rows}
+            cache=Path(tmp)/'cache';progress=Path(tmp)/'progress.json'
+            original=rollout_many(FakeModel(),rows,config,'fixed_base_rollout',0,cache,progress,length_hints=hints)
+            (cache/'000001.json').unlink()
+            model=FakeModel()
+            recovered=rollout_many(model,rows,config,'fixed_base_rollout',0,cache,progress,length_hints=hints)
+            self.assertEqual(original,recovered)
+            self.assertEqual(model.calls,1)
+            self.assertEqual([r['problem_id'] for r in recovered],[r['problem_id'] for r in rows])
+            with self.assertRaisesRegex(ValueError,'identity changed'):
+                rollout_many(model,rows,config,'fixed_base_rollout',0,cache,progress,
+                             length_hints={r['problem_id']:20 for r in rows})
+
+    def test_generation_backend_is_restored_before_geometry_even_on_error(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            create_tiny(tmp,7)
+            model=Model(tmp,'fixture:7',prompt_mode='plain_completion')
+            rows=[question(1),question(7)]
+            model.generate_batch(rows,[1,2],max_tokens=3,greedy=True,attention_backend='sdpa')
+            self.assertEqual(model.model.config._attn_implementation,'eager')
+            with patch.object(model.model,'generate',side_effect=RuntimeError('generation failed')):
+                with self.assertRaisesRegex(RuntimeError,'generation failed'):
+                    model.generate_batch(rows,[1,2],max_tokens=3,greedy=True,attention_backend='sdpa')
+            self.assertEqual(model.model.config._attn_implementation,'eager')
+
     def test_real_model_left_padding_matches_individual_greedy(self):
         with tempfile.TemporaryDirectory() as tmp:
             create_tiny(tmp, 7)

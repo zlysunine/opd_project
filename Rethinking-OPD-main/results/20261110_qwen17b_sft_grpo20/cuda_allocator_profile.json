@@ -1,0 +1,11 @@
+{
+  "scope": "Standalone checkpoint-analysis subprocesses only: python -m scripts.research.retention",
+  "settings": {
+    "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:True"
+  },
+  "reason": "Reduce long-response KV allocator fragmentation in standalone HF analysis. Keep Ray/vLLM processes on their default allocator for CUDA IPC compatibility.",
+  "current_inflight_analysis_unchanged": true,
+  "training_allocator_unchanged": true,
+  "updated_unix": 1794284097.976973,
+  "file": "/root/autodl-tmp/envs/sft_grpo/lib/python3.12/site-packages/opsd_cuda_allocator.pth"
+}

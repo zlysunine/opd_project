@@ -207,6 +207,11 @@ def enrich(payload):
     for entry in payload['metrics']:
         name,kind=entry['name'],entry['kind']
         title,unit,notes=info(name,kind)
+        if kind=='training' and name=='actor/loss':
+            title='训练损失（按方法定义）'
+            unit='按方法定义'
+            notes=['SFT：response-only 交叉熵；GRPO：策略优化损失；OPSD：全词表 KL(stopgrad(教师) || 学生)。'
+                   '请按上下文中的 method 区分，损失绝对值不能跨方法直接比较。']
         entry.update(title=title,unit=unit)
         # Show k as recorded. A generic OTA alias need not mean k=16 in custom configs.
         if name=='overlap_token_advantage_nats':

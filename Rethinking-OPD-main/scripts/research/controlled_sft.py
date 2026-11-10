@@ -50,6 +50,41 @@ def response_ce_sum(model, prompt, response, device, chunk=16):
     return loss
 
 
+def response_ce_batch_sum(model, examples, device, pad_token_id=0, chunk=256):
+    """Sum response-only CE over real sequences, with right padding masked out.
+
+    The caller divides every microbatch by the SAME optimizer-step response-token
+    count. Changing microbatch size therefore never reweights short responses.
+    """
+    from torch.utils.checkpoint import checkpoint
+    lengths = [len(p) + len(r) for p, r in examples]
+    ids = torch.full((len(examples), max(lengths)), pad_token_id, device=device, dtype=torch.long)
+    mask = torch.zeros_like(ids)
+    for i, ((prompt, response), length) in enumerate(zip(examples, lengths)):
+        ids[i, :length] = torch.tensor(prompt + response, device=device)
+        mask[i, :length] = 1
+    # Do not materialize [B,T,151936] logits. Backpropagating hundreds of slices
+    # of that tensor repeatedly allocates/scatters a huge dense logits gradient.
+    # Run the same decoder and checkpoint the output projection together with CE.
+    causal = model.get_base_model() if hasattr(model, 'get_base_model') else model
+    decoder = getattr(causal, 'model', None) or getattr(causal, 'transformer', None)
+    if decoder is None:
+        raise ValueError('Add an explicit decoder adapter for this SFT architecture')
+    hidden = decoder(input_ids=ids, attention_mask=mask, use_cache=False).last_hidden_state
+    states, targets = [], []
+    for i, (prompt, response) in enumerate(examples):
+        states.append(hidden[i, len(prompt)-1:len(prompt)-1+len(response)])
+        targets.append(ids[i, len(prompt):len(prompt)+len(response)])
+    states, targets = torch.cat(states), torch.cat(targets)
+    head = causal.get_output_embeddings()
+    loss = states.reshape(-1)[:0].sum()
+    for start in range(0, len(targets), chunk):
+        def term(a, b):
+            return F.cross_entropy(head(a).float(), b, reduction='sum')
+        loss = loss + checkpoint(term, states[start:start+chunk], targets[start:start+chunk], use_reentrant=False)
+    return loss
+
+
 def initialize(config, device):
     from transformers import AutoModelForCausalLM, AutoTokenizer
     from peft import LoraConfig, TaskType, get_peft_model
@@ -129,8 +164,8 @@ def train(config,output,device='cuda',fixture=False,stop_after=None):
         raise ValueError('This SFT trainer is only for the single-GPU controlled comparison')
     if not fixture and (device!='cuda' or not torch.cuda.is_available()):
         raise ValueError('Production training requires a CUDA GPU; CPU is reserved for explicit tiny tests')
-    if config.get('checkpoint_retention')!='all':
-        raise ValueError('Controlled SFT retains all monitored checkpoints')
+    if config.get('checkpoint_retention') not in ('all','latest'):
+        raise ValueError('Controlled SFT requires an explicit checkpoint retention policy')
     random.seed(config['seed']);np.random.seed(config['seed']);torch.manual_seed(config['seed'])
     model,tokenizer=initialize(config,device)
     optimizer=torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],lr=config['learning_rate'],
@@ -151,10 +186,13 @@ def train(config,output,device='cuda',fixture=False,stop_after=None):
         from .common import write_jsonl
         write_jsonl(metrics_path,retained)
     monitor=config.get('monitor',{})
+    budget=None
     def publish(number):
         saved=save_checkpoint(model,optimizer,checkpoints,number,config)
         if monitor:
-            load_verl_utility('research_monitor').finish_checkpoint(monitor,saved,number)
+            pause=load_verl_utility('research_monitor').finish_checkpoint(monitor,saved,number)
+            if budget is not None:
+                budget.exclude_pause(pause)
     if not tracker.is_file():
         publish(0)
     elif monitor and step in monitor.get('optimizer_steps',[]):
@@ -169,10 +207,14 @@ def train(config,output,device='cuda',fixture=False,stop_after=None):
         examples=[example for example in encoded[begin:end] for _ in range(config['sft_target_repeats'])]
         denominator=sum(len(response) for _,response in examples)
         optimizer.zero_grad(set_to_none=True);model.train();numerator=0.
-        for prompt,response in examples:
+        microbatch = config.get('sft_microbatch', config.get('microbatch', 1))
+        if isinstance(microbatch, bool) or not isinstance(microbatch, int) or microbatch < 1:
+            raise ValueError('SFT microbatch must be a positive integer')
+        for begin in range(0, len(examples), microbatch):
             autocast=torch.autocast('cuda',dtype=torch.bfloat16) if device=='cuda' else contextlib.nullcontext()
             with autocast:
-                loss=response_ce_sum(model,prompt,response,device,config.get('forward_kl_chunk_size',16))
+                loss=response_ce_batch_sum(model, examples[begin:begin+microbatch], device,
+                    tokenizer.pad_token_id or 0, config.get('sft_ce_chunk_size', 256))
             if not torch.isfinite(loss):raise ValueError('Nonfinite SFT response cross entropy')
             (loss/denominator).backward();numerator+=float(loss.detach())
         grad=torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad],config['grad_clip'],error_if_nonfinite=True)
@@ -181,6 +223,7 @@ def train(config,output,device='cuda',fixture=False,stop_after=None):
             'actor/loss':numerator/denominator,'sft/response_ce':numerator/denominator,
             'actor/lr':config['learning_rate'],'actor/grad_norm':float(grad),
             'sft/supervised_sequences':len(examples),'sft/distinct_questions':config['batch'],
+            'sft/microbatch':microbatch,
             'timing_s/step':time.monotonic()-started})
         if device=='cuda':
             metrics.update({'perf/max_memory_allocated_gb':torch.cuda.max_memory_allocated()/1024**3,

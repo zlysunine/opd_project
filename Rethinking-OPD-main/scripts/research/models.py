@@ -115,7 +115,8 @@ class Model:
         return ids, self.tokenizer.decode(ids, skip_special_tokens=True), not ids or ids[-1] != self.tokenizer.eos_token_id
 
     @torch.no_grad()
-    def generate_batch(self, rows, seeds, max_tokens=128, temperature=1., top_p=1., greedy=False):
+    def generate_batch(self, rows, seeds, max_tokens=128, temperature=1., top_p=1., greedy=False,
+                       attention_backend=None):
         """Left-padded inference with a separate sampling RNG for every question.
 
         A logits processor samples each row independently; HF then selects the
@@ -147,11 +148,20 @@ class Model:
                 return torch.full_like(scores, -float('inf')).scatter_(1, choices, 0.)
 
         processors = LogitsProcessorList([] if greedy else [IndependentSampling()])
-        generated = self.model.generate(
-            input_ids=ids, attention_mask=mask, max_new_tokens=max_tokens, do_sample=False,
-            num_beams=1, logits_processor=processors, pad_token_id=self.tokenizer.pad_token_id,
-            eos_token_id=self.tokenizer.eos_token_id,
-        )[:, width:].tolist()
+        if attention_backend not in (None,'eager','sdpa','flash_attention_2'):
+            raise ValueError('Unsupported generation attention backend')
+        original_backend = self.model.config._attn_implementation
+        try:
+            if attention_backend is not None:
+                self.model.set_attn_implementation(attention_backend)
+            generated = self.model.generate(
+                input_ids=ids, attention_mask=mask, max_new_tokens=max_tokens, do_sample=False,
+                num_beams=1, logits_processor=processors, pad_token_id=self.tokenizer.pad_token_id,
+                eos_token_id=self.tokenizer.eos_token_id,
+            )[:, width:].tolist()
+        finally:
+            if attention_backend is not None:
+                self.model.set_attn_implementation(original_backend)
         results = []
         for response in generated:
             if self.tokenizer.eos_token_id in response:

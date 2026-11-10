@@ -1,5 +1,7 @@
 # 服务器 Codex 交接：OPSD / SFT / GRPO 严格配对对照
 
+> 2026-11-10 更新：SFT/GRPO 各20步已在服务器完成，本轮按用户要求未重训OPSD。最新实测配置、保留策略、结果与交接以 [SFT_GRPO_HANDOFF_20261110_zh.md](SFT_GRPO_HANDOFF_20261110_zh.md) 为准。下文保留2026-11-09三组设计和执行前说明作历史记录。
+
 更新：2026-11-09。先阅读本文件，再查看 `docs/research/OPSD_SECOND_RUN_AUDIT_zh.md`。
 
 本地无 GPU。本次交付的是源码、CPU 验证和服务器执行流程，不包含新 1.7B SFT/GRPO 实验结果。已有两次报告和原始启动脚本保留。不要把旧实验目录改成新对照的输出目录。

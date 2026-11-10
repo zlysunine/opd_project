@@ -1,0 +1,16 @@
+{
+  "html": "/root/autodl-tmp/opd_project/Rethinking-OPD-main/results/20261110_qwen17b_sft_grpo20/report/SFT_report.html",
+  "title": "Qwen/Qwen3-1.7B-Base · checkpoint 20 实验报告",
+  "rendered_metrics": 173,
+  "page_errors": [],
+  "network_requests": [],
+  "checks": [
+    "all metrics",
+    "search",
+    "28-layer heatmap",
+    "CSV",
+    "PNG",
+    "SVG",
+    "coverage table"
+  ]
+}

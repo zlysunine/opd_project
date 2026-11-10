@@ -146,12 +146,16 @@ def extract(c, checkpoint, revision, step, model=None):
     with tempfile.TemporaryDirectory(prefix=f'.step-{step}-', dir=target.parent) as tmp, torch.inference_mode():
         out = Path(tmp)
         if monitor.get('live_generation', True):
-            if step == 0 and (probe/'baseline_live_rollouts.jsonl').is_file():
+            if (step == 0 and (probe/'baseline_live_rollouts.jsonl').is_file()
+                    and not monitor.get('regenerate_baseline',False)):
                 live = read_jsonl(probe/'baseline_live_rollouts.jsonl')
             else:
+                hint_path=probe/'baseline_live_rollouts.jsonl'
+                hints={r['problem_id']:r['response_length'] for r in read_jsonl(hint_path)} if hint_path.is_file() else None
                 live = rollout_many(model, read_jsonl(probe/'heldout_probe.jsonl')+read_jsonl(probe/'train_probe.jsonl'),
                                     monitor, 'live_rollout', step,
-                                    root/'generation_cache'/f'step_{step:06d}', root/'generation_progress.json')
+                                    root/'generation_cache'/f'step_{step:06d}', root/'generation_progress.json',
+                                    length_hints=hints)
             # A poor trained checkpoint is an experimental result, not a reason to
             # suppress an arm of the controlled comparison after training.
             if step==0 or monitor.get('quality_gate',{}).get('scope','all')!='baseline_only':

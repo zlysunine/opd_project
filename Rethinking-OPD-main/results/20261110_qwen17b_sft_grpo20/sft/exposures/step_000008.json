@@ -1,0 +1,14 @@
+{
+  "step": 8,
+  "problem_ids": [
+    "3d0f3a2d00db25153958",
+    "9bd1196a3c5cf0c1919e",
+    "2b5b6fafdbe0a5adc8bf",
+    "5543af46459a35061741",
+    "7bcef5fc2b700e2a44e0",
+    "21a0ab00d2cec8f70f8d",
+    "e6b5e016f2e799d4aad4",
+    "c836492332fcf743a742"
+  ],
+  "schedule_sha256": "fdf3e1523070d6735cbc2ad3d8a4c4c541f3f2af25842e3fe44de75c08681410"
+}

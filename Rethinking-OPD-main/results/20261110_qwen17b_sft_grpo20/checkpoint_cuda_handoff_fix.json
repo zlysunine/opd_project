@@ -1,0 +1,17 @@
+{
+  "reason": "Real GRPO step1 monitoring failed: 56.49GiB free < vLLM requested63.4GiB, because checkpoint CUDA temporaries remained cached",
+  "scope": "Release only unused CUDA allocator cache after checkpoint load/save scope exits; no weight/RNG/loss/data changes; resume checkpoint1",
+  "before_sha256": "15562aec2e40100758218c7511473d0306889e061c2f54dff11f03019dd85344",
+  "after_sha256": "c5eb52c408e33c35c820c3b69079937bb9cd7be0977897712b6e08b3a54e4e76",
+  "timestamp_unix": 1794287739.5351858,
+  "training_provenance_note": "The legacy provenance source list omits checkpoint_manager.py; this additional runtime execution patch receipt records the change separately. Frozen analysis source hashes and scientific cache receipts are unchanged.",
+  "format_note": "Signature wrapped to120-column style after launch; executable AST unchanged.",
+  "load_checkpoint_original_io_body_unchanged": true,
+  "save_checkpoint_original_io_body_unchanged": true,
+  "resumed_step1_generation_completed": true,
+  "resumed_step1_long_16384_answers": 3,
+  "resumed_step1_full_analysis_completed": true,
+  "continued_optimizer_step": 5,
+  "step5_save_to_monitor_handoff_passed": true,
+  "updated_unix": 1794288557.3017757
+}
